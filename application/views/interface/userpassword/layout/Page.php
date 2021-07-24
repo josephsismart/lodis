@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php 
-    if (!$this->session->covid_tracker_login_level) {
+    if (!$this->session->schoolmis_login_level) {
         redirect(base_url('login'));
     }
  ?>

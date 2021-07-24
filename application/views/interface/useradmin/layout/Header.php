@@ -1,4 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php 
+  if (!$this->session->schoolmis_login_level) {
+      redirect(base_url('login'));
+  }
+  $uri = $this->session->schoolmis_login_uri;
+?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-dark navbar-navy">
     <div class="container">
@@ -10,8 +16,8 @@
         <!-- <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span> -->
-        <img src="<?= $system_logo ?>" alt="Locator Logo" class="brand-image">
-        <span class="brand-text"><b>Butuan</b> Covid19 Monitoring</span>
+        <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image">
+        <span class="brand-text"><b>Inventory</b> System</span>
       </a>
       
       <div class="collapse navbar-collapse order-1" id="navbarCollapse">
@@ -72,8 +78,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-        <img src="<?= $system_logo ?>" alt="Locator Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text"><b>Butuan</b> Covid19 Monitoring</span>
+        <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text"><b>Inventory</b> System</span>
     </a>
 
     <!-- Sidebar -->
@@ -85,7 +91,7 @@
           <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
-          <a href="#" class="d-block"><b><?= $this->session->covid_tracker_login_name ?></b><br/><small><?= $this->session->covid_tracker_login_title ?></small></a>
+          <a href="#" class="d-block"><b><?= $this->session->schoolmis_login_name ?></b><br/><small><?= $this->session->schoolmis_login_title ?></small></a>
         </div>
       </div>
 
@@ -94,27 +100,35 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <!-- <li class="nav-item">
-            <a href="<?= base_url() ?>useradmin/dashboard" class="nav-link dashboard">
+          <li class="nav-item">
+            <a href="<?= base_url().$uri ?>/dashboard" class="nav-link dashboard">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
-          </li> -->
+          </li>
           <li class="nav-item">
-            <a href="<?= base_url() ?>useradmin/dataentry" class="nav-link useraccount">
-              <i class="nav-icon fas fa-user"></i>
+            <a href="<?= base_url().$uri ?>/dataentry" class="nav-link dataentry">
+              <i class="nav-icon fas fa-edit data_entry"></i>
               <p>
-                User Account
+                Data Entry
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="<?= base_url() ?>useradmin/userlogs" class="nav-link userlogs">
-              <i class="nav-icon fas fa-history user_logs"></i>
+            <a href="<?= base_url().$uri ?>/datacontroller" class="nav-link datacontroller">
+              <i class="nav-icon fas fa-cog fa-spin data_excel"></i>
               <p>
-                User Logs
+                Controller
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url().$uri ?>/report" class="nav-link report">
+              <i class="nav-icon fas fa-file report"></i>
+              <p>
+                Reports
               </p>
             </a>
           </li>

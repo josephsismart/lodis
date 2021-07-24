@@ -1,7 +1,7 @@
 <?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dataentry extends MY_Controller
+class Datacontroller extends MY_Controller
 {
     public function __construct(){
       parent::__construct();
@@ -12,7 +12,7 @@ class Dataentry extends MY_Controller
     }
 
     // function index(){
-    //     $this->load->view('interface/usertestvalidator/Dataentry');
+    //     $this->load->view('interface/usertestvalidator/Datacontroller');
     // }
 
     public function index()
@@ -20,9 +20,9 @@ class Dataentry extends MY_Controller
             $page_data = $this->system();
             $uri = $this->session->schoolmis_login_uri;
             $page_data += [
-                "page_title"        => "Dataentry",
-                "current_location"  => "dataentry",
-                "content"           =>  [$this->load->view('interface/'.$uri.'/Dataentry', [
+                "page_title"        => "Datacontroller",
+                "current_location"  => "datacontroller",
+                "content"           =>  [$this->load->view('interface/'.$uri.'/Datacontroller', [
                                             // "getBarangay" => $this->getBarangayAssigned(),
                                             // "getStatus" => $this->getStatus(),
                                             //"accomplished"      => $this->get_accomplished(),

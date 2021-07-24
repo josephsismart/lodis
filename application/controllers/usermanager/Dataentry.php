@@ -30,6 +30,255 @@ class Dataentry extends MY_Controller {
         $this->public_create_page($page_data);
     }
 
+    function saveInventoryItem(){
+        $this->db->trans_begin();
+        $id = $this->input->post("inventId");
+        $personId = $this->input->post("personId");
+        $varietyId = $this->input->post("varietyId");
+        $transactDate = $this->input->post("transactDate");
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+
+        $data = [
+            "personId" => $personId,
+            "varietyId" => $varietyId,
+            "transactDate" => $transactDate,
+            $id?"updated_by":"added_by" => $login_id,
+            $id?"date_updated":"date_added" => $dateNow,
+        ];
+        if($id && $personId && $varietyId && $transactDate && $login_id){
+            if(!$this->mainModel->update("tbl_inventory",$data,"id",$id)){
+                $this->userlog("UPDATED INVENTORY INFORMATION ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }    
+        }else if($personId && $varietyId && $transactDate && $login_id){
+            if($this->db->insert("tbl_inventory",$data)){
+                $this->userlog("INSERTED INVENTORY INFORMATION ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }
+        }else{
+            $ret = ["success"   => false,
+                    "exist"   => false,
+                    "existCode"   => false];
+        }
+        
+        if($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
+    function saveInventoryItemList(){
+        $this->db->trans_begin();
+        $data = [];
+        $valid = 0;
+        $id = $this->input->post("inventoryId");
+        $weight = $this->input->post("weight");
+        $sack = $this->input->post("sack");
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+
+        for($i=0;$i<count($sack);$i++){
+            if($weight[$i] == 0 || $sack[$i] == 0){
+                $valid++;
+                break;
+            }else{
+                $data[] = [
+                    'inventoryId' => $id,
+                    'weight' => $weight[$i],
+                    'number_of_sacks' => $sack[$i],
+                    'date_added' => $dateNow,
+                    'added_by' => $login_id,
+                ];
+            }
+        }
+        $b = json_encode($data);
+        if($valid==0 && $id && $login_id){
+            if($this->db->insert_batch("tbl_schoolmis_detail",$data)){
+                $this->userlog("INSERTED INVENTORY DETAILS: ".$b);
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }
+        }else{
+            $ret = ["success"   => false,
+                    "exist"   => false,
+                    "existCode"   => false];
+        }
+        
+        if($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
+    function savePurchaseOrder(){
+        $this->db->trans_begin();
+        $data = [];
+        $valid = 0;
+        $id = $this->input->post("inventoryId");
+        $poId = $this->input->post("poId");
+        $purchaseDate = $this->input->post("purchaseDate");
+        $totalDeduct = $this->input->post("totalDeduct");
+        $totalKilo = $this->input->post("totalKilo");
+        $price = $this->input->post("price");
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+
+        $data = [
+            "inventoryId" => $id,
+            "total_deduction" => $totalDeduct,
+            "total_kilo" => $totalKilo,
+            "price" => $price,
+            "purchase_date" => $purchaseDate,
+            $poId?"updated_by":"added_by" => $login_id,
+            $poId?"date_updated":"date_added" => $dateNow,
+        ];
+        if($poId && $id && $purchaseDate && $totalDeduct && $totalKilo && $price && $login_id){
+            if(!$this->mainModel->update("tbl_purchase_order",$data,"id",$poId)){
+                $this->userlog("UPDATED PURCHASE ORDER ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }    
+        }else if($id && $purchaseDate && $totalDeduct && $totalKilo && $price && $login_id){
+            if($this->db->insert("tbl_purchase_order",$data)){
+                $this->userlog("INSERTED PURCHASE ORDER ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }
+        }else{
+            $ret = ["success"   => false,
+                    "exist"   => false,
+                    "existCode"   => false];
+        }
+        
+        if($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
+
+    function saveStock(){
+        $this->db->trans_begin();
+        $data = [];
+        $id = $this->input->post("stockId");
+        $poId = $this->input->post("poId");
+        $stockDate = $this->input->post("stockDate");
+        $noOfSacks = $this->input->post("noOfSacks");
+        $noOfKilo = $this->input->post("noOfKilo");
+
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+
+        $data = [
+            "stockNumber" => "1",
+            "date_stock" => $stockDate,
+            "purchaseOrderId" => $poId,
+            "no_of_sacks" => $noOfSacks,
+            "no_of_kilos" => $noOfKilo,
+            $id?"updated_by":"added_by" => $login_id,
+            $id?"date_updated":"date_added" => $dateNow,
+        ];
+        if($id && $poId && $poId && $stockDate && $noOfSacks && $noOfKilo && $login_id){
+            if(!$this->mainModel->update("tbl_stock",$data,"id",$id)){
+                $this->userlog("UPDATED STOCK ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }    
+        }else if($poId && $poId && $stockDate && $noOfSacks && $noOfKilo && $login_id){
+            if($this->db->insert("tbl_stock",$data)){
+                $this->userlog("INSERTED STOCK ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }
+        }else{
+            $ret = ["success"   => false,
+                    "exist"   => false,
+                    "existCode"   => false];
+        }
+        
+        if($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
+
+    function savePurchaseRequest(){
+        $this->db->trans_begin();
+        $data = [];
+        $id = $this->input->post("prId");
+        $stockId = $this->input->post("stockId");
+        $purchaseDate = $this->input->post("purchaseDate");
+        $soldToPerson = $this->input->post("soldToPerson");
+        $classification = $this->input->post("classification");
+        $subclass = $this->input->post("subclass");
+        $numKilos = $this->input->post("numKilos");
+        $prPrice = $this->input->post("prPrice");
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+
+        $data = [
+            "stockId" => $stockId,
+            "classificationId" => $classification,
+            "subclassId" => $subclass,
+            "numberOfKilos" => $numKilos,
+            "price" => $prPrice,
+            "date_request" => $purchaseDate,
+            "soldToPersonId" => $soldToPerson,
+            $id?"updated_by":"added_by" => $login_id,
+            $id?"date_updated":"date_added" => $dateNow,
+        ];
+        if($id && $stockId && $classification && $subclass && $numKilos && $prPrice && $purchaseDate && $soldToPerson && $login_id){
+            if(!$this->mainModel->update("tbl_purchase_request",$data,"id",$id)){
+                $this->userlog("UPDATED PURCHASE REQUEST ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }    
+        }else if($stockId && $classification && $subclass && $numKilos && $prPrice && $purchaseDate && $soldToPerson && $login_id){
+            if($this->db->insert("tbl_purchase_request",$data)){
+                $this->userlog("INSERTED PURCHASE REQUEST ".json_encode($data));
+                $ret = ["success"   => true,
+                        "exist"   => false,
+                        "existCode"   => false];
+            }
+        }else{
+            $ret = ["success"   => false,
+                    "exist"   => false,
+                    "existCode"   => false];
+        }
+        
+        if($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
     function getBarangayAssigned(){
         $district_id = $this->session->schoolmis_login_district;
         $data = ["data1"=>[],"data2"=>[]];

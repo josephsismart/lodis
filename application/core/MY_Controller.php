@@ -8,16 +8,17 @@ class MY_Controller extends CI_Controller {
 
     public function system() {
         $data = [
-            "system_title"  => "Butuan Covid19 Monitoring",
-            "system_logo"   => base_url("assets/dist/img/icons/icon.png")
+            "system_title"  => "Libertad National High School",
+            "system_logo"   => base_url("assets/dist/img/icons/icon.png"),
+            "system_svg"    => base_url("assets/dist/img/icons/icon_svg.png"),
         ];
         return $data;
     }
     
     public function public_create_page($data = []) {
-        $level = $this->session->covid_tracker_login_level;
-        $defaultPassword = $this->session->covid_tracker_change_password;
-        $uri = $this->session->covid_tracker_login_uri;
+        $level = $this->session->schoolmis_login_level;
+        $defaultPassword = $this->session->schoolmis_change_password;
+        $uri = $this->session->schoolmis_login_uri;
         if ($level!="") {
             if($defaultPassword==1){
                 return $this->load->view('interface/userpassword/layout/Page', $data, false);
@@ -32,9 +33,10 @@ class MY_Controller extends CI_Controller {
     }
 
     public function redirect() {
-        $login = $this->session->covid_tracker_login_id;
-        $defaultPassword = $this->session->covid_tracker_change_password;
-        $uri = $this->session->covid_tracker_login_uri;
+        $login = $this->session->schoolmis_login_id;
+        $defaultPassword = $this->session->schoolmis_change_password;
+        $uri = $this->session->schoolmis_login_uri;
+        $landing = $this->session->schoolmis_login_landing;
         if(!$login) {
             redirect(base_url('/'));
         }
@@ -42,21 +44,22 @@ class MY_Controller extends CI_Controller {
             if($defaultPassword==1){
                 redirect(base_url('userpassword/changepassword'));
             }else{
-                redirect(base_url($uri.'/dashboard'));
+                redirect(base_url($uri.'/'.$landing));
             }
         }
     }
 
     public function redirect_home() {
-        $level = $this->session->covid_tracker_login_level;
-        $defaultPassword = $this->session->covid_tracker_change_password;
-        $uri = $this->session->covid_tracker_login_uri;
-        if(isset($this->session->covid_tracker_login_id) && $this->uri->segment(1) == "" || $this->uri->segment(1) == "login" || $this->uri->segment(1) == "map") {
+        $level = $this->session->schoolmis_login_level;
+        $defaultPassword = $this->session->schoolmis_change_password;
+        $uri = $this->session->schoolmis_login_uri;
+        $landing = $this->session->schoolmis_login_landing;
+        if(isset($this->session->schoolmis_login_id) && $this->uri->segment(1) == "" || $this->uri->segment(1) == "login" || $this->uri->segment(1) == "map") {
             if ($level!="") {
                 if($defaultPassword==1){
                     redirect(base_url('userpassword/changepassword'));
                 }else{
-                    redirect(base_url($uri.'/dashboard'));
+                    redirect(base_url($uri.'/'.$landing));
                 }
             }
         }
@@ -66,114 +69,8 @@ class MY_Controller extends CI_Controller {
         return preg_replace("/[^0-9]/", "", $text);
     }
 
-    public function getCovid19Details1($id){
-        $query = $this->db->query("SELECT t1.*,t2.status_id,t3.travel_history,t3.date_arrival,t3.testing_code,t3.remarks,t3.whereabouts,t3.category,t3.office_id,t3.agency,t4.test_id,t4.result_id,t5.qstatus_id FROM tbl_person t1
-                                   LEFT JOIN covid_status_history t2 ON t1.id=t2.person_id
-                                   LEFT JOIN tbl_covid_details t3 ON t1.id=t3.person_id
-                                   LEFT JOIN covid_test_history t4 ON t1.id=t4.person_id
-                                   LEFT JOIN covid_qstatus_history t5 ON t1.id=t5.person_id
-                                   WHERE t1.id=$id");
-
-        $query2 = $this->db->query("SELECT t2.description AS relation FROM tbl_contact_trace t1
-                                    LEFT JOIN tbl_statusitem t2 ON t1.relation=t2.id
-                                    WHERE t1.contact=$id");
-        $fullName = $this->getFullName($query->row("id"));
-        $relation = $query2->row("relation");
-        $thisTestCode = (!$query->row("testing_code")?"":"<span class='badge bg-gray text-sm'>".$query->row("testing_code")."</span>");
-        $status = " <span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>";
-        //$test = "<span class='badge bg-".(!$query->row("test_id")?"black":"warning")."'>".(!$query->row("test_id")?"NOT TESTED":$this->getStatusCode(intval($query->row("test_id"))))."</span>";
-        //$result = "<span class='badge' style='background-color:".(!$query->row("result_id")?"black":($this->getStatusName(intval($query->row("result_id"))))=="POSITIVE"?"red":"green")."'>".(!$query->row("test_id")?"":(!$query->row("result_id")?"(NO RESULT)":$this->getStatusName(intval($query->row("result_id")))))."</span>";
-        $personDetails = '<span class="badge text-sm">'.$fullName.'</span>'.
-                    ', '.($query->row("gender")==1?"M":"F").', '.$query->row("age")." YO, ".$relation."<br/>".
-                    '<div style="white-space: nowrap;"><span class="badge bg-success">'.(!$query->row("barangay_id")?"":$this->getBarangayName($query->row("barangay_id"))).'</span> '.
-                    ' './/"<span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>".
-                    ' </div>';
-        $gender = $query->row("gender")==0?"F":"M";
-        $relation = $query2->row("relation");
-        return $personDetails;
-    }
-
-    public function getCovid19Details11($id){
-        $query = $this->db->query("SELECT t1.*,t2.status_id,t3.travel_history,t3.date_arrival,t3.testing_code,t3.remarks,t3.whereabouts,t3.category,t3.office_id,t3.agency,t4.test_id,t4.result_id,t5.qstatus_id FROM tbl_person t1
-                                   LEFT JOIN covid_status_history t2 ON t1.id=t2.person_id
-                                   LEFT JOIN tbl_covid_details t3 ON t1.id=t3.person_id
-                                   LEFT JOIN covid_test_history t4 ON t1.id=t4.person_id
-                                   LEFT JOIN covid_qstatus_history t5 ON t1.id=t5.person_id
-                                   WHERE t1.id=$id");
-
-        // $query2 = $this->db->query("SELECT t2.description AS relation FROM tbl_contact_trace t1
-        //                             LEFT JOIN tbl_statusitem t2 ON t1.relation=t2.id
-        //                             WHERE t1.contact=$id");
-        $fullName = $this->getFullName($query->row("id"));
-        // $relation = $query2->row("relation");
-        $thisTestCode = (!$query->row("testing_code")?"":"<span class='badge bg-gray text-sm'>".$query->row("testing_code")."</span>");
-        $status = " <span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>";
-        $test = "<span class='badge bg-".(!$query->row("test_id")?"black":"warning")."'>".(!$query->row("test_id")?"NOT TESTED":$this->getStatusCode(intval($query->row("test_id"))))."</span>";
-        $result = "<span class='badge' style='background-color:".(!$query->row("result_id")?"black":($this->getStatusName(intval($query->row("result_id"))))=="POSITIVE"?"red":"green")."'>".(!$query->row("test_id")?"":(!$query->row("result_id")?"(NO RESULT)":$this->getStatusName(intval($query->row("result_id")))))."</span>";
-        $personDetails = '<span class="badge text-sm">'.$fullName.'</span>'.
-                    ', '.($query->row("gender")==1?"M":"F").', '.$query->row("age")." YO <br/>".
-                    '<div style="white-space: nowrap;" class="text-md"><span class="badge bg-success">'.(!$query->row("barangay_id")?"":$this->getBarangayName($query->row("barangay_id"))).'</span> </div>';
-        $gender = $query->row("gender")==0?"F":"M";
-        // $relation = $query2->row("relation");
-        return $personDetails;
-    }
-
     public function clean($string) {
         return preg_replace('/[^a-zA-Z0-9\s]/', '', $string);
-    }
-
-    public function getCovid19Details($id){
-        $query = $this->db->query("SELECT t1.*,t2.status_id,t3.travel_history,t3.date_arrival,t3.testing_code,t3.remarks,t3.whereabouts,t3.category,t3.office_id,t3.agency,t4.test_id,t4.result_id,t5.qstatus_id FROM tbl_person t1
-                                   LEFT JOIN covid_status_history t2 ON t1.id=t2.person_id
-                                   LEFT JOIN tbl_covid_details t3 ON t1.id=t3.person_id
-                                   LEFT JOIN covid_test_history t4 ON t1.id=t4.person_id
-                                   LEFT JOIN covid_qstatus_history t5 ON t1.id=t5.person_id
-                                   WHERE t1.id=$id");
-
-        $query2 = $this->db->query("SELECT t2.description AS relation FROM tbl_contact_trace t1
-                                    LEFT JOIN tbl_statusitem t2 ON t1.relation=t2.id
-                                    WHERE t1.contact=$id");
-        $fullName = $this->getFullName($query->row("id"));
-        $relation = $query2->row("relation");
-        $thisTestCode = (!$query->row("testing_code")?"":"<span class='badge bg-gray text-sm'>".$query->row("testing_code")."</span>");
-        $status = " <span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>";
-        $test = "<span class='badge bg-".(!$query->row("test_id")?"black":"warning")."'>".(!$query->row("test_id")?"NOT TESTED":$this->getStatusCode(intval($query->row("test_id"))))."</span>";
-        $result = "<span class='badge' style='background-color:".(!$query->row("result_id")?"black":($this->getStatusName(intval($query->row("result_id"))))=="POSITIVE"?"red":"green")."'>".(!$query->row("test_id")?"":(!$query->row("result_id")?"(NO RESULT)":$this->getStatusName(intval($query->row("result_id")))))."</span>";
-        $personDetails = '<span class="badge text-sm">'.$fullName.'</span>'.
-                    ', '.($query->row("gender")==1?"M":"F").', '.$query->row("age")." YO, ".$relation."<br/>".
-                    '<div style="white-space: nowrap;"><span class="badge bg-success">'.(!$query->row("barangay_id")?"":$this->getBarangayName($query->row("barangay_id"))).'</span> '.
-                    "<span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>".
-                    ' '.$test.' '.$result.'</div>';
-        $gender = $query->row("gender")==0?"F":"M";
-        $relation = $query2->row("relation");
-        return $personDetails;
-    }
-
-    public function getCovid19Details2($id){
-        $query = $this->db->query("SELECT t1.*,t2.status_id,t3.travel_history,t3.date_arrival,t3.testing_code,t3.remarks,t3.whereabouts,t3.category,t3.office_id,t3.agency,t4.test_id,t4.result_id,t5.qstatus_id FROM tbl_person t1
-                                   LEFT JOIN covid_status_history t2 ON t1.id=t2.person_id
-                                   LEFT JOIN tbl_covid_details t3 ON t1.id=t3.person_id
-                                   LEFT JOIN covid_test_history t4 ON t1.id=t4.person_id
-                                   LEFT JOIN covid_qstatus_history t5 ON t1.id=t5.person_id
-                                   WHERE t1.id=$id");
-
-        // $query2 = $this->db->query("SELECT t2.description AS relation FROM tbl_contact_trace t1
-        //                             LEFT JOIN tbl_statusitem t2 ON t1.relation=t2.id
-        //                             WHERE t1.contact=$id");
-        $fullName = $this->getFullName($query->row("id"));
-        // $relation = $query2->row("relation");
-        $thisTestCode = (!$query->row("testing_code")?"":"<span class='badge bg-gray text-sm'>".$query->row("testing_code")."</span>");
-        $status = " <span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>";
-        $test = "<span class='badge bg-".(!$query->row("test_id")?"black":"warning")."'>".(!$query->row("test_id")?"NOT TESTED":$this->getStatusCode(intval($query->row("test_id"))))."</span>";
-        $result = "<span class='badge' style='background-color:".(!$query->row("result_id")?"black":($this->getStatusName(intval($query->row("result_id"))))=="POSITIVE"?"red":"green")."'>".(!$query->row("test_id")?"":(!$query->row("result_id")?"(NO RESULT)":$this->getStatusName(intval($query->row("result_id")))))."</span>";
-        $personDetails = '<span class="badge text-sm">'.$fullName.'</span>'.
-                    ', '.($query->row("gender")==1?"M":"F").', '.$query->row("age")." YO <br/>".
-                    '<div style="white-space: nowrap;"><span class="badge bg-success">'.(!$query->row("barangay_id")?"":$this->getBarangayName($query->row("barangay_id"))).'</span> '.
-                    "<span class='badge' style='background-color:".(!$query->row("status_id")?"black":$this->getStatusColor($query->row("status_id"))).";'>".(!$query->row("status_id")?"NO DATA":$this->getStatusName($query->row("status_id")))."</span>".
-                    ' '.$test.' '.$result.'</div>';
-        $gender = $query->row("gender")==0?"F":"M";
-        // $relation = $query2->row("relation");
-        return $personDetails;
     }
 
     public function getBarangay(){
@@ -236,7 +133,7 @@ class MY_Controller extends CI_Controller {
     }
 
     // public function getTestCodeMaxNum(){
-    //     $test_id = $this->session->covid_tracker_testing_code;
+    //     $test_id = $this->session->schoolmis_testing_code;
     //     $query = $this->db->query("SELECT COALESCE(MAX(testing_number),0)+1 max_num FROM tbl_covid_details WHERE testing_code=$test_id");
     //     $seq = $query->row("max_num");
     //     $returnMe = ($seq<10?"0000".$seq:($seq<100?"000".$seq:($seq<1000?"00".$seq:($seq<10000?"0".$seq:$seq))));
@@ -249,7 +146,7 @@ class MY_Controller extends CI_Controller {
     // }
 
     // public function getTestCodeMaxNumSave($statusId){
-    //     $test_id = $this->session->covid_tracker_testing_code;
+    //     $test_id = $this->session->schoolmis_testing_code;
     //     $query = $this->db->query("SELECT COALESCE(MAX(testing_number),0)+1 max_num FROM tbl_covid_details WHERE testing_code=$test_id");
     //     $returnMe = $query->row("max_num");
     //     return $returnMe;
@@ -317,7 +214,7 @@ class MY_Controller extends CI_Controller {
 
     public function confirmPassword($a){
         $pwd = md5($a);
-        $login_id = $this->session->covid_tracker_login_id;
+        $login_id = $this->session->schoolmis_login_id;
         $query = $this->db->query("SELECT 1 AS pwd FROM tbl_user WHERE id=$login_id AND password='$pwd' LIMIT 1");
         return $query->row("pwd");
     }
@@ -402,8 +299,8 @@ class MY_Controller extends CI_Controller {
     }
 
     public function userlog($action) {
-        $login_id = $this->session->covid_tracker_login_id;
-        $login_alias = $this->session->covid_tracker_login_uname;
+        $login_id = $this->session->schoolmis_login_id;
+        $login_alias = $this->session->schoolmis_login_uname;
         $now = $this->now();
         $action = addslashes($action);
         $ip = $this->get_ip();
@@ -414,23 +311,38 @@ class MY_Controller extends CI_Controller {
             "user_name" => $login_alias,
             "ip" => $ip,
         ];
-        $this->db->insert("tbl_userlogs",$data);
+        if($login_id){
+            $this->db->insert("tbl_userlogs",$data);
+        }
     }
 
-    public function userlog2($action) {
-        $login_id = $this->session->covid_tracker_login_id;
-        $login_alias = $this->session->covid_tracker_login_uname;
+    public function QRlog($personId,$in_out,$location){
+        $login_id = $this->session->schoolmis_login_id;
+        $login_alias = $this->session->schoolmis_login_uname;
         $now = $this->now();
-        $action = addslashes($action);
+        // $action = addslashes($action);
         $ip = $this->get_ip();
         $data = [
-            "date" => $now,
-            "action" => $action,
-            "user_id" => $login_id,
+            "person_id" => $personId,
+            "dateTime" => $now,
+            "in_out" => $in_out,
+            "location_id" => $location,
+            "scanned_user_id" => $login_id,
             "user_name" => $login_alias,
             "ip" => $ip,
         ];
-        $this->db->insert("existing.tbl_userlogs",$data);
+        if($login_id){
+            $this->db->insert("tbl_scannedqr_logs",$data);
+        }
+    }
+
+    public function dateFormat($a){
+        $b="-";
+        if($a!=null){
+            $c=date_create($a);
+            $b=date_format($c,"M d, Y");
+        }
+        return $b;
     }
 
     public function user_full_name($user_id)

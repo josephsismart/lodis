@@ -8,7 +8,7 @@
 
   <title>Butuan COVID-19 Monitoring | Map</title>
 
-  <link rel="icon" type="image/png" href="<?= $system_logo ?>">
+  <link rel="icon" type="image/png" href="<?= $system_svg ?>">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/ol3/ol.css">
@@ -136,7 +136,7 @@
   <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
     <div class="container">
       <a href="#" class="navbar-brand">
-        <img src="<?= $system_logo ?>" alt="Locator Logo" class="brand-image" style="border: 2px solid white;border-radius: 999em;">
+        <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image" style="border: 2px solid white;border-radius: 999em;">
         <span class="brand-text font-weight-light">  </span>
       </a>
       

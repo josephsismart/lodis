@@ -66,8 +66,8 @@ $route['changepassword'] = 'userpassword/Changepassword';
 $route['logout'] = 'system/Login/request_logout';
 $route['requestlogin'] = 'system/Login/request_login';
 
-$route['save_national'] = 'useradmin/Dataentry/savenational';
-$route['save_local'] = 'uservalidator/Dataentry/savelocal';
-$route['get_national'] = 'useradmin/Dataentry/getnational';
-$route['get_local'] = 'uservalidator/Dataentry/getlocal';
-$route['get_localN'] = 'useradmin/Dataentry/getlocal';
+// $route['save_national'] = 'useradmin/Dataentry/savenational';
+// $route['save_local'] = 'uservalidator/Dataentry/savelocal';
+// $route['get_national'] = 'useradmin/Dataentry/getnational';
+// $route['get_local'] = 'uservalidator/Dataentry/getlocal';
+// $route['get_localN'] = 'useradmin/Dataentry/getlocal';

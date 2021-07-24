@@ -1,7 +1,7 @@
 <?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dataentry extends MY_Controller
+class Datacontroller extends MY_Controller
 {
     public function __construct(){
       parent::__construct();
@@ -12,7 +12,7 @@ class Dataentry extends MY_Controller
     }
 
     // function index(){
-    //     $this->load->view('interface/usertestvalidator/Dataentry');
+    //     $this->load->view('interface/usertestvalidator/Datacontroller');
     // }
 
     public function index()
@@ -20,9 +20,9 @@ class Dataentry extends MY_Controller
             $page_data = $this->system();
             $uri = $this->session->schoolmis_login_uri;
             $page_data += [
-                "page_title"        => "Dataentry",
-                "current_location"  => "dataentry",
-                "content"           =>  [$this->load->view('interface/'.$uri.'/Dataentry', [
+                "page_title"        => "Datacontroller",
+                "current_location"  => "datacontroller",
+                "content"           =>  [$this->load->view('interface/'.$uri.'/Datacontroller', [
                                             // "getBarangay" => $this->getBarangayAssigned(),
                                             // "getStatus" => $this->getStatus(),
                                             //"accomplished"      => $this->get_accomplished(),
@@ -32,161 +32,6 @@ class Dataentry extends MY_Controller
                                         ], TRUE)]
             ];
             $this->public_create_page($page_data);
-    }
-    
-    function saveVariantCategory(){
-        $this->db->trans_begin();
-        $id = $this->input->post("typeId");
-        $itemType = $this->input->post("itemType");
-        $description = strtoupper($this->input->post("description"));
-        $login_id = $this->session->schoolmis_login_id;
-        $dateNow = $this->now();
-
-        $data = [
-            "itemGroupId" => $itemType,
-            "itemTypeName" => $description,
-            $id?"updated_by":"added_by" => $login_id,
-            $id?"date_updated":"date_added" => $dateNow,
-        ];
-
-        if($id && $itemType && $description && $login_id){
-            if(!$this->mainModel->update("tbl_itemtype",$data,"id",$id)){
-                $this->userlog("UPDATED VARIANT/CATEGORY ".$itemType." DESCRIPTION ".$description);
-                $ret = ["success"   => true,
-                        "exist"   => false,
-                        "existCode"   => false];
-            }    
-        }else if($itemType && $description && $login_id){
-            if($this->db->insert("tbl_itemtype",$data)){
-                $this->userlog("INSERTED VARIANT/CATEGORY ".$itemType." DESCRIPTION ".$description);
-                $ret = ["success"   => true,
-                        "exist"   => false,
-                        "existCode"   => false];
-            }
-        }else{
-            $ret = ["success"   => false,
-                    "exist"   => false,
-                    "existCode"   => false];
-        }
-        
-        if($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-        }
-
-        echo json_encode($ret);
-    }
-
-    function saveMemberUser(){
-        $this->db->trans_begin();
-        $id = $this->input->post("personId");
-        $partyType = $this->input->post("partyType");
-        $firstName = strtoupper($this->input->post("firstName"));
-        $middleName = strtoupper($this->input->post("middleName"));
-        $lastName = strtoupper($this->input->post("lastName"));
-        $extName = strtoupper($this->input->post("extName"));
-        $sex = $this->input->post("sex");
-        $homeAddress = strtoupper($this->input->post("homeAddress"));
-        $login_id = $this->session->schoolmis_login_id;
-        $dateNow = $this->now();
-
-        $data = [
-            "partyId" => $partyType,
-            "firstName" => $firstName,
-            "middleName" => $middleName,
-            "lastName" => $lastName,
-            "nameExt" => $extName,
-            "sex" => $sex,
-            "address" => $homeAddress,
-            $id?"updated_by":"added_by" => $login_id,
-            $id?"date_updated":"date_added" => $dateNow,
-        ];
-        if($id && $partyType && $firstName && $lastName && $homeAddress && $login_id){
-            if(!$this->mainModel->update("tbl_person",$data,"id",$id)){
-                $this->userlog("UPDATED MEMBER/USER PERSON ".$partyType." ".$firstName.$middleName.$lastName);
-                $ret = ["success"   => true,
-                        "exist"   => false,
-                        "existCode"   => false];
-            }    
-        }else if($partyType && $firstName && $lastName && $homeAddress && $login_id){
-            if($this->db->insert("tbl_person",$data)){
-                $this->userlog("INSERTED MEMBER/USER PERSON ".$partyType." ".$firstName.$middleName.$lastName);
-                $ret = ["success"   => true,
-                        "exist"   => false,
-                        "existCode"   => false];
-            }
-        }else{
-            $ret = ["success"   => false,
-                    "exist"   => false,
-                    "existCode"   => false];
-        }
-        
-        if($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-        }
-
-        echo json_encode($ret);
-    }
-
-    function getVariantCategory(){
-        $data = ["data" => []];
-        $dataTemp = [];
-        $user_id = $this->session->schoolmis_login_id;
-
-        $thisQuery=$this->db->query("SELECT * FROM view_itemtype");
-        
-        $cc=1;
-        foreach ($thisQuery->result() as $key => $value) {
-            $id = $value->id;
-         
-            $data2 = [
-                "typeId" => $value->id,
-                "itemType" => $value->itemGroupId,
-                "description" => $value->itemTypeName,
-            ];
-            $arr = json_encode($data2);
-            $data["data"][] = [
-                $cc++,
-                "<span style='cursor:pointer' class='badge badge bg-gradient-success text-md' onclick='getDetails(\"VariantCategory\",$arr)'>$value->itemTypeName</span><br/>".
-                "<span style='cursor:pointer' class='badge mt-1'>$value->description</span>",
-            ];
-        }
-        echo json_encode($data);
-    }
-
-    function getMemberUser(){
-        $data = ["data" => []];
-        $dataTemp = [];
-        $user_id = $this->session->schoolmis_login_id;
-
-        $thisQuery=$this->db->query("SELECT * FROM view_person");
-        
-        $cc=1;
-        foreach ($thisQuery->result() as $key => $value) {
-            $id = $value->id;
-            $data2 = [
-                "personId" => $id,
-                "partyType" => $value->partyId,
-                "firstName" => $value->firstName,
-                "middleName" => $value->middleName,
-                "lastName" => $value->lastName,
-                "extName" => $value->nameExt,
-                "sex" => $value->sex,
-                "homeAddress" => $value->address,
-            ];
-            $arr = json_encode($data2);
-            $data["data"][] = [
-                $cc++,
-                $value->description,
-                "<span class='badge badge bg-gradient-navy text-md' onclick='getDetails(\"MemberUser\",$arr)' title='SELECT FOR UPDATE' style='cursor:pointer'>".$value->fullName."</span>".
-                " <span class='badge bg-".($value->sex==1?"blue":"pink")."'>".($value->sex==1?"MALE":"FEMALE")."</span><br/>".
-                "<span class='badge badge bg-gradient-success mt-1'>".$value->address."</span>",
-            ];
-        }
-        echo json_encode($data);
     }
  
     function fetch(){

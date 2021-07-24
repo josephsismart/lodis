@@ -5,9 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Font Awesome -->
 <link rel="icon" type="image/png" href="<?= $system_svg ?>">
-<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Google Font: Source Sans Pro -->
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
+<link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/fonts.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/ol3/ol.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/ol3/Popup.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/ol3/LayersControl.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/ol3/ol3.css">
 <!-- Ionicons -->
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
@@ -17,6 +22,8 @@
 <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/extensions/buttons/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/extensions/responsive/css/responsive.dataTables.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/adminlte.min.css">
 <!-- Google Font: Source Sans Pro -->
   <!-- Select2 -->
@@ -84,4 +91,8 @@
             font-family: Arial;
         }
     }
+
+    .has-error {border:1px solid rgb(220, 53, 69) !important;}
+
+    .hidden2 {display:none;}
 </style>

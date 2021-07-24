@@ -1,6 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php 
+  if (!$this->session->schoolmis_login_level) {
+      redirect(base_url('login'));
+  }
+  $uri = $this->session->schoolmis_login_uri;
+?>
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-dark navbar-lightblue">
+<nav class="main-header navbar navbar-expand navbar-dark navbar-navy">
     <div class="container">
       <button class="navbar-toggler order-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,7 +17,7 @@
              style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span> -->
         <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image">
-        <span class="brand-text"><b>Butuan</b> Covid19 Monitoring</span>
+        <span class="brand-text"><b>LNHS</b> System</span>
       </a>
       
       <div class="collapse navbar-collapse order-1" id="navbarCollapse">
@@ -73,7 +79,7 @@
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
         <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text"><b>Butuan</b> Covid19 Monitoring</span>
+        <span class="brand-text"><b>LNHS</b> System</span>
     </a>
 
     <!-- Sidebar -->
@@ -94,19 +100,35 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <!-- <li class="nav-item">
-            <a href="<?= base_url() ?>userpassword/dashboard" class="nav-link dashboard">
+          <li class="nav-item">
+            <a href="<?= base_url().$uri ?>/dashboard" class="nav-link dashboard">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
-          </li> -->
+          </li>
           <li class="nav-item">
-            <a href="<?= base_url() ?>userpassword/changepassword" class="nav-link changepassword">
+            <a href="<?= base_url().$uri ?>/dataentry" class="nav-link dataentry">
               <i class="nav-icon fas fa-edit data_entry"></i>
               <p>
                 Data Entry
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url().$uri ?>/datacontroller" class="nav-link datacontroller">
+              <i class="nav-icon fas fa-cog fa-spin data_excel"></i>
+              <p>
+                Controller
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= base_url().$uri ?>/report" class="nav-link report">
+              <i class="nav-icon fas fa-file report"></i>
+              <p>
+                Reports
               </p>
             </a>
           </li>

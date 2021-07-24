@@ -17,81 +17,89 @@ class Login extends MY_Controller {
             "current_location"  => "login",
         ];
         $this->load->view('interface/system/Login', $data);
-
-        // $page_data = $this->system();
-        // $page_data += [
-        //     "page_title"        => "Login",
-        //     "current_location"  => "login",
-        //     "content"           =>  [$this->load->view('interface/system/Login', [
-        //                                 // "accomplished"      => $this->get_accomplished(),
-        //                                 // "useraccount"      => $this->get_useraccount(),
-        //                                 // "pending"      => $this->get_pending(),
-        //                                 // "documents"      => $this->get_documents(),
-        //                             ], TRUE)]
-        // ];
-        // $this->public_create_page($page_data);
     }
 
     public function request_login() {
         $username = $this->input->post('username');
         $password = md5($this->input->post('password')); //md5($this->input->post('password'));
+        // $password = $this->input->post('password'); //md5($this->input->post('password'));
         
-        $query = $this->db->query("SELECT t1.*,t2.level,t3.district_id,t3.testing_code FROM tbl_user t1
-                                    LEFT JOIN tbl_roletype t2 ON t1.role_type_id=t2.id
-                                    LEFT JOIN tbl_user_barangay t3 ON t3.user_id=t1.id
-                                    WHERE t1.status=1 AND t1.username='$username' AND t1.password='$password'");
-        if($query->row('id')){
-            $data = [
-                    "covid_tracker_login_id"      => $query->row('id'),
-                    "covid_tracker_login_uname"   => $query->row('username'),
-                    "covid_tracker_login_level"   => $query->row('level'),
-                    "covid_tracker_login_uri"     => ($query->row('level')==1?"useradmin":($query->row('level')==2?"uservalidator":($query->row('level')==3?"userhealthworker":($query->row('level')==4?"usermanagement":($query->row('level')==5?"usercheckpoint":($query->row('level')==6?"usertestvalidator":"")))))),
-                    "covid_tracker_login_name"    => $this->personName($query->row('person_id'),'n'),
-                    "covid_tracker_login_title"   => $this->personName($query->row('person_id'),'p'),
-                    "covid_tracker_login_district"   => $query->row('district_id'),
-                    //"covid_tracker_testing_code"  => $query->row('testing_code'),
-                    "covid_tracker_pass"             => $query->row('password'),
-                    "covid_tracker_change_password"  => $query->row('change_password'),
-                    "covid_tracker_person_exist"  => 0,
-            ];
-            
-            $this->session->set_userdata($data);    
-            $this->userlog("USER HAS LOGGED IN.");
-            $level = $this->session->covid_tracker_login_level;
-            $defaultPassword = $this->session->covid_tracker_change_password;
-            $uri = $this->session->covid_tracker_login_uri;
-            if ($level!="") {
-                if($defaultPassword==1){
-                    redirect(base_url('userpassword/changepassword'));
-                }else{
-                    ($query->row('level')==1?redirect(base_url($uri.'/dataentry')):redirect(base_url($uri.'/dashboard')));
+        if($result = $this->db->query("SELECT t1.* FROM account.view_useraccount t1
+                                        WHERE t1.password='$password'
+                                        AND t1.username='$username'
+                                        AND t1.is_active=true")->result()) {
+            foreach ($result as $key => $value) {
+                if ($value->isActive == 1) {
+
+                    $data = [
+                        "schoolmis_login_id"         => $value->id,// $query->row('id'),
+                        "schoolmis_login_uname"      => $value->username,// $query->row('username'),
+                        "schoolmis_login_level"      => $value->level,// $value->level,
+                        "schoolmis_login_uri"        => ($value->level==1?"usersuperadmin":
+                                                        ($value->level==2?"useradmin":
+                                                        ($value->level==3?"userdivisionhead":
+                                                        ($value->level==4?"userschoolhead":
+                                                        ($value->level==5?"userschoolplanning":
+                                                        ($value->level==6?"userschooladmin":
+                                                        ($value->level==7?"userteacher":
+                                                        ($value->level==7?"userstudent":"")))))))),
+                        "schoolmis_login_landing"    => "dataentry",//($value->level==2?"dataentry":"dashboard"),
+                        "schoolmis_login_name"       => $value->fullname,// $this->personName($query->row('person_id'),'n'),
+                        "schoolmis_login_title"      => $value->userid,// $this->personName($query->row('person_id'),'p'),
+                        "schoolmis_login_district"   => $value->userid,// $query->row('district_id'),
+                        "schoolmis_pass"             => $value->password,// $query->row('password'),
+                        "schoolmis_change_password"  => $value->changePwd,// $query->row('change_password'),
+                        // "schoolmis_person_exist"     => $value->userid,// 0,
+                    ];
+                    
+                    // $this->session->set_userdata($data);    
+                    // $this->userlog("USER HAS LOGGED IN");
+                    // redirect(base_url($this->session->schoolmis_login_uri.'/dashboard'));
+
+                    $this->session->set_userdata($data);    
+                    $this->userlog("USER HAS LOGGED IN.");
+                    $level = $this->session->schoolmis_login_level;
+                    $defaultPassword = $this->session->schoolmis_change_password;
+                    $uri = $this->session->schoolmis_login_uri;
+                    $landing = $this->session->schoolmis_login_landing;
+                    if ($level!="") {
+                        if($defaultPassword==true){
+                            redirect(base_url('userpassword/changepassword'));
+                        }else{
+                            redirect(base_url($uri.'/'.$landing));
+                            // ($query->row('level')==1?redirect(base_url($uri.'/dataentry')):redirect(base_url($uri.'/dashboard')));
+                        }
+                    }
+
+                } else if ($value->isActive == 0) {
+                    redirect(base_url().'login?login_attempt='.md5(1));
                 }
             }
-        }else{
+        } else {
             redirect(base_url().'login?login_attempt='.md5(0));
         }
+
     }
 
     public function request_logout() {
         $this->userlog("USER HAS LOGGED OUT.");
         $array_logout = [
-                    "covid_tracker_login_id"         => '',
-                    "covid_tracker_login_uname"      => '',
-                    "covid_tracker_login_level"      => '',
-                    "covid_tracker_login_uri"        => '',
-                    "covid_tracker_login_name"       => '',
-                    "covid_tracker_login_title"      => '',
-                    "covid_tracker_login_district"   => '',
-                    //"covid_tracker_testing_code"     => '',
-                    "covid_tracker_pass"             => '',
-                    "covid_tracker_change_password"  => '',
-                    "covid_tracker_person_exist"  => 0,
+                    "schoolmis_login_id"         => '',
+                    "schoolmis_login_uname"      => '',
+                    "schoolmis_login_level"      => '',
+                    "schoolmis_login_uri"        => '',
+                    "schoolmis_login_name"       => '',
+                    "schoolmis_login_title"      => '',
+                    "schoolmis_login_district"   => '',
+                    //"schoolmis_testing_code"     => '',
+                    "schoolmis_pass"             => '',
+                    "schoolmis_change_password"  => '',
+                    // "schoolmis_person_exist"  => 0,
             ];
         $this->session->unset_userdata($array_logout);
         $this->session->sess_destroy();
         redirect(base_url('login'));
     }
-
 }
 
 /* End of file Login_admin.php */

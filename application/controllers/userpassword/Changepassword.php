@@ -38,9 +38,9 @@ class Changepassword extends MY_Controller {
     }
 
     function updatePassword(){
-        $userId = $this->session->covid_tracker_login_id;
+        $userId = $this->session->schoolmis_login_id;
         $dateNow = $this->now();
-        $pass = $this->session->covid_tracker_pass;
+        $pass = $this->session->schoolmis_pass;
         $current = md5($this->input->post('current'));
         $password = $this->input->post('password');
         $confirm = $this->input->post('confirm');
@@ -70,7 +70,7 @@ class Changepassword extends MY_Controller {
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
-                $this->session->covid_tracker_change_password=0;
+                $this->session->schoolmis_change_password=0;
                 $this->redirect();
             }
         }

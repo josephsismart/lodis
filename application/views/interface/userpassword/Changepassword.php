@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Butuan COVID-19 Monitoring | Login</title>
+  <title><?= $system_title ?> | <?= $page_title ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" type="image/png" href="<?= $system_logo ?>">
+  <link rel="icon" type="image/png" href="<?= $system_svg ?>">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -23,7 +23,7 @@
   <div class="card" style="opacity: .95;font-family:Arial;">
     <div class="card-body login-card-body">
         <div class="login-logo p-1" style="background-color:#f8f9fa;">
-            <small><b style="color:white;font-size:26px;color:#3c8dbc;"> COVID-19 <i class="fa fa-virus fa-2x"></i> Monitoring</b></small>
+            <small><b style="color:white;font-size:26px;color:#3c8dbc;"> Inventory System</b></small>
         </div>
         <?php if ($this->input->get("change_attempt") == md5(0)): ?>
             <p class='text-danger text-center text-sm'><i class="fa fa-exclamation-triangle"></i> Please try again.</p>
@@ -71,7 +71,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-default btn-block submitBtn"><i class="fa fa-check"></i> Change Password</button>
+            <button type="submit" class="btn btn-primary btn-block submitBtn"><i class="fa fa-key"></i> Change Password</button>
           </div>
         </div>
       </form>

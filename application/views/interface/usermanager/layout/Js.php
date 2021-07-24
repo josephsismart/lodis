@@ -22,7 +22,6 @@
 <script src="<?= base_url() ?>assets/plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
-<script src="<?= base_url() ?>assets/dist/qrcode/js/qrcode-reader.min.js?v=20190604"></script>
 
 <script type="text/javascript">
     var confirmP="";
@@ -35,17 +34,13 @@
 
     var validatorC=0;
 	$(function () {
-        $.qrCodeReader.jsQRpath = "<?= base_url() ?>assets/dist/qrcode/js/jsQR/jsQR.min.js";
-        $.qrCodeReader.beepPath = "<?= base_url() ?>assets/dist/qrcode/audio/beep.mp3";
-        $("#openreader-multi3").qrCodeReader({multiple: false, target: "#qr"});
+    //Initialize Select2 Elements
+    $('.select2').select2()
 
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-        theme: 'bootstrap4'
-        })
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
     });
 
     function confirm(){
@@ -337,26 +332,6 @@
         $("#tbl"+tableId+"_filter").addClass("row");
         $("#tbl"+tableId+"_filter label").css("width","99%");
         $("#tbl"+tableId+"_filter .form-control-sm").css("width","99%");
-    }
-
-    function getQRPerson(where,form){
-        $.post("<?= base_url($uri.'/getdata/getQRPerson') ?>",where,
-            function(data) {
-                var result = JSON.parse(data);
-                if(result["data"].length>0){
-                    $("#form_save_data"+form+" #name").text(result["data"][0]['fullName']);
-                    $("#form_save_data"+form+" #type").text(result["data"][0]['description']);
-                }else{
-                    failAlert("No Data found!");
-                    $("#form_save_data"+form+" #name").text("No Data found!");
-                    $("#form_save_data"+form+" #type").text("");
-                }
-                $("#qr").val("");
-                $("#openreader-multi3").trigger("click");
-            }
-        ).then(function(){
-            // $(".btnViewContactT").attr("disabled", false);
-        });
     }
 
     function getFetchList(formId,getList,getQ,where){
