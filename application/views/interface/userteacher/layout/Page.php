@@ -9,13 +9,13 @@
 <html lang="en">
 <head>
     <?php $this->load->view('interface/'.$uri.'/layout/Css'); ?>            
-    <!-- <script src="<?= base_url() ?>assets/bower_components/jquery/dist/jquery.min.js"></script> -->
-    <script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
+    <!-- <script src="<?= base_url() ?>bower_components/jquery/dist/jquery.min.js"></script> -->
+    <script src="<?= base_url() ?>plugins/jquery/jquery.min.js"></script>
 </head>
-<body class="hold-transition layout-fixed layout-navbar-fixed sidebar-collapse layout-top-nav text-sm">
+<body class="hold-transition layout-fixed layout-navbar-fixed sidebar-collapse layout-top-nav text-sm"><!--  dark-mode -->
     <div class="wrapper">
         <?php $this->load->view('interface/'.$uri.'/layout/Header')?>
-        <div class="content-wrapper" style="background-color:#e6e6e6;">
+        <div class="content-wrapper">
             <?php foreach ($content as $data): ?>
                 <?= $data ?>
             <?php endforeach ?> 

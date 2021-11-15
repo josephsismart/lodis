@@ -1,125 +1,164 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php
+if (!$this->session->schoolmis_login_level) {
+    redirect(base_url('login'));
+}
+$uri = $this->session->schoolmis_login_uri;
+?>
 <!-- Bootstrap 4 -->
-<script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?= base_url() ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="<?= base_url() ?>assets/plugins/datatables/extensions/buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?= base_url() ?>assets/plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+
+<script src="<?= base_url() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->
-<script src="<?= base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
+<script src="<?= base_url() ?>plugins/select2/js/select2.full.min.js"></script>
 <!-- SweetAlert2 -->
-<script src="<?= base_url() ?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="<?= base_url() ?>plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
-<script src="<?= base_url() ?>assets/plugins/toastr/toastr.min.js"></script>
+<script src="<?= base_url() ?>plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
-<!-- Highcharts -->
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/highcharts.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/sankey.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/organization.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/exporting.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/accessibility.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/export-data.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/modules/drilldown.js"></script>
-<script src="<?= base_url() ?>assets/plugins/Highcharts-8.0.4/code/themes/dark-unica.js"></script>
-<script src="<?= base_url() ?>assets/plugins/jquery/jquery.form.min.js"></script>
+<script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
 
 <script type="text/javascript">
-    var validatorC=0;
-	$('.select2').select2({
-        // allowClear: true
-    });
+    var confirmP = "";
+    var rmvP = "";
+    var refrmvP = "";
+    var stq = "";
+    var pwd = "";
+    var entryId = 0;
+    var addItemId = 0;
+    var validatorC = 0;
+    var valid = 0;
+    var grdlvl = 0;
+    var rmid = 0;
 
-    function clear_form(form_id) {
-        $("#"+form_id)[0].reset();
-        $("#"+form_id).find("input[type='hidden']").each(function() {
-            $(this).val("");
-        });
-        $("#"+form_id).find("input[type='checkbox']").each(function() {
-            $(this).attr("checked", false);
-        });
-        //$(".select2").val("").trigger("change");
-    }
+    function validate(form_id) {
+        let invalid = 0;
+        $("#" + form_id).find("input").each(function() {
+            if ($("#" + form_id + ' input[type="search"]')) {
+                // return 0;
+            }
+            if ($("#" + form_id + ' input[type="text"]')) {
+                var name = clean($(this).attr("name"));
+                var nr = $(this).attr("nr");
 
-    function validate_form(form_id) {
-        $("#"+form_id).find("input").each(function() {
-            var name = $(this).attr("name");
-            if(name!="middleName"){
-                if(!$(this).val()){
-                    validatorC=0;
-                    $(this).focus().addClass("is-invalid");
-                } else{
-                    validatorC=1;
-                    $(this).removeClass("is-invalid");
+                if (name == null) {} else if (nr != 1) {
+                    if (!$(this).val()) {
+                        $(this).focus().addClass("is-invalid");
+                        $("#" + form_id + " ." + name).addClass('border-danger');
+                        invalid++;
+                    } else {
+                        $(this).removeClass("is-invalid");
+                        $("#" + form_id + " ." + name).removeClass('border-danger');
+                    }
                 }
             }
         });
-        // $("#"+form_id).find("input[type='text']").each(function(e) {
-        //     if(!$(this).val()){
-        //         $(this).focus().addClass("is-invalid");
-        //         // e.preventDefault();
-        //     } else{
-        //         $(this).removeClass("is-invalid");
-        //     }
-        // });
-        // $("#"+form_id).find("input[type='date']").each(function(e) {
-        //     if(!$(this).val()){
-        //         $(this).focus().addClass("is-invalid");
-        //         // e.preventDefault();
-        //     } else{
-        //         $(this).removeClass("is-invalid");
-        //     }
-        // });
-        // $("#"+form_id).find("select").each(function(e) {
-        //     if(!$(this).val()){
-	       //      $(this).focus().addClass("is-invalid");
-	       //      // e.preventDefault();
-	       //  } else{
-	       //      $(this).removeClass("is-invalid");
-	       //  }
-        // });
+        valid = invalid;
     }
 
-    var invalidChars = [
-          "-",
-          "+",
-          "e",
-        ];
+    function passwordChecker(a, b, c) {
+        var f = "form_save_data" + a;
+        var g = $("#" + f + " ." + b).val();
+        var h = $("#" + f + " ." + c).val();
+        if (g.length > 7 && h.length > 7) {
+            $("#" + f + " .atleast").hide();
+            if (g != h) {
+                $("#" + f + " .good").hide();
+                $("#" + f + " .bad").show();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+            } else if (!g && !h) {
+                $("#" + f + " .good").hide();
+                $("#" + f + " .bad").hide();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+            } else {
+                $("#" + f + " .good").show();
+                $("#" + f + " .bad").hide();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", false);
+            }
+        } else {
+            $("#" + f + " .atleast").show();
+            $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+        }
+    }
 
-	$('#form_save_local').on('focus', 'input[type=number]', function (e) {
-	  $(this).on("keydown", function (e) {
-	    if (invalidChars.includes(e.key)) {
-	        e.preventDefault();
-	      }
-	  })
-	})
+    function saveForm(formId, tblId, tbl, dtd, pl) {
+        let a = "";
+        var saveData = {
+            clearForm: false,
+            resetForm: false,
+            beforeSubmit: function(e) {
+                validate("form_save_data" + formId);
+                if (valid != 0) {
+                    fillIn();
+                    return false;
+                }
+                a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
+                $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
+                $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+            },
+            success: function(data) {
+                var d = JSON.parse(data);
+                if (d.success == true) {
+                    successAlert("Successfully Saved!");
+                    clear_form("form_save_data" + formId);
+                    $("#modal" + formId).modal('hide');
+                    for (var i = 0; i < tblId.length; i++) {
+                        getTable(tblId[i], dtd, pl);
+                    }
+                    tbl ? removeAllItemList("tbl" + tbl) : null;
+                    tbl ? $("#btn" + tbl).trigger("click") : null;
+                } else if (d.exist == true) {
+                    existAlert("Person already exist!<br/>You can search and add TEST RESULT");
+                } else if (d.existCode == true) {
+                    existAlert("Code already taken!<br/>by: " + d.existPerson);
+                } else {
+                    failAlert("Something went wrong!");
+                }
+                $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", false);
+                $("#form_save_data" + formId + " .submitBtnPrimary").html(a);
+            }
+        };
+        $("#form_save_data" + formId).ajaxForm(saveData);
+    }
 
     const Toast = Swal.mixin({
-      	toast: true,
-      	position: 'center',
-      	showConfirmButton: false,
-      	timer: 3000
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 3000
     });
 
-    function successAlert(){
-    	Toast.fire({
-            type: 'success',
-            title: 'Successfully Saved!'
+    function successAlert(a) {
+        Toast.fire({
+            icon: 'success',
+            title: '  ' + a
         })
     }
 
-    function failAlert(){
+    function failAlert(a) {
         Toast.fire({
-            type: 'error',
-            title: 'Something went wrong!'
+            icon: 'error',
+            title: '  ' + a
         })
     }
 
-    function noData(a){
+    function fillIn() {
         Toast.fire({
-            type: 'warning',
-            title: '  '+a,
+            icon: 'error',
+            title: '  Please fill in all the required fields.'
+        })
+    }
+
+    function existAlert(a) {
+        Toast.fire({
+            icon: 'warning',
+            title: '  ' + a
+        })
+    }
+
+    function noData(a) {
+        Toast.fire({
+            icon: 'warning',
+            title: '  ' + a,
         })
     }
 </script>

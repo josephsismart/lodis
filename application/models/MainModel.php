@@ -14,11 +14,6 @@ class mainModel extends CI_Model {
                 $this->db->update($table, $arrayName);
         }
 
-        public function updateArr($table, $arrayName1, $arrayName2){
-                $this->db->where($table_id, $arrayName2);
-                $this->db->update($table, $arrayName1);
-        }
-        
         public function delete3($table, $table_id, $id_val, $table_id2, $id_val2, $table_id3, $id_val3){
                 $this->db->where($table_id, $id_val);
                 $this->db->where($table_id2, $id_val2);

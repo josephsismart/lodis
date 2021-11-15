@@ -1,13 +1,13 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Changepassword extends MY_Controller {
+class Changepassword extends MY_Controller
+{
 
     public function __construct()
     {
         parent::__construct();
-        //$this->redirect();
-
+        $this->redirect();
         $this->load->model('mainModel');
         $this->load->helper('date');
         date_default_timezone_set("Asia/Manila");
@@ -22,60 +22,54 @@ class Changepassword extends MY_Controller {
             "current_location"  => "changepassword",
         ];
         $this->load->view('interface/userpassword/Changepassword', $data);
-
-        // $page_data = $this->system();
-        // $page_data += [
-        //     "page_title"        => "Login",
-        //     "current_location"  => "login",
-        //     "content"           =>  [$this->load->view('interface/system/Login', [
-        //                                 // "accomplished"      => $this->get_accomplished(),
-        //                                 // "useraccount"      => $this->get_useraccount(),
-        //                                 // "pending"      => $this->get_pending(),
-        //                                 // "documents"      => $this->get_documents(),
-        //                             ], TRUE)]
-        // ];
-        // $this->public_create_page($page_data);
     }
 
-    function updatePassword(){
-        $userId = $this->session->schoolmis_login_id;
+    function saveUpdatePassword()
+    {
+        $this->db->trans_begin();
+        $crrntpwd = md5($this->input->post("crrntpwd"));
+        $pwd = md5($this->input->post("pwd"));
+        $confirmpwd = md5($this->input->post("confirmpwd"));
+
+        $sesspwd = $this->session->schoolmis_pass;
+        $login_id = $this->session->schoolmis_login_id;
+        $lvl = $this->session->schoolmis_login_level;
         $dateNow = $this->now();
-        $pass = $this->session->schoolmis_pass;
-        $current = md5($this->input->post('current'));
-        $password = $this->input->post('password');
-        $confirm = $this->input->post('confirm');
-        if(!$current||!$password||!$confirm){
-            redirect(base_url().'changepassword?change_attempt='.md5(0));
-        }else if($pass!=$current){
-            redirect(base_url().'changepassword?change_attempt='.md5(1));
-        }else if(strlen($password)<8){
-            redirect(base_url().'changepassword?change_attempt='.md5(2));
-        }else if($password!=$confirm){
-            redirect(base_url().'changepassword?change_attempt='.md5(3));
-        }else{
-            $this->db->trans_begin();
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+        if (strlen($pwd) > 7 && strlen($confirmpwd) > 7 && ($crrntpwd == $sesspwd) && ($pwd == $confirmpwd)) {
             $data = [
-                "password" => md5($password),
-                "updated_at" => $dateNow,
-                "change_password" => 0,
+                "password" => $confirmpwd,
+                "change_pwd" => 'f',
+                "updated_by" => $login_id,
+                "date_updated" => $dateNow,
             ];
-            if(!$this->mainModel->update("tbl_user",$data,"id",$userId)){
-                $this->userlog("CHANGED PASSWORD OF USER ".$userId);
-                $ret = ["success"   => true];
-            }else{
-                $ret = ["success"   => false];
-            }
+            if ($login_id) {
+                $this->db->where('id', $login_id);
+                if ($this->db->update("account.tbl_useraccount", $data)) {
+                    $this->userlog("UPDATED PASSWORD ACCOUNT " . json_encode($data));
+                    $this->session->schoolmis_login_uri = ($lvl == 1 ? "usersuperadmin" : ($lvl == 2 ? "useradmin" : ($lvl == 3 ? "userdivisionhead" : ($lvl == 4 ? "userschoolhead" : ($lvl == 5 ? "userschoolplanning" : ($lvl == 6 ? "userschooladmin" : ($lvl == 7 ? "userteacher" : ($lvl == 8 ? "userstudent" : ""))))))));
+                    $this->session->schoolmis_change_password = 'f';
+                    $this->session->schoolmis_login_landing = 'dataentry';
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
 
-            if($this->db->trans_status() === false) {
-                $this->db->trans_rollback();
+                if ($this->db->trans_status() === false) {
+                    $this->db->trans_rollback();
+                } else {
+                    $this->db->trans_commit();
+                }
             } else {
-                $this->db->trans_commit();
-                $this->session->schoolmis_change_password=0;
-                $this->redirect();
+                $ret = $false;
             }
+        } else {
+            $ret = $false;
         }
-    }
 
+        echo json_encode($ret);
+    }
 }
 
 /* End of file Home.php */

@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<script src="<?= base_url() ?>assets/plugins/jquery/jquery.form.min.js"></script>
+<script src="<?= base_url() ?>plugins/jquery/jquery.form.min.js"></script>
 <?php 
     if (!$this->session->schoolmis_login_level) {
         redirect(base_url('login'));
