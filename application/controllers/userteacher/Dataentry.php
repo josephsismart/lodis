@@ -9,7 +9,7 @@ class Dataentry extends MY_Controller
         parent::__construct();
         $this->redirect();
         $this->load->model('mainModel');
-        $this->load->library('Excel');
+        $this->load->library('excel');
         $this->load->helper('date');
         date_default_timezone_set("Asia/Manila");
     }
