@@ -460,7 +460,7 @@ class Dataentry extends MY_Controller
                 "basic_info_id" => $row->basic_info_id,
                 "role_id" => 8,
                 "username" => $row->lrn,
-                "password" => md5(1235678),
+                "password" => md5(12345678),
                 "change_pwd" => true,
                 "is_active" => true,
                 "added_by" => $login_id,
