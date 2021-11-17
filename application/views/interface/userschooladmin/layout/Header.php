@@ -17,7 +17,7 @@ $uri = $this->session->schoolmis_login_uri;
              style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span> -->
       <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image">
-      <span class="brand-text"><b>LNHS</b> System</span>
+      <span class="brand-text"><b>LODIS</b></span>
     </a>
 
     <div class="collapse navbar-collapse order-1" id="navbarCollapse">
@@ -70,7 +70,7 @@ $uri = $this->session->schoolmis_login_uri;
   <!-- Brand Logo -->
   <a href="../../index3.html" class="brand-link">
     <img src="<?= $system_svg ?>" alt="Locator Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light"><b>LNHS <?= $this->session->schoolmis_login_schl_id ?> sdf</b> System</span>
+    <span class="brand-text font-weight-light"><b>LODIS</b></span>
   </a>
 
   <!-- Sidebar -->

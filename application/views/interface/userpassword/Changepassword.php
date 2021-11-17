@@ -35,12 +35,12 @@ $uri = $this->session->schoolmis_login_uri;
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <!-- <img class="animation__shake" src="<?= $system_svg ?>" alt="AdminLTELogo" height="500" width="500"/> -->
-            <a href="#" class="h1"><b>LNHS</b>MIS</a>
+            <a href="#" class="h1"><b>LOD</b>IS</a>
         </div>
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h1"><b>LNHS</b>MIS</a>
+                <a href="#" class="h1"><b>LOD</b>IS</a>
             </div>
 
             <?= form_open(base_url($uri . '/Changepassword/saveUpdatePassword'), 'id=form_save_dataUpdatePassword'); ?>

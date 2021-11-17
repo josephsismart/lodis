@@ -10,7 +10,8 @@ class MY_Controller extends CI_Controller
     public function system()
     {
         $data = [
-            "system_title"  => "Libertad National High School",
+            "system_title"  => "Libertad Online Data-based Information System",
+            // "system_title"  => "Libertad National High School",
             "system_logo"   => base_url("dist/img/icons/icon.png"),
             "system_svg"    => base_url("dist/img/icons/icon_svg.png"),
             "system_op"    => base_url("dist/img/icons/icon_op.png"),

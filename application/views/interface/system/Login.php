@@ -24,12 +24,13 @@
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
       <!-- <img class="animation__shake" src="<?= $system_svg ?>" alt="AdminLTELogo" height="500" width="500"/> -->
-      <a href="#" class="h1"><b>LNHS</b>MIS</a>
+      <a href="#" class="h1"><b>LOD</b>IS</a>
+      <!-- Libertad Online Data-based Information System  -->
     </div>
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="#" class="h1"><b>LNHS</b>MIS</a>
+        <a href="#" class="h1"><b>LOD</b>IS</a>
       </div>
       <div class="card-body">
         <?php if ($this->input->get("login_attempt") == md5(0) || $this->input->get("login_attempt") == md5(1)) : ?>
