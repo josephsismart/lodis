@@ -18,6 +18,9 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
 
 <script type="text/javascript">
+    setInterval(function() {
+        $.post("<?= base_url('Main/allow') ?>");
+    }, 3000)
     var confirmP = "";
     var rmvP = "";
     var refrmvP = "";

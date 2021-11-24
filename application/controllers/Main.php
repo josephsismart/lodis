@@ -21,4 +21,9 @@ class Main extends MY_Controller {
         ];
         $this->load->view('interface/errors/cli/error_404', $data);
     }
+
+    public function allow()
+    {
+        $this->allow_schema();
+    }
 }
