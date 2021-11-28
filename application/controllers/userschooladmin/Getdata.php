@@ -133,14 +133,17 @@ class Getdata extends MY_Controller
     function getPersonnelInfo()
     {
         $data = ["data" => []];
-        $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel ORDER BY schoolpersonnel_id DESC");
+        // $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel ORDER BY schoolpersonnel_id DESC");
+        $thisQuery = $this->db->query("SELECT t2.school_department_id,t1.* FROM profile.view_schoolpersonnel t1
+                                       LEFT JOIN profile.tbl_schoolpersonnel t2 ON t1.schoolpersonnel_id=t2.id 
+                                       ORDER BY t1.schoolpersonnel_id DESC");
         $cc = 1;
         foreach ($thisQuery->result() as $key => $value) {
             $id = $value->schoolpersonnel_id;
             $birthDate = date_create($value->birthdate);
             $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
-            $data2 = [
-                "personId" => $id,
+            $data1 = [
+                "personnelId" => $id,
                 "partyType" => $value->personalTitleId,
                 "firstName" => $value->first_name,
                 "middleName" => $value->middle_name,
@@ -153,7 +156,16 @@ class Getdata extends MY_Controller
                 "personName" => $value->full_name,
                 "basicInfoId" => $value->person_id,
             ];
-            $arr = json_encode($data2);
+            $data2 = [
+                "userId" => $value->user_id,
+                "basicInfoId" => $value->person_id,
+                "personnelId" => $id,
+                "email" => $value->username,
+                "role" => $value->role_id,
+                "department" => $value->school_department_id,
+            ];
+            $arr1 = json_encode($data1);
+            $arr2 = json_encode($data2);
             $data["data"][] = [
                 $cc++,
                 "<span class='badge'>" . $value->employee_type . "</span><br/>
@@ -169,9 +181,9 @@ class Getdata extends MY_Controller
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
-                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr,1)'>Edit Information</button>
+                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr1,1)'>Edit Information</button>
                         " . ($value->level ? "" :
-                    "<button class='dropdown-item' onclick='getDetails(\"PersonnelAccount\",$arr,1);$(\"#modalPersonnelAccount\").modal(\"show\");'>Create User Account</button>") .
+                    "<button class='dropdown-item' onclick='clear_form(\"form_save_dataPersonnelAccount\");getDetails(\"PersonnelAccount\",$arr1,1);$(\"#modalPersonnelAccount\").modal(\"show\");'>Create User Account</button>") .
                     "</div>
                 </div></div>",
                 $value->level ?
@@ -183,7 +195,7 @@ class Getdata extends MY_Controller
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
-                        <button class='dropdown-item' onclick='getDetails(\"MemberUser\",$arr,1)'>Edit Account</button>
+                        <button class='dropdown-item' onclick='clear_form(\"form_save_dataPersonnelAccount\");getDetails(\"PersonnelAccount\",$arr2,1);$(\"#modalPersonnelAccount\").modal(\"show\");'>Edit Account</button>
                     </div>
                 </div></div>" : "-",
             ];

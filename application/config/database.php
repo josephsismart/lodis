@@ -70,33 +70,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'develop';
 $query_builder = TRUE;
 
-// $db['default'] = array(
-// 	'dsn'	=> '',
-// 	'hostname' => 'localhost',
-// 	'port' 	   => '5432',
-// 	'username' => 'postgres',
-// 	'password' => '1timothy1:19',
-// 	'database' => 'schooldb',
-// 	'dbdriver' => 'postgre',
-// 	'dbprefix' => '',
-// 	'pconnect' => FALSE,
-// 	'db_debug' => (ENVIRONMENT !== 'production'),
-// 	'cache_on' => FALSE,
-// 	'cachedir' => '',
-// 	'char_set' => 'utf8',
-// 	'dbcollat' => 'utf8_general_ci',
-// 	'swap_pre' => '',
-// 	'encrypt' => FALSE,
-// 	'compress' => FALSE,
-// 	'stricton' => FALSE,
-// 	'failover' => array(),
-// 	'save_queries' => TRUE
-// );
+$db['develop'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'port' 	   => '5432',
+	'username' => 'postgres',
+	'password' => '1timothy1:19',
+	'database' => 'schooldb',
+	'dbdriver' => 'postgre',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
 
-$db['default'] = array(
+$db['production'] = array(
 	'dsn'	=> '',
 	'hostname' => 'ec2-52-201-195-11.compute-1.amazonaws.com',
 	'port' 	   => '5432',

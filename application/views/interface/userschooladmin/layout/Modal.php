@@ -83,8 +83,9 @@ $uri = $this->session->schoolmis_login_uri;
             </div>
             <?= form_open(base_url($uri . '/Dataentry/savePersonnelAccount'), 'id=form_save_dataPersonnelAccount'); ?>
             <div class="modal-body p-2">
+                <input type="text" name="userId" nr="1" hidden />
                 <input type="text" name="basicInfoId" hidden />
-                <input type="text" name="personId" hidden />
+                <input type="text" name="personnelId" hidden />
                 <div class="card-body p-0">
                     <div class="table-responsive table-hover">
                         <div class="col-12">
@@ -130,23 +131,23 @@ $uri = $this->session->schoolmis_login_uri;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 fillpwd" style="display:none;">
+                        <div class="col-12 fillpwd">
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text firstName"><i class="fas fa-lock"></i></span>
                                 </div>
-                                <input type="password" class="form-control form-control-sm pwd" name="pwd" onkeyup="passwordChecker('PersonnelAccount','pwd','confirmpwd');" placeholder="PASSWORD" autocomplete="off" nr="1">
+                                <input type="password" class="form-control form-control-sm pwd" name="pwd" onkeyup="passwordChecker('PersonnelAccount','pwd','confirmpwd');" placeholder="PASSWORD" autocomplete="off" nr="0">
                             </div>
                         </div>
-                        <div class="col-12 fillpwd" style="display:none;">
+                        <div class="col-12 fillpwd">
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text firstName"><i class="fas fa-lock"></i></span>
                                 </div>
-                                <input type="password" class="form-control form-control-sm confirmpwd" name="confirmpwd" onkeyup="passwordChecker('PersonnelAccount','confirmpwd','pwd');" placeholder="CONFIRM" autocomplete="off" nr="1">
+                                <input type="password" class="form-control form-control-sm confirmpwd" name="confirmpwd" onkeyup="passwordChecker('PersonnelAccount','confirmpwd','pwd');" placeholder="CONFIRM" autocomplete="off" nr="0">
                             </div>
                         </div>
-                        <div class="col-12 fillpwd" style="display:none;">
+                        <div class="col-12 fillpwd">
                             <div class="input-group mb-2">
                                 <span class="badge bg-primary atleast" style="display:none;">PASSWORD MUST BE AT LEAST `8` CHARACTERS</span>
                             </div>
@@ -197,7 +198,7 @@ $uri = $this->session->schoolmis_login_uri;
                                     <span class="input-group-text firstName"><i class="fas fa-font"></i></span>
                                 </div>
                                 <input type="text" class="form-control form-control-sm mr-2" name="abbr" placeholder="ABREVIATION" autocomplete="off">
-                                
+
                                 <div class="input-group-prepend">
                                     <span class="input-group-text firstName"><i class="fas fa-sort-numeric-down"></i></span>
                                 </div>

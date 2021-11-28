@@ -111,8 +111,9 @@ class Dataentry extends MY_Controller
     function savePersonnelAccount()
     {
         $this->db->trans_begin();
+        $userId = $this->input->post("userId");
         $pid = $this->input->post("basicInfoId");
-        $spid = $this->input->post("personId");
+        $spid = $this->input->post("personnelId");
         $deptId = $this->input->post("department");
         $role = $this->input->post("role");
         $email = $this->input->post("email");
@@ -123,11 +124,21 @@ class Dataentry extends MY_Controller
         $dateNow = $this->now();
         $true = ["success"   => true];
         $false = ["success"   => false];
-
+        $cc = 0;
 
         // $confirmpwd $pwd
         $exist = $this->db->query("SELECT * FROM account.tbl_useraccount t1 WHERE t1.username='$email'");
-        if ($exist->num_rows() == 0) {
+        if ($userId && $exist->num_rows() > 0) {
+            if ($exist->row()->username == $email) {
+                $cc = 0;
+            } else {
+                $cc = 1;
+            }
+        } else if ($exist->num_rows() > 0) {
+            $cc = 1;
+        }
+        // $cc = $userId ? 0 : $exist->num_rows();
+        if ($cc == 0) {
             if ($confirmpwd && $pwd) {
                 if ((strlen($pwd) > 7 || strlen($confirmpwd) > 7) && ($pwd == $confirmpwd)) {
                     $pw = md5($pwd);
@@ -140,36 +151,80 @@ class Dataentry extends MY_Controller
                 "password" => $pw,
                 "change_pwd" => $pw == md5(12345678) ? true : false,
                 "is_active" => true,
-                // $id ? "updated_by" : "added_by" => $login_id,
-                // $id ? "date_updated" : "date_added" => $dateNow,
+                $userId ? "updated_by" : "added_by" => $login_id,
+                $userId ? "date_updated" : "date_added" => $dateNow,
                 "added_by" => $login_id,
                 "date_added" => $dateNow,
             ];
 
             if ($pid && $role && $email) {
-                if ($this->db->insert("account.tbl_useraccount", $data)) {
-                    $inid = $this->db->insert_id();
-                    $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
-                    $ret = $true;
-                    if ($role == 3) {
-                        $data2 = [
-                            "department_head_person_id" => $spid,
-                            "updated_by" => $login_id,
-                            "date_updated" => $dateNow,
+                if ($userId) {
+                    $this->db->where('id', $userId);
+                    if ($this->db->update("account.tbl_useraccount", $data)) {
+                        $ret = $true;
+                        $data1 = [
+                            "school_department_id" => $deptId,
                         ];
-                        if ($inid) {
-                            $this->db->where('id', $deptId);
-                            if ($this->db->update("profile.tbl_school_department", $data2)) {
-                                $ret = $true;
-                            } else {
-                                $ret = $false;
+                        $this->db->where('basic_info_id', $pid);
+                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                            $ret = $true;
+                            if ($role == 3) {
+                                $data2 = [
+                                    "department_head_person_id" => $spid,
+                                    "updated_by" => $login_id,
+                                    "date_updated" => $dateNow,
+                                ];
+                                if ($userId) {
+                                    $this->db->where('id', $deptId);
+                                    if ($this->db->update("profile.tbl_school_department", $data2)) {
+                                        $ret = $true;
+                                    } else {
+                                        $ret = $false;
+                                    }
+                                } else {
+                                    $ret = $false;
+                                }
                             }
                         } else {
                             $ret = $false;
                         }
+                    } else {
+                        $ret = $false;
                     }
                 } else {
-                    $ret = $false;
+                    if ($this->db->insert("account.tbl_useraccount", $data)) {
+                        $inid = $this->db->insert_id();
+                        $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
+                        $ret = $true;
+                        $data1 = [
+                            "school_department_id" => $deptId,
+                        ];
+                        $this->db->where('basic_info_id', $pid);
+                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                            $ret = $true;
+                            if ($role == 3) {
+                                $data2 = [
+                                    "department_head_person_id" => $spid,
+                                    "updated_by" => $login_id,
+                                    "date_updated" => $dateNow,
+                                ];
+                                if ($inid) {
+                                    $this->db->where('id', $deptId);
+                                    if ($this->db->update("profile.tbl_school_department", $data2)) {
+                                        $ret = $true;
+                                    } else {
+                                        $ret = $false;
+                                    }
+                                } else {
+                                    $ret = $false;
+                                }
+                            }
+                        } else {
+                            $ret = $false;
+                        }
+                    } else {
+                        $ret = $false;
+                    }
                 }
             } else {
                 $ret = $false;

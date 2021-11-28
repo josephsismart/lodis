@@ -197,10 +197,10 @@ $uri = $this->session->schoolmis_login_uri;
 											</div>
 											<select class="form-control form-control-sm selectPtitleList" name="personaltitle">
 											</select>
-											<div class="input-group-append" onclick="viewRegionProvince();" style="cursor:pointer;">
-												<!-- <span class="input-group-text" data-toggle="modal" data-target="#modalRegionProvince"><i class="fas fa-pen text-primary"></i></span> -->
+											<!-- <div class="input-group-append" onclick="viewRegionProvince();" style="cursor:pointer;">
+												<span class="input-group-text" data-toggle="modal" data-target="#modalRegionProvince"><i class="fas fa-pen text-primary"></i></span>
 												<span class="input-group-text"><i class="fas fa-pen text-primary"></i></span>
-											</div>
+											</div> -->
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-12 col-sm-12">
