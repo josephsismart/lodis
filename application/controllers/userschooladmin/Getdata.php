@@ -140,9 +140,14 @@ class Getdata extends MY_Controller
         $cc = 1;
         foreach ($thisQuery->result() as $key => $value) {
             $id = $value->schoolpersonnel_id;
-            $birthDate = date_create($value->birthdate);
-            $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
+            if ($value->birthdate) {
+                $birthDate = date_create($value->birthdate);
+                $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
+            } else {
+                $birthDate = "-";
+            }
             $data1 = [
+                "personId" => $value->person_id,
                 "personnelId" => $id,
                 "partyType" => $value->personalTitleId,
                 "firstName" => $value->first_name,
@@ -152,7 +157,9 @@ class Getdata extends MY_Controller
                 // "sex" => $value->sex_bool == 't' ? 1 : 0,
                 "sex" => $value->sex_bool,
                 "birthdate" => $value->birthdate,
-                "homeAddress" => $value->address_details,
+                "homeAddress" => $value->address_info,
+                "cty" => $value->citymun_id,
+                "brgy" => $value->barangay_id,
                 "personName" => $value->full_name,
                 "basicInfoId" => $value->person_id,
             ];
@@ -181,7 +188,7 @@ class Getdata extends MY_Controller
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
-                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr1,1)'>Edit Information</button>
+                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr1,1);brgyLoad($value->barangay_id)'>Edit Information</button>
                         " . ($value->level ? "" :
                     "<button class='dropdown-item' onclick='clear_form(\"form_save_dataPersonnelAccount\");getDetails(\"PersonnelAccount\",$arr1,1);$(\"#modalPersonnelAccount\").modal(\"show\");'>Create User Account</button>") .
                     "</div>
@@ -315,17 +322,33 @@ class Getdata extends MY_Controller
         $thisQuery = $this->db->query("SELECT t1.* FROM global.tbl_sy t1 ORDER BY t1.from DESC");
         foreach ($thisQuery->result() as $key => $value) {
             $stat = $value->is_active;
+            $ebg = $value->enrollment_stat == 1 ? "bg-success" : "bg-gray";
+            $gbg = $value->grading_stat == 1 ? "bg-success" : "bg-gray";
+
+            $data1 = [
+                "qrtrid" => $value->id,
+                "quarter" => $value->qrtr,
+                "enrollment" => $value->enrollment_stat,
+                "enrolldl" => $value->enrollment_deadline,
+                "grading" => $value->grading_stat,
+                "gradingdl" => $value->grading_deadline,
+            ];
+            $arr1 = json_encode($data1);
+
             $data["data"][] = [
                 $c++,
-                "<div class='row'><div class='col-6'>
-                    <span class='badge text-md " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>
+                "<span class='badge text-lg " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>",
+                "<div class='row'><div class='col-9' style='white-space: nowrap;'>
+                    <span class='badge text-lg bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
+                    <span class='badge text-xs " . $ebg . " '>ENRLMNT" . $this->getOnLoad()["edl"] . "</span>
+                    <span class='badge text-xs " . $gbg . "'>GRADING" . $this->getOnLoad()["gdl"] . "</span>
                 </div>
-                <div class='col-6'>
-                    <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
+                <div class='col-3'>
+                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
-                        <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",1)'>Edit Information</a>
+                        <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Quarter</button>
                     </div>
                 </div></div>",
             ];

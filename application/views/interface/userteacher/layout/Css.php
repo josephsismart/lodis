@@ -28,6 +28,18 @@
 <!-- Google Font: Source Sans Pro -->
 <!-- Select2 -->
 <style type="text/css">
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
     .error {
         outline: 1px solid red;
     }
@@ -116,7 +128,8 @@
         display: none;
     }
 
-    .custom-radio,input[type=radio] {
+    .custom-radio,
+    input[type=radio] {
         transform: scale(1.3);
     }
 </style>

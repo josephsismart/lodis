@@ -14,6 +14,7 @@ $uri = $this->session->schoolmis_login_uri;
 <!-- DataTables -->
 <script src="<?= base_url() ?>plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="<?= base_url() ?>plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/dataTables.buttons.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
 <!-- SweetAlert2 -->
@@ -45,7 +46,12 @@ $uri = $this->session->schoolmis_login_uri;
         });
     });
 
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
     function clear_form(form_id) {
+        let f1 = "PersonnelInfo";
         $("#" + form_id)[0].reset();
         $("#" + form_id).find("input[type='hidden']").each(function() {
             $(this).val("");
@@ -59,6 +65,26 @@ $uri = $this->session->schoolmis_login_uri;
 
         $("#" + form_id + " .submitBtnPrimary").attr("disabled", false);
         $("#" + form_id + " .submitBtnPrimary").html("Save Data");
+
+        getFetchList(f1, "RegionList", null, 1, {
+            v: null
+        }, 1, 1);
+        getFetchList(f1, "ProvinceList", null, 1, {
+            v: 16
+        }, 1, 1);
+        getFetchList(f1, "CityMunList", null, 1, {
+            v: 1602
+        }, 1, 1);
+        getFetchList(f1, "BarangayList", null, 1, {
+            v: 160201
+        }, 1, 1);
+    }
+
+    function brgyLoad(a) {
+        setTimeout(function() {
+            $("#form_save_dataPersonnelInfo [name='brgy']").val(a);
+            $("#form_save_dataPersonnelInfo [name='brgy']").trigger("change");
+        }, 1000)
     }
 
     function getDetails(a, b) {

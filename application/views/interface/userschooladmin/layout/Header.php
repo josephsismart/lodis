@@ -55,8 +55,7 @@ $uri = $this->session->schoolmis_login_uri;
     <ul class="order-3 order-md-3 navbar-nav navbar-no-expand ml-auto">
       <li class="nav-item">
         <!-- <a class="nav-link" data-toggle="dropdown" href="#"> -->
-        <b>SY:</b> <?= $getOnLoad["sy"]; ?> | 
-        <b>Q:</b> <?= $getOnLoad["qrtr"]; ?>
+        <?= $getOnLoad["sy_qrtr_e_g"]; ?>
         <!-- </a> -->
         </a>
       </li>

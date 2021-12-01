@@ -169,6 +169,114 @@ $uri = $this->session->schoolmis_login_uri;
 </div>
 <!-- /.modal -->
 
+
+<!-- <div class="modal fade show" id="modalSbjctAssPrsnnl" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+<div class="modal fade" id="modalQuarterInfo">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title p-0 mb-n3 mt-n1">
+                    <small><i class='fa fa-calendar'></i> Quarter Information</small>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?= form_open(base_url($uri . '/Dataentry/saveQuarterInfo'), 'id=form_save_dataQuarterInfo'); ?>
+            <div class="modal-body p-2">
+                <input type="text" name="qrtrid" hidden />
+                <div class="card-body p-0">
+                    <div class="table-responsive table-hover">
+                        <div class="col-12">
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <small class="input-group-text text-xs text-bold p-1">QUARTER</small>
+                                </div>
+                                <select class="form-control form-control-sm" name="quarter">
+                                    <option value="1">1st</option>
+                                    <option value="2">2nd</option>
+                                    <option value="3">3rd</option>
+                                    <option value="4">4th</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-light mt-3">
+                                <div class="card-header p-1">
+                                    <h3 class="card-title">Enrollment</h3>
+                                </div>
+                                <div class="card-body p-1">
+                                    <!-- <div class="row">
+                                        <div class="col-7 pr-0 mr-n5">
+                                            <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" name="enrolldl" nr="1">
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <select class="form-control form-control-sm" name="enrollment">
+                                                <option value="1">ON</option>
+                                                <option value="0">OFF</option>
+                                            </select>
+                                            <!-- <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success"> -->
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" name="enrolldl" nr="1">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-n2">
+                            <div class="card card-light">
+                                <div class="card-header p-1">
+                                    <h3 class="card-title">Entering Grades</h3>
+                                </div>
+                                <div class="card-body p-1">
+                                    <!-- <div class="row">
+                                        <div class="col-7 pr-0 mr-n5">
+                                            <input type="checkbox" name="grading" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
+                                        </div>
+                                    </div> -->
+
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <select class="form-control form-control-sm" name="grading">
+                                                <option value="1">ON</option>
+                                                <option value="0">OFF</option>
+                                            </select>
+                                            <!-- <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success"> -->
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between p-1">
+                <button type="submit" class="btn btn-sm btn-info submitBtnPrimary">Save Details</button>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <!-- <button type="button" class="btn btn-default float-right" ><i class="fa fa-times"></i> Cancel</button> -->
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- <div class="modal fade show" id="modalSbjctAssPrsnnl" aria-modal="true" style="padding-right: 16px; display: block;"> -->
 <div class="modal fade" id="modalSubjectList">
     <div class="modal-dialog modal-md">

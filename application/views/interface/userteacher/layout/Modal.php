@@ -266,8 +266,7 @@ $uri = $this->session->schoolmis_login_uri;
                     <table class="table table-sm table-hover table-striped" id="tblGradesList" width="100%">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>LRN & Personal Details</th>
+                                <th>Student</th>
                                 <th>Sex</th>
                                 <th>Status</th>
                                 <th>Q1</th>

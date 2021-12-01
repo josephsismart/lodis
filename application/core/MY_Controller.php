@@ -263,14 +263,40 @@ class MY_Controller extends CI_Controller
         $enroll_dl = $row->enrollment_deadline;
         $grade_stat = $row->grading_stat;
         $grade_dl = $row->grading_deadline;
+        $qrtrR = $qrtr == 1 ? "1st" : ($qrtr == 2 ? "2nd" : ($qrtr == 3 ? "3rd" : ($qrtr == 4 ? "4th" : "--")));
+        if ($row->enrollment_deadline) {
+            $edl = date_create($row->enrollment_deadline);
+            $edl = strtoupper(date_format($edl, "M d, Y"));
+            $edl1 = "<br/>".$edl;
+        } else {
+            $edl = "";
+            $edl1 = "";
+        }
+        if ($row->grading_deadline) {
+            $gdl = date_create($row->grading_deadline);
+            $gdl = strtoupper(date_format($gdl, "M d, Y"));
+            $gdl1 = "<br/>".$gdl;
+        } else {
+            $gdl = "";
+            $gdl1 = "";
+        }
+        $estat = $row->enrollment_stat;
+        $gstat = $row->grading_stat;
+
         $data = [
             "sy_id" => $sy_id,
             "sy" => $sy,
             "qrtr" => $qrtr,
+            "qrtrR" => $qrtrR,
             "enroll_stat" => $enroll_stat,
             "enroll_dl" => $enroll_dl,
             "grade_stat" => $grade_stat,
             "grade_dl" => $grade_dl,
+            "edl" => $edl1,
+            "gdl" => $gdl1,
+            "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
+                ($estat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: " . $edl . "</small>" : "") .
+                ($gstat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: " . $gdl . "</small>" : ""),
         ];
         return $data;
     }

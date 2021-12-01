@@ -194,7 +194,7 @@ class Getdata extends MY_Controller
                 "total_enrollee" => $t_enrollee,
                 "enroll" => ($advsry == 't' && $enroll_stat == 1) ? '<button type="submit" data-toggle="modal" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : '',
                 "grade" => ($grade_stat == 1) ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGrades" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
-                "grade_all" => ($advsry == 't' && $enroll_stat == 1) ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
+                "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-sm text-sm float-right" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>
                                                 </button>
@@ -395,7 +395,7 @@ class Getdata extends MY_Controller
                 </button>
                 <div class="dropdown-menu" style="">
                     ' . ($value->logs ? "<a class='dropdown-item' href='#' onclick='allStudentLogs(\" $searchLog \")'><i class='fa fa-list'></i> View Logs</a>" : null) . '
-                    ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")' href='#'><i class='fa fa-plus'></i> Create Account</a>") . '
+                    ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
                 </div></div>
                 <div class="normal_view">
                     <span>' . $value->lrn . '</span>
@@ -484,7 +484,7 @@ class Getdata extends MY_Controller
             $q3 = $value->q3;
             $q4 = $value->q4;
             $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
-            $entry = "<input type='number' class='form-control form-control-sm' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
+            $entry = "<input type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -494,13 +494,10 @@ class Getdata extends MY_Controller
                     "",
                     "",
                     "",
-                    "",
                 ] : "";
 
             $data["data"][] = [
-                $sex == 'M' ? $c_male++ : $c_fmale++,
-                '<div style="white-space: nowrap;">' .
-                $value->lrn.' - '.$value->last_fullname.'</div>',
+                ($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname,
                 $sex,
                 $value->enrollment_status,
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>
@@ -527,7 +524,7 @@ class Getdata extends MY_Controller
                                     ORDER BY t1.date_time DESC");
         foreach ($query->result() as $key => $value) {
             $data["data"][] = [
-                '<b>'.$c++.'.</b>',
+                '<b>' . $c++ . '.</b>',
                 '<div style="white-space: nowrap;">' . $value->lrn . ' - ' . $value->last_fullname . '</div>',
                 '<div style="white-space: nowrap;">' . $value->date_time . '</div>',
                 '<div style="white-space: nowrap;">' . $value->action . '</div>',

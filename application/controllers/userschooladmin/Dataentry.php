@@ -59,7 +59,7 @@ class Dataentry extends MY_Controller
             "last_name" => $lastName,
             "suffix" => $extName,
             "sex" => $sex,
-            "birthdate" => $birthdate,
+            "birthdate" => $birthdate ? $birthdate : null,
             "address_info" => $homeAddress,
             "barangay_id" => $brgy,
             // "purok_id" => $prk != "" ? $prk : null,
@@ -68,12 +68,12 @@ class Dataentry extends MY_Controller
             $id ? "updated_by" : "added_by" => $login_id,
             $id ? "date_updated" : "date_added" => $dateNow,
         ];
-        if ($id && $firstName && $lastName && $homeAddress && $sex && $birthdate && $brgy && $login_id) {
+        if ($id && $firstName && $lastName && $sex && $brgy && $login_id) {
             if (!$this->mainModel->update("profile.tbl_basicinfo", $data, "id", $id)) {
                 // $this->userlog("UPDATED MEMBER/USER PERSON ".$partyType." ".$firstName.$middleName.$lastName);
                 $ret = $true;
             }
-        } else if ($firstName && $lastName && $homeAddress && $sex && $birthdate && $brgy && $login_id) {
+        } else if ($firstName && $lastName && $sex && $brgy && $login_id) {
             if ($this->db->insert("profile.tbl_basicinfo", $data)) {
                 $inid = $this->db->insert_id();
                 $data2 = [
@@ -501,6 +501,49 @@ class Dataentry extends MY_Controller
             if ($this->db->insert_batch("building_sectioning.tbl_room_section_subject_assignment", $data)) {
                 $this->userlog("INSERTED SUBJECT ASSIGNMENT: " . $b);
                 $ret = $true;
+            }
+        } else {
+            $ret = $false;
+        }
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode($ret);
+    }
+
+    function saveQuarterInfo()
+    {
+        $this->db->trans_begin();
+        $data = [];
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+
+        $qrtrid = $this->input->post("qrtrid");
+        $quarter = $this->input->post("quarter");
+        $enrollment = $this->input->post("enrollment");
+        $enrolldl = $this->input->post("enrolldl");
+        $grading = $this->input->post("grading");
+        $gradingdl = $this->input->post("gradingdl");
+
+        if ($qrtrid && $quarter) {
+            $data = [
+                "qrtr" => $quarter,
+                "enrollment_stat" => $enrollment,
+                "enrollment_deadline" => $enrolldl ? $enrolldl : null,
+                "grading_stat" => $grading,
+                "grading_deadline" => $gradingdl ? $gradingdl : null,
+            ];
+            $b = json_encode($data);
+            $this->db->where('id', $qrtrid);
+            if ($this->db->update("global.tbl_sy", $data)) {
+                $this->userlog("UPDATED QUARTER DETAILS" . $b);
+                $ret = $true;
+            } else {
+                $ret = $false;
             }
         } else {
             $ret = $false;

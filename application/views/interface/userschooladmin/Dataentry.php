@@ -80,7 +80,8 @@ $uri = $this->session->schoolmis_login_uri;
 											<div class="input-group-prepend">
 												<span class="input-group-text birthdate"><i class="fas fa-birthday-cake"></i></span>
 											</div>
-											<input type="date" class="form-control form-control-sm" name="birthdate" value="<?= date('Y-m-d'); ?>">
+											<input type="date" class="form-control form-control-sm" name="birthdate" nr="1">
+											<!-- <input type="date" class="form-control form-control-sm" name="birthdate" value="<?= date('Y-m-d'); ?>"> -->
 										</div>
 									</div>
 
@@ -107,21 +108,23 @@ $uri = $this->session->schoolmis_login_uri;
 									<div class="col-lg-4 col-md-12 col-sm-12">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
-												<span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+												<!-- <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span> -->
+												<small class="input-group-text text-xs text-bold p-1">CITY</small>
 											</div>
 											<select class="form-control selectCityMunList" onchange="getLocation(['CityMunList','BarangayList'],
 																												 ['BarangayList','PurokList'],'PersonnelInfo')" type="select" name="cty">
 											</select>
-											<div class="input-group-append" onclick="viewRegionProvince();" style="cursor:pointer;">
+											<!-- <div class="input-group-append" onclick="viewRegionProvince();" style="cursor:pointer;"> -->
 												<!-- <span class="input-group-text" data-toggle="modal" data-target="#modalRegionProvince"><i class="fas fa-pen text-primary"></i></span> -->
-												<span class="input-group-text"><i class="fas fa-pen text-primary"></i></span>
-											</div>
+												<!-- <span class="input-group-text"><i class="fas fa-pen text-primary"></i></span> -->
+											<!-- </div> -->
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-12 col-sm-12">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
-												<span class="input-group-text brgy"><i class="fas fa-map-marker-alt"></i></span>
+												<!-- <span class="input-group-text brgy"><i class="fas fa-map-marker-alt"></i></span> -->
+												<small class="input-group-text text-xs text-bold p-1">BRGY</small>
 											</div>
 											<select class="form-control selectBarangayList" onchange="getLocation(['BarangayList'],['PurokList'],'PersonnelInfo')" type="select" name="brgy">
 											</select>
@@ -132,7 +135,7 @@ $uri = $this->session->schoolmis_login_uri;
 											<div class="input-group-prepend">
 												<span class="input-group-text homeAddress"><i class="fas fa-home"></i></span>
 											</div>
-											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off">
+											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off" nr="1">
 										</div>
 									</div>
 									<!-- <div class="col-lg-3 col-md-12 col-sm-12">
@@ -216,8 +219,8 @@ $uri = $this->session->schoolmis_login_uri;
 							</div>
 							<!-- /.card-body -->
 							<div class="card-footer">
-								<button type="submit" class="btn btn-info btn-sm submitBtnPrimary">Save Data</button>
-								<button type="button" class="btn btn-default btn-sm float-right" onclick="clear_form('form_save_dataPersonnelInfo')"><i class="fa fa-times"></i> Cancel</button>
+								<button type="submit" class="btn btn-info btn-xs submitBtnPrimary">Save Data</button>
+								<button type="button" class="btn btn-gray btn-xs" onclick="clear_form('form_save_dataPersonnelInfo')">Clear</button>
 							</div>
 						</div>
 						<!-- /.card -->
@@ -268,11 +271,11 @@ $uri = $this->session->schoolmis_login_uri;
 									<?= form_open(base_url($uri . '/Dataentry/saveGradeSubject'), 'id=form_save_dataGradeSubject'); ?>
 									<div class="row">
 										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
-											<select class="form-control form-control-sm select2 selectGLevelList" data-placeholder="K-12" name="gradek12" onchange="getFetchList('GradeSubject', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSubject .selectGLevelList').val()}, 0);getSelectSubject();"></select>
+											<select class="form-control form-control-sm selectGLevelList" data-placeholder="K-12" name="gradek12" onchange="getFetchList('GradeSubject', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSubject .selectGLevelList').val()}, 0);getSelectSubject();"></select>
 										</div>
 										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
 											<div class="input-group">
-												<select class="form-control form-control-sm select2 selectGradeList" data-placeholder="GRADE LEVEL" name="gradelevel" onchange="getSelectSubject();"></select>
+												<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="gradelevel" onchange="getSelectSubject();"></select>
 												<div class="input-group-append">
 													<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pen text-primary"></i></button>
 												</div>
@@ -357,26 +360,27 @@ $uri = $this->session->schoolmis_login_uri;
 						</div>
 					</div>
 
-					<!-- <div class="col-12">
+					<div class="col-12">
 						<div class="card card-navy">
 							<div class="card-header">
-								<h3 class="card-title"><i class="fa fa-calendar"></i> List of School Year</h3>
+								<h3 class="card-title"><i class="fa fa-calendar"></i> School Year and Quarter</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
 								</div>
 							</div>
 							<div class="card-body p-2" style="overflow: auto;">
 								<div class="table-responsive mailbox-messages">
-									<?= form_open(base_url($uri . '/Dataentry/saveSYInfo'), 'id=form_save_dataSYInfo'); ?>
+									<!-- <?= form_open(base_url($uri . '/Dataentry/saveSYInfo'), 'id=form_save_dataSYInfo'); ?>
 									<div class="input-group mb-2">
 										<button type="submit" class="btn btn-info btn-xs btn-block submitBtnPrimary">Generate new <b>School Year</b></button>
 									</div>
-									</form>
+									</form> -->
 									<table id="tblSYInfo" style="width:100%;" class="table table-sm table-striped table-hover">
 										<thead>
 											<tr>
 												<th width="1">#</th>
 												<th><i class='fa fa-calendar'></i> School Year</th>
+												<th><i class='fa fa-calendar'></i> Quarter</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -385,7 +389,7 @@ $uri = $this->session->schoolmis_login_uri;
 								</div>
 							</div>
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -469,5 +473,6 @@ $uri = $this->session->schoolmis_login_uri;
 		saveForm("GradeSubject", [""], null);
 		saveForm("PersonnelAccount", [f1], null);
 		saveForm("Subject", ["SubjectList"], null);
+		saveForm("QuarterInfo", ["SYInfo"], null);
 	});
 </script>
