@@ -184,7 +184,7 @@ class Getdata extends MY_Controller
                     <span class='badge font-weight-light'>" . $birthDate . "</span>
                 </div>
                 <div class='col-6'>
-                    <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
+                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
@@ -198,7 +198,7 @@ class Getdata extends MY_Controller
                     <span class='badge'>" . $value->user_description . "</span><br/>
                 </div>
                 <div class='col-6'>
-                    <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
+                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>

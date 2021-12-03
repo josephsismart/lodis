@@ -477,7 +477,8 @@ class Dataentry extends MY_Controller
                 }
             } else if (count($data) > 0 && $b == 1 && $login_id) {
                 $update_data = array(
-                    'password' => md5(2),
+                    'password' => md5(12345678),
+                    "change_pwd" => true,
                     'date_updated' => $dateNow,
                     'updated_by' => $login_id
                 );

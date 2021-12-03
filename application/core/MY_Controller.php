@@ -295,8 +295,8 @@ class MY_Controller extends CI_Controller
             "edl" => $edl1,
             "gdl" => $gdl1,
             "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
-                ($estat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: " . $edl . "</small>" : "") .
-                ($gstat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: " . $gdl . "</small>" : ""),
+                ($estat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
+                ($gstat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
         ];
         return $data;
     }

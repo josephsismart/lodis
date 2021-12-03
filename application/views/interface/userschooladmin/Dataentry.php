@@ -326,18 +326,18 @@ $uri = $this->session->schoolmis_login_uri;
 									<div class="row">
 										<div class="col-lg-7 col-md-12 col-sm-12 mb-2">
 											<!-- <label class="mb-n2">K-12</label> -->
-											<select class="form-control form-control-sm select2 selectGLevelList" data-placeholder="K-12" name="gradelevel" onchange="getFetchList('GradeSecInfo', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSecInfo .selectGLevelList').val()}, 0);"></select>
+											<select class="form-control form-control-sm selectGLevelList" data-placeholder="K-12" name="gradelevel" onchange="getFetchList('GradeSecInfo', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSecInfo .selectGLevelList').val()}, 0);"></select>
 										</div>
 										<div class="col-lg-5 col-md-12 col-sm-12 mb-2">
 											<!-- <label class="mb-n2">Grade Level</label> -->
-											<select class="form-control form-control-sm select2 selectGradeList" data-placeholder="GRADE LEVEL" name="grade"></select>
+											<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="grade"></select>
 										</div>
 										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
 											<input type="text" class="form-control form-control-sm text-uppercase" name="sectionName" placeholder="SECTION NAME" autocomplete="off">
 										</div>
 										<div class="col-lg-6 col-md-12 col-sm-12">
 											<div class="input-group mb-2">
-												<select class="form-control form-control-sm select2 selectSchedList" data-placeholder="SCHEDULE" name="sched"></select>
+												<select class="form-control form-control-sm selectSchedList" data-placeholder="SCHEDULE" name="sched"></select>
 												<div class="input-group-append">
 													<button type="submit" class="btn btn-info btn-sm submitBtnPrimary">SAVE</button>
 												</div>
