@@ -41,6 +41,7 @@ $uri = $this->session->schoolmis_login_uri;
     var rsid = 0;
     var rssaid = 0;
     var logsHS = 0;
+    var adviser = 0;
     $(function() {
         $('.select2').select2()
         $('.select2bs4').select2({
@@ -58,16 +59,6 @@ $uri = $this->session->schoolmis_login_uri;
                 $("." + a).prop("checked", false);
             });
         }
-        // var clicks = $(this).data('clicks');
-        // alert(clicks)
-        // // if (clicks) {
-        // //     //Uncheck all checkboxes
-        // // } else {
-        // //     //Check all checkboxes
-        // //     $(".mailbox-messages input[type='checkbox']").iCheck("check");
-        // //     $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
-        // // }
-        // $(this).data("clicks", !clicks);
     }
 
     function clear_form(form_id) {
@@ -279,7 +270,7 @@ $uri = $this->session->schoolmis_login_uri;
                 action: function(e, dt, node, config) {
                     validateTable(tableId);
                 }
-            }, ] : []),
+            }] : []),
             searching: tableId == 'GradesList' ? false : true,
             "search": {
                 "search": search ?? "",
@@ -342,11 +333,16 @@ $uri = $this->session->schoolmis_login_uri;
                 e: d,
             },
             function(data) {
+                logsHideShow()
                 var d = JSON.parse(data);
                 if (d.success == true) {
                     successAlert(d.message);
                     tblReload(a);
                     $("#modalLearnersList").modal('hide');
+                    setTimeout(function() {
+                        logsHideShow()
+                        $("#learnerCheckBox").prop("checked", false);
+                    }, 1500);
                     // tblReload('LearnersList');
                     // // tblReload('AssignedSectionList');
                     // // getTable("LearnersList", 0, -1);
@@ -389,7 +385,7 @@ $uri = $this->session->schoolmis_login_uri;
     function tblReload(tableId) {
         $("#tbl" + tableId).DataTable().ajax.reload(function() {
             $("." + tableId).hide();
-        })
+        });
     }
 
     function getSbjctAssPrsnnlFN(tableId, a, b) {
@@ -398,13 +394,29 @@ $uri = $this->session->schoolmis_login_uri;
         tblReload(tableId);
     }
 
-    function getLearnersListFN(tableId, a, b) {
+    function getLearnersListFN(tableId, a, b, c) {
         rsid = a;
         rssaid = b;
+        adviser = c;
         $("." + tableId).show();
         $("#tbl" + tableId + " tbody").empty();
         $("#form_save_dataEnrollmentInfo #ersid").val(a)
-        tblReload(tableId);
+        resetHide(tableId);
+        tblReload(tableId, c);
+
+        tblDT = $('#tbl' + tableId).DataTable();
+        if (adviser === "t") {
+            getTable("LearnersList", 0, -1);
+        } else if (tblDT.button().length == 1) {
+            tblDT.button(0).destroy();
+        }
+        // setTimeout(function() {
+        //     if (adviser === "t") {
+        //         $(".learnerCheckBoxLabel").addClass('custom-control-label');
+        //     } else {
+        //         $(".learnerCheckBoxLabel").removeClass('custom-control-label');
+        //     }
+        // }, 800)
     }
 
     function getGradesListFN() {
@@ -463,17 +475,25 @@ $uri = $this->session->schoolmis_login_uri;
 
     function logsHideShow() {
         $("#tblLearnersList .logs_account").toggle("slow", function() {
-            if ($("#tblLearnersList .logs_account").is(":visible")) {} else {
+            if ($("#tblLearnersList .logs_account").is(":visible")) {
+                logsHS = 1
+            } else {
                 $("#tblLearnersList .normal_view").is(":visible")
+                logsHS = 0
             }
-            logsHS = 1
         });
         $("#tblLearnersList .normal_view").toggle("slow", function() {
             if ($("#tblLearnersList .normal_view").is(":visible")) {} else {
                 $("#tblLearnersList .logs_account").is(":visible")
             }
-            logsHS = 0
         });
+    }
+
+    function resetHide(t) {
+        // alert(logsHS)
+        if (logsHS == 1) {
+            logsHideShow();
+        }
     }
 
     function learnerAccnt(a, b) {

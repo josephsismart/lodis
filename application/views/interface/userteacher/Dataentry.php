@@ -295,8 +295,9 @@ $uri = $this->session->schoolmis_login_uri;
 															<tr>
 																<th width="1"></th>
 																<th width="1">
-																	<div class="custom-control custom-checkbox">
-																		<input style="cursor:pointer" class="custom-control-input" id="learnerCheckBox" onclick="check_all('learnerCheckBox')" type="checkbox">
+																	<div class="normal_view">LRN</div>
+																	<div class="custom-control custom-checkbox logs_account" style="display:none;">
+																		<input style="cursor:pointer" class="custom-control-input" id="learnerCheckBox" onclick="check_all('learnerCheckBox')" type="checkbox" />
 																		<label style="cursor:pointer" for="learnerCheckBox" class="custom-control-label">LRN</label>
 																	</div>
 																</th>

@@ -207,7 +207,7 @@ class Getdata extends MY_Controller
             $slct = ($advsry === 't' && $key === array_key_first($query->result()) ? 'slctdRadioAdvisory' : '');
             $data["data"][] = [
                 "<div class='row' style='white-space: nowrap;'><div class='col-12 " . ($advsry === 't' ? 'text-success' : '') . "'>
-                <input type='radio' id='slctRmRadio" . $rmid . $rssaid . "' class='" . $slct . "' name='slctRm' value='" . $rmid . "' onclick='getLearnersListFN(\"LearnersList\"," . $rmid . "," . $rssaid . ");getDetails(\"PersonnelInfo\",$arr,1,\".\");'/>
+                <input type='radio' id='slctRmRadio" . $rmid . $rssaid . "' class='" . $slct . "' name='slctRm' value='" . $rmid . "' onclick='getLearnersListFN(\"LearnersList\"," . $rmid . "," . $rssaid . ",\"" . $advsry . "\");getDetails(\"PersonnelInfo\",$arr,1,\".\");'/>
                 <label  style='cursor:pointer' for='slctRmRadio" . $rmid . $rssaid . "'>
                     <span class='badge text-sm pb-0'>$g - $s</span><small>$qrow->code - <i>$subject</i> | <i>$sched</i></small>
                 </label>
@@ -395,13 +395,12 @@ class Getdata extends MY_Controller
                 ] : "";
             $data["data"][] = [
                 $sex == 'M' ? $c_male++ : $c_fmale++,
-                '<div class="row" style="white-space: nowrap;">
+                '<div class="row logs_account" style="white-space: nowrap;display:none;">
                     <div class="col-8 pr-5">
                         <div class="custom-control custom-checkbox">
                             <input style="cursor:pointer" class="custom-control-input learnerCheckBox" type="checkbox" id="customCheckbox' . $value->lrn . '" name="learnerCheckBox[]" value="' . $val . '">
                             <label style="cursor:pointer" for="customCheckbox' . $value->lrn . '" class="custom-control-label ' . $txtColor . '">' . $value->lrn . '</label>
                         </div>
-                        
                     </div>
                     <div class="col-4">
                         <button type="button" class="btn btn-xs text-gray ml-1" data-toggle="dropdown" aria-expanded="true">' .
@@ -412,6 +411,9 @@ class Getdata extends MY_Controller
                         ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
                         </div>
                     </div>
+                </div>
+                <div class="normal_view">
+                    ' . $value->lrn . '
                 </div>',
                 $value->last_fullname,
                 $sex,
