@@ -405,7 +405,7 @@ class Dataentry extends MY_Controller
                 } else {
                     $ret = $false;
                 }
-            } else {
+            } else if($assprsn) {
                 $data[] = [
                     'room_section_id' => $rmsecid,
                     'subject_id' => $sbject,

@@ -46,8 +46,8 @@ $uri = $this->session->schoolmis_login_uri;
         });
     });
 
-    $("input[data-bootstrap-switch]").each(function(){
-      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    $("input[data-bootstrap-switch]").each(function() {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 
     function clear_form(form_id) {
@@ -80,10 +80,10 @@ $uri = $this->session->schoolmis_login_uri;
         }, 1, 1);
     }
 
-    function delay(a,b) {
+    function delay(a, b) {
         setTimeout(function() {
-            $("#form_save_dataPersonnelInfo [name='"+b+"']").val(a);
-            $("#form_save_dataPersonnelInfo [name='"+b+"']").trigger("change");
+            $("#form_save_dataPersonnelInfo [name='" + b + "']").val(a);
+            $("#form_save_dataPersonnelInfo [name='" + b + "']").trigger("change");
         }, 1000)
     }
 
@@ -229,7 +229,9 @@ $uri = $this->session->schoolmis_login_uri;
             clearForm: false,
             resetForm: false,
             beforeSubmit: function(e) {
-                validate("form_save_data" + formId);
+                if (formId != 'SbjctAssPrsnnl') {
+                    validate("form_save_data" + formId);
+                }
                 if (valid != 0) {
                     fillIn();
                     return false;
