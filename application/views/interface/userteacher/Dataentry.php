@@ -288,34 +288,45 @@ $uri = $this->session->schoolmis_login_uri;
 													List of Learners
 												</h4>
 											</div>
-											<div class="card-body p-1 table-responsive">
-												<table class="table table-sm table-hover table-striped" id="tblLearnersList" width="100%">
-													<thead>
-														<tr>
-															<th width="1"></th>
-															<th>LRN</th>
-															<th>Personal Details</th>
-															<th>Sex</th>
-															<th>Birthdate</th>
-															<th>Address Details</th>
-															<th>Status</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- <tr>
+											<form id="formLearnersList">
+												<div class="card-body p-1 table-responsive">
+													<table class="table table-sm table-hover table-striped" id="tblLearnersList" width="100%">
+														<thead>
+															<tr>
+																<th width="1"></th>
+																<th width="1">
+																	<div class="custom-control custom-checkbox">
+																		<input style="cursor:pointer" class="custom-control-input" id="learnerCheckBox" onclick="check_all('learnerCheckBox')" type="checkbox">
+																		<label style="cursor:pointer" for="learnerCheckBox" class="custom-control-label">LRN</label>
+																	</div>
+																</th>
+																<th>Personal Details</th>
+																<th>Sex</th>
+																<th>Birthdate</th>
+																<th>Address Details</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<!-- <tr>
 													<td>a</td>
 													<td>a</td>
 													<td>a</td>
 													<td>a</td>
 												</tr> -->
-													</tbody>
-												</table>
-											</div>
+														</tbody>
+													</table>
+												</div>
+											</form>
 										</div>
 									</div>
 								</div>
 							</div>
 							<!-- /.card-body -->
+
+							<div class="overlay LearnersList">
+								<i class="fas fa-spin text-navy fa-5x fa-circle-notch"></i>
+							</div>
 						</div>
 						<!-- /.card -->
 					</div>

@@ -68,6 +68,133 @@ class Dataentry extends MY_Controller
         echo json_encode($ret);
     }
 
+    function saveBatchUpdateAccount()
+    {
+        $this->db->trans_begin();
+        $data_gen = [];
+        parse_str($this->input->post("c"), $filter);
+        //create reset disable enable
+        $stat = $this->input->post("e");
+        $sy = $this->getOnLoad()["sy_id"];
+        $learner_id = $filter['learnerCheckBox'];
+        $login_id = $this->session->schoolmis_login_id;
+        $dateNow = $this->now();
+        $create = 0;
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+        for ($i = 0; $i < count($learner_id); $i++) {
+            $a = $learner_id[$i];
+            $b = explode('_&&_', $a);
+            //LEARNER ID _&&_ LRN _&&_ BASIC INFO ID _&&_ ACCOUNT
+            $l_id = $b[0];
+            $lrn = $b[1];
+            $b_info = $b[2];
+            $has_account = $b[3];
+            if ($stat == 'create' && $has_account == 0) {
+                $data_gen[] = [
+                    "basic_info_id" => $b_info,
+                    "role_id" => 8,
+                    "username" => $lrn,
+                    "password" => md5(12345678),
+                    "change_pwd" => true,
+                    "is_active" => true,
+                    "added_by" => $login_id,
+                    "date_added" => $dateNow,
+                ];
+                $create++;
+            }
+
+            if ($stat == 'reset') {
+                $data_gen[] = [
+                    "username" => $lrn,
+                    "password" => md5(12345678),
+                    "change_pwd" => true,
+                    "is_active" => true,
+                    "updated_by" => $login_id,
+                    "date_updated" => $dateNow,
+                ];
+            }
+
+            if ($stat == 'disable' || $stat == 'enable') {
+                $data_gen[] = [
+                    "username" => $lrn,
+                    "is_active" => $stat == 'disable' ? false : true,
+                    "updated_by" => $login_id,
+                    "date_updated" => $dateNow,
+                ];
+            }
+        }
+
+        if ($stat == 'create' && $create == 0 && $login_id) {
+            $false += ["message"   => "Account already exist!"];
+            $ret = $false;
+        }
+
+        if ($create > 0 && count($data_gen) > 0 && $login_id) {
+            if ($this->db->insert_batch("account.tbl_useraccount", $data_gen)) {
+                $inid = $this->db->insert_id();
+                $this->userlog("CREATED NEW STUDENT ACCOUNT " . $inid . " " . json_encode($data_gen));
+                $true += ["message"   => "Successfully created!"];
+                $ret = $true;
+            } else {
+                $false += ["message"   => "Something went wrong!"];
+                $ret = $false;
+            }
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+        }
+
+        if ($stat == 'disable' || $stat == 'enable' || $stat == 'reset' && count($data_gen) > 0 && $login_id) {
+            if ($this->db->update_batch("account.tbl_useraccount", $data_gen, 'username')) {
+                if ($stat == 'reset') {
+                    $this->userlog("PASSWORD RESET STUDENT ACCOUNT " . json_encode($data_gen));
+                    $true += ["message"   => "Password reset!"];
+                    $ret = $true;
+                }else if ($stat == 'disable' || $stat == 'enable') {
+                    $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
+                    $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
+                    $d_e2 = $stat == 'disable' ? 'Disabled' : 'Enabled';
+                    $true += ["message"   => $d_e2." Account!"];
+                    $ret = $true;
+                } else {
+                    $false += ["message"   => "Something went wrong!"];
+                    $ret = $false;
+                }
+            } else {
+                $false += ["message"   => "Something went wrong!"];
+                $ret = $false;
+            }
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+        }
+
+        if ($stat == 'disable' || $stat == 'enable' && count($data_gen) > 0 && $login_id) {
+
+            if ($this->db->update_batch("account.tbl_useraccount", $data_gen, 'username')) {
+                $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
+                $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
+                $true += ["message"   => "Password reset!"];
+                $ret = $true;
+            } else {
+                $false += ["message"   => "Something went wrong!"];
+                $ret = $false;
+            }
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+        }
+
+        echo json_encode($ret);
+    }
+
     function saveEnrollmentInfo()
     {
         $this->db->trans_begin();
@@ -443,7 +570,6 @@ class Dataentry extends MY_Controller
 
     function learnerAccount()
     {
-
         $this->db->trans_begin();
         $uuid = $this->input->post("a");
         $b = $this->input->post("b");

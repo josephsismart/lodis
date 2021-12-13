@@ -56,9 +56,9 @@ $uri = $this->session->schoolmis_login_uri;
 														<tr>
 															<th>Subject</th>
 															<th>Q1</th>
-															<th>Q1</th>
-															<th>Q1</th>
-															<th>Q1</th>
+															<th>Q2</th>
+															<th>Q3</th>
+															<th>Q4</th>
 														</tr>
 													</thead>
 													<tbody>

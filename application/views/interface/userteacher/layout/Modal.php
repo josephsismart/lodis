@@ -21,21 +21,21 @@ $uri = $this->session->schoolmis_login_uri;
                 <div class="card card-primary card-outline card-outline-tabs">
                     <div class="card-header p-0 border-bottom-0">
                         <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-four-search-tab" data-toggle="pill" href="#custom-tabs-four-search" role="tab" aria-controls="custom-tabs-four-search" aria-selected="true">Search</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-new" role="tab" aria-controls="custom-tabs-four-new" aria-selected="false">New</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-new" role="tab" aria-controls="custom-tabs-four-new" aria-selected="false">New</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-import" role="tab" aria-controls="custom-tabs-four-import" aria-selected="false">Import SF1</a>
+                                <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-import" role="tab" aria-controls="custom-tabs-four-import" aria-selected="false">Import SF1</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-four-tabContent">
-                            <div class="tab-pane fade" id="custom-tabs-four-search" role="tabpanel" aria-labelledby="custom-tabs-four-search-tab">
-                                <!-- <div class="row">
+                            <!-- <div class="tab-pane fade" id="custom-tabs-four-search" role="tabpanel" aria-labelledby="custom-tabs-four-search-tab"> -->
+                            <!-- <div class="row">
                                     <div class="col-5">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -57,7 +57,7 @@ $uri = $this->session->schoolmis_login_uri;
                                     </div>
                                 </div> -->
 
-                                <form id="formSearchEnrollLearnersList">
+                            <!-- <form id="formSearchEnrollLearnersList">
                                     <div class="card-body p-0 table-responsive mt-3">
                                         <table class="table table-sm table-hover table-striped" id="tblSearchEnrollLearnersList" width="100%">
                                             <thead>
@@ -74,10 +74,10 @@ $uri = $this->session->schoolmis_login_uri;
                                             </tbody>
                                         </table>
                                     </div>
-                                </form>
+                                </form> -->
 
-                            </div>
-                            <div class="tab-pane fade" id="custom-tabs-four-new" role="tabpanel" aria-labelledby="custom-tabs-four-new-tab">
+                            <!-- </div> -->
+                            <div class="tab-pane fade active show" id="custom-tabs-four-new" role="tabpanel" aria-labelledby="custom-tabs-four-new-tab">
                                 <div class="row">
                                     <?= form_open(base_url($uri . '/Dataentry/saveEnrollmentInfo'), 'id=form_save_dataEnrollmentInfo'); ?>
                                     <input type="" name="personId" hidden nr="1">
@@ -224,7 +224,7 @@ $uri = $this->session->schoolmis_login_uri;
                                     </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade active show" id="custom-tabs-four-import" role="tabpanel" aria-labelledby="custom-tabs-four-import-tab">
+                            <div class="tab-pane fade" id="custom-tabs-four-import" role="tabpanel" aria-labelledby="custom-tabs-four-import-tab">
 
                                 <form method="post" id="import_form" enctype="multipart/form-data">
                                     <p><button type="submit" name="import" class="btn btn-xs btn-info submitBtnUpload"><i class="fa fa-upload"></i> Import SF1 Excel</button>
@@ -311,7 +311,6 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
 <div class="modal fade" id="modalAllStudentLogs">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -351,3 +350,32 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 <!-- /.card -->
+
+<!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+    <div class="modal fade" id="modalLearnersList">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-navy p-2 px-3">
+                <h5 class="modal-title p-0"><span class="fa fa-cog"></span> Account Settings </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mb-n3">
+                    <div class="card-body p-0">
+                        <select class="form-control form-control-sm" name="accountSettings">
+                            <option value="create">CREATE ACCOUNT</option>
+                            <option value="reset">RESET PASSWORD</option>
+                            <option value="disable">DISABLE ACCOUNT</option>
+                            <option value="enable">ENABLE ACCOUNT</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info btn-xs submitBtnPrimary" onclick="batchUpdateAccount('LearnersList');">Save Changes</button>
+                <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
+            </div>
+
+        </div>
+    </div>
+</div>

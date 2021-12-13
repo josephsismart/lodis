@@ -60,100 +60,100 @@ class Getdata extends MY_Controller
         echo json_encode($data);
     }
 
-    function getPersonnelInfo()
-    {
-        $data = ["data" => []];
-        $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel");
-        $cc = 1;
-        foreach ($thisQuery->result() as $key => $value) {
-            $id = $value->schoolpersonnel_id;
-            $birthDate = date_create($value->birthDate);
-            $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
-            $data2 = [
-                "personId" => $id,
-                "partyType" => $value->personalTitleId,
-                "firstName" => $value->first_name,
-                "middleName" => $value->middle_name,
-                "lastName" => $value->last_name,
-                "extName" => $value->suffix,
-                "sex" => $value->sex_bool,
-                "homeAddress" => $value->address_details,
-            ];
-            $arr = json_encode($data2);
-            $data["data"][] = [
-                $cc++,
-                "<span class='badge'>" . $value->employee_type . "</span><br/>
-                <span class='badge'>" . $value->status . "</span>",
-                "<div class='row'><div class='col-6'>
-                    <span class='badge text-md'>$value->full_name</span><span class='badge'>" . $value->personal_title . "</span><br/>
-                    <span class='badge'>" . $value->address_details . "</span>,
-                    <span class='badge font-weight-light'>" . $value->sex . "</span>, 
-                    <span class='badge font-weight-light'>" . $birthDate . "</span>
-                </div>
-                <div class='col-6'>
-                    <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
-                        <span class='fa fa-ellipsis-h'></span>
-                    </button>
-                    <div class='dropdown-menu'>
-                        <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Edit Information</a>
-                        " . ($value->level ? "" :
-                    "<a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Create Account</a>") .
-                    "</div>
-                </div></div>",
-                $value->level ?
-                    "<div class='row'><div class='col-6'><span class='badge text-sm'>$value->username</span><br/>
-                    <span class='badge'>" . $value->user_description . "</span><br/>
-                </div>
-                <div class='col-6'>
-                    <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
-                        <span class='fa fa-ellipsis-h'></span>
-                    </button>
-                    <div class='dropdown-menu'>
-                        <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Edit Account</a>
-                    </div>
-                </div></div>" : "-",
-            ];
-        }
-        echo json_encode($data);
-    }
+    // function getPersonnelInfo()
+    // {
+    //     $data = ["data" => []];
+    //     $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel");
+    //     $cc = 1;
+    //     foreach ($thisQuery->result() as $key => $value) {
+    //         $id = $value->schoolpersonnel_id;
+    //         $birthDate = date_create($value->birthDate);
+    //         $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
+    //         $data2 = [
+    //             "personId" => $id,
+    //             "partyType" => $value->personalTitleId,
+    //             "firstName" => $value->first_name,
+    //             "middleName" => $value->middle_name,
+    //             "lastName" => $value->last_name,
+    //             "extName" => $value->suffix,
+    //             "sex" => $value->sex_bool,
+    //             "homeAddress" => $value->address_details,
+    //         ];
+    //         $arr = json_encode($data2);
+    //         $data["data"][] = [
+    //             $cc++,
+    //             "<span class='badge'>" . $value->employee_type . "</span><br/>
+    //             <span class='badge'>" . $value->status . "</span>",
+    //             "<div class='row'><div class='col-6'>
+    //                 <span class='badge text-md'>$value->full_name</span><span class='badge'>" . $value->personal_title . "</span><br/>
+    //                 <span class='badge'>" . $value->address_details . "</span>,
+    //                 <span class='badge font-weight-light'>" . $value->sex . "</span>, 
+    //                 <span class='badge font-weight-light'>" . $birthDate . "</span>
+    //             </div>
+    //             <div class='col-6'>
+    //                 <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
+    //                     <span class='fa fa-ellipsis-h'></span>
+    //                 </button>
+    //                 <div class='dropdown-menu'>
+    //                     <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Edit Information</a>
+    //                     " . ($value->level ? "" :
+    //                 "<a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Create Account</a>") .
+    //                 "</div>
+    //             </div></div>",
+    //             $value->level ?
+    //                 "<div class='row'><div class='col-6'><span class='badge text-sm'>$value->username</span><br/>
+    //                 <span class='badge'>" . $value->user_description . "</span><br/>
+    //             </div>
+    //             <div class='col-6'>
+    //                 <button type='button' class='btn btn-xs text-sm float-right text-gray' data-toggle='dropdown' aria-expanded='true'>
+    //                     <span class='fa fa-ellipsis-h'></span>
+    //                 </button>
+    //                 <div class='dropdown-menu'>
+    //                     <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",$arr,1)'>Edit Account</a>
+    //                 </div>
+    //             </div></div>" : "-",
+    //         ];
+    //     }
+    //     echo json_encode($data);
+    // }
 
-    function getSbjctAssPrsnnl()
-    {
-        $sy = $this->getOnLoad()["sy_id"];
-        $lst = $this->SchoolPersonnelList(null);
-        $grdlvl = (int)$this->input->post("grdlvl");
-        $rmid = (int)$this->input->post("rmid");
-        $data = ["data" => []];
+    // function getSbjctAssPrsnnl()
+    // {
+    //     $sy = $this->getOnLoad()["sy_id"];
+    //     $lst = $this->SchoolPersonnelList(null);
+    //     $grdlvl = (int)$this->input->post("grdlvl");
+    //     $rmid = (int)$this->input->post("rmid");
+    //     $data = ["data" => []];
 
-        $thisQuery = $this->db->query("SELECT t1.* FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
-                                        WHERE t1.gradelvl_id=$grdlvl AND t1.room_section_id=$rmid AND t1.schl_yr_id=$sy");
-        foreach ($thisQuery->result() as $key => $value) {
-            $sbjctid = $value->subject_id;
-            $p_id = $value->schoolpersonnel_id;
-            $sbjct = $value->subject;
-            $fn = $value->full_name;
-            $a = $value->advisory;
-            $s = $a == 't' ? 'checked' : '';
-            $opt = "<option value=''>SELECT</option>";
-            for ($i = 0; $i < count($lst["data"]); $i++) {
-                $id = $lst["data"][$i]["id"];
-                $item = $lst["data"][$i]["item"];
-                $slctd = $id === $p_id ? "selected" : "";
-                $opt .= "<option value=" . $id . " " . $slctd . ">" . $item . "</option>";
-            }
-            $data["data"][] = [
-                "<b>" . $sbjct . "</b><input value='" . $sbjctid . "' name='sbjct[]' hidden/>",
-                "<div class='row'><div class='col-12'>" .
-                    "<select class='form-control selectSbjctAssPrsnnl' name='schlpersonnel[]' type='select' style='width:100%;'>" .
-                    $opt . "</select></div>" .
-                    '<div class="col-1"><div class="custom-control custom-radio float-right mr-n3">
-                    <input class="custom-control-input custom-radio" type="radio" value="' . $sbjctid . '" id="customRadio2' . $sbjctid . '" name="advisory" ' . $s . '>
-                    <label for="customRadio2' . $sbjctid . '" class="custom-control-label" style="cursor:pointer;"></label>
-                </div></div></div>',
-            ];
-        }
-        echo json_encode($data);
-    }
+    //     $thisQuery = $this->db->query("SELECT t1.* FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+    //                                     WHERE t1.gradelvl_id=$grdlvl AND t1.room_section_id=$rmid AND t1.schl_yr_id=$sy");
+    //     foreach ($thisQuery->result() as $key => $value) {
+    //         $sbjctid = $value->subject_id;
+    //         $p_id = $value->schoolpersonnel_id;
+    //         $sbjct = $value->subject;
+    //         $fn = $value->full_name;
+    //         $a = $value->advisory;
+    //         $s = $a == 't' ? 'checked' : '';
+    //         $opt = "<option value=''>SELECT</option>";
+    //         for ($i = 0; $i < count($lst["data"]); $i++) {
+    //             $id = $lst["data"][$i]["id"];
+    //             $item = $lst["data"][$i]["item"];
+    //             $slctd = $id === $p_id ? "selected" : "";
+    //             $opt .= "<option value=" . $id . " " . $slctd . ">" . $item . "</option>";
+    //         }
+    //         $data["data"][] = [
+    //             "<b>" . $sbjct . "</b><input value='" . $sbjctid . "' name='sbjct[]' hidden/>",
+    //             "<div class='row'><div class='col-12'>" .
+    //                 "<select class='form-control selectSbjctAssPrsnnl' name='schlpersonnel[]' type='select' style='width:100%;'>" .
+    //                 $opt . "</select></div>" .
+    //                 '<div class="col-1"><div class="custom-control custom-radio float-right mr-n3">
+    //                 <input class="custom-control-input custom-radio" type="radio" value="' . $sbjctid . '" id="customRadio2' . $sbjctid . '" name="advisory" ' . $s . '>
+    //                 <label for="customRadio2' . $sbjctid . '" class="custom-control-label" style="cursor:pointer;"></label>
+    //             </div></div></div>',
+    //         ];
+    //     }
+    //     echo json_encode($data);
+    // }
 
     function getAssignedSectionList()
     {
@@ -195,7 +195,7 @@ class Getdata extends MY_Controller
                 "enroll" => ($advsry == 't' && $enroll_stat == 1) ? '<button type="submit" data-toggle="modal" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : '',
                 "grade" => ($grade_stat == 1) ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGrades" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
                 "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
-                "others" => ($advsry == 't') ? '<button type="button" class="btn btn-sm text-sm float-right" data-toggle="dropdown" aria-expanded="true">
+                "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>
                                                 </button>
                                                 <div class="dropdown-menu">
@@ -363,8 +363,8 @@ class Getdata extends MY_Controller
         $personnel_id = $this->session->schoolmis_login_prsnnl_Id;
         $sy = $this->getOnLoad()["sy_id"];
         $rsid = $this->input->post("rsid");
-        $query = $this->db->query("SELECT t2.learner_account,t2.logs,t1.* FROM building_sectioning.view_enrollment$sy t1
-                                    LEFT JOIN (SELECT t1.basic_info_id AS learner_account,t2.logs FROM account.tbl_useraccount t1
+        $query = $this->db->query("SELECT t2.learner_account,t2.acc_stat,t2.logs,t1.* FROM building_sectioning.view_enrollment$sy t1
+                                    LEFT JOIN (SELECT t1.basic_info_id AS learner_account,t2.logs,t1.is_active AS acc_stat FROM account.tbl_useraccount t1
 																	 LEFT JOIN (SELECT t2.basic_info_id,count(1) AS logs FROM global.tbl_userlogs_learner$sy t1
 																	 LEFT JOIN account.tbl_useraccount t2 ON t1.user_id=t2.id
 																	 GROUP BY t2.basic_info_id) t2 ON t1.basic_info_id=t2.basic_info_id) t2 ON t1.basic_info_id=t2.learner_account
@@ -372,12 +372,17 @@ class Getdata extends MY_Controller
                                    ORDER BY t1.sex DESC, t1.last_fullname");
 
         foreach ($query->result() as $key => $value) {
+            $logs =  number_format($value->logs);
+            $a_c = $value->acc_stat;
             $searchLog = $value->lrn . ' - ' . $value->last_fullname;
             $birthDate = date_create($value->birthdate);
             $personUuid = $value->person_uuid;
             $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
+            $bold = "font-weight-bold";
             $sex = substr($value->sex, 0, 1);
-            $txtColor = $value->learner_account ? 'text-success' : 'text-orange';
+            $txtColor = $value->learner_account && $a_c == 't' ? 'text-success ' . $bold : ($a_c == 'f' ? 'text-danger ' . $bold : 'text-black font-weight-light');
+            //LEARNER ID _&&_ LRN _&&_ BASIC INFO ID _&&_ ACCOUNT
+            $val =  $value->learner_id . '_&&_' . $value->lrn  . '_&&_' . $value->basic_info_id . '_&&_' . ($value->learner_account ? 1 : 0);
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -390,15 +395,23 @@ class Getdata extends MY_Controller
                 ] : "";
             $data["data"][] = [
                 $sex == 'M' ? $c_male++ : $c_fmale++,
-                '<div class="logs_account" style="display:none;"><button type="button" class="btn btn-sm text-sm float-left" data-toggle="dropdown" aria-expanded="true">
-                    <b class="' . $txtColor . '">' . $value->lrn . ' ' . ($value->logs ? '<b title="' . $value->logs . ' Log(s) Count" class="bg-danger pl-1 pr-1">' . $value->logs . '</b>' : null) . '</b>
-                </button>
-                <div class="dropdown-menu" style="">
-                    ' . ($value->logs ? "<a class='dropdown-item' href='#' onclick='allStudentLogs(\" $searchLog \")'><i class='fa fa-list'></i> View Logs</a>" : null) . '
-                    ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
-                </div></div>
-                <div class="normal_view">
-                    <span>' . $value->lrn . '</span>
+                '<div class="row" style="white-space: nowrap;">
+                    <div class="col-8 pr-5">
+                        <div class="custom-control custom-checkbox">
+                            <input style="cursor:pointer" class="custom-control-input learnerCheckBox" type="checkbox" id="customCheckbox' . $value->lrn . '" name="learnerCheckBox[]" value="' . $val . '">
+                            <label style="cursor:pointer" for="customCheckbox' . $value->lrn . '" class="custom-control-label ' . $txtColor . '">' . $value->lrn . '</label>
+                        </div>
+                        
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-xs text-gray ml-1" data-toggle="dropdown" aria-expanded="true">' .
+                    ($value->logs ? '<span title="' . $value->logs . ' Log(s) Count" class="badge badge-danger button-badge">' . $logs . '</span>' : '<span class="fa fa-ellipsis-h"></span>') . '
+                        </button>
+                        <div class="dropdown-menu" style="cursor:pointer;">
+                        ' . ($value->logs ? "<a class='dropdown-item' href='#' onclick='allStudentLogs(\" $searchLog \")'><i class='fa fa-list'></i> View Logs</a>" : null) . '
+                        ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
+                        </div>
+                    </div>
                 </div>',
                 $value->last_fullname,
                 $sex,
@@ -424,7 +437,8 @@ class Getdata extends MY_Controller
                                     t2.grade,t2.sctn_nm,t2.enrollment_date, t2.sy FROM profile.view_learner t1
                                     LEFT JOIN building_sectioning.view_enrollment$sy t2 ON t1.learner_id=t2.learner_id
                                     -- WHERE $w
-                                    ORDER BY t2.enrollment_date DESC");
+                                    ORDER BY t2.enrollment_date DESC
+                                    LIMIT 10");
 
         foreach ($query->result() as $key => $value) {
             $birthDate = date_create($value->birthdate);
@@ -432,7 +446,6 @@ class Getdata extends MY_Controller
             $sex = substr($value->sex, 0, 1);
             $data["data"][] = [
                 $c++,
-
                 $value->grade === null ? "<div class='custom-control custom-checkbox'>
                     <input class='custom-control-input' type='checkbox' id='customCheckbox" . $value->lrn . "' name='searchEnrollCheckBox[]' value='" . $value->learner_id . "'>
                     <label for='customCheckbox" . $value->lrn . "' class='custom-control-label'>" . $value->lrn . "</label>

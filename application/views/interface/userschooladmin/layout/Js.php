@@ -80,10 +80,10 @@ $uri = $this->session->schoolmis_login_uri;
         }, 1, 1);
     }
 
-    function brgyLoad(a) {
+    function delay(a,b) {
         setTimeout(function() {
-            $("#form_save_dataPersonnelInfo [name='brgy']").val(a);
-            $("#form_save_dataPersonnelInfo [name='brgy']").trigger("change");
+            $("#form_save_dataPersonnelInfo [name='"+b+"']").val(a);
+            $("#form_save_dataPersonnelInfo [name='"+b+"']").trigger("change");
         }, 1000)
     }
 

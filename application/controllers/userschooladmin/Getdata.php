@@ -162,6 +162,10 @@ class Getdata extends MY_Controller
                 "brgy" => $value->barangay_id,
                 "personName" => $value->full_name,
                 "basicInfoId" => $value->person_id,
+                
+                "emptype" => $value->employeeTypeId,
+                "personaltitle" => $value->personalTitleId,
+                "empstatus" => $value->status_id,
             ];
             $data2 = [
                 "userId" => $value->user_id,
@@ -188,7 +192,7 @@ class Getdata extends MY_Controller
                         <span class='fa fa-ellipsis-h'></span>
                     </button>
                     <div class='dropdown-menu'>
-                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr1,1);brgyLoad($value->barangay_id)'>Edit Information</button>
+                        <button class='dropdown-item' onclick='getDetails(\"PersonnelInfo\",$arr1,1);delay($value->barangay_id,\"brgy\");delay($value->personalTitleId,\"personaltitle\")'>Edit Information</button>
                         " . ($value->level ? "" :
                     "<button class='dropdown-item' onclick='clear_form(\"form_save_dataPersonnelAccount\");getDetails(\"PersonnelAccount\",$arr1,1);$(\"#modalPersonnelAccount\").modal(\"show\");'>Create User Account</button>") .
                     "</div>
@@ -338,19 +342,24 @@ class Getdata extends MY_Controller
             $data["data"][] = [
                 $c++,
                 "<span class='badge text-lg " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>",
-                "<div class='row'><div class='col-9' style='white-space: nowrap;'>
-                    <span class='badge text-lg bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
-                    <span class='badge text-xs " . $ebg . " '>ENRLMNT" . $this->getOnLoad()["edl"] . "</span>
-                    <span class='badge text-xs " . $gbg . "'>GRADING" . $this->getOnLoad()["gdl"] . "</span>
-                </div>
-                <div class='col-3'>
-                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
-                        <span class='fa fa-ellipsis-h'></span>
-                    </button>
-                    <div class='dropdown-menu'>
-                        <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Quarter</button>
+                "<div class='row'>
+                    <div class='col-2'>
+                        <span class='badge text-lg bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
                     </div>
-                </div></div>",
+                    <div class='col-3'>
+                        <span class='badge text-xs " . $ebg . " '>ENRLMNT" . $this->getOnLoad()["edl"] . "</span>
+                    </div><div class='col-3'>
+                        <span class='badge text-xs " . $gbg . "'>GRADING" . $this->getOnLoad()["gdl"] . "</span>
+                    </div>
+                    <div class='col-4 float-right'>
+                        <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
+                            <span class='fa fa-ellipsis-h'></span>
+                        </button>
+                        <div class='dropdown-menu'>
+                            <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Quarter</button>
+                        </div>
+                    </div>
+                </div>",
             ];
         }
         echo json_encode($data);

@@ -68,10 +68,28 @@ class Dataentry extends MY_Controller
             $id ? "updated_by" : "added_by" => $login_id,
             $id ? "date_updated" : "date_added" => $dateNow,
         ];
+
+        $data_e = json_encode($data);
+
         if ($id && $firstName && $lastName && $sex && $brgy && $login_id) {
             if (!$this->mainModel->update("profile.tbl_basicinfo", $data, "id", $id)) {
-                // $this->userlog("UPDATED MEMBER/USER PERSON ".$partyType." ".$firstName.$middleName.$lastName);
+                $this->userlog("UPDATED PERSONNEL DETAILS " . $data_e);
                 $ret = $true;
+                $data2 = [
+                    "school_id" => $this->session->schoolmis_login_school_id,
+                    "employee_type_id" => $emptype,
+                    "personal_title_id" => $personaltitle,
+                    "status_id" => $empstatus,
+                ];
+                $data2_e = json_encode($data2);
+                if (!$this->mainModel->update("profile.tbl_schoolpersonnel", $data2, "basic_info_id", $id)) {
+                    $this->userlog("UPDATED PERSONNEL DETAILS " . $data2_e);
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
+            }else{
+                $ret = $false;
             }
         } else if ($firstName && $lastName && $sex && $brgy && $login_id) {
             if ($this->db->insert("profile.tbl_basicinfo", $data)) {
@@ -83,15 +101,16 @@ class Dataentry extends MY_Controller
                     "personal_title_id" => $personaltitle,
                     "status_id" => $empstatus,
                 ];
-                $this->userlog("INSERTED MEMBER/USER PERSON " . $inid . " " . json_encode($data));
+                $data2_e = json_encode($data2);
+                $this->userlog("INSERTED PERSONNEL " . $inid . " " . json_encode($data));
                 if ($inid) {
                     if ($this->db->insert("profile.tbl_schoolpersonnel", $data2)) {
-                        $this->userlog("INSERTED SCHOOL PERSON " . $inid . " " . json_encode($data2));
+                        $this->userlog("INSERTED PERSONNEL DETAILS ". $data2_e);
                         $ret = $true;
                     } else {
                         $ret = $false;
                     }
-                } else {
+                }  else {
                     $ret = $false;
                 }
             }

@@ -135,7 +135,7 @@ $uri = $this->session->schoolmis_login_uri;
 											<div class="input-group-prepend">
 												<span class="input-group-text homeAddress"><i class="fas fa-home"></i></span>
 											</div>
-											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off" nr="1">
+											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" nr="1">
 										</div>
 									</div>
 									<!-- <div class="col-lg-3 col-md-12 col-sm-12">

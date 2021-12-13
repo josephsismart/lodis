@@ -40,12 +40,35 @@ $uri = $this->session->schoolmis_login_uri;
     var rmid = 0;
     var rsid = 0;
     var rssaid = 0;
+    var logsHS = 0;
     $(function() {
         $('.select2').select2()
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });
     });
+
+    function check_all(a) {
+        if ($("#" + a).prop('checked') == true) {
+            $("#tblLearnersList").find("input[type='checkbox']").each(function() {
+                $("." + a).prop("checked", true);
+            });
+        } else {
+            $("#tblLearnersList").find("input[type='checkbox']").each(function() {
+                $("." + a).prop("checked", false);
+            });
+        }
+        // var clicks = $(this).data('clicks');
+        // alert(clicks)
+        // // if (clicks) {
+        // //     //Uncheck all checkboxes
+        // // } else {
+        // //     //Check all checkboxes
+        // //     $(".mailbox-messages input[type='checkbox']").iCheck("check");
+        // //     $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+        // // }
+        // $(this).data("clicks", !clicks);
+    }
 
     function clear_form(form_id) {
         $("#" + form_id)[0].reset();
@@ -251,9 +274,12 @@ $uri = $this->session->schoolmis_login_uri;
                         validateTable(tableId);
                     }
                 },
-
-
-            ] : [],
+            ] : (tableId == 'LearnersList' ? [{
+                text: "<i class='fa fa-cog'></i> Account",
+                action: function(e, dt, node, config) {
+                    validateTable(tableId);
+                }
+            }, ] : []),
             searching: tableId == 'GradesList' ? false : true,
             "search": {
                 "search": search ?? "",
@@ -295,13 +321,43 @@ $uri = $this->session->schoolmis_login_uri;
         $("#tbl" + tableId + "_filter .form-control-sm").css("width", "99.3%");
     }
 
-    function validateTable(table_id, modal_id) {
+    function validateTable(table_id) {
         var c = $("#tbl" + table_id + ' input:checkbox:checked').length;
         if (c < 1) {
             existAlert("Please Select Person!");
         } else {
-            searchBatchEnroll(table_id);
+            if (table_id == 'SearchEnrollLearnersList') {
+                searchBatchEnroll(table_id);
+            } else if (table_id == 'LearnersList') {
+                $("#modal" + table_id).modal('show');
+            }
         }
+    }
+
+    function batchUpdateAccount(a) {
+        var b = $("#form" + a).serialize();
+        var d = $("[name='accountSettings']").val();
+        $.post("<?= base_url($uri . "/Dataentry/saveBatchUpdateAccount") ?>", {
+                c: b,
+                e: d,
+            },
+            function(data) {
+                var d = JSON.parse(data);
+                if (d.success == true) {
+                    successAlert(d.message);
+                    tblReload(a);
+                    $("#modalLearnersList").modal('hide');
+                    // tblReload('LearnersList');
+                    // // tblReload('AssignedSectionList');
+                    // // getTable("LearnersList", 0, -1);
+                    // getTable("AssignedSectionList", 0, -1);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
+                } else {
+                    failAlert(d.message);
+                }
+            }).done(function() {});
     }
 
     function searchBatchEnroll(a) {
@@ -331,7 +387,9 @@ $uri = $this->session->schoolmis_login_uri;
 
 
     function tblReload(tableId) {
-        $("#tbl" + tableId).DataTable().ajax.reload();
+        $("#tbl" + tableId).DataTable().ajax.reload(function() {
+            $("." + tableId).hide();
+        })
     }
 
     function getSbjctAssPrsnnlFN(tableId, a, b) {
@@ -343,7 +401,8 @@ $uri = $this->session->schoolmis_login_uri;
     function getLearnersListFN(tableId, a, b) {
         rsid = a;
         rssaid = b;
-        // alert(a + " " + b)
+        $("." + tableId).show();
+        $("#tbl" + tableId + " tbody").empty();
         $("#form_save_dataEnrollmentInfo #ersid").val(a)
         tblReload(tableId);
     }
@@ -407,11 +466,13 @@ $uri = $this->session->schoolmis_login_uri;
             if ($("#tblLearnersList .logs_account").is(":visible")) {} else {
                 $("#tblLearnersList .normal_view").is(":visible")
             }
+            logsHS = 1
         });
         $("#tblLearnersList .normal_view").toggle("slow", function() {
             if ($("#tblLearnersList .normal_view").is(":visible")) {} else {
                 $("#tblLearnersList .logs_account").is(":visible")
             }
+            logsHS = 0
         });
     }
 
@@ -510,7 +571,7 @@ $uri = $this->session->schoolmis_login_uri;
 
     setTimeout(function() {
         $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
-    }, 1500);
+    }, 2000);
 
     var invalidChars = [
         "-",
