@@ -439,7 +439,7 @@ class Dataentry extends MY_Controller
                                     $checkLearnerId = $this->learnerChecker(null, $checkBasicInfo);
 
                                     
-                            echo $checkLearner.' bb \n ';
+                            echo $checkLearnerId.' bb \n ';
                                     if ($checkLearnerId) {
                                         $checkEnrollemnt = $this->enrollmentChecker($checkLearnerId);
                                         if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
