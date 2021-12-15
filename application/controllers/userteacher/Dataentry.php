@@ -317,8 +317,6 @@ class Dataentry extends MY_Controller
                     $LRN = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
                     if (is_numeric($LRN) && strlen($LRN) > 5) {
                         //LEARNER
-                    echo $LRN.' ';
-
                         $full_name = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
                         $name = $full_name ? explode(",", $full_name) : null;
                         $lname = $name && !empty($name[0]) ? strtoupper(trim($name[0])) : null;
@@ -366,7 +364,7 @@ class Dataentry extends MY_Controller
                         if ($LRN && $fname && $lname && $bdate && $sex) {
                             $checkLearner = $this->learnerChecker($LRN, null);
 
-                            // echo 'aa \n';
+                            echo $checkLearner.' aa \n ';
                             if ($checkLearner) { //IF LEARNER EXIST IN TBL_LEARNER
                                 $checkEnrollemnt = $this->enrollmentChecker($checkLearner);
                                 if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
@@ -381,7 +379,6 @@ class Dataentry extends MY_Controller
                                 }
                             } else {
                                 // echo "b";
-
                                 $checkBasicInfo = $this->basicInfoChecker($fname, $mname, $lname, $birthdate, $boolSex);
                                 if (!$checkBasicInfo) { //IF BASIC INFORMATION NOT EXIST
                                     // echo "c";
@@ -440,6 +437,9 @@ class Dataentry extends MY_Controller
                                     }
                                 } else {
                                     $checkLearnerId = $this->learnerChecker(null, $checkBasicInfo);
+
+                                    
+                            echo $checkLearner.' bb \n ';
                                     if ($checkLearnerId) {
                                         $checkEnrollemnt = $this->enrollmentChecker($checkLearnerId);
                                         if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
