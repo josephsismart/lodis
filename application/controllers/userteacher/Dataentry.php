@@ -315,6 +315,7 @@ class Dataentry extends MY_Controller
                 for ($row = 7; $row <= $highestRow; $row++) {
                     //BASIC INFORMATION
                     $LRN = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+                    echo $LRN.' ';
                     if (is_numeric($LRN) && strlen($LRN) > 5) {
                         //LEARNER
                         $full_name = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
@@ -364,7 +365,7 @@ class Dataentry extends MY_Controller
                         if ($LRN && $fname && $lname && $bdate && $sex) {
                             $checkLearner = $this->learnerChecker($LRN, null);
 
-                            echo 'aa \n';
+                            // echo 'aa \n';
                             if ($checkLearner) { //IF LEARNER EXIST IN TBL_LEARNER
                                 $checkEnrollemnt = $this->enrollmentChecker($checkLearner);
                                 if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
@@ -461,7 +462,7 @@ class Dataentry extends MY_Controller
                     }
                 }
             }
-            echo $enrollmentData;
+            echo json_encode($enrollmentData);
             if (count($enrollmentData) > 0 && $login_id) {
                 $enrollmentDataLOG = json_encode($enrollmentData);
                 if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $enrollmentData)) {
