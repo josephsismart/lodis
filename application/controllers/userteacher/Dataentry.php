@@ -364,7 +364,7 @@ class Dataentry extends MY_Controller
                         if ($LRN && $fname && $lname && $bdate && $sex) {
                             $checkLearner = $this->learnerChecker($LRN, null);
 
-                            // echo $a;
+                            echo 'aa \n';
                             if ($checkLearner) { //IF LEARNER EXIST IN TBL_LEARNER
                                 $checkEnrollemnt = $this->enrollmentChecker($checkLearner);
                                 if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
@@ -461,7 +461,7 @@ class Dataentry extends MY_Controller
                     }
                 }
             }
-
+            echo $enrollmentData;
             if (count($enrollmentData) > 0 && $login_id) {
                 $enrollmentDataLOG = json_encode($enrollmentData);
                 if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $enrollmentData)) {
