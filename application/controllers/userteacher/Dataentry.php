@@ -153,11 +153,11 @@ class Dataentry extends MY_Controller
                     $this->userlog("PASSWORD RESET STUDENT ACCOUNT " . json_encode($data_gen));
                     $true += ["message"   => "Password reset!"];
                     $ret = $true;
-                }else if ($stat == 'disable' || $stat == 'enable') {
+                } else if ($stat == 'disable' || $stat == 'enable') {
                     $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
                     $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
                     $d_e2 = $stat == 'disable' ? 'Disabled' : 'Enabled';
-                    $true += ["message"   => $d_e2." Account!"];
+                    $true += ["message"   => $d_e2 . " Account!"];
                     $ret = $true;
                 } else {
                     $false += ["message"   => "Something went wrong!"];
@@ -450,6 +450,8 @@ class Dataentry extends MY_Controller
                                                 "added_by" => $login_id,
                                             ];
                                         }
+                                    } else {
+                                        $ret = $false;
                                     }
                                 }
                             }
