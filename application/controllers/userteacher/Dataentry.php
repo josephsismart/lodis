@@ -315,6 +315,7 @@ class Dataentry extends MY_Controller
                 for ($row = 7; $row <= $highestRow; $row++) {
                     //BASIC INFORMATION
                     $LRN = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+                    // echo $LRN;
                     if (is_numeric($LRN) && strlen($LRN) > 5) {
                         //LEARNER
                         $full_name = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
@@ -363,8 +364,7 @@ class Dataentry extends MY_Controller
 
                         if ($LRN && $fname && $lname && $bdate && $sex) {
                             $checkLearner = $this->learnerChecker($LRN, null);
-
-                            echo $checkLearner.' aa \n ';
+                            // echo $checkLearner . ' aa \n ';
                             if ($checkLearner) { //IF LEARNER EXIST IN TBL_LEARNER
                                 $checkEnrollemnt = $this->enrollmentChecker($checkLearner);
                                 if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
@@ -378,8 +378,8 @@ class Dataentry extends MY_Controller
                                     ];
                                 }
                             } else {
-                                // echo "b";
                                 $checkBasicInfo = $this->basicInfoChecker($fname, $mname, $lname, $birthdate, $boolSex);
+                                // echo $checkLearner . ' bb \n ';
                                 if (!$checkBasicInfo) { //IF BASIC INFORMATION NOT EXIST
                                     // echo "c";
                                     $basicInfoData = [
@@ -435,11 +435,43 @@ class Dataentry extends MY_Controller
                                     } else {
                                         $ret = $false;
                                     }
+                                } else if ($checkBasicInfo && !$checkLearner) {
+                                    // echo ('aaaaaaaaaaa');
+                                    $learnerData = [
+                                        "lrn" => $LRN,
+                                        "basic_info_id" => $checkBasicInfo,
+                                        "ffirst_name" => $ffname,
+                                        "fmiddle_name" => $fmname,
+                                        "flast_name" => $flname,
+                                        "mfirst_name" => $mfname,
+                                        "mmiddle_name" => $mmname,
+                                        "mlast_name" => $mlname,
+                                        "guardian" => $g_name,
+                                        "relation" => $rltn,
+                                        "contact_num" => $cntct,
+                                        "mother_tongue_txt" => $mt,
+                                        "ip_ethnic_group_txt" => $ip,
+                                        "religion_txt" => $rlgn,
+                                        "learning_modality_txt" => $module,
+                                        "remarks" => $rmrks,
+                                    ];
+                                    $learnerDataLOG = json_encode($learnerData);
+                                    if ($this->db->insert("profile.tbl_learners", $learnerData)) {
+                                        $learnerId = $this->db->insert_id();
+                                        $this->userlog("INSERTED NEW LEARNER FROM EXCEL FILE" . $learnerDataLOG);
+                                        $ret = $true;
+                                        if ($learnerId) {
+                                            $enrollmentData[] = [
+                                                "learner_id" => $learnerId,
+                                                "room_section_id" => $rsid,
+                                                "status_id" => 5,
+                                                "added_by" => $login_id,
+                                            ];
+                                        }
+                                    }
                                 } else {
                                     $checkLearnerId = $this->learnerChecker(null, $checkBasicInfo);
-
-                                    
-                            echo $checkLearnerId.' bb \n ';
+                                    // echo $checkLearnerId . ' cc \n ';
                                     if ($checkLearnerId) {
                                         $checkEnrollemnt = $this->enrollmentChecker($checkLearnerId);
                                         if ($checkEnrollemnt) { //IF LEARNER EXIST IN TBL_ENROLLMENT THEN DO NOTHING
@@ -463,8 +495,8 @@ class Dataentry extends MY_Controller
                     }
                 }
             }
-            echo json_encode($enrollmentData);
-            echo count($enrollmentData);
+            // echo json_encode($enrollmentData);
+            // echo count($enrollmentData);
             if (count($enrollmentData) > 0 && $login_id) {
                 $enrollmentDataLOG = json_encode($enrollmentData);
                 if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $enrollmentData)) {

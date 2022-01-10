@@ -325,9 +325,9 @@ $uri = $this->session->schoolmis_login_uri;
 							</div>
 							<!-- /.card-body -->
 
-							<div class="overlay LearnersList">
+							<!-- <div class="overlay LearnersList">
 								<i class="fas fa-spin text-navy fa-5x fa-circle-notch"></i>
-							</div>
+							</div> -->
 						</div>
 						<!-- /.card -->
 					</div>
