@@ -362,6 +362,8 @@ class Getdata extends MY_Controller
         $c_fmale = 1;
         $personnel_id = $this->session->schoolmis_login_prsnnl_Id;
         $sy = $this->getOnLoad()["sy_id"];
+        $edit = $this->getOnLoad()["edit"];
+        $unenroll = $this->getOnLoad()["unenroll"];
         $rsid = $this->input->post("rsid");
         $query = $this->db->query("SELECT t2.learner_account,t2.acc_stat,t2.logs,t1.* FROM building_sectioning.view_enrollment$sy t1
                                     LEFT JOIN (SELECT t1.basic_info_id AS learner_account,t2.logs,t1.is_active AS acc_stat FROM account.tbl_useraccount t1
@@ -383,6 +385,13 @@ class Getdata extends MY_Controller
             $txtColor = $value->learner_account && $a_c == 't' ? 'text-success ' . $bold : ($a_c == 'f' ? 'text-danger ' . $bold : 'text-black font-weight-light');
             //LEARNER ID _&&_ LRN _&&_ BASIC INFO ID _&&_ ACCOUNT
             $val =  $value->learner_id . '_&&_' . $value->lrn  . '_&&_' . $value->basic_info_id . '_&&_' . ($value->learner_account ? 1 : 0);
+
+            $data1 = [
+                "lrn" => $value->lrn,
+                "last_fullname" => $value->last_fullname,
+                "details"=>md5($value->enrollment_id).'|'.md5($value->learner_id).'|'.md5($value->basic_info_id),
+            ];
+            $arr1 = json_encode($data1);
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -394,7 +403,7 @@ class Getdata extends MY_Controller
                     "",
                 ] : "";
             $data["data"][] = [
-                $sex == 'M' ? $c_male++ : $c_fmale++,
+                ($sex == 'M' ? $c_male++ : $c_fmale++),
                 '<div class="row logs_account" style="white-space: nowrap;display:none;">
                     <div class="col-8 pr-5">
                         <div class="custom-control custom-checkbox">
@@ -412,14 +421,18 @@ class Getdata extends MY_Controller
                         </div>
                     </div>
                 </div>
-                <div class="normal_view">
-                    ' . $value->lrn . '
+                
+
+                <div class="normal_view" style="white-space: nowrap;">
+                    ' . ($edit == 1 ? '<span class="fa fa-pencil-alt text-primary text-sm" style="cursor:pointer;"></span> ' : '') . $value->lrn . '
                 </div>',
                 $value->last_fullname,
                 $sex,
                 $birthDate,
                 $value->address_details,
-                $value->enrollment_status,
+                '<div class="normal_view" style="white-space: nowrap;">
+                    ' . $value->enrollment_status . ($unenroll == 1 ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr1,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
+                </div>',
             ];
         }
         echo json_encode($data);

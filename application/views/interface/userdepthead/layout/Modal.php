@@ -174,7 +174,7 @@ $uri = $this->session->schoolmis_login_uri;
 <div class="modal fade" id="modalQuarterInfo">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header bg-info p-2">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title p-0 mb-n3 mt-n1">
                     <small><i class='fa fa-calendar'></i> Quarter Information</small>
                 </h5>
@@ -203,7 +203,7 @@ $uri = $this->session->schoolmis_login_uri;
                         <div class="col-12">
                             <div class="card card-light mt-3">
                                 <div class="card-header p-1">
-                                    <h3 class="card-title"><b>Enrollment</b></h3>
+                                    <h3 class="card-title">Enrollment</h3>
                                 </div>
                                 <div class="card-body p-1">
                                     <!-- <div class="row">
@@ -230,10 +230,10 @@ $uri = $this->session->schoolmis_login_uri;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mb-n2">
                             <div class="card card-light">
                                 <div class="card-header p-1">
-                                    <h3 class="card-title"><b>Entering</b> Grades</h3>
+                                    <h3 class="card-title">Entering Grades</h3>
                                 </div>
                                 <div class="card-body p-1">
                                     <!-- <div class="row">
@@ -255,45 +255,6 @@ $uri = $this->session->schoolmis_login_uri;
                                         </div>
                                         <div class="col-7">
                                             <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="card card-light">
-                                        <div class="card-header p-1">
-                                            <h3 class="card-title"><b>Edit</b></h3>
-                                        </div>
-                                        <div class="card-body p-1">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <select class="form-control form-control-sm" name="edit">
-                                                        <option value="1">ON</option>
-                                                        <option value="0">OFF</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="card card-light">
-                                        <div class="card-header p-1">
-                                            <h3 class="card-title"><b>Unenroll</b></h3>
-                                        </div>
-                                        <div class="card-body p-1">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <select class="form-control form-control-sm" name="unenroll">
-                                                        <option value="1">ON</option>
-                                                        <option value="0">OFF</option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -547,8 +547,6 @@ class Dataentry extends MY_Controller
         $enrolldl = $this->input->post("enrolldl");
         $grading = $this->input->post("grading");
         $gradingdl = $this->input->post("gradingdl");
-        $edit = $this->input->post("edit");
-        $unenroll = $this->input->post("unenroll");
 
         if ($qrtrid && $quarter) {
             $data = [
@@ -557,8 +555,6 @@ class Dataentry extends MY_Controller
                 "enrollment_deadline" => $enrolldl ? $enrolldl : null,
                 "grading_stat" => $grading,
                 "grading_deadline" => $gradingdl ? $gradingdl : null,
-                "edit_student" => $edit,
-                "unenroll" => $unenroll,
             ];
             $b = json_encode($data);
             $this->db->where('id', $qrtrid);

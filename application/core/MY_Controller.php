@@ -263,6 +263,8 @@ class MY_Controller extends CI_Controller
         $enroll_dl = $row->enrollment_deadline;
         $grade_stat = $row->grading_stat;
         $grade_dl = $row->grading_deadline;
+        $edit = $row->edit_student;
+        $unenroll = $row->unenroll;
         $qrtrR = $qrtr == 1 ? "1st" : ($qrtr == 2 ? "2nd" : ($qrtr == 3 ? "3rd" : ($qrtr == 4 ? "4th" : "--")));
         if ($row->enrollment_deadline) {
             $edl = date_create($row->enrollment_deadline);
@@ -294,6 +296,8 @@ class MY_Controller extends CI_Controller
             "grade_dl" => $grade_dl,
             "edl" => $edl1,
             "gdl" => $gdl1,
+            "edit" => $edit,
+            "unenroll" => $unenroll,
             "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
                 ($estat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
                 ($gstat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),

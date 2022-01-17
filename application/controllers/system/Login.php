@@ -70,7 +70,7 @@ class Login extends MY_Controller
                         "schoolmis_login_id"         => $row1->id, // $query->row('id'),
                         "schoolmis_login_uname"      => $row1->username, // $query->row('username'),
                         "schoolmis_login_level"      => $row1->level, // $value->level,
-                        "schoolmis_login_uri"        => ($row1->change_pwd == 't' ? "userpassword" : ($row1->level == 1 ? "usersuperadmin" : ($row1->level == 2 ? "useradmin" : ($row1->level == 3 ? "userdivisionhead" : ($row1->level == 4 ? "userschoolhead" : ($row1->level == 5 ? "userschoolplanning" : ($row1->level == 6 ? "userschooladmin" : ($row1->level == 7 ? "userteacher" : ($row1->level == 8 ? "userstudent" : ""))))))))),
+                        "schoolmis_login_uri"        => ($row1->change_pwd == 't' ? "userpassword" : ($row1->level == 1 ? "usersuperadmin" : ($row1->level == 2 ? "useradmin" : ($row1->level == 3 ? "userdepthead" : ($row1->level == 4 ? "userschoolhead" : ($row1->level == 5 ? "userschoolplanning" : ($row1->level == 6 ? "userschooladmin" : ($row1->level == 7 ? "userteacher" : ($row1->level == 8 ? "userstudent" : ""))))))))),
                         "schoolmis_login_landing"    => $row1->change_pwd == 't' ? "changepassword" : "dataentry", //($value->level==2?"dataentry":"dashboard"),
                         "schoolmis_pass"             => $row1->password, // $query->row('password'),
                         "schoolmis_change_password"  => $row1->change_pwd, // $query->row('change_password'),

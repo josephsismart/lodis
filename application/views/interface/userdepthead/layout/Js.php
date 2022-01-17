@@ -310,14 +310,14 @@ $uri = $this->session->schoolmis_login_uri;
                 v: 17
             }, 0);
 
-            // setTimeout(() => {
-            //     arr = [];
-            //     $("#form_save_dataGradeSubject .selectSubjectList option").each(function() {
-            //         let a = $(this).attr("value");
-            //         a != '' ? arr.push($(this).attr("value")) : null;
-            //     });
-            //     // console.log(arr)
-            // }, 3000);
+            setTimeout(() => {
+                arr = [];
+                $("#form_save_dataGradeSubject .selectSubjectList option").each(function() {
+                    let a = $(this).attr("value");
+                    a != '' ? arr.push($(this).attr("value")) : null;
+                });
+                console.log(arr)
+            }, 3000);
 
         }
     }
@@ -420,9 +420,9 @@ $uri = $this->session->schoolmis_login_uri;
 
 
     $('#form_save_dataGradeSubject .selectSubjectList').on("select2:select", function(e) {
-        // console.log('a')
+        console.log('a')
         var unselected_value = $(this).val();
-        // console.log(unselected_value);
+        console.log(unselected_value);
     }).trigger('change');
 
 

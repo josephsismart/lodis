@@ -87,46 +87,40 @@ $uri = $this->session->schoolmis_login_uri;
         });
     }
 
-    // function validate(form_id) {
-    //     let invalid = 0;
-    //     $("#" + form_id).find("select").each(function() {
-    //         var name = $(this).attr("name");
-    //         var j = clean($(this).attr("name"));
-    //         var nr = $(this).attr("nr");
-    //         // console.log('a')
-    //         if (nr != 1) {
-    //             if (!$(this).val() || $(this).val() == 'null') {
-    //                 $(this).focus().addClass("is-invalid");
-    //                 $("#" + form_id + " select[name='" + name + "']").focus().next().find('.select2-selection').addClass('has-error');
-    //                 $("#" + form_id + " ." + j).addClass('border-danger');
-    //                 invalid++;
-    //             } else {
-    //                 $(this).removeClass("is-invalid");
-    //                 $("#" + form_id + " select[name='" + name + "']").focus().next().find('.select2-selection').removeClass('has-error');
-    //                 $("#" + form_id + " ." + j).removeClass('border-danger');
-    //             }
-    //         }
-    //     });
+    function unenroll() {
+        validate("form_save_dataUnenrollConfirm");
+        if (valid != 0) {
+            fillIn();
+            return false;
+        }
+        // a = $("#form_save_dataUnenrollConfirm .submitBtnPrimary").text();
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").attr("disabled", true);
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        s = $("#form_save_dataUnenrollConfirm").serialize();
+        $.post("<?= base_url($uri . '/Dataentry/learnerUnenroll') ?>", s,
+            function(data) {
+                var result = JSON.parse(data);
+                console.log(result)
+                if (result.success == true) {
+                    successAlert(result.message);
+                    // getTable("LearnersList", 0, -1);
+                    $("#modalLearnersUnenroll").modal('hide');
+                    getTable("LearnersList", 0, -1);
+                    getTable("AssignedSectionList", 0, -1);
+                    setTimeout(function() {
+                        $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    }, 1500);
+                } else if (result.success == false) {
+                    failAlert(result.message);
+                    // getTable("LearnersList", 0, -1);
+                }
+            }
+        ).then(function() {
+            // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+        });
 
-    //     $("#" + form_id).find("input").each(function() {
-    //         // console.log('b')
-    //         if ($("#" + form_id + ' input[type="search"]')) {} else {
-    //             var name = clean($(this).attr("name"));
-    //             var nr = $(this).attr("nr");
-    //             if (nr != 1) {
-    //                 if (!$(this).val()) {
-    //                     $(this).focus().addClass("is-invalid");
-    //                     $("#" + form_id + " ." + name).addClass('border-danger');
-    //                     invalid++;
-    //                 } else {
-    //                     $(this).removeClass("is-invalid");
-    //                     $("#" + form_id + " ." + name).removeClass('border-danger');
-    //                 }
-    //             }
-    //         }
-    //     });
-    //     valid = invalid;
-    // }
+
+    }
 
     function validate(form_id) {
         let invalid = 0;
@@ -215,8 +209,8 @@ $uri = $this->session->schoolmis_login_uri;
                     return false;
                 }
                 a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
-                // $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
-                // $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+                $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
+                $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
             },
             success: function(data) {
                 var d = JSON.parse(data);

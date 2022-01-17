@@ -162,7 +162,7 @@ class Getdata extends MY_Controller
                 "brgy" => $value->barangay_id,
                 "personName" => $value->full_name,
                 "basicInfoId" => $value->person_id,
-
+                
                 "emptype" => $value->employeeTypeId,
                 "personaltitle" => $value->personalTitleId,
                 "empstatus" => $value->status_id,
@@ -283,17 +283,8 @@ class Getdata extends MY_Controller
         $data = ["data" => []];
         $data2 = [];
         $c = 1;
-        $thisQuery = $this->db->query("SELECT t1.*,t2.male,t2.female,t2.total_enrollee FROM building_sectioning.view_room_section t1
-                                        LEFT JOIN (SELECT t1.room_section_id,t1.schl_yr_id, SUM(CASE WHEN t1.sex_bool='t' THEN 1 ELSE 0 END) AS male,
-                                        SUM(CASE WHEN t1.sex_bool='f' THEN 1 ELSE 0 END) AS female, SUM(1) AS total_enrollee
-                                        FROM building_sectioning.view_enrollment1 t1
-                                        GROUP by t1.room_section_id,t1.schl_yr_id) t2 ON t1.id=t2.room_section_id
-                                        AND t1.schl_yr_id=t2.schl_yr_id
-                                        WHERE t1.schl_yr_id=$sy
-                                        ORDER BY t1.order_by DESC
-        -- SELECT t1.* FROM building_sectioning.view_room_section t1
-                                        -- WHERE t1.schl_yr_id=$sy
-                                        ");
+        $thisQuery = $this->db->query("SELECT t1.* FROM building_sectioning.view_room_section t1
+                                        WHERE t1.schl_yr_id=$sy");
         foreach ($thisQuery->result() as $key => $value) {
             // $stat = $value->isactive;
             $g = $value->grade;
@@ -302,10 +293,7 @@ class Getdata extends MY_Controller
             $s = $value->sctn_nm;
             $schd = $value->sched;
             $code = $value->code;
-            $advsry = $value->full_name;
-            $male = number_format($value->male) ?? "-";
-            $female = number_format($value->female) ?? "-";
-            $t_enrollee = number_format($value->total_enrollee) ?? "-";
+
             $data2 = [
                 "rmsecid" => $value->id,
             ];
@@ -315,10 +303,7 @@ class Getdata extends MY_Controller
                 $c++,
                 "<div class='row'><div class='col-11'>
                     <span class='badge text-sm pb-0'>$g - $s</span>
-                    <small>$code<i> - $schd</i></small><br/>
-                    " . ($advsry ? "<small class='ml-2 mr-2 text-success'><b> $advsry </b> - </small>" : "<b>NO ADVISORY</b> - ") . "
-                    " . ($t_enrollee < 1 ? "<b>NO ENROLLEE</b>" :
-                    "<small><b class='text-primary'>M: " . $male . "</b> + <b class='text-pink'>F: " . $female . "</b> = <b class='text-sm'>" . $t_enrollee . "</b></small>") . "
+                    <small>$code<i> - $schd</i></small>
                 </div>
                 <div class='col-1'>
                     <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
@@ -343,8 +328,6 @@ class Getdata extends MY_Controller
             $stat = $value->is_active;
             $ebg = $value->enrollment_stat == 1 ? "bg-success" : "bg-gray";
             $gbg = $value->grading_stat == 1 ? "bg-success" : "bg-gray";
-            $edit = $value->edit_student;
-            $unenroll = $value->unenroll;
 
             $data1 = [
                 "qrtrid" => $value->id,
@@ -353,17 +336,15 @@ class Getdata extends MY_Controller
                 "enrolldl" => $value->enrollment_deadline,
                 "grading" => $value->grading_stat,
                 "gradingdl" => $value->grading_deadline,
-                "edit" => $value->edit_student,
-                "unenroll" => $value->unenroll,
             ];
             $arr1 = json_encode($data1);
 
             $data["data"][] = [
                 $c++,
-                "<span class='badge text-md " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>",
+                "<span class='badge text-lg " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>",
                 "<div class='row'>
                     <div class='col-2'>
-                        <span class='badge text-md bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
+                        <span class='badge text-lg bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
                     </div>
                     <div class='col-3'>
                         <span class='badge text-xs " . $ebg . " '>ENRLMNT" . $this->getOnLoad()["edl"] . "</span>
@@ -371,14 +352,11 @@ class Getdata extends MY_Controller
                         <span class='badge text-xs " . $gbg . "'>GRADING" . $this->getOnLoad()["gdl"] . "</span>
                     </div>
                     <div class='col-4 float-right'>
-                    
-                    ".($edit==0?'':"<span class='badge text-xs bg-navy'>EDT</span>")."
-                    ".($unenroll==0?'':"<span class='badge text-xs bg-navy'>UNRLL</span>")."
                         <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                             <span class='fa fa-ellipsis-h'></span>
                         </button>
                         <div class='dropdown-menu'>
-                            <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Details</button>
+                            <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Quarter</button>
                         </div>
                     </div>
                 </div>",

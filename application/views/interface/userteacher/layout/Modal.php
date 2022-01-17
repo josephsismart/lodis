@@ -352,30 +352,84 @@ $uri = $this->session->schoolmis_login_uri;
 <!-- /.card -->
 
 <!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-    <div class="modal fade" id="modalLearnersList">
+<div class="modal fade" id="modalLearnersList">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header bg-gradient-navy p-2 px-3">
+            <div class="modal-header bg-gradient-navy p-2">
                 <h5 class="modal-title p-0"><span class="fa fa-cog"></span> Account Settings </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body mb-n3">
-                    <div class="card-body p-0">
-                        <select class="form-control form-control-sm" name="accountSettings">
-                            <option value="create">CREATE ACCOUNT</option>
-                            <option value="reset">RESET PASSWORD</option>
-                            <option value="disable">DISABLE ACCOUNT</option>
-                            <option value="enable">ENABLE ACCOUNT</option>
-                        </select>
-                    </div>
+            <div class="modal-body">
+                <div class="card-body p-1 mt-n2 mb-n2">
+                    <select class="form-control" name="accountSettings">
+                        <option value="create">CREATE ACCOUNT</option>
+                        <option value="reset">RESET PASSWORD</option>
+                        <option value="disable">DISABLE ACCOUNT</option>
+                        <option value="enable">ENABLE ACCOUNT</option>
+                    </select>
+                </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer p-1">
                 <button type="submit" class="btn btn-info btn-xs submitBtnPrimary" onclick="batchUpdateAccount('LearnersList');">Save Changes</button>
                 <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
             </div>
 
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLearnersUnenroll">
+    <div class="modal-dialog modal-sm">
+        <form id="form_save_dataUnenrollConfirm">
+            <div class="modal-content">
+                <div class="modal-header bg-danger p-2">
+                    <h5 class="modal-title p-0"><span class="fa fa-trash-alt"></span> Unenroll Confirmation </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5><strong class='lrn'></strong></h5>
+                    <input name="details" hidden/>
+                    <p class="lead">
+                        <strong class="last_fullname"></strong>
+                    </p>
+                    <input type="password" name="password" class="form-control passwordUnenroll submitBtnPrimary" placeholder="Enter Password" />
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-danger btn-xs btn-block submitBtnPrimary" onclick="unenroll();">Unenroll Student</button>
+                    <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditLearner">
+    <div class="modal-dialog modal-xl">
+        <?= form_open(base_url($uri . '/Dataentry/updateLearnerInfo'), 'id=form_save_dataLearnerInfo'); ?>
+            <div class="modal-content">
+                <div class="modal-header bg-primary p-2">
+                    <h5 class="modal-title p-0"><span class="fa fa-trash-alt"></span> Unenroll Confirmation </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5><strong class='lrn'></strong></h5>
+                    <input name="details" hidden/>
+                    <p class="lead">
+                        <strong class="last_fullname"></strong>
+                    </p>
+                    <input type="password" name="password" class="form-control passwordUnenroll submitBtnPrimary" placeholder="Enter Password" />
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-danger btn-xs btn-block submitBtnPrimary" onclick="unenroll();">Unenroll Student</button>
+                    <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
+                </div>
+            </div>
+        </form>
     </div>
 </div>
