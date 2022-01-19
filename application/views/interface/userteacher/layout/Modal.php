@@ -80,14 +80,14 @@ $uri = $this->session->schoolmis_login_uri;
                             <div class="tab-pane fade active show" id="custom-tabs-four-new" role="tabpanel" aria-labelledby="custom-tabs-four-new-tab">
                                 <div class="row">
                                     <?= form_open(base_url($uri . '/Dataentry/saveEnrollmentInfo'), 'id=form_save_dataEnrollmentInfo'); ?>
-                                    <input type="" name="personId" hidden nr="1">
-                                    <input type="" id="ersid" hidden name="rsId">
+                                    <input name="details" hidden nr="1"/>
+                                    <input id="ersid" hidden name="rsId"/>
                                     <!-- /.card-header -->
                                     <div class="card-body p-0">
                                         <!-- <label>Basic Information</label> -->
                                         <h6>Basic Information Details</h6>
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-12 col-sm-12">
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text text-bold text-success text-xs">LRN</span>
@@ -112,16 +112,11 @@ $uri = $this->session->schoolmis_login_uri;
                                             <div class="col-lg-1 col-md-12 col-sm-12 mb-2">
                                                 <input type="text" class="form-control form-control-sm text-uppercase" name="extName" placeholder="EXTN" autocomplete="off" nr="1">
                                             </div>
-                                            <div class="col-lg-2 col-md-12 col-sm-12">
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
-                                                    </div>
-                                                    <select class="form-control form-control-sm" name="sex">
-                                                        <option value="t">MALE</option>
-                                                        <option value="f">FEMALE</option>
-                                                    </select>
-                                                </div>
+                                            <div class="col-lg-1 col-md-12 col-sm-12">
+                                                <select class="form-control form-control-sm" name="sex">
+                                                    <option value="t">MALE</option>
+                                                    <option value="f">FEMALE</option>
+                                                </select>
                                             </div>
                                             <div class="col-lg-2 col-md-12 col-sm-12">
                                                 <div class="input-group mb-2">
@@ -164,15 +159,19 @@ $uri = $this->session->schoolmis_login_uri;
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-4 col-md-5 col-sm-12">
+                                            <div class="col-lg-6 col-md-5 col-sm-12">
                                                 <div class="input-group mb-2">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text text-xs text-bold">DATE ENROLLED</span>
+                                                        <span class="input-group-text text-xs text-bold">STATUS</span>
                                                     </div>
-                                                    <input type="date" class="form-control form-control-sm text-uppercase" name="enrollDate" placeholder="E" autocomplete="off">
+                                                    <div class="input-group-prepend">
+                                                        <select class="form-control form-control-sm selectLearnerStatus" name="status">
+                                                        </select>
+                                                    </div>
+                                                    <input type="date" class="form-control form-control-sm text-uppercase" name="enrollDate" value="<?= date('Y-m-d'); ?>">
                                                     <div class="input-group-append">
                                                         <!-- <span class="input-group-text"><i class="fas fa-edit text-primary"></i></span> -->
-                                                        <button type="submit" class="btn btn-success btn-sm submitBtnPrimary"><i class="fa fa-check"></i> Enroll</button>
+                                                        <button type="submit" class="btn btn-success btn-sm submitBtnPrimary"><i class="fa fa-check"></i> Enroll Learner</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -392,7 +391,7 @@ $uri = $this->session->schoolmis_login_uri;
                 </div>
                 <div class="modal-body">
                     <h5><strong class='lrn'></strong></h5>
-                    <input name="details" hidden/>
+                    <input name="details" hidden />
                     <p class="lead">
                         <strong class="last_fullname"></strong>
                     </p>
@@ -407,29 +406,164 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<div class="modal fade" id="modalEditLearner">
+<!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+<div class="modal fade" id="modalUpdateLearnerInfo">
     <div class="modal-dialog modal-xl">
-        <?= form_open(base_url($uri . '/Dataentry/updateLearnerInfo'), 'id=form_save_dataLearnerInfo'); ?>
-            <div class="modal-content">
-                <div class="modal-header bg-primary p-2">
-                    <h5 class="modal-title p-0"><span class="fa fa-trash-alt"></span> Unenroll Confirmation </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h5><strong class='lrn'></strong></h5>
-                    <input name="details" hidden/>
-                    <p class="lead">
-                        <strong class="last_fullname"></strong>
-                    </p>
-                    <input type="password" name="password" class="form-control passwordUnenroll submitBtnPrimary" placeholder="Enter Password" />
-                </div>
-                <div class="modal-footer p-1">
-                    <button type="button" class="btn btn-danger btn-xs btn-block submitBtnPrimary" onclick="unenroll();">Unenroll Student</button>
-                    <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
+        <div class="modal-content">
+            <div class="modal-header bg-primary p-2">
+                <h5 class="modal-title p-0"><span class="fa fa-pencil-alt"></span> Update Learner Information </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2 mb-n3">
+
+                <div id="accordion">
+                    <div class="card card-white">
+                        <div class="card-header p-2">
+                            <h4 class="card-title w-100">
+                                <!-- <a class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="true"> -->
+                                <a class="d-block w-100" data-toggle="#" href="#collapseOne" aria-expanded="true">
+                                    <span class="fa fa-user"></span> Basic Information Details
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                            <?= form_open(base_url($uri . '/Dataentry/saveEnrollmentInfo'), 'id=form_save_dataUpdateLearnerInfo'); ?>
+                            <input name="details" hidden/>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text text-bold text-success text-xs">LRN</span>
+                                            </div>
+                                            <input type="text" class="form-control form-control-sm text-uppercase" name="lrn" placeholder="LEARNER'S REFERENCE NUMBER (LRN)" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text firstName text-primary"><i class="fas fa-user"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control form-control-sm text-uppercase" name="firstName" placeholder="FIRST NAME" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-12 col-sm-12 mb-2">
+                                        <input type="text" class="form-control form-control-sm text-uppercase" name="middleName" placeholder="MIDDLE NAME" autocomplete="off" nr="1">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 col-sm-12 mb-2">
+                                        <input type="text" class="form-control form-control-sm text-uppercase" name="lastName" placeholder="LAST NAME" autocomplete="off">
+                                    </div>
+                                    <div class="col-lg-1 col-md-12 col-sm-12 mb-2">
+                                        <input type="text" class="form-control form-control-sm text-uppercase" name="extName" placeholder="EXTN" autocomplete="off" nr="1">
+                                    </div>
+                                    <div class="col-lg-1 col-md-12 col-sm-12">
+                                        <!-- <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
+                                            </div> -->
+                                        <select class="form-control form-control-sm" name="sex">
+                                            <option value="t">MALE</option>
+                                            <option value="f">FEMALE</option>
+                                        </select>
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="col-lg-2 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text birthdate"><i class="fas fa-birthday-cake"></i></span>
+                                            </div>
+                                            <input type="date" class="form-control form-control-sm" name="birthdate" value="<?= date('Y-m-d'); ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <select class="form-control form-control-sm select2 selectBarangayList" data-placeholder="SELECT BARANGAY" onchange="getLocation('BarangayList','PurokList','PersonnelInfo')" type="select" name="brgy" style="width:100%;">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text homeAddress"><i class="fas fa-home"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off" nr="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text text-xs text-bold">STATUS</span>
+                                            </div>
+                                            <div class="input-group-prepend">
+                                                <select class="form-control form-control-sm selectLearnerStatus" name="status">
+                                                </select>
+                                            </div>
+                                            <input type="date" class="form-control form-control-sm" name="enrollDate" autocomplete="off">
+                                            <div class="input-group-append">
+                                                <!-- <span class="input-group-text"><i class="fas fa-edit text-primary"></i></span> -->
+                                                <button type="submit" class="btn btn-info btn-sm submitBtnPrimary"><i class="fa fa-check"></i> Update Data</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- <div class="card card-white">
+                        <div class="card-header p-2">
+                            <h4 class="card-title w-100">
+                                <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false">
+                                    <span class="fa fa-user-friends"></span> Parent/Guardian Information
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                            <div class="card-body p-3">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                                3
+                                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                                laborum
+                                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                                nulla
+                                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                                nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
+                                beer
+                                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                                labore sustainable VHS.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-white">
+                        <div class="card-header p-2">
+                            <h4 class="card-title w-100">
+                                <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
+                                    <span class="fa fa-info"></span> Other Information
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                            <div class="card-body p-3">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                                3
+                                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                                laborum
+                                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                                nulla
+                                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                                nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
+                                beer
+                                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                                labore sustainable VHS.
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

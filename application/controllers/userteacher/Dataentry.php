@@ -201,7 +201,13 @@ class Dataentry extends MY_Controller
         $data = [];
         $sy = $this->getOnLoad()["sy_id"];
 
-        $id = null;
+        $id = $this->input->post("details");
+        $a = explode('|', $id);
+        if (count($a) > 1) {
+            $enroll_id = $a[0];
+            $learner_id = $a[1];
+            $binfo_id = $a[2];
+        }
         $lrn = $this->input->post("lrn");
         $rsId = $this->input->post("rsId");
         $firstName = strtoupper($this->input->post("firstName"));
@@ -212,6 +218,7 @@ class Dataentry extends MY_Controller
         $birthdate = $this->input->post("birthdate");
         $brgy = $this->input->post("brgy");
         $homeAddress = strtoupper($this->input->post("homeAddress"));
+        $status = $this->input->post("status");
         $enrollDate = $this->input->post("enrollDate");
 
         $login_id = $this->session->schoolmis_login_id;
@@ -244,28 +251,50 @@ class Dataentry extends MY_Controller
         // } else 
 
         if ($lrn && $firstName && $lastName && $sex && $birthdate && $brgy && $login_id) {
-            if ($this->db->insert("profile.tbl_basicinfo", $data)) {
-                $inid = $this->db->insert_id();
-                $data2 = [
-                    "lrn" => $lrn,
-                    "basic_info_id" => $inid,
-                ];
-                $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
-                if ($inid) {
-                    if ($this->db->insert("profile.tbl_learners", $data2)) {
-                        $lrnId = $this->db->insert_id();
-                        $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
-                        $data3 = [
-                            "learner_id" => $lrnId,
-                            "room_section_id" => $rsId,
-                            "status_id" => 5,
-                            "enrollment_date" => $enrollDate,
-                            "added_by" => $login_id,
-                        ];
-                        if ($lrnId) {
-                            if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
-                                $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
-                                $ret = $true;
+            if (count($a) > 1 && $enroll_id && $learner_id && $binfo_id) {
+                $this->db->where('id', $binfo_id);
+                if ($this->db->update("profile.tbl_basicinfo", $data)) {
+                    $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
+                    $data3 = [
+                        "status_id" => $status,
+                        "enrollment_date" => $enrollDate,
+                    ];
+                    $this->db->where('learner_id', $learner_id);
+                    if ($this->db->update("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                        $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
+                        $ret = $true;
+                    } else {
+                        $ret = $false;
+                    }
+                } else {
+                    $ret = $false;
+                }
+            } else {
+                if ($this->db->insert("profile.tbl_basicinfo", $data)) {
+                    $inid = $this->db->insert_id();
+                    $data2 = [
+                        "lrn" => $this->clean($lrn),
+                        "basic_info_id" => $inid,
+                    ];
+                    $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
+                    if ($inid) {
+                        if ($this->db->insert("profile.tbl_learners", $data2)) {
+                            $lrnId = $this->db->insert_id();
+                            $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
+                            $data3 = [
+                                "learner_id" => $lrnId,
+                                "room_section_id" => $rsId,
+                                "status_id" => $status,
+                                "enrollment_date" => $enrollDate,
+                                "added_by" => $login_id,
+                            ];
+                            if ($lrnId) {
+                                if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                                    $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
+                                    $ret = $true;
+                                } else {
+                                    $ret = $false;
+                                }
                             } else {
                                 $ret = $false;
                             }
@@ -275,8 +304,6 @@ class Dataentry extends MY_Controller
                     } else {
                         $ret = $false;
                     }
-                } else {
-                    $ret = $false;
                 }
             }
         } else {
@@ -561,6 +588,14 @@ class Dataentry extends MY_Controller
                 $ret = $false;
             }
         }
+        echo json_encode($ret);
+    }
+
+    function updateLearnerInfo()
+    {
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+        $ret = $true;
         echo json_encode($ret);
     }
 

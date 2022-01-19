@@ -35,7 +35,7 @@ $uri = $this->session->schoolmis_login_uri;
 
     function validate(form_id) {
         let invalid = 0;
-        $("#" + form_id).find("input").each(function() {
+        $($("#" + form_id).find("input").get().reverse()).each(function() {
             if ($("#" + form_id + ' input[type="search"]')) {
                 // return 0;
             }

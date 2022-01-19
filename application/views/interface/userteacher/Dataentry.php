@@ -345,17 +345,29 @@ $uri = $this->session->schoolmis_login_uri;
 	$(function() {
 		let f1 = "EnrollmentInfo";
 		let f2 = "GradeSecInfo";
+		let f3 = "UpdateLearnerInfo";
 		getTable("AssignedSectionList", 1, -1);
 		getTable("LearnersList", 0, -1);
 		getTable("SearchEnrollLearnersList", 0, 10);
 		getTable("GradesList", 0, -1);
-		getFetchList(f1, "CityMunList", null, 1, {
-			v: 1602
-		}, 1, 1);
+		// getFetchList(f1, "CityMunList", null, 1, {
+		// 	v: 1602
+		// }, 1, 1);
 		getFetchList(f1, "BarangayList", null, 1, {
 			v: 160201
 		}, 0, 1);
+		getFetchList(f3, "BarangayList", null, 1, {
+			v: 160201
+		}, 0, 1);
+		getFetchList(f3, "LearnerStatus", "StatusList", 0, {
+			v: 4
+		}, 1);
+		getFetchList(f1, "LearnerStatus", "StatusList", 0, {
+			v: 4
+		}, 1);
+
 		saveForm(f1, ["LearnersList"], null, 1, -1);
 		saveForm("GradesList", [null], null, 1, -1);
+		saveForm(f3, [null], null, 1, -1);
 	});
 </script>

@@ -192,7 +192,7 @@ class Getdata extends MY_Controller
                 "male" => $male,
                 "female" => $female,
                 "total_enrollee" => $t_enrollee,
-                "enroll" => ($advsry == 't' && $enroll_stat == 1) ? '<button type="submit" data-toggle="modal" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : '',
+                "enroll" => ($advsry == 't' && $enroll_stat == 1) ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : "",
                 "grade" => ($grade_stat == 1) ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGrades" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
                 "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
@@ -365,7 +365,7 @@ class Getdata extends MY_Controller
         $edit = $this->getOnLoad()["edit"];
         $unenroll = $this->getOnLoad()["unenroll"];
         $rsid = $this->input->post("rsid");
-        $query = $this->db->query("SELECT t2.learner_account,t2.acc_stat,t2.logs,t1.* FROM building_sectioning.view_enrollment$sy t1
+        $query = $this->db->query("SELECT TO_CHAR(t1.enrollment_date :: DATE, 'yyyy-mm-dd') status_date,t2.learner_account,t2.acc_stat,t2.logs,t1.* FROM building_sectioning.view_enrollment$sy t1
                                     LEFT JOIN (SELECT t1.basic_info_id AS learner_account,t2.logs,t1.is_active AS acc_stat FROM account.tbl_useraccount t1
 																	 LEFT JOIN (SELECT t2.basic_info_id,count(1) AS logs FROM global.tbl_userlogs_learner$sy t1
 																	 LEFT JOIN account.tbl_useraccount t2 ON t1.user_id=t2.id
@@ -387,11 +387,26 @@ class Getdata extends MY_Controller
             $val =  $value->learner_id . '_&&_' . $value->lrn  . '_&&_' . $value->basic_info_id . '_&&_' . ($value->learner_account ? 1 : 0);
 
             $data1 = [
+                "details" => $value->enrollment_id . '|' . $value->learner_id . '|' . $value->basic_info_id,
+                "lrn" => $value->lrn,
+                "firstName" => $value->first_name,
+                "middleName" => $value->middle_name,
+                "lastName" => $value->last_name,
+                "extName" => $value->suffix,
+                "sex" => $value->sex_bool,
+                "birthdate" => $value->birthdate,
+                "brgy" => $value->barangay_id,
+                "homeAddress" => $value->address_info,
+                "status" => $value->status_id,
+                "enrollDate" => $value->status_date,
+            ];
+            $data2 = [
                 "lrn" => $value->lrn,
                 "last_fullname" => $value->last_fullname,
-                "details"=>md5($value->enrollment_id).'|'.md5($value->learner_id).'|'.md5($value->basic_info_id),
+                "details" => md5($value->enrollment_id) . '|' . md5($value->learner_id) . '|' . md5($value->basic_info_id),
             ];
             $arr1 = json_encode($data1);
+            $arr2 = json_encode($data2);
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -424,14 +439,14 @@ class Getdata extends MY_Controller
                 
 
                 <div class="normal_view" style="white-space: nowrap;">
-                    ' . ($edit == 1 ? '<span class="fa fa-pencil-alt text-primary text-sm" style="cursor:pointer;"></span> ' : '') . $value->lrn . '
+                    ' . ($edit == 1 ? "<span class='fa fa-pencil-alt text-primary text-sm' style='cursor:pointer;' onclick='getDetails(\"UpdateLearnerInfo\",$arr1,1,\"#\");$(\"#modalUpdateLearnerInfo\").modal(\"show\");'></span> " : '') . $value->lrn . '
                 </div>',
                 $value->last_fullname,
                 $sex,
                 $birthDate,
                 $value->address_details,
                 '<div class="normal_view" style="white-space: nowrap;">
-                    ' . $value->enrollment_status . ($unenroll == 1 ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr1,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
+                    ' . $value->enrollment_status . ($unenroll == 1 ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
                 </div>',
             ];
         }

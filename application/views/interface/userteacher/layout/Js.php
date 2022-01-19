@@ -61,6 +61,11 @@ $uri = $this->session->schoolmis_login_uri;
         }
     }
 
+    function clear_form1(){
+        clear_form("form_save_dataEnrollmentInfo");
+        $("#form_save_dataEnrollmentInfo #ersid").val(rsid)
+    }
+
     function clear_form(form_id) {
         $("#" + form_id)[0].reset();
         $("#" + form_id).find("input[type='hidden']").each(function() {
@@ -124,7 +129,7 @@ $uri = $this->session->schoolmis_login_uri;
 
     function validate(form_id) {
         let invalid = 0;
-        $("#" + form_id).find("select").each(function() {
+        $($("#" + form_id).find("select").get().reverse()).each(function() {
             var name = $(this).attr("name");
             var j = clean($(this).attr("name"));
             var nr = $(this).attr("nr");
@@ -146,7 +151,7 @@ $uri = $this->session->schoolmis_login_uri;
             }
         });
 
-        $("#" + form_id).find("input").each(function() {
+        $($("#" + form_id).find("input").get().reverse()).each(function() {
             if ($("#" + form_id + ' input[type="search"]')) {
                 // return 0;
             }

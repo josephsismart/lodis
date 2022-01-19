@@ -453,28 +453,6 @@ class MY_Controller extends CI_Controller
         }
     }
 
-
-
-    // public function QRlog($personId,$in_out,$location){
-    //     $login_id = $this->session->schoolmis_login_id;
-    //     $login_alias = $this->session->schoolmis_login_uname;
-    //     $now = $this->now();
-    //     // $action = addslashes($action);
-    //     $ip = $this->get_ip();
-    //     $data = [
-    //         "person_id" => $personId,
-    //         "dateTime" => $now,
-    //         "in_out" => $in_out,
-    //         "location_id" => $location,
-    //         "scanned_user_id" => $login_id,
-    //         "user_name" => $login_alias,
-    //         "ip" => $ip,
-    //     ];
-    //     if($login_id){
-    //         $this->db->insert("tbl_scannedqr_logs",$data);
-    //     }
-    // }
-
     public function dateFormat($a)
     {
         $b = "-";
