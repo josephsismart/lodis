@@ -15,6 +15,12 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.print.min.js"></script>
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/jszip.min.js"></script>
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.flash.min.js"></script>
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.html5.min.js"></script>
+<!-- <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script> -->
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/vfs_fonts.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?= base_url() ?>plugins/sweetalert2/sweetalert2.min.js"></script>
@@ -61,7 +67,7 @@ $uri = $this->session->schoolmis_login_uri;
         }
     }
 
-    function clear_form1(){
+    function clear_form1() {
         clear_form("form_save_dataEnrollmentInfo");
         $("#form_save_dataEnrollmentInfo #ersid").val(rsid)
     }
@@ -105,7 +111,6 @@ $uri = $this->session->schoolmis_login_uri;
         $.post("<?= base_url($uri . '/Dataentry/learnerUnenroll') ?>", s,
             function(data) {
                 var result = JSON.parse(data);
-                console.log(result)
                 if (result.success == true) {
                     successAlert(result.message);
                     // getTable("LearnersList", 0, -1);
@@ -134,8 +139,6 @@ $uri = $this->session->schoolmis_login_uri;
             var j = clean($(this).attr("name"));
             var nr = $(this).attr("nr");
             var multiple = $(this).attr("multiple");
-            // console.log(j)
-
 
             if (nr != 1) {
                 if (!$(this).val() || $(this).val() == 'null') {
@@ -256,20 +259,42 @@ $uri = $this->session->schoolmis_login_uri;
             //     [0, "asc"]
             // ],
             dom: 'Bfrtip',
-            buttons: tableId == 'SearchEnrollLearnersList' ? [
-                // 'pageLength',
-                {
+            buttons: tableId == 'SearchEnrollLearnersList' ? [{
                     text: "<i class='fa fa-check text-success'></i> Enroll",
                     action: function(e, dt, node, config) {
                         validateTable(tableId);
                     }
-                },
-            ] : (tableId == 'LearnersList' ? [{
-                text: "<i class='fa fa-cog'></i> Account",
-                action: function(e, dt, node, config) {
-                    validateTable(tableId);
-                }
-            }] : []),
+                }] : [] &&
+                tableId == 'LearnersList' ? [{
+                    text: "<i class='fa fa-cog'></i> Account",
+                    action: function(e, dt, node, config) {
+                        validateTable(tableId);
+                    }
+                }, {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> Print',
+                    header: "_excel"
+
+                }] : [] &&
+                tableId == 'AllStudentLogs' ? [{
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> Print',
+                    header: "_excel"
+
+                }, {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel"></i> Export Excel',
+                    header: "_excel"
+
+                }] : [],
+
+            // : (tableId == 'LearnersList' ? [{
+            //     text: "<i class='fa fa-cog'></i> Account",
+            //     action: function(e, dt, node, config) {
+            //         validateTable(tableId);
+            //     }
+            // }] : [])
+
             searching: tableId == 'GradesList' ? false : true,
             "search": {
                 "search": search ?? "",
@@ -553,7 +578,6 @@ $uri = $this->session->schoolmis_login_uri;
 
         event.preventDefault();
         // $(".submitBtnUpload").attr("disabled", true);
-        // console.log(new FormData(this));
         $.ajax({
             url: "<?= base_url($uri . '/Dataentry/saveImportEnrollmentInfo'); ?>",
             // method:"POST",
@@ -571,9 +595,7 @@ $uri = $this->session->schoolmis_login_uri;
                 $('#file').val('');
                 successAlert("Successfully Saved!");
             },
-            error: function(data) {
-                console.log(data.responseText)
-            }
+            error: function(data) {}
         })
     });
 
@@ -583,7 +605,6 @@ $uri = $this->session->schoolmis_login_uri;
             },
             function(data) {
                 var d = JSON.parse(data);
-                console.log(d)
                 $("#modalAllGrades .viewAllGrades").html(d);
             }).done(function() {});
     }
@@ -591,6 +612,15 @@ $uri = $this->session->schoolmis_login_uri;
     setTimeout(function() {
         $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
     }, 2000);
+
+    $("[type='number']").keydown(function(e) {
+        e = e || window.event;
+        d = e.keyCode;
+        if (d == '38' || d == '40' || d == '189' || d == '187' || d == '69') {
+            e.preventDefault();
+        }
+    });
+
 
     var invalidChars = [
         "-",

@@ -87,7 +87,7 @@ class Dataentry extends MY_Controller
             $b = explode('_&&_', $a);
             //LEARNER ID _&&_ LRN _&&_ BASIC INFO ID _&&_ ACCOUNT
             $l_id = $b[0];
-            $lrn = $b[1];
+            $lrn = $this->clean($b[1]);
             $b_info = $b[2];
             $has_account = $b[3];
             if ($stat == 'create' && $has_account == 0) {
@@ -208,7 +208,7 @@ class Dataentry extends MY_Controller
             $learner_id = $a[1];
             $binfo_id = $a[2];
         }
-        $lrn = $this->input->post("lrn");
+        $lrn = $this->clean($this->input->post("lrn"));
         $rsId = $this->input->post("rsId");
         $firstName = strtoupper($this->input->post("firstName"));
         $middleName = strtoupper($this->input->post("middleName"));
@@ -273,7 +273,7 @@ class Dataentry extends MY_Controller
                 if ($this->db->insert("profile.tbl_basicinfo", $data)) {
                     $inid = $this->db->insert_id();
                     $data2 = [
-                        "lrn" => $this->clean($lrn),
+                        "lrn" => $lrn,
                         "basic_info_id" => $inid,
                     ];
                     $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
@@ -341,7 +341,7 @@ class Dataentry extends MY_Controller
                 $highestColumn = $worksheet->getHighestColumn();
                 for ($row = 7; $row <= $highestRow; $row++) {
                     //BASIC INFORMATION
-                    $LRN = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+                    $LRN = $this->clean($worksheet->getCellByColumnAndRow(0, $row)->getValue());
                     // echo $LRN;
                     if (is_numeric($LRN) && strlen($LRN) > 5) {
                         //LEARNER

@@ -92,7 +92,7 @@ $uri = $this->session->schoolmis_login_uri;
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text text-bold text-success text-xs">LRN</span>
                                                     </div>
-                                                    <input type="text" class="form-control form-control-sm text-uppercase" name="lrn" placeholder="LEARNER'S REFERENCE NUMBER (LRN)" autocomplete="off">
+                                                    <input type="number" class="form-control form-control-sm text-uppercase" name="lrn" placeholder="LEARNER'S REFERENCE NUMBER (LRN)" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-md-12 col-sm-12">
@@ -324,7 +324,7 @@ $uri = $this->session->schoolmis_login_uri;
                 <!-- <div class="card card-navy p-0 table-responsive viewAllGrades">
                 </div> -->
 
-                <div class="card-body p-0 table-responsive mt-3">
+                <div class="card-body p-0 table-responsive mt-3" id="printAllStudentLogs">
                     <table class="table table-sm table-hover table-striped text-xs p-0" id="tblAllStudentLogs" width="100%">
                         <thead>
                             <tr>
