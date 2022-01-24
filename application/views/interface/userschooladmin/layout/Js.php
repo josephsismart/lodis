@@ -92,9 +92,8 @@ $uri = $this->session->schoolmis_login_uri;
         // clear_form("form_save_data" + a);
         // c == 1 ? $("#form_save_data" + a + " .submitBtnPrimary").html("Update Data") : $("#form_save_data" + a + " .submitBtnPrimary").html("Save Data");
         $.each(b, function(k, v) {
-            // console.log(k)
-            // console.log(v)
             $("#form_save_data" + a).each(function() {
+                $("[name='" + k + "']").prop("checked", v);
                 $("[name='" + k + "']").val(v);
                 $("[class='" + k + "']").html(v);
                 $("[name='" + k + "']").trigger("change");

@@ -265,25 +265,21 @@ class MY_Controller extends CI_Controller
         $grade_dl = $row->grading_deadline;
         $edit = $row->edit_student;
         $unenroll = $row->unenroll;
+        $v_grades = $row->view_grades;
+        $v_grades_date = $row->view_grades_until;
         $qrtrR = $qrtr == 1 ? "1st" : ($qrtr == 2 ? "2nd" : ($qrtr == 3 ? "3rd" : ($qrtr == 4 ? "4th" : "--")));
-        if ($row->enrollment_deadline) {
-            $edl = date_create($row->enrollment_deadline);
-            $edl = strtoupper(date_format($edl, "M d, Y"));
+        $edl="";$edl1="";$gdl="";$gdl1="";$vgd="";
+        if ($enroll_dl) {
+            $edl = $this->dateFormat($enroll_dl);
             $edl1 = "<br/>".$edl;
-        } else {
-            $edl = "";
-            $edl1 = "";
         }
-        if ($row->grading_deadline) {
-            $gdl = date_create($row->grading_deadline);
-            $gdl = strtoupper(date_format($gdl, "M d, Y"));
+        if ($grade_dl) {
+            $gdl = $this->dateFormat($grade_dl);
             $gdl1 = "<br/>".$gdl;
-        } else {
-            $gdl = "";
-            $gdl1 = "";
         }
-        $estat = $row->enrollment_stat;
-        $gstat = $row->grading_stat;
+        if($v_grades=='t'){
+            $vgd = $this->dateFormat($v_grades_date);
+        }
 
         $data = [
             "sy_id" => $sy_id,
@@ -298,9 +294,11 @@ class MY_Controller extends CI_Controller
             "gdl" => $gdl1,
             "edit" => $edit,
             "unenroll" => $unenroll,
+            "v_grades"=>$v_grades,
+            "vgd"=>$vgd,
             "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
-                ($estat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
-                ($gstat ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
+                ($enroll_stat=='t' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
+                ($grade_stat=='t' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
         ];
         return $data;
     }
@@ -460,7 +458,7 @@ class MY_Controller extends CI_Controller
             $c = date_create($a);
             $b = date_format($c, "M d, Y");
         }
-        return $b;
+        return strtoUpper($b);
     }
 }
 

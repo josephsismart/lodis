@@ -32,6 +32,16 @@ $uri = $this->session->schoolmis_login_uri;
 			<div class="col-lg-6 col-sm-12 form_save_dataPersonnelInfo">
 				<div class="row">
 					<div class="col-md-12">
+						<!-- <div class="alert alert-info alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h5><i class="icon fas fa-info"></i> Alert!</h5>
+							Info alert preview. This alert is dismissable.
+						</div> -->
+						<div class="callout callout-info">
+							<h5>Notice!</h5>
+
+							<p><?= $getOnLoad["v_grades"]=='t'?"Viewing of Grades is available until":"Viewing of Grades is not available this time"; ?> <b><?= $getOnLoad["vgd"]; ?></b>.</p>
+						</div>
 						<div class="card card-navy">
 							<div class="card-header">
 								<h3 class="card-title"><i class="fa fa-list"></i> My Subjects and Grades</h3>

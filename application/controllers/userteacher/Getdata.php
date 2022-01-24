@@ -192,8 +192,8 @@ class Getdata extends MY_Controller
                 "male" => $male,
                 "female" => $female,
                 "total_enrollee" => $t_enrollee,
-                "enroll" => ($advsry == 't' && $enroll_stat == 1) ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : "",
-                "grade" => ($grade_stat == 1) ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGrades" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
+                "enroll" => ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : "",
+                "grade" => ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGrades" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
                 "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>
@@ -439,14 +439,14 @@ class Getdata extends MY_Controller
                 
 
                 <div class="normal_view" style="white-space: nowrap;">
-                    ' . ($edit == 1 ? "<span class='fa fa-pencil-alt text-primary text-sm' style='cursor:pointer;' onclick='getDetails(\"UpdateLearnerInfo\",$arr1,1,\"#\");$(\"#modalUpdateLearnerInfo\").modal(\"show\");'></span> " : '') . $value->lrn . '
+                    ' . ($edit == 't' ? "<span class='fa fa-pencil-alt text-primary text-sm' style='cursor:pointer;' onclick='getDetails(\"UpdateLearnerInfo\",$arr1,1,\"#\");$(\"#modalUpdateLearnerInfo\").modal(\"show\");'></span> " : '') . $value->lrn . '
                 </div>',
                 $value->last_fullname,
                 $sex,
                 $birthDate,
                 $value->address_details,
                 '<div class="normal_view" style="white-space: nowrap;">
-                    ' . $value->enrollment_status . ($unenroll == 1 ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
+                    ' . $value->enrollment_status . ($unenroll == 't' ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
                 </div>',
             ];
         }

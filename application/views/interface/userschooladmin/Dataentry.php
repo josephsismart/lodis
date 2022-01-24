@@ -379,8 +379,8 @@ $uri = $this->session->schoolmis_login_uri;
 										<thead>
 											<tr>
 												<th width="1">#</th>
-												<th><i class='fa fa-calendar'></i> SY</th>
-												<th><i class='fa fa-calendar'></i> Quarter</th>
+												<th><i class='fa fa-calendar'></i> SY QRTR</th>
+												<th><i class='fa fa-wrench'></i> Controls</th>
 											</tr>
 										</thead>
 										<tbody>

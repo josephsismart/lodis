@@ -341,39 +341,46 @@ class Getdata extends MY_Controller
         $thisQuery = $this->db->query("SELECT t1.* FROM global.tbl_sy t1 ORDER BY t1.from DESC");
         foreach ($thisQuery->result() as $key => $value) {
             $stat = $value->is_active;
-            $ebg = $value->enrollment_stat == 1 ? "bg-success" : "bg-gray";
-            $gbg = $value->grading_stat == 1 ? "bg-success" : "bg-gray";
+            $ebg = $value->enrollment_stat == 't' ? "bg-success" : "bg-gray";
+            $gbg = $value->grading_stat == 't' ? "bg-success" : "bg-gray";
+            $vbg = $value->view_grades == 't' ? "bg-success" : "bg-gray";
             $edit = $value->edit_student;
             $unenroll = $value->unenroll;
+
+            $edl = $this->dateFormat($value->enrollment_deadline);
+            $gdl = $this->dateFormat($value->grading_deadline);
+            $vgu = $this->dateFormat($value->view_grades_until);
+            
 
             $data1 = [
                 "qrtrid" => $value->id,
                 "quarter" => $value->qrtr,
-                "enrollment" => $value->enrollment_stat,
+                "enrollment" => $value->enrollment_stat=='t'?true:false,
                 "enrolldl" => $value->enrollment_deadline,
-                "grading" => $value->grading_stat,
+                "grading" => $value->grading_stat=='t'?true:false,
                 "gradingdl" => $value->grading_deadline,
-                "edit" => $value->edit_student,
-                "unenroll" => $value->unenroll,
+                "viewing" => $value->view_grades=='t'?true:false,
+                "viewing_date" => $value->view_grades_until,
+                "edit" => $value->edit_student=='t'?true:false,
+                "unenroll" => $value->unenroll=='t'?true:false,
             ];
             $arr1 = json_encode($data1);
 
             $data["data"][] = [
                 $c++,
-                "<span class='badge text-md " . ($stat == "t" ? "bg-success" : "bg-gray") . "'>$value->description</span>",
+                "<span class='badge text-md " . ($stat == "t" ? "bg-info" : "bg-gray") . "'>$value->description <span class='badge text-md bg-yellow'>" . $this->getOnLoad()["qrtrR"] . "</span></span>",
                 "<div class='row'>
-                    <div class='col-2'>
-                        <span class='badge text-md bg-primary'>" . $this->getOnLoad()["qrtrR"] . "</span>
-                    </div>
                     <div class='col-3'>
-                        <span class='badge text-xs " . $ebg . " '>ENRLMNT" . $this->getOnLoad()["edl"] . "</span>
+                        <span class='badge text-xs " . $ebg . " '>ENRLMNT <br/>" . $edl . "</span>
                     </div><div class='col-3'>
-                        <span class='badge text-xs " . $gbg . "'>GRADING" . $this->getOnLoad()["gdl"] . "</span>
+                        <span class='badge text-xs " . $gbg . "'>INPUT GRDS <br/>" . $gdl . "</span>
+                    </div><div class='col-3'>
+                        <span class='badge text-xs " . $vbg . "'>VIEW GRDS <br/>" . $vgu . "</span>
                     </div>
-                    <div class='col-4 float-right'>
+                    <div class='col-3 float-right'>
                     
-                    ".($edit==0?'':"<span class='badge text-xs bg-navy'>EDT</span>")."
-                    ".($unenroll==0?'':"<span class='badge text-xs bg-navy'>UNRLL</span>")."
+                    ".($edit=='f'?'':" <span class='fa fa-pen text-primary'></span>")."
+                    ".($unenroll=='f'?'':" <span class='fa fa-trash-alt text-danger'></span>")."
                         <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                             <span class='fa fa-ellipsis-h'></span>
                         </button>

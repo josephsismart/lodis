@@ -88,7 +88,7 @@ class Dataentry extends MY_Controller
                 } else {
                     $ret = $false;
                 }
-            }else{
+            } else {
                 $ret = $false;
             }
         } else if ($firstName && $lastName && $sex && $brgy && $login_id) {
@@ -105,12 +105,12 @@ class Dataentry extends MY_Controller
                 $this->userlog("INSERTED PERSONNEL " . $inid . " " . json_encode($data));
                 if ($inid) {
                     if ($this->db->insert("profile.tbl_schoolpersonnel", $data2)) {
-                        $this->userlog("INSERTED PERSONNEL DETAILS ". $data2_e);
+                        $this->userlog("INSERTED PERSONNEL DETAILS " . $data2_e);
                         $ret = $true;
                     } else {
                         $ret = $false;
                     }
-                }  else {
+                } else {
                     $ret = $false;
                 }
             }
@@ -405,7 +405,7 @@ class Dataentry extends MY_Controller
                 } else {
                     $ret = $false;
                 }
-            } else if($assprsn) {
+            } else if ($assprsn) {
                 $data[] = [
                     'room_section_id' => $rmsecid,
                     'subject_id' => $sbject,
@@ -543,12 +543,14 @@ class Dataentry extends MY_Controller
 
         $qrtrid = $this->input->post("qrtrid");
         $quarter = $this->input->post("quarter");
-        $enrollment = $this->input->post("enrollment");
+        $enrollment = $this->input->post("enrollment") == true ? true : false;
         $enrolldl = $this->input->post("enrolldl");
-        $grading = $this->input->post("grading");
+        $grading = $this->input->post("grading") == true ? true : false;
         $gradingdl = $this->input->post("gradingdl");
-        $edit = $this->input->post("edit");
-        $unenroll = $this->input->post("unenroll");
+        $viewing = $this->input->post("viewing") == true ? true : false;
+        $v_date = $this->input->post("viewing_date");
+        $edit = $this->input->post("edit") == true ? true : false;
+        $unenroll = $this->input->post("unenroll") == true ? true : false;
 
         if ($qrtrid && $quarter) {
             $data = [
@@ -557,6 +559,8 @@ class Dataentry extends MY_Controller
                 "enrollment_deadline" => $enrolldl ? $enrolldl : null,
                 "grading_stat" => $grading,
                 "grading_deadline" => $gradingdl ? $gradingdl : null,
+                "view_grades" => $viewing,
+                "view_grades_until" => $v_date ? $v_date : null,
                 "edit_student" => $edit,
                 "unenroll" => $unenroll,
             ];

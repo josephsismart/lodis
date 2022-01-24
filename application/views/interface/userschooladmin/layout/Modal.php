@@ -206,24 +206,12 @@ $uri = $this->session->schoolmis_login_uri;
                                     <h3 class="card-title"><b>Enrollment</b></h3>
                                 </div>
                                 <div class="card-body p-1">
-                                    <!-- <div class="row">
-                                        <div class="col-7 pr-0 mr-n5">
-                                            <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
-                                        </div>
-                                        <div class="col-7">
-                                            <input type="date" class="form-control form-control-sm" name="enrolldl" nr="1">
-                                        </div>
-                                    </div> -->
                                     <div class="row">
-                                        <div class="col-5">
-                                            <select class="form-control form-control-sm" name="enrollment">
-                                                <option value="1">ON</option>
-                                                <option value="0">OFF</option>
-                                            </select>
-                                            <!-- <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success"> -->
-                                        </div>
-                                        <div class="col-7">
-                                            <input type="date" class="form-control form-control-sm" name="enrolldl" nr="1">
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
+                                                <input type="date" class="form-control form-control-sm" name="enrolldl" nr="1">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -233,28 +221,32 @@ $uri = $this->session->schoolmis_login_uri;
                         <div class="col-12">
                             <div class="card card-light">
                                 <div class="card-header p-1">
-                                    <h3 class="card-title"><b>Entering</b> Grades</h3>
+                                    <h3 class="card-title"><b>Entering of Grades</b></h3>
                                 </div>
                                 <div class="card-body p-1">
-                                    <!-- <div class="row">
-                                        <div class="col-7 pr-0 mr-n5">
-                                            <input type="checkbox" name="grading" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
-                                        </div>
-                                        <div class="col-7">
-                                            <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
-                                        </div>
-                                    </div> -->
-
                                     <div class="row">
-                                        <div class="col-5">
-                                            <select class="form-control form-control-sm" name="grading">
-                                                <option value="1">ON</option>
-                                                <option value="0">OFF</option>
-                                            </select>
-                                            <!-- <input type="checkbox" name="enrollment" checked data-bootstrap-switch data-off-color="danger" data-on-color="success"> -->
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="checkbox" name="grading" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
+                                                <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
+                                            </div>
                                         </div>
-                                        <div class="col-7">
-                                            <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-light">
+                                <div class="card-header p-1">
+                                    <h3 class="card-title"><b>Viewing of Grades</b></h3>
+                                </div>
+                                <div class="card-body p-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="checkbox" name="viewing" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
+                                                <input type="date" class="form-control form-control-sm" name="viewing_date" nr="1">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -265,15 +257,12 @@ $uri = $this->session->schoolmis_login_uri;
                                 <div class="col-6">
                                     <div class="card card-light">
                                         <div class="card-header p-1">
-                                            <h3 class="card-title"><b>Edit</b></h3>
+                                            <h3 class="card-title"><b><span class="fa fa-pen text-primary"></span> Edit</b></h3>
                                         </div>
                                         <div class="card-body p-1">
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <select class="form-control form-control-sm" name="edit">
-                                                        <option value="1">ON</option>
-                                                        <option value="0">OFF</option>
-                                                    </select>
+                                                <div class="col-12 text-center">
+                                                    <input type="checkbox" name="edit" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
                                                 </div>
                                             </div>
                                         </div>
@@ -283,15 +272,12 @@ $uri = $this->session->schoolmis_login_uri;
                                 <div class="col-6">
                                     <div class="card card-light">
                                         <div class="card-header p-1">
-                                            <h3 class="card-title"><b>Unenroll</b></h3>
+                                            <h3 class="card-title"><b><span class="fa fa-trash-alt text-danger"></span> Unenroll</b></h3>
                                         </div>
                                         <div class="card-body p-1">
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <select class="form-control form-control-sm" name="unenroll">
-                                                        <option value="1">ON</option>
-                                                        <option value="0">OFF</option>
-                                                    </select>
+                                                <div class="col-12 text-center">
+                                                    <input type="checkbox" name="unenroll" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
                                                 </div>
                                             </div>
                                         </div>

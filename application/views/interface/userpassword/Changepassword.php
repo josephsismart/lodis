@@ -58,8 +58,9 @@ $uri = $this->session->schoolmis_login_uri;
 
                         <div class="input-group mb-2">
                             <span class="badge bg-success crrntgood" style="display:none;"><i class="fa fa-check-circle"></i> CURRENT PASSWORD MATCH</span>
-                            <span class="badge bg-danger crrntbad" style="display:none;"><i class="fa fa-times-circle"></i> CURRENT PASSWORD MISMATCH</span>
+                            <span class="badge bg-danger crrntbad"><i class="fa fa-times-circle"></i> CURRENT PASSWORD MISMATCH</span>
                         </div>
+
                         <div class="input-group mb-3">
                             <input type="password" name="crrntpwd" onkeyup="passwordChecker('UpdatePassword','pwd','confirmpwd','crrntpwd');" class="form-control crrntpwd <?php if ($this->input->get("login_attempt") == md5(0)) : ?> is-invalid <?php endif ?>" placeholder="Current Password" autofocus autocomplete="off">
                             <div class="input-group-append">
@@ -69,14 +70,13 @@ $uri = $this->session->schoolmis_login_uri;
                             </div>
                         </div>
                         <!-- <p class='text-center text-sm mb-1'>New Password at least <b>8</b> Characters.</p> -->
-
                         <div class="input-group mb-2">
-                            <span class="badge bg-success good" style="display:none;"><i class="fa fa-check-circle"></i> PASSWORD MATCH</span>
-                            <span class="badge bg-danger bad" style="display:none;"><i class="fa fa-times-circle"></i> PASSWORD MISMATCH</span>
+                            <span class="badge bg-danger atleast"><i class="fa fa-times-circle"></i> PASSWORD MUST BE AT LEAST `8` CHARACTERS</span>
+                            <span class="badge bg-success good8" style="display:none;"><i class="fa fa-check-circle"></i> PASSWORD AT LEAST `8` CHARACTERS</span>
                         </div>
                         <div class="input-group mb-2">
-                            <span class="badge bg-primary atleast" style="display:none;">PASSWORD MUST BE AT LEAST `8` CHARACTERS</span>
-                            <span class="badge bg-success good8" style="display:none;"><i class="fa fa-check-circle"></i> PASSWORD AT LEAST `8` CHARACTERS</span>
+                            <span class="badge bg-danger bad"><i class="fa fa-times-circle"></i> PASSWORD MISMATCH</span>
+                            <span class="badge bg-success good" style="display:none;"><i class="fa fa-check-circle"></i> PASSWORD MATCH</span>
                         </div>
                         <div class="input-group mb-3">
                             <input type="password" name="pwd" onkeyup="passwordChecker('UpdatePassword','pwd','confirmpwd',null);" class="form-control pwd <?php if ($this->input->get("login_attempt") == md5(0)) : ?> is-invalid <?php endif ?>" placeholder="New Password" autocomplete="off">
@@ -169,7 +169,7 @@ $uri = $this->session->schoolmis_login_uri;
                     $("#" + f + " .crrntbad").show();
                 }
             } else {
-                if (g.length > 7 && h.length > 7) {
+                if (g.length > 7 || h.length > 7) {
                     $("#" + f + " .atleast").hide();
                     $("#" + f + " .good8").show();
                     if (g != h) {
