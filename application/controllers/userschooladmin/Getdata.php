@@ -370,17 +370,20 @@ class Getdata extends MY_Controller
                 $c++,
                 "<span class='badge text-md " . ($stat == "t" ? "bg-info" : "bg-gray") . "'>$value->description <span class='badge text-md bg-yellow'>" . $this->getOnLoad()["qrtrR"] . "</span></span>",
                 "<div class='row'>
-                    <div class='col-3'>
+                    <div class='col-3 mr-1'>
                         <span class='badge text-xs " . $ebg . " '>ENRLMNT <br/>" . $edl . "</span>
-                    </div><div class='col-3'>
+                    </div><div class='col-3 mr-1'>
                         <span class='badge text-xs " . $gbg . "'>INPUT GRDS <br/>" . $gdl . "</span>
-                    </div><div class='col-3'>
+                    </div><div class='col-3 mr-1'>
                         <span class='badge text-xs " . $vbg . "'>VIEW GRDS <br/>" . $vgu . "</span>
                     </div>
-                    <div class='col-3 float-right'>
-                    
-                    ".($edit=='f'?'':" <span class='fa fa-pen text-primary'></span>")."
-                    ".($unenroll=='f'?'':" <span class='fa fa-trash-alt text-danger'></span>")."
+                    <div class='col-1'>
+                        <small>
+                            ".($edit=='f'?'':" <span class='fa fa-pen text-primary text-xs mt-n2 pt-0'></span><br/>")."
+                            ".($unenroll=='f'?'':" <span class='fa fa-trash-alt text-danger text-xs  mt-n2 pt-0'></span>")."
+                        </small>
+                    </div>
+                    <div class='col-1 float-right'>
                         <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
                             <span class='fa fa-ellipsis-h'></span>
                         </button>
