@@ -95,6 +95,8 @@ class Login extends MY_Controller
                             "schoolmis_login_schl_name"  => $row2->school_name, // $query->row('district_id'),
                             "schoolmis_login_schl_type"  => $row2->school_type, // $query->row('district_id'),
                             "schoolmis_login_abbrv"      => $row2->abbr, // $query->row('district_id'),
+                            "schoolmis_login_dept_id"    => $row2->school_department_id, // $query->row('district_id'),
+                            "schoolmis_login_dept_name"  => $row2->dept_name, // $query->row('district_id'),
                         ];
                     }
 

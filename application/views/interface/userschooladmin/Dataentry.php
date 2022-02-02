@@ -6,19 +6,12 @@ if (!$this->session->schoolmis_login_level) {
 }
 $uri = $this->session->schoolmis_login_uri;
 ?>
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<div class="container-fluid">
 		<div class="row mt-2">
 			<div class="col-sm-6">
 				<h1><i class="nav-icon fas fa-edit"></i> Data Entry</h1>
 			</div>
-			<!-- <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Advanced Form</li>
-        </ol>
-      </div> -->
 		</div>
 	</div><!-- /.container-fluid -->
 </section>
@@ -28,13 +21,13 @@ $uri = $this->session->schoolmis_login_uri;
 	<div class="container-fluid">
 		<div class="row">
 
-			<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 form_save_dataPersonnelInfo">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataPersonnelInfo">
 				<div class="row">
 					<div class="col-12">
 						<?= form_open(base_url($uri . '/Dataentry/savePersonnelInfo'), 'id=form_save_dataPersonnelInfo'); ?>
-						<input type="" name="personId" hidden nr="1">
+						<input  name="personId" hidden nr="1">
 						<div class="card card-navy">
-							<div class="card-header">
+							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-user"></i> Personnel Information Details</h3>
 
 								<div class="card-tools">
@@ -115,8 +108,8 @@ $uri = $this->session->schoolmis_login_uri;
 																												 ['BarangayList','PurokList'],'PersonnelInfo')" type="select" name="cty">
 											</select>
 											<!-- <div class="input-group-append" onclick="viewRegionProvince();" style="cursor:pointer;"> -->
-												<!-- <span class="input-group-text" data-toggle="modal" data-target="#modalRegionProvince"><i class="fas fa-pen text-primary"></i></span> -->
-												<!-- <span class="input-group-text"><i class="fas fa-pen text-primary"></i></span> -->
+											<!-- <span class="input-group-text" data-toggle="modal" data-target="#modalRegionProvince"><i class="fas fa-pen text-primary"></i></span> -->
+											<!-- <span class="input-group-text"><i class="fas fa-pen text-primary"></i></span> -->
 											<!-- </div> -->
 										</div>
 									</div>
@@ -218,7 +211,7 @@ $uri = $this->session->schoolmis_login_uri;
 								</div>
 							</div>
 							<!-- /.card-body -->
-							<div class="card-footer">
+							<div class="card-footer p-1 pr-2 pl-2">
 								<button type="submit" class="btn btn-info btn-xs submitBtnPrimary">Save Data</button>
 								<button type="button" class="btn btn-gray btn-xs" onclick="clear_form('form_save_dataPersonnelInfo')">Clear</button>
 							</div>
@@ -229,7 +222,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 					<div class="col-12">
 						<div class="card">
-							<div class="card-header">
+							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-list"></i> Personnel & User Account List</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -256,11 +249,11 @@ $uri = $this->session->schoolmis_login_uri;
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
+			<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
 				<div class="row">
 					<div class="col-12">
 						<div class="card card-navy">
-							<div class="card-header">
+							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-puzzle-piece"></i> Grade level Subjects</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -274,21 +267,11 @@ $uri = $this->session->schoolmis_login_uri;
 											<select class="form-control form-control-sm selectGLevelList" data-placeholder="K-12" name="gradek12" onchange="getFetchList('GradeSubject', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSubject .selectGLevelList').val()}, 0);getSelectSubject();"></select>
 										</div>
 										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
-											<div class="input-group">
-												<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="gradelevel" onchange="getSelectSubject();"></select>
-												<div class="input-group-append">
-													<button type="button" class="btn btn-default btn-sm"><i class="fa fa-pen text-primary"></i></button>
-												</div>
-											</div>
+											<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="gradelevel" onchange="getSelectSubject();"></select>
 										</div>
 										<div class="col-lg-12 col-md-12 col-sm-12 mb-2 sbj">
 											<div class="input-group">
 												<select class="form-control form-control-sm select2 selectSubjectList" multiple="multiple" data-placeholder="SUBJECT LISTS" name="subjectlist[]" nr="1"></select>
-												<!-- <select class="form-control form-control-sm select2" multiple="multiple" data-placeholder="SUBJECT LISTS" name="asdf[]" nr="1">
-													<option value='a'>a</option>
-													<option value='b' disabled>b</option>
-													<option value='c'>c</option>
-												</select> -->
 												<div class="input-group-append">
 													<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modalSubjectList"><i class="fa fa-pen text-primary"></i></button>
 													<button type="submit" class="btn btn-info btn-sm submitBtnPrimary">SAVE</button>
@@ -297,16 +280,6 @@ $uri = $this->session->schoolmis_login_uri;
 										</div>
 									</div>
 									</form>
-									<!-- <table id="tblGradeSubject" style="width:100%;" class="table table-sm table-striped table-hover">
-										<thead>
-											<tr>
-												<th width="1">#</th>
-												<th><i class='fa fa-puzzle-piece'></i> Grade lvl Sectioning details</th>
-											</tr>
-										</thead>
-										<tbody>
-										</tbody>
-									</table> -->
 								</div>
 							</div>
 						</div>
@@ -314,7 +287,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 					<div class="col-12">
 						<div class="card card-navy">
-							<div class="card-header">
+							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-puzzle-piece"></i> Grade level Sectioning</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -359,10 +332,56 @@ $uri = $this->session->schoolmis_login_uri;
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 form_save_dataSY">
+				<div class="row">
+					<div class="col-12">
+						<div class="card card-navy">
+							<div class="card-header p-1 pr-2 pl-2">
+								<h3 class="card-title"><i class="fa fa-puzzle-piece"></i> Departments</h3>
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+								</div>
+							</div>
+							<div class="card-body p-2" style="overflow: auto;">
+								<div class="table-responsive mailbox-messages">
+									<?= form_open(base_url($uri . '/Dataentry/saveDeptInfo'), 'id=form_save_dataDeptInfo'); ?>
+									<div class="row">
+										<input name="duuid" nr="1" hidden/>
+										<div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+											<input type="text" class="form-control form-control-sm text-uppercase" name="name" placeholder="DEPARTMENT NAME" autocomplete="off">
+										</div>
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="input-group mb-2">
+												<input type="text" class="form-control form-control-sm text-uppercase" name="abbr" placeholder="ABBREVIATION" autocomplete="off">
+												<div class="input-group-append">
+													<button type="submit" class="btn btn-info btn-sm submitBtnPrimary">SAVE</button>
+												</div>
+											</div>
+											<small><i><b>**Note: </b> Please refer to <b>User Account</b> when assigning Department Head**</i></small>
+										</div>
+									</div>
+									</form>
+									<table id="tblDeptInfo" style="width:100%;" class="table table-sm table-striped table-hover">
+										<thead>
+											<tr>
+												<th width="1">#</th>
+												<th><i class='fa fa-puzzle-piece'></i> Department details</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<div class="col-12">
 						<div class="card card-navy">
-							<div class="card-header">
+							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-calendar"></i> School Year and Quarter</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -405,6 +424,7 @@ $uri = $this->session->schoolmis_login_uri;
 		getTable(f2, 0, 5);
 		getTable("SYInfo", 0, 5);
 		getTable("SubjectList", 0, 10);
+		getTable("DeptInfo", 0, 5);
 		getSbjctAssPrsnnl("SbjctAssPrsnnl");
 
 		// getFetchList("RegionProvince", "RegionList", null, 1, {
@@ -471,8 +491,9 @@ $uri = $this->session->schoolmis_login_uri;
 		saveForm("SYInfo", ["SYInfo"], null);
 		saveForm("SbjctAssPrsnnl", [""], null);
 		saveForm("GradeSubject", [""], null);
-		saveForm("PersonnelAccount", [f1], null);
+		saveForm("PersonnelAccount", [f1,"DeptInfo"], null);
 		saveForm("Subject", ["SubjectList"], null);
+		saveForm("DeptInfo", ["DeptInfo"], null);
 		saveForm("QuarterInfo", ["SYInfo"], null);
 	});
 </script>

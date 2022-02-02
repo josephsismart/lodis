@@ -134,9 +134,8 @@ class Getdata extends MY_Controller
     {
         $data = ["data" => []];
         // $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel ORDER BY schoolpersonnel_id DESC");
-        $thisQuery = $this->db->query("SELECT t2.school_department_id,t1.* FROM profile.view_schoolpersonnel t1
-                                       LEFT JOIN profile.tbl_schoolpersonnel t2 ON t1.schoolpersonnel_id=t2.id 
-                                       ORDER BY t1.schoolpersonnel_id DESC");
+        $thisQuery = $this->db->query("SELECT t1.* FROM profile.view_schoolpersonnel t1
+                                        ORDER BY t1.schoolpersonnel_id DESC");
         $cc = 1;
         foreach ($thisQuery->result() as $key => $value) {
             $id = $value->schoolpersonnel_id;
@@ -200,6 +199,7 @@ class Getdata extends MY_Controller
                 $value->level ?
                     "<div class='row'><div class='col-6'><span class='badge text-sm'>$value->username</span><br/>
                     <span class='badge'>" . $value->user_description . "</span><br/>
+                    <span class='badge text-info'><b>" . $value->dept_name . "</b></span><br/>
                 </div>
                 <div class='col-6'>
                     <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
@@ -272,6 +272,47 @@ class Getdata extends MY_Controller
                     <input class="custom-control-input custom-radio" type="radio" value="' . $sbjctid . '" id="customRadio2' . $sbjctid . '" name="advisory" ' . $s . '>
                     <label for="customRadio2' . $sbjctid . '" class="custom-control-label" style="cursor:pointer;"></label>
                 </div></div></div>',
+            ];
+        }
+        echo json_encode($data);
+    }
+
+    function getDeptInfo()
+    {
+        $sy = $this->getOnLoad()["sy_id"];
+        $data = ["data" => []];
+        $data2 = [];
+        $c = 1;
+        $thisQuery = $this->db->query("SELECT t1.*,t2.full_name FROM profile.tbl_school_department t1
+                                        LEFT JOIN profile.view_schoolpersonnel t2 ON t1.department_head_person_id=t2.schoolpersonnel_id
+                                        ORDER BY t1.department_name");
+        foreach ($thisQuery->result() as $key => $value) {
+            $duuid = $value->uuid;
+            $dept_name = $value->department_name;
+            $abbr = $value->abbr;
+            $full_name = $value->full_name;
+            $data2 = [
+                "duuid" => $duuid,
+                "name" => $dept_name,
+                "abbr" => $abbr,
+            ];
+            $arr = json_encode($data2);
+
+            $data["data"][] = [
+                $c++,
+                "<div class='row'><div class='col-11'>
+                    <span class='badge text-sm pb-0'>$dept_name</span>
+                    <small>$abbr</i></small><br/>
+                    " . ($full_name ? "<small class='ml-2 mr-2 text-success'><b> $full_name </b></small>" : " - ") . "
+                </div>
+                <div class='col-1'>
+                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
+                        <span class='fa fa-ellipsis-h'></span>
+                    </button>
+                    <div class='dropdown-menu'>
+                        <a class='dropdown-item' href='#' onclick='getDetails(\"DeptInfo\",$arr,1)'>Edit Information</a>
+                    </div>
+                </div></div>",
             ];
         }
         echo json_encode($data);
@@ -350,48 +391,41 @@ class Getdata extends MY_Controller
             $edl = $this->dateFormat($value->enrollment_deadline);
             $gdl = $this->dateFormat($value->grading_deadline);
             $vgu = $this->dateFormat($value->view_grades_until);
-            
+
 
             $data1 = [
                 "qrtrid" => $value->id,
                 "quarter" => $value->qrtr,
-                "enrollment" => $value->enrollment_stat=='t'?true:false,
+                "enrollment" => $value->enrollment_stat == 't' ? true : false,
                 "enrolldl" => $value->enrollment_deadline,
-                "grading" => $value->grading_stat=='t'?true:false,
+                "grading" => $value->grading_stat == 't' ? true : false,
                 "gradingdl" => $value->grading_deadline,
-                "viewing" => $value->view_grades=='t'?true:false,
+                "viewing" => $value->view_grades == 't' ? true : false,
                 "viewing_date" => $value->view_grades_until,
-                "edit" => $value->edit_student=='t'?true:false,
-                "unenroll" => $value->unenroll=='t'?true:false,
+                "edit" => $value->edit_student == 't' ? true : false,
+                "unenroll" => $value->unenroll == 't' ? true : false,
             ];
             $arr1 = json_encode($data1);
 
             $data["data"][] = [
-                $c++,
-                "<span class='badge text-md " . ($stat == "t" ? "bg-info" : "bg-gray") . "'>$value->description <span class='badge text-md bg-yellow'>" . $this->getOnLoad()["qrtrR"] . "</span></span>",
-                "<div class='row'>
-                    <div class='col-3 mr-1'>
-                        <span class='badge text-xs " . $ebg . " '>ENRLMNT <br/>" . $edl . "</span>
-                    </div><div class='col-3 mr-1'>
-                        <span class='badge text-xs " . $gbg . "'>INPUT GRDS <br/>" . $gdl . "</span>
-                    </div><div class='col-3 mr-1'>
-                        <span class='badge text-xs " . $vbg . "'>VIEW GRDS <br/>" . $vgu . "</span>
-                    </div>
-                    <div class='col-1'>
-                        <small>
-                            ".($edit=='f'?'':" <span class='fa fa-pen text-primary text-xs mt-n2 pt-0'></span><br/>")."
-                            ".($unenroll=='f'?'':" <span class='fa fa-trash-alt text-danger text-xs  mt-n2 pt-0'></span>")."
-                        </small>
-                    </div>
-                    <div class='col-1 float-right'>
-                        <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
-                            <span class='fa fa-ellipsis-h'></span>
-                        </button>
-                        <div class='dropdown-menu'>
-                            <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Details</button>
-                        </div>
+                "<div class='col-1 float-right'>
+                    <button type='button' class='btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0' data-toggle='dropdown' aria-expanded='true'>
+                        <span class='fa fa-ellipsis-h'></span>
+                    </button>
+                    <div class='dropdown-menu'>
+                        <button class='dropdown-item' onclick='getDetails(\"QuarterInfo\",$arr1,1);$(\"#modalQuarterInfo\").modal(\"show\");'>Edit Details</button>
                     </div>
                 </div>",
+
+                "<span class='badge text-md " . ($stat == "t" ? "bg-info" : "bg-gray") . "'>$value->description 
+                    <span class='badge text-md bg-yellow'>" . $this->getOnLoad()["qrtrR"] . "</span>
+                    <span class='badge text-xs bg-white'>" . ($edit == 'f' ? '' : " <i class='fa fa-pen'></i>") . "</span>
+                    <span class='badge text-xs bg-white'>" . ($unenroll == 'f' ? '' : " <i class='fa fa-trash-alt text-danger'></i>") . "</span>
+                </span>",
+
+                "<span class='badge text-xs " . $ebg . " '>ENRLMNT <br/>" . $edl . "</span>
+                <span class='badge text-xs " . $gbg . "'>INPUT GRDS <br/>" . $gdl . "</span>
+                <span class='badge text-xs " . $vbg . "'>VIEW GRDS <br/>" . $vgu . "</span>",
             ];
         }
         echo json_encode($data);

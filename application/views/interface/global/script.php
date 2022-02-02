@@ -28,6 +28,27 @@ $uri = $this->session->schoolmis_login_uri;
     setInterval(function() {
         $.post("<?= base_url('Main/allow') ?>");
     }, 3000)
+    var confirmP = "";
+    var rmvP = "";
+    var refrmvP = "";
+    var stq = "";
+    var pwd = "";
+    var entryId = 0;
+    var addItemId = 0;
+    var validatorC = 0;
+    var valid = 0;
+    var grdlvl = 0;
+    var rmid = 0;
+    $(function() {
+        $('.select2').select2()
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        });
+    });
+
+    $("input[data-bootstrap-switch]").each(function() {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
 
     function clear_form(form_id) {
         let f1 = "PersonnelInfo";
@@ -44,6 +65,41 @@ $uri = $this->session->schoolmis_login_uri;
 
         $("#" + form_id + " .submitBtnPrimary").attr("disabled", false);
         $("#" + form_id + " .submitBtnPrimary").html("Save Data");
+
+        getFetchList(f1, "RegionList", null, 1, {
+            v: null
+        }, 1, 1);
+        getFetchList(f1, "ProvinceList", null, 1, {
+            v: 16
+        }, 1, 1);
+        getFetchList(f1, "CityMunList", null, 1, {
+            v: 1602
+        }, 1, 1);
+        getFetchList(f1, "BarangayList", null, 1, {
+            v: 160201
+        }, 1, 1);
+    }
+
+    function delay(a, b) {
+        setTimeout(function() {
+            $("#form_save_dataPersonnelInfo [name='" + b + "']").val(a);
+            $("#form_save_dataPersonnelInfo [name='" + b + "']").trigger("change");
+        }, 1000)
+    }
+
+    function getDetails(a, b) {
+        // hideUpdate();
+        // clear_form("form_save_data" + a);
+        // c == 1 ? $("#form_save_data" + a + " .submitBtnPrimary").html("Update Data") : $("#form_save_data" + a + " .submitBtnPrimary").html("Save Data");
+        $.each(b, function(k, v) {
+            // console.log(k)
+            // console.log(v)
+            $("#form_save_data" + a).each(function() {
+                $("[name='" + k + "']").val(v);
+                $("[class='" + k + "']").html(v);
+                $("[name='" + k + "']").trigger("change");
+            });
+        });
     }
 
     function validate(form_id) {
@@ -93,12 +149,89 @@ $uri = $this->session->schoolmis_login_uri;
         valid = invalid;
     }
 
+
+    function dfltpwdchck(a) {
+        if (a == true) {
+            $('.pwd, .confirmpwd').val('');
+            $('.pwd, .confirmpwd').attr('nr', 1);
+            $('.pwd, .confirmpwd').removeClass('is-invalid border-danger');
+            $('.fillpwd').slideUp();
+            $("#form_save_dataPersonnelAccount .submitBtnPrimary").attr("disabled", false);
+        } else {
+            $('.pwd, .confirmpwd').attr('nr', 0);
+            $('.fillpwd').slideDown();
+        }
+    }
+
+    function passwordChecker(a, b, c) {
+        var f = "form_save_data" + a;
+        var g = $("#" + f + " ." + b).val();
+        var h = $("#" + f + " ." + c).val();
+        if (g.length > 7 && h.length > 7) {
+            $("#" + f + " .atleast").hide();
+            if (g != h) {
+                $("#" + f + " .good").hide();
+                $("#" + f + " .bad").show();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+                // $(".address_details").removeClass("col-lg-12").addClass("col-lg-5");
+            } else if (!g && !h) {
+                $("#" + f + " .good").hide();
+                $("#" + f + " .bad").hide();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+            } else {
+                $("#" + f + " .good").show();
+                $("#" + f + " .bad").hide();
+                $("#" + f + " .submitBtnPrimary").attr("disabled", false);
+                // $(".address_details").removeClass("col-lg-5").addClass("col-lg-12");
+            }
+            // $("#" + f + " .submitBtnPrimary").attr("disabled", false);
+        } else {
+            $("#" + f + " .atleast").show();
+            if (g.length == 0 && h.length == 0) {
+                $("#" + f + " .submitBtnPrimary").attr("disabled", false);
+            } else {
+                $("#" + f + " .submitBtnPrimary").attr("disabled", true);
+            }
+        }
+    }
+
+    function reportForm(formId) {
+        $("#form_report_data" + formId + " .submitBtnPrimary").attr("disabled", true);
+        $("#form_report_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        var table, table_data = $("#tblReport" + formId).DataTable({
+            "iDisplayLength": -1,
+            ajax: {
+                url: "<?= base_url($uri . '/report/report') ?>" + formId,
+                icon: "POST",
+                data: function(d) {
+                    d.a = $("#form_report_data" + formId).serialize();
+                    return table_data;
+                }
+            },
+            "initComplete": function(settings, json) {
+                json.data.length == 0 ? failAlert("No Data found!") : $("#modalReport" + formId).modal("show");
+                $("#tblReport" + formId).DataTable().destroy();
+                $("#form_report_data" + formId + " .submitBtnPrimary").attr("disabled", false);
+                $("#form_report_data" + formId + " .submitBtnPrimary").html("Go!");
+                if (formId == "InvPO") {
+                    $("#headerReport" + formId).text("Inventory & Purchase Order as of " + $("[name='filterInvPOfromDate'").val() + " - " + $("[name='filterInvPOtoDate'").val());
+                }
+                if (formId == "StckPR") {
+                    $("#headerReport" + formId).text("Stocks & Purchase Request as of " + $("[name='filterStckPRfromDate'").val() + " - " + $("[name='filterStckPRtoDate'").val());
+                }
+            }
+        });
+    }
+
     function saveForm(formId, tblId, tbl, dtd, pl) {
         let a = "";
         var saveData = {
             clearForm: false,
             resetForm: false,
             beforeSubmit: function(e) {
+                if (formId != 'SbjctAssPrsnnl') {
+                    validate("form_save_data" + formId);
+                }
                 if (valid != 0) {
                     fillIn();
                     return false;
@@ -189,18 +322,84 @@ $uri = $this->session->schoolmis_login_uri;
         }
     }
 
-    function customTabViewAllGrades(b) {
-        $.get("<?= base_url($uri . "/Getdata/getViewAllGrades") ?>", {
-                a: b
-            },
-            function(data) {
-                var d = JSON.parse(data);
-                $(".form_save_dataPersonSecInfo .viewAllGrades").html(d);
-            }).done(function() {});
-    }
-
     function tblReload(tableId) {
         $("#tbl" + tableId).DataTable().ajax.reload();
+    }
+
+    function getSbjctAssPrsnnlFN(tableId, a, b) {
+        grdlvl = a;
+        rmid = b;
+        tblReload(tableId);
+    }
+
+    function getSbjctAssPrsnnl(tableId) {
+        $("#tbl" + tableId).DataTable().destroy();
+        var table, table_data = $("#tbl" + tableId).DataTable({
+            "order": [
+                [0, "asc"]
+            ],
+            dom: 'Bfrtip',
+            buttons: [],
+            searching: false,
+            "info": false,
+            "paging": false,
+            "ordering": false,
+            "oLanguage": {
+                "sSearch": ""
+            },
+            // language: {
+            //     searchPlaceholder: "Search...",
+            // },
+            pageLength: -1,
+            lengthMenu: [
+                [-1],
+                ["Show all rows"]
+            ],
+            ajax: {
+                url: "<?= base_url($uri . '/getdata/get') ?>" + tableId,
+                type: "POST",
+                data: function(d) {
+                    d.grdlvl = grdlvl;
+                    d.rmid = rmid;
+                }
+            }
+        });
+        $("#tbl" + tableId).on('draw.dt', function() {
+            // $("#tbl" + tableId).DataTable().destroy();
+
+            // $(".searchBtn").attr("disabled", false);
+            // $(".searchBtn").html("<span class=\"fa fa-search\"></span>");
+            $("#form_save_data" + tableId + " .select" + tableId).select2();
+
+
+            // $(".searchBtn").attr("disabled", false);
+            // $(".searchBtn").html("<span class=\"fa fa-search\"></span>");
+            // $("#tbl" + tableId).DataTable().destroy();
+            // $(".collapse" + tableId).trigger('click');
+
+            grdlvl != 0 ? $("#modal" + tableId).modal('show') : "";
+        });
+        // $("#tbl"+tableId+"_filter").addClass("row");
+        // $("#tbl"+tableId+"_filter label").css("width","99%");
+        // $("#tbl"+tableId+"_filter .form-control-sm").css("width","99%");
+    }
+
+    function getLocation(a, b, c, e) {
+        for (var i = 0; i < a.length; i++) {
+            clearLoc(b[i], c);
+            let form = 'form_save_data' + c;
+            let d = $('#' + form + ' .select' + a[i]).val();
+            let ab = d == '' || d == null ? 0 : d;
+            getFetchList(c, b[i], null, 1, {
+                v: ab
+            }, 1, 1);
+            // getFetchList(c, b[i], null, 1, e);
+        }
+    }
+
+    function clearLoc(a, b) {
+        let form = 'form_save_data' + b;
+        $("#" + form + " .select" + a).empty();
     }
 
     function getFetchList(formId, getList, getQ, s2, where, sel, e) {
@@ -216,6 +415,30 @@ $uri = $this->session->schoolmis_login_uri;
             }
         ).then(function() {
             s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+        });
+    }
+
+
+    $('#form_save_dataGradeSubject .selectSubjectList').on("select2:select", function(e) {
+        console.log('a')
+        var unselected_value = $(this).val();
+        console.log(unselected_value);
+    }).trigger('change');
+
+
+    var invalidChars = [
+        "-",
+        "+",
+        "e",
+    ];
+
+    function viewRegionProvince() {
+        $(".region_province").toggle("slow", function() {
+            if ($(".region_province").is(":visible")) {
+                $(".address_details").removeClass("col-lg-12").addClass("col-lg-5");
+            } else {
+                $(".address_details").removeClass("col-lg-5").addClass("col-lg-12");
+            }
         });
     }
 

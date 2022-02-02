@@ -172,8 +172,8 @@ class Dataentry extends MY_Controller
                 "is_active" => true,
                 $userId ? "updated_by" : "added_by" => $login_id,
                 $userId ? "date_updated" : "date_added" => $dateNow,
-                "added_by" => $login_id,
-                "date_added" => $dateNow,
+                // "added_by" => $login_id,
+                // "date_added" => $dateNow,
             ];
 
             if ($pid && $role && $email) {
@@ -188,15 +188,23 @@ class Dataentry extends MY_Controller
                         if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
                             $ret = $true;
                             if ($role == 3) {
-                                $data2 = [
-                                    "department_head_person_id" => $spid,
-                                    "updated_by" => $login_id,
-                                    "date_updated" => $dateNow,
+                                $d = [
+                                    "department_head_person_id" => null,
                                 ];
-                                if ($userId) {
-                                    $this->db->where('id', $deptId);
-                                    if ($this->db->update("profile.tbl_school_department", $data2)) {
-                                        $ret = $true;
+                                $this->db->where('department_head_person_id', $spid);
+                                if ($this->db->update("profile.tbl_school_department", $d)) {
+                                    $data2 = [
+                                        "department_head_person_id" => $spid,
+                                        "updated_by" => $login_id,
+                                        "date_updated" => $dateNow,
+                                    ];
+                                    if ($userId) {
+                                        $this->db->where('id', $deptId);
+                                        if ($this->db->update("profile.tbl_school_department", $data2)) {
+                                            $ret = $true;
+                                        } else {
+                                            $ret = $false;
+                                        }
                                     } else {
                                         $ret = $false;
                                     }
@@ -582,6 +590,57 @@ class Dataentry extends MY_Controller
             $this->db->trans_commit();
         }
 
+        echo json_encode($ret);
+    }
+
+    function saveDeptInfo()
+    {
+        $this->db->trans_begin();
+        $duuid = $this->input->post("duuid");
+        $name = strtoupper($this->input->post("name"));
+        $abbr = strtoupper($this->input->post("abbr"));
+        $dateNow = $this->now();
+        $login_id = $this->session->schoolmis_login_id;
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+
+        $exist = $this->db->query("SELECT * FROM profile.tbl_school_department t1 WHERE t1.department_name='$name'");
+        if ($exist->num_rows() == 0) {
+            $data = [
+                "department_name" => $name,
+                "abbr" => $abbr,
+                "school_id" => $this->session->schoolmis_login_school_id,
+                $duuid ? "updated_by" : "added_by" => $login_id,
+                $duuid ? "date_updated" : "date_added" => $dateNow,
+            ];
+            if ($duuid && $name && $abbr && $login_id) {
+                if (!$this->mainModel->update("profile.tbl_school_department", $data, "uuid", $duuid)) {
+                    $this->userlog("UPDATED DEPARTMENT " . json_encode($data));
+                    $ret = $true;
+                }
+            } else if ($name && $abbr && $login_id) {
+                if ($this->db->insert("profile.tbl_school_department", $data)) {
+                    $this->userlog("INSERTED DEPARTMENT " . json_encode($data));
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
+            } else {
+                $ret = $false;
+            }
+
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+        } else {
+            $ret = $false;
+            $ret += [
+                "exist"   => true,
+                "message"   => "Deparment Name already exist!"
+            ];
+        }
         echo json_encode($ret);
     }
 
