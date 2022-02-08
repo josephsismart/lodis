@@ -80,8 +80,8 @@ $uri = $this->session->schoolmis_login_uri;
                             <div class="tab-pane fade active show" id="custom-tabs-four-new" role="tabpanel" aria-labelledby="custom-tabs-four-new-tab">
                                 <div class="row">
                                     <?= form_open(base_url($uri . '/Dataentry/saveEnrollmentInfo'), 'id=form_save_dataEnrollmentInfo'); ?>
-                                    <input name="details" hidden nr="1"/>
-                                    <input id="ersid" hidden name="rsId"/>
+                                    <input name="details" hidden nr="1" />
+                                    <input id="ersid" hidden name="rsId" />
                                     <!-- /.card-header -->
                                     <div class="card-body p-0">
                                         <!-- <label>Basic Information</label> -->
@@ -254,13 +254,20 @@ $uri = $this->session->schoolmis_login_uri;
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
                 <h5 class="modal-title p-0">
-                    Grades entry form - SY: <b><?= $getOnLoad["sy"]; ?> | </b> Q: <b><?= $getOnLoad["qrtr"]; ?></b></h5>
+                    Grades Entry form - SY: <b><?= $getOnLoad["sy"]; ?> | </b> Q: <b><?= $getOnLoad["qrtr"]; ?></b></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
-            <div class="modal-body mb-n3">
+            <div class="modal-body mb-n3 form_save_dataGradesList">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q1c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q2c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q3c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q4c">-</span></div>
+                </div>
+
                 <div class="card-body p-0 table-responsive mt-3">
                     <table class="table table-sm table-hover table-striped" id="tblGradesList" width="100%">
                         <thead>
@@ -407,6 +414,30 @@ $uri = $this->session->schoolmis_login_uri;
 </div>
 
 <!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+<div class="modal fade mt-5" id="modalLearnersSubmitGrades">
+    <div class="modal-dialog modal-sm">
+        <form id="form_save_dataSubmitGradesConfirm">
+            <div class="modal-content">
+                <div class="modal-header bg-success p-2">
+                    <h5 class="modal-title p-0"><span class="fa fa-paper-plane"></span> Submit Confirmation </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="qrssa" id="qrssa"/>
+                    <textarea class="form-control form-control-sm text-uppercase mb-2" rows="3" placeholder="REMARKS"></textarea>
+                    <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" />
+                </div>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-success btn-xs btn-block submitBtnPrimary" onclick="SubmitGrades();">Submit Student Grades</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
 <div class="modal fade" id="modalUpdateLearnerInfo">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -430,7 +461,7 @@ $uri = $this->session->schoolmis_login_uri;
                         </div>
                         <div id="collapseOne" class="collapse show" data-parent="#accordion">
                             <?= form_open(base_url($uri . '/Dataentry/saveEnrollmentInfo'), 'id=form_save_dataUpdateLearnerInfo'); ?>
-                            <input name="details" hidden/>
+                            <input name="details" hidden />
                             <div class="card-body p-2">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-12 col-sm-12">

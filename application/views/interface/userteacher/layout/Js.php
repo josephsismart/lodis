@@ -609,6 +609,15 @@ $uri = $this->session->schoolmis_login_uri;
             }).done(function() {});
     }
 
+    function preSbmitGrades(a){
+        $("#modalLearnersSubmitGrades #qrssa").val(a);
+        $("#modalLearnersSubmitGrades").modal("show");
+    }
+
+    function submitGrades(a){
+        alert(a)
+    }
+
     setTimeout(function() {
         $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
     }, 2000);

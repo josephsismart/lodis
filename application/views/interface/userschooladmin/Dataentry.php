@@ -21,7 +21,7 @@ $uri = $this->session->schoolmis_login_uri;
 	<div class="container-fluid">
 		<div class="row">
 
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataPersonnelInfo">
+			<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 form_save_dataPersonnelInfo">
 				<div class="row">
 					<div class="col-12">
 						<?= form_open(base_url($uri . '/Dataentry/savePersonnelInfo'), 'id=form_save_dataPersonnelInfo'); ?>
@@ -249,7 +249,8 @@ $uri = $this->session->schoolmis_login_uri;
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
+
+			<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
 				<div class="row">
 					<div class="col-12">
 						<div class="card card-navy">
@@ -332,11 +333,7 @@ $uri = $this->session->schoolmis_login_uri;
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 form_save_dataSY">
-				<div class="row">
+					
 					<div class="col-12">
 						<div class="card card-navy">
 							<div class="card-header p-1 pr-2 pl-2">
@@ -411,6 +408,11 @@ $uri = $this->session->schoolmis_login_uri;
 					</div>
 				</div>
 			</div>
+
+			<!-- <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 form_save_dataSY">
+				<div class="row">
+				</div>
+			</div> -->
 		</div>
 	</div><!-- /.container-fluid -->
 </section>
@@ -420,7 +422,7 @@ $uri = $this->session->schoolmis_login_uri;
 	$(function() {
 		let f1 = "PersonnelInfo";
 		let f2 = "GradeSecInfo";
-		getTable(f1, 0, 5);
+		getTable(f1, 0, 10);
 		getTable(f2, 0, 5);
 		getTable("SYInfo", 0, 5);
 		getTable("SubjectList", 0, 10);
