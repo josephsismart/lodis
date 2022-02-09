@@ -262,10 +262,10 @@ $uri = $this->session->schoolmis_login_uri;
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
             <div class="modal-body mb-n3 form_save_dataGradesList">
                 <div class="row">
-                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q1c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q2c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q3c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-xs-6 p-1"><span class="q4c">-</span></div>
+                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div> -->
+                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div> -->
+                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div> -->
+                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div> -->
                 </div>
 
                 <div class="card-body p-0 table-responsive mt-3">
@@ -430,7 +430,7 @@ $uri = $this->session->schoolmis_login_uri;
                     <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" />
                 </div>
                 <div class="modal-footer p-1">
-                    <button type="button" class="btn btn-success btn-xs btn-block submitBtnPrimary" onclick="SubmitGrades();">Submit Student Grades</button>
+                    <button type="button" class="btn btn-success btn-xs btn-block submitBtnPrimary" onclick="submitGrades();">Submit Student Grades</button>
                 </div>
             </div>
         </form>

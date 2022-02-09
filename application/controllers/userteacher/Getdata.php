@@ -69,52 +69,55 @@ class Getdata extends MY_Controller
         $sy = $this->getOnLoad()["sy_id"];
         $enroll_stat = $this->getOnLoad()["enroll_stat"];
         $grade_stat = $this->getOnLoad()["grade_stat"];
-        $query = $this->db->query("SELECT t1.* FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+        $query = $this->db->query("SELECT t1.*,t2.* FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+                                    LEFT JOIN (
+
+
+                                        SELECT DISTINCT(t1.rm_sctn_sbjct_assgnmnt_id) AS rssaid,t2.q1c,t2.q1stat,t2.q1rmrk,t3.q2c,t3.q2stat,t3.q2rmrk,t4.q3c,t4.q3stat,t4.q3rmrk,t5.q4c,t5.q4stat,t5.q4rmrk
+                                        FROM building_sectioning.tbl_learner_grades1 t1 					
+                                        LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
+                                                                            (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q1c,
+                                                                            t2.status q1stat, t2.remarks q1rmrk
+                                                            FROM building_sectioning.tbl_learner_grades1 t1 
+                                                            LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
+                                                                                    LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
+                                                                                    WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=1) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                            WHERE	t1.sy_id=1 AND t1.qrtr_id=1
+                                                            GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status,t2.remarks) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                            
+                                        LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
+                                                                            (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q2c,
+                                                                            t2.status q2stat, t2.remarks q2rmrk
+                                                            FROM building_sectioning.tbl_learner_grades1 t1 
+                                                            LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
+                                                                                    LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
+                                                                                    WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=2) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                            WHERE	t1.sy_id=1 AND t1.qrtr_id=2
+                                                            GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status,t2.remarks) t3 ON t1.rm_sctn_sbjct_assgnmnt_id=t3.rssa_id
+                                                            
+                                        LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
+                                                                            (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q3c,
+                                                                            t2.status q3stat, t2.remarks q3rmrk
+                                                            FROM building_sectioning.tbl_learner_grades1 t1 
+                                                            LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
+                                                                                    LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
+                                                                                    WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=3) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                            WHERE	t1.sy_id=1 AND t1.qrtr_id=3
+                                                            GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status,t2.remarks) t4 ON t1.rm_sctn_sbjct_assgnmnt_id=t4.rssa_id
+                                                            
+                                        LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
+                                                                            (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q4c,
+                                                                            t2.status q4stat, t2.remarks q4rmrk
+                                                            FROM building_sectioning.tbl_learner_grades1 t1 
+                                                            LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
+                                                                                    LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
+                                                                                    WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=4) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                            WHERE	t1.sy_id=1 AND t1.qrtr_id=4
+                                                            GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status,t2.remarks) t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rssa_id
+
+
+                                    ) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssaid
                                     WHERE t1.schoolpersonnel_id=$personnel_id AND t1.schl_yr_id=$sy ORDER BY t1.advisory DESC");
-                                    // -- LEFT JOIN (
-                                    // --     SELECT DISTINCT(t1.rm_sctn_sbjct_assgnmnt_id) AS rssaid,t2.q1c,t2.q1stat,t3.q2c,t3.q2stat,t4.q3c,t4.q3stat,t5.q4c,t5.q4stat
-                                    // --     FROM building_sectioning.tbl_learner_grades1 t1 					
-                                    // --     LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
-                                    // --                                         (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q1c,
-                                    // --                                         t2.status q1stat
-                                    // --                         FROM building_sectioning.tbl_learner_grades1 t1 
-                                    // --                         LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
-                                    // --                                                 LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
-                                    // --                                                 WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=1) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                    // --                         WHERE	t1.sy_id=1 AND t1.qrtr_id=1
-                                    // --                         GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                            
-                                    // --     LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
-                                    // --                                         (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q2c,
-                                    // --                                         t2.status q2stat
-                                    // --                         FROM building_sectioning.tbl_learner_grades1 t1 
-                                    // --                         LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
-                                    // --                                                 LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
-                                    // --                                                 WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=2) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                    // --                         WHERE	t1.sy_id=1 AND t1.qrtr_id=2
-                                    // --                         GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status) t3 ON t1.rm_sctn_sbjct_assgnmnt_id=t3.rssa_id
-                                                            
-                                    // --     LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
-                                    // --                                         (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q3c,
-                                    // --                                         t2.status q3stat
-                                    // --                         FROM building_sectioning.tbl_learner_grades1 t1 
-                                    // --                         LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
-                                    // --                                                 LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
-                                    // --                                                 WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=3) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                    // --                         WHERE	t1.sy_id=1 AND t1.qrtr_id=3
-                                    // --                         GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status) t4 ON t1.rm_sctn_sbjct_assgnmnt_id=t4.rssa_id
-                                                            
-                                    // --     LEFT JOIN(SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id,
-                                    // --                                         (SUM(CASE WHEN t1.grade IS NOT NULL THEN 1 ELSE 0 END)*100 / count(t1.id)) AS q4c,
-                                    // --                                         t2.status q4stat
-                                    // --                         FROM building_sectioning.tbl_learner_grades1 t1 
-                                    // --                         LEFT JOIN (SELECT t1.*,t2.description AS status FROM building_sectioning.tbl_learner_grades_stat1 t1
-                                    // --                                                 LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
-                                    // --                                                 WHERE t1.is_active=true AND t1.sy_id=1 AND t1.qrtr=4) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                    // --                         WHERE	t1.sy_id=1 AND t1.qrtr_id=4
-                                    // --                         GROUP BY t1.rm_sctn_sbjct_assgnmnt_id,t2.status) t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rssa_id
-                                    // -- ) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssaid
-                                    // -- WHERE t1.schoolpersonnel_id=$personnel_id AND t1.schl_yr_id=$sy ORDER BY t1.advisory DESC");
 
         foreach ($query->result() as $key => $value) {
             $rmid = $value->room_section_id;
@@ -132,14 +135,18 @@ class Getdata extends MY_Controller
             $subject = $value->subject_abbr;
             $s = $value->sctn_nm;
             $advsry = $value->advisory;
-            // $q1c = $value->q1c;
-            // $q1stat = $value->q1stat;
-            // $q2c = $value->q2c;
-            // $q2stat = $value->q2stat;
-            // $q3c = $value->q3c;
-            // $q3stat = $value->q3stat;
-            // $q4c = $value->q4c;
-            // $q4stat = $value->q4stat;
+            $q1c = $value->q1c;
+            $q1stat = $value->q1stat;
+            $q1rmrk = $value->q1rmrk;
+            $q2c = $value->q2c;
+            $q2stat = $value->q2stat;
+            $q2rmrk = $value->q2rmrk;
+            $q3c = $value->q3c;
+            $q3stat = $value->q3stat;
+            $q3rmrk = $value->q3rmrk;
+            $q4c = $value->q4c;
+            $q4stat = $value->q4stat;
+            $q4rmrk = $value->q4rmrk;
             $male = number_format($qrow->male) ?? "-";
             $female = number_format($qrow->female) ?? "-";
             $t_enrollee = number_format($qrow->total_enrollee) ?? "-";
@@ -161,32 +168,29 @@ class Getdata extends MY_Controller
                                                 </div>' : '',
             ];
 
-            // $data3 = [
-            //     "q1c" => ($q1stat ? '<span class="badge text-sm ' . ($q1stat == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">' . ($q1stat == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '') . $q1stat . ' Q1 - ' . $q1c . '%</span>' : ($q1stat || $q1c ? '<button onclick="preSbmitGrades(c4ca4238a0b923820dcc509a6f75849b)" type="button" class="btn btn-block btn-xs btn-info float-right ml-1"> SUBMIT<b> Q1 - ' . $q1c . '%</b></button>' : null)),
-            //     "q2c" => ($q2stat ? '<span class="badge text-sm ' . ($q2stat == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">' . ($q2stat == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '') . $q2stat . ' Q2 - ' . $q2c . '%</span>' : ($q2stat || $q2c ? '<button onclick="preSbmitGrades(c81e728d9d4c2f636f067f89cc14862c)" type="button" class="btn btn-block btn-xs btn-info float-right ml-1"> SUBMIT<b> Q2 - ' . $q2c . '%</b></button>' : null)),
-            //     "q3c" => ($q3stat ? '<span class="badge text-sm ' . ($q3stat == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">' . ($q3stat == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '') . $q3stat . ' Q3 - ' . $q3c . '%</span>' : ($q3stat || $q3c ? '<button onclick="preSbmitGrades(eccbc87e4b5ce2fe28308fd9f2a7baf3)" type="button" class="btn btn-block btn-xs btn-info float-right ml-1"> SUBMIT<b> Q3 - ' . $q3c . '%</b></button>' : null)),
-            //     "q4c" => ($q4stat ? '<span class="badge text-sm ' . ($q4stat == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">' . ($q4stat == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '') . $q4stat . ' Q4 - ' . $q4c . '%</span>' : ($q4stat || $q4c ? '<button onclick="preSbmitGrades(a87ff679a2f3e71d9181a67b7542122c)" type="button" class="btn btn-block btn-xs btn-info float-right ml-1"> SUBMIT<b> Q4 - ' . $q4c . '%</b></button>' : null)),
-            // ];
-
+            $data3 = [
+                "q1c" => $this->submitGradesBtn($q1stat,$q1c,$q1rmrk,1),
+                "q2c" => $this->submitGradesBtn($q2stat,$q2c,$q2rmrk,2),
+                "q3c" => $this->submitGradesBtn($q3stat,$q3c,$q3rmrk,3),
+                "q4c" => $this->submitGradesBtn($q4stat,$q4c,$q4rmrk,4),
+            ];
             $arr2 = json_encode($data2);
-            // $arr3 = json_encode($data3);
-
-            // getDetails(\"GradesList\",$arr3,1,\".\");
-
+            $arr3 = json_encode($data3);
             $slct = ($advsry === 't' && $key === array_key_first($query->result()) ? 'slctdRadioAdvisory' : '');
             $data["data"][] = [
-                "<div class='row' style='white-space: nowrap;'><div class='col-12 " . ($advsry === 't' ? 'text-success' : '') . "'>
-                <input type='radio' id='slctRmRadio" . $rmid . $rssaid . "' class='" . $slct . "' name='slctRm' value='" . $rmid . "' 
-                        onclick='getLearnersListFN(\"LearnersList\"," . $rmid . "," . $rssaid . ",\"" . $advsry . "\");
-                                 getDetails(\"PersonnelInfo\",$arr2,1,\".\");
-                '/>
-                
-                <label  style='cursor:pointer' for='slctRmRadio" . $rmid . $rssaid . "'>
-                    <span class='badge text-sm pb-0'>$g - $s</span><small>$qrow->code - <i>$subject</i> | <i>$sched</i></small>
-                </label>
-                <label class='float-right' style='cursor:pointer;'>
-                    <small><b class='text-primary'>" . $male . "</b> + <b class='text-pink'>" . $female . "</b> = <b>" . $t_enrollee . "</b></small>
-                </label></div>",
+                "<div class='row' style='white-space: nowrap;'>
+                    <div class='col-12 " . ($advsry === 't' ? 'text-success' : '') . "'>
+                        <input type='radio' id='slctRmRadio" . $rmid . $rssaid . "' class='" . $slct . "' name='slctRm' value='" . $rmid . "' 
+                                onclick='getLearnersListFN(\"LearnersList\"," . $rmid . "," . $rssaid . ",\"" . $advsry . "\");
+                                        getDetails(\"PersonnelInfo\",$arr2,1,\".\");
+                                        getDetails(\"GradesList\",$arr3,1,\".\");
+                        '/>
+                        <label class='w-100'  style='cursor:pointer' for='slctRmRadio" . $rmid . $rssaid . "'>
+                            <span class='badge text-sm pb-0'>$g - $s</span><small>$qrow->code - <i>$subject</i> | <i>$sched</i></small>
+                            <small class='float-right'><b class='text-primary'>" . $male . "</b> + <b class='text-pink'>" . $female . "</b> = <b>" . $t_enrollee . "</b></small><br/>
+                        </label>
+                    </div>
+                </div>",
             ];
         }
         echo json_encode($data);

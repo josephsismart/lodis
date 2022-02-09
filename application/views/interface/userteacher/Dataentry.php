@@ -68,7 +68,7 @@ $uri = $this->session->schoolmis_login_uri;
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="row">
-									<div class="col-lg-9 col-md-6 col-sm-8 col-xs-6">
+									<div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
 										<div class="post">
 											<div class="user-block">
 												<img class="img-circle img-bordered-sm" src="<?= base_url(); ?>/dist/img/avatar1.jpg" alt="user image">
@@ -82,7 +82,7 @@ $uri = $this->session->schoolmis_login_uri;
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-3 col-md-6 col-sm-4 col-xs-6 mb-2">
+									<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-2">
 										<span class="others">
 										</span>
 										<span class="grade_all">

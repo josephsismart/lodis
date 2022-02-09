@@ -73,6 +73,26 @@ class MY_Controller extends CI_Controller
         }
     }
 
+    public function submitGradesBtn($a, $b, $c,$d)
+    {
+        $e = "";
+        if ($a && $a != "RECHECK") {
+            $e = '<span class="badge w-100 text-sm ' . ($a == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">'
+                . ($a == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '')
+                . $a . ' Q' . $d . ' - ' . $b . '%
+                ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                </span>';
+        } else if ($a || $b) {
+            $e = '<button onclick="preSbmitGrades(' . $d . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
+                    <i class="fa fa-paper-plane"></i> ' . ($a == "RECHECK" ? $a : "SUBMIT") . '<b> Q1 - ' . $b . '%</b>
+                    ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                    </button>';
+        } else {
+            $e = null;
+        }
+        return $e;
+    }
+
     public function removeCharacter($text)
     {
         return preg_replace("/[^0-9]/", "", $text);
@@ -268,16 +288,20 @@ class MY_Controller extends CI_Controller
         $v_grades = $row->view_grades;
         $v_grades_date = $row->view_grades_until;
         $qrtrR = $qrtr == 1 ? "1st" : ($qrtr == 2 ? "2nd" : ($qrtr == 3 ? "3rd" : ($qrtr == 4 ? "4th" : "--")));
-        $edl="";$edl1="";$gdl="";$gdl1="";$vgd="";
+        $edl = "";
+        $edl1 = "";
+        $gdl = "";
+        $gdl1 = "";
+        $vgd = "";
         if ($enroll_dl) {
             $edl = $this->dateFormat($enroll_dl);
-            $edl1 = "<br/>".$edl;
+            $edl1 = "<br/>" . $edl;
         }
         if ($grade_dl) {
             $gdl = $this->dateFormat($grade_dl);
-            $gdl1 = "<br/>".$gdl;
+            $gdl1 = "<br/>" . $gdl;
         }
-        if($v_grades=='t'){
+        if ($v_grades == 't') {
             $vgd = $this->dateFormat($v_grades_date);
         }
 
@@ -294,11 +318,11 @@ class MY_Controller extends CI_Controller
             "gdl" => $gdl1,
             "edit" => $edit,
             "unenroll" => $unenroll,
-            "v_grades"=>$v_grades,
-            "vgd"=>$vgd,
+            "v_grades" => $v_grades,
+            "vgd" => $vgd,
             "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
-                ($enroll_stat=='t' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
-                ($grade_stat=='t' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
+                ($enroll_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
+                ($grade_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
         ];
         return $data;
     }

@@ -128,8 +128,6 @@ $uri = $this->session->schoolmis_login_uri;
         ).then(function() {
             // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
         });
-
-
     }
 
     function validate(form_id) {
@@ -615,7 +613,37 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function submitGrades(a){
-        alert(a)
+        // alert(a)
+        validate("form_save_dataSubmitGradesConfirm");
+        if (valid != 0) {
+            fillIn();
+            return false;
+        }
+        // a = $("#form_save_dataUnenrollConfirm .submitBtnPrimary").text();
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").attr("disabled", true);
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        s = $("#form_save_dataSubmitGradesConfirm").serialize();
+        console.log(s)
+        // $.post("<?= base_url($uri . '/Dataentry/submitGrades') ?>", s,
+        //     function(data) {
+        //         var result = JSON.parse(data);
+        //         if (result.success == true) {
+        //             successAlert(result.message);
+        //             // getTable("LearnersList", 0, -1);
+        //             $("#modalLearnersUnenroll").modal('hide');
+        //             getTable("LearnersList", 0, -1);
+        //             getTable("AssignedSectionList", 0, -1);
+        //             setTimeout(function() {
+        //                 $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+        //             }, 1500);
+        //         } else if (result.success == false) {
+        //             failAlert(result.message);
+        //             // getTable("LearnersList", 0, -1);
+        //         }
+        //     }
+        // ).then(function() {
+        //     // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+        // });
     }
 
     setTimeout(function() {

@@ -269,7 +269,7 @@ class Dataentry extends MY_Controller
                 } else {
                     $ret = $false;
                 }
-            } else if ($edit == 'f' && count($a) < 1) {
+            } else if ($edit == 'f' && count($a) < 2) {
                 if ($this->db->insert("profile.tbl_basicinfo", $data)) {
                     $inid = $this->db->insert_id();
                     $data2 = [
