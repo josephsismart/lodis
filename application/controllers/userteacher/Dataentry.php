@@ -228,73 +228,78 @@ class Dataentry extends MY_Controller
         $dateNow = $this->now();
         $true = ["success"   => true];
         $false = ["success"   => false];
+        // $false += ["message"   => ""];
 
-        $data = [
-            "first_name" => $firstName,
-            "middle_name" => $middleName,
-            "last_name" => $lastName,
-            "suffix" => $extName,
-            "sex" => $sex,
-            "birthdate" => $birthdate,
-            "address_info" => $homeAddress,
-            "barangay_id" => $brgy,
-            // "purok_id" => $prk != "" ? $prk : null,
-            // "address_info" => $homeAddress,
-            // "email_address" => $emailAddress,
-            $id ? "updated_by" : "added_by" => $login_id,
-            $id ? "date_updated" : "date_added" => $dateNow,
-        ];
-        // if ($id && $lrn && $firstName && $lastName && $sex && $birthdate && $brgy && $login_id) {
-        //     if (!$this->mainModel->update("profile.tbl_basicinfo", $data, "id", $id)) {
-        //         // $this->userlog("UPDATED MEMBER/USER PERSON ".$partyType." ".$firstName.$middleName.$lastName);
-        //         $ret = $true;
-        //     }else{
-        //         $ret = $false;
-        //     }
-        // } else 
 
-        if ($lrn && $firstName && $lastName && $sex && $birthdate && $brgy && $login_id) {
-            if ($edit=='t' && $enroll_id && $learner_id && $binfo_id) {
-                $this->db->where('id', $binfo_id);
-                if ($this->db->update("profile.tbl_basicinfo", $data)) {
-                    $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
-                    $data3 = [
-                        "status_id" => $status,
-                        "enrollment_date" => $enrollDate,
-                    ];
-                    $this->db->where('learner_id', $learner_id);
-                    if ($this->db->update("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
-                        $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
-                        $ret = $true;
+        $query = $this->db->query("SELECT t1.grade, t1.sctn_nm FROM building_sectioning.view_enrollment$sy t1
+                                    WHERE t1.lrn='$lrn' LIMIT 1");
+        $row = $query->row();
+        if ($query->num_rows() > 0) {
+            $rowData = $row->grade . ' - ' . $row->sctn_nm;
+            $false += ["message"   => "Existing Data: " . $rowData];
+            $ret = $false;
+        } else {
+            $data = [
+                "first_name" => $firstName,
+                "middle_name" => $middleName,
+                "last_name" => $lastName,
+                "suffix" => $extName,
+                "sex" => $sex,
+                "birthdate" => $birthdate,
+                "address_info" => $homeAddress,
+                "barangay_id" => $brgy,
+                // "purok_id" => $prk != "" ? $prk : null,
+                // "address_info" => $homeAddress,
+                // "email_address" => $emailAddress,
+                $id ? "updated_by" : "added_by" => $login_id,
+                $id ? "date_updated" : "date_added" => $dateNow,
+            ];
+
+            if ($lrn && $firstName && $lastName && $sex && $birthdate && $brgy && $login_id) {
+                if ($edit == 't' && $enroll_id && $learner_id && $binfo_id) {
+                    $this->db->where('id', $binfo_id);
+                    if ($this->db->update("profile.tbl_basicinfo", $data)) {
+                        $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
+                        $data3 = [
+                            "status_id" => $status,
+                            "enrollment_date" => $enrollDate,
+                        ];
+                        $this->db->where('learner_id', $learner_id);
+                        if ($this->db->update("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                            $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
+                            $ret = $true;
+                        } else {
+                            $ret = $false;
+                        }
                     } else {
                         $ret = $false;
                     }
-                } else {
-                    $ret = $false;
-                }
-            } else if (!$learner_id) {
-                if ($this->db->insert("profile.tbl_basicinfo", $data)) {
-                    $inid = $this->db->insert_id();
-                    $data2 = [
-                        "lrn" => $lrn,
-                        "basic_info_id" => $inid,
-                    ];
-                    $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
-                    if ($inid) {
-                        if ($this->db->insert("profile.tbl_learners", $data2)) {
-                            $lrnId = $this->db->insert_id();
-                            $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
-                            $data3 = [
-                                "learner_id" => $lrnId,
-                                "room_section_id" => $rsId,
-                                "status_id" => $status,
-                                "enrollment_date" => $enrollDate,
-                                "added_by" => $login_id,
-                            ];
-                            if ($lrnId) {
-                                if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
-                                    $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
-                                    $ret = $true;
+                } else if (!$learner_id) {
+                    if ($this->db->insert("profile.tbl_basicinfo", $data)) {
+                        $inid = $this->db->insert_id();
+                        $data2 = [
+                            "lrn" => $lrn,
+                            "basic_info_id" => $inid,
+                        ];
+                        $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
+                        if ($inid) {
+                            if ($this->db->insert("profile.tbl_learners", $data2)) {
+                                $lrnId = $this->db->insert_id();
+                                $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
+                                $data3 = [
+                                    "learner_id" => $lrnId,
+                                    "room_section_id" => $rsId,
+                                    "status_id" => $status,
+                                    "enrollment_date" => $enrollDate,
+                                    "added_by" => $login_id,
+                                ];
+                                if ($lrnId) {
+                                    if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                                        $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
+                                        $ret = $true;
+                                    } else {
+                                        $ret = $false;
+                                    }
                                 } else {
                                     $ret = $false;
                                 }
@@ -304,22 +309,20 @@ class Dataentry extends MY_Controller
                         } else {
                             $ret = $false;
                         }
-                    } else {
-                        $ret = $false;
                     }
+                } else {
+                    $false += ["message"   => "Please contact the Administrator"];
+                    $ret = $false;
                 }
             } else {
-                $false += ["message"   => "Please contact the Administrator"];
                 $ret = $false;
             }
-        } else {
-            $ret = $false;
-        }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
         }
 
         echo json_encode($ret);

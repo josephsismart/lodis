@@ -224,21 +224,28 @@ $uri = $this->session->schoolmis_login_uri;
                     successAlert("Successfully Saved!");
                     clear_form("form_save_data" + formId);
                     $("#modal" + formId).modal('hide');
-                    for (var i = 0; i < tblId.length; i++) {
-                        getTable(tblId[i], dtd, pl);
+                    if (tblId.length > 1) {
+                        for (var i = 0; i < tblId.length; i++) {
+                            getTable(tblId[i], dtd, pl);
+                        }
                     }
                     tbl ? removeAllItemList("tbl" + tbl) : null;
                     tbl ? $("#btn" + tbl).trigger("click") : null;
+
+                    if (formId == 'EnrollmentInfo') {
+                        $('#modalEnrollment').modal('hide');
+                    }
                 } else if (d.exist == true) {
                     existAlert("Person already exist!<br/>You can search and add TEST RESULT");
                 } else if (d.existCode == true) {
                     existAlert("Code already taken!<br/>by: " + d.existPerson);
+                } else if (d.message) {
+                    failAlert(d.message);
                 } else {
                     failAlert("Something went wrong!");
                 }
                 $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", false);
                 $("#form_save_data" + formId + " .submitBtnPrimary").html(a);
-
                 // getTable("LearnersList", 0, -1);
                 getTable("AssignedSectionList", 0, -1);
                 setTimeout(function() {
@@ -607,12 +614,12 @@ $uri = $this->session->schoolmis_login_uri;
             }).done(function() {});
     }
 
-    function preSbmitGrades(a){
+    function preSbmitGrades(a) {
         $("#modalLearnersSubmitGrades #qrssa").val(a);
         $("#modalLearnersSubmitGrades").modal("show");
     }
 
-    function submitGrades(a){
+    function submitGrades(a) {
         // alert(a)
         validate("form_save_dataSubmitGradesConfirm");
         if (valid != 0) {
