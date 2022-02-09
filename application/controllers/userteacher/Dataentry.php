@@ -203,6 +203,9 @@ class Dataentry extends MY_Controller
         $edit = $this->getOnLoad()["edit"];
         $id = $this->input->post("details");
         $a = explode('|', $id);
+        $enroll_id = null;
+        $learner_id = null;
+        $binfo_id = null;
         if (count($a) > 1) {
             $enroll_id = $a[0];
             $learner_id = $a[1];
@@ -251,7 +254,7 @@ class Dataentry extends MY_Controller
         // } else 
 
         if ($lrn && $firstName && $lastName && $sex && $birthdate && $brgy && $login_id) {
-            if ($edit == 't' && count($a) > 1 && $enroll_id && $learner_id && $binfo_id) {
+            if ($edit=='t' && $enroll_id && $learner_id && $binfo_id) {
                 $this->db->where('id', $binfo_id);
                 if ($this->db->update("profile.tbl_basicinfo", $data)) {
                     $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
@@ -269,7 +272,7 @@ class Dataentry extends MY_Controller
                 } else {
                     $ret = $false;
                 }
-            } else if ($edit == 'f' && count($a) < 2) {
+            } else if (!$learner_id) {
                 if ($this->db->insert("profile.tbl_basicinfo", $data)) {
                     $inid = $this->db->insert_id();
                     $data2 = [

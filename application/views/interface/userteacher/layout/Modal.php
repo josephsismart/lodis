@@ -469,7 +469,7 @@ $uri = $this->session->schoolmis_login_uri;
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text text-bold text-success text-xs">LRN</span>
                                             </div>
-                                            <input type="text" class="form-control form-control-sm text-uppercase" name="lrn" placeholder="LEARNER'S REFERENCE NUMBER (LRN)" autocomplete="off">
+                                            <input type="number" class="form-control form-control-sm text-uppercase" name="lrn" placeholder="LEARNER'S REFERENCE NUMBER (LRN)" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-12 col-sm-12">
