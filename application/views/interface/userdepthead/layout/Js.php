@@ -28,6 +28,15 @@ $uri = $this->session->schoolmis_login_uri;
     setInterval(function() {
         $.post("<?= base_url('Main/allow') ?>");
     }, 3000)
+    var rssaid = 0;
+    var rssaid_tmp = 0;
+    var qrssaid = 0;
+    var aTmp = "";
+    var bTmp = "";
+    var cTmp = "";
+    var dTmp = "";
+    var fTmp = "";
+    var gTmp = "";
 
     function clear_form(form_id) {
         let f1 = "PersonnelInfo";
@@ -197,6 +206,81 @@ $uri = $this->session->schoolmis_login_uri;
                 var d = JSON.parse(data);
                 $(".form_save_dataPersonSecInfo .viewAllGrades").html(d);
             }).done(function() {});
+    }
+
+    function preSbmitGrades(a, b, c, d, f, g) {
+        aTmp = a;
+        bTmp = b;
+        cTmp = c;
+        dTmp = d;
+        fTmp = f;
+        gTmp = g;
+        qrssaid = d.toString() + g.toString();
+        $("#modalLearnersSubmitGrades #qrssa").val(d);
+        $("#modalLearnersSubmitGrades").modal("show");
+    }
+
+    function submitGrades(a) {
+        // alert(a)
+        validate("form_save_dataSubmitGradesConfirm");
+        if (valid != 0) {
+            fillIn();
+            return false;
+        }
+        // a = $("#form_save_dataUnenrollConfirm .submitBtnPrimary").text();
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").attr("disabled", true);
+        // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        var s = $("#form_save_dataSubmitGradesConfirm").serialize();
+        $.post("<?= base_url($uri . '/Dataentry/submitGrades') ?>", {
+                c: s,
+                e: rssaid
+            },
+            function(data) {
+                var result = JSON.parse(data);
+                if (result.success == true) {
+                    successAlert(result.message);
+                    $("#modalLearnersSubmitGrades, #modalGrades").modal('hide');
+                    var st = $("#modalLearnersSubmitGrades .status").val();
+                    var rm = $("#modalLearnersSubmitGrades .remarks").val();
+
+                    tblReload('LearnersList');
+                    // tblReload('AssignedSectionList');
+                    // getTable("LearnersList", 0, -1);
+                    getTable("AssignedSectionList", 0, -1);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
+                    clear_form("form_save_dataSubmitGradesConfirm");
+
+                    if (st == "RECHECK") {
+                        $e = $("." + qrssaid).html('<button ' +
+                            " type='button' class='btn btn-block btn-xs bg-navy' style='cursor:default'>" +
+                            "<b> Q" + fTmp + " - " + bTmp + "%</b> RECHECK" +
+                            (cTmp ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            "</button>");
+                    } else if (st == "APPROVE") {
+                        $e = $("." + qrssaid).html('<button onclick="preSbmitGrades(\'' + aTmp + '\',' + bTmp + ',\'' + cTmp + '\',' + dTmp + ',' + fTmp + ',' + gTmp + ')"' +
+                            " type='button' class='btn btn-block btn-xs bg-success'>" +
+                            "<b> Q" + fTmp + " - " + bTmp + "%</b> APPROVED" +
+                            (cTmp ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            "</button>");
+                    } else {
+                        $e = null;
+                    }
+
+                    // getTable("LearnersList", 0, -1);
+                    // $("#modalLearnersUnenroll").modal('hide');
+                    // getTable("LearnersList", 0, -1);
+                    // getTable("AssignedSectionList", 0, -1);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
+                } else if (result.success == false) {
+                    failAlert(result.message);
+                    // getTable("LearnersList", 0, -1);
+                }
+            }
+        ).then(function() {});
     }
 
     function tblReload(tableId) {

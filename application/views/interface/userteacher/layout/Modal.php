@@ -262,10 +262,10 @@ $uri = $this->session->schoolmis_login_uri;
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
             <div class="modal-body mb-n3 form_save_dataGradesList">
                 <div class="row">
-                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div> -->
-                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div> -->
-                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div> -->
-                    <!-- <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div> -->
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
                 </div>
 
                 <div class="card-body p-0 table-responsive mt-3">
@@ -287,7 +287,7 @@ $uri = $this->session->schoolmis_login_uri;
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info submitBtnPrimary" onclick="$('#modalGrades').modal('hide');">Save Grades</button>
+                <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
             </form>
@@ -419,14 +419,18 @@ $uri = $this->session->schoolmis_login_uri;
         <form id="form_save_dataSubmitGradesConfirm">
             <div class="modal-content">
                 <div class="modal-header bg-success p-2">
-                    <h5 class="modal-title p-0"><span class="fa fa-paper-plane"></span> Submit Confirmation </h5>
+                    <h5 class="modal-title p-0"><span class="fa fa-paper-plane"></span> Submit Confirmation<br />
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="qrssa" id="qrssa"/>
-                    <textarea class="form-control form-control-sm text-uppercase mb-2" rows="3" placeholder="REMARKS"></textarea>
+                    <center class="mb-3"><b>NOTE:</b> <i> You will <b>NOT</b> be able to UPDATE the grades after <b>SUBMISSION/APPROVAL</b>.</i></center>
+
+                    <!-- <small><b class="detail">9 - MERCURY</b> JHS ARAL PAN | WD | <b>Q1 - 100%</b></small> -->
+                    <input type="text" name="qrssa" id="qrssa" hidden />
+                    <textarea class="form-control form-control-sm text-uppercase mb-2" name="remarks" rows="3" placeholder="REMARKS" nr="1"></textarea>
                     <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" />
                 </div>
                 <div class="modal-footer p-1">

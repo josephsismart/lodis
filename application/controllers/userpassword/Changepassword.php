@@ -50,6 +50,7 @@ class Changepassword extends MY_Controller
                     $this->userlog("UPDATED PASSWORD ACCOUNT " . json_encode($data));
                     $this->session->schoolmis_login_uri = ($lvl == 1 ? "usersuperadmin" : ($lvl == 2 ? "useradmin" : ($lvl == 3 ? "userdepthead" : ($lvl == 4 ? "userschoolhead" : ($lvl == 5 ? "userschoolplanning" : ($lvl == 6 ? "userschooladmin" : ($lvl == 7 ? "userteacher" : ($lvl == 8 ? "userstudent" : ""))))))));
                     $this->session->schoolmis_change_password = 'f';
+                    $this->session->schoolmis_pass = $confirmpwd;
                     $this->session->schoolmis_login_landing = 'dataentry';
                     $ret = $true;
                 } else {

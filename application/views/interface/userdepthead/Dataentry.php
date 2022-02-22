@@ -63,12 +63,11 @@ $uri = $this->session->schoolmis_login_uri;
 						</div>
 					</div>
 					<div class="card card-navy p-0 table-responsive viewAllGrades" style="overflow: auto;">
-
 					</div>
-
 
 				</div>
 			</div>
+
 		</div>
 	</div><!-- /.container-fluid -->
 </section>
