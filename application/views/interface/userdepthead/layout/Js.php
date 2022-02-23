@@ -256,13 +256,13 @@ $uri = $this->session->schoolmis_login_uri;
                         $e = $("." + qrssaid).html('<button ' +
                             " type='button' class='btn btn-block btn-xs bg-navy' style='cursor:default'>" +
                             "<b> Q" + fTmp + " - " + bTmp + "%</b> RECHECK" +
-                            (cTmp ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            (rm ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
                             "</button>");
                     } else if (st == "APPROVE") {
                         $e = $("." + qrssaid).html('<button onclick="preSbmitGrades(\'' + aTmp + '\',' + bTmp + ',\'' + cTmp + '\',' + dTmp + ',' + fTmp + ',' + gTmp + ')"' +
                             " type='button' class='btn btn-block btn-xs bg-success'>" +
-                            "<b> Q" + fTmp + " - " + bTmp + "%</b> APPROVED" +
-                            (cTmp ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            "<i class='fa fa-thumbs-up'></i> <b> Q" + fTmp + " - " + bTmp + "%</b> APPROVED" +
+                            (rm ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
                             "</button>");
                     } else {
                         $e = null;

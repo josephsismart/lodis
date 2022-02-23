@@ -131,7 +131,7 @@ class MY_Controller extends CI_Controller
         } else if ($a == "RECHECK") {
             $e =    "<button "
                         . 'type="button" class="btn btn-block btn-xs bg-navy" style="cursor:default;">
-                            <i class="fa fa-thumbs-up"></i>  <b> Q' . $f . ' - ' . $b . '%</b> RECHECK
+                            <b> Q' . $f . ' - ' . $b . '%</b> RECHECK
                             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                     </button>';
         } else {
@@ -513,7 +513,7 @@ class MY_Controller extends CI_Controller
                 $color = "success";
             } else if ($grade >= 80) {
                 $color = "orange";
-            } else {
+            } else if ($grade > 0) {
                 $color = "danger";
             }
             return "<b class='text-lg text-" . $color . "'>" . $a . "</b>";

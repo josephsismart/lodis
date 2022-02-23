@@ -313,6 +313,9 @@ $uri = $this->session->schoolmis_login_uri;
                 <div class="card card-navy p-0 table-responsive viewAllGrades">
                 </div>
             </div>
+            <div class="overlay" style="display: hidden;">
+                <i class="fas fa-spin text-white fa-5x fa-circle-notch"></i>
+            </div>
         </div>
     </div>
 </div>
@@ -431,7 +434,7 @@ $uri = $this->session->schoolmis_login_uri;
                     <!-- <small><b class="detail">9 - MERCURY</b> JHS ARAL PAN | WD | <b>Q1 - 100%</b></small> -->
                     <input type="text" name="qrssa" id="qrssa" hidden />
                     <textarea class="form-control form-control-sm text-uppercase mb-2" name="remarks" rows="3" placeholder="REMARKS" nr="1"></textarea>
-                    <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" />
+                    <!-- <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" /> -->
                 </div>
                 <div class="modal-footer p-1">
                     <button type="button" class="btn btn-success btn-xs btn-block submitBtnPrimary" onclick="submitGrades();">Submit Student Grades</button>

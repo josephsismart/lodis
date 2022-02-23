@@ -38,12 +38,13 @@ class Dataentry extends MY_Controller
         $login_id = $this->session->schoolmis_login_id;
 
         parse_str($this->input->post("c"), $filter);
-        $password = md5($filter['password']);
         $status = $filter['status'];
         $stat = $status == "APPROVE" ? 18 : ($status == "RECHECK" ? 20 : null);
-        $pass = $this->session->schoolmis_pass;
+        // $password = md5($filter['password']);
+        // $pass = $this->session->schoolmis_pass;
 
-        if ($pass == $password) {
+        // if ($pass == $password) {
+        if($sy && $qrtr && $login_id && $stat){
             //1 3221232
             //2 2123221
             //3 3211123

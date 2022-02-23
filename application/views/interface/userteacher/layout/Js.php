@@ -607,12 +607,15 @@ $uri = $this->session->schoolmis_login_uri;
     });
 
     function customTabViewAllGrades() {
+        $("#modalAllGrades .overlay").show();
+        $("#modalAllGrades .viewAllGrades").empty();
         $.get("<?= base_url($uri . "/Getdata/getViewAllGrades") ?>", {
                 a: rsid
             },
             function(data) {
                 var d = JSON.parse(data);
                 $("#modalAllGrades .viewAllGrades").html(d);
+                $("#modalAllGrades .overlay").hide();
             }).done(function() {});
     }
 
