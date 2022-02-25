@@ -118,19 +118,19 @@ class MY_Controller extends CI_Controller
 
         if ($a == "FOR APPROVAL") {
             $e =    "<button onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
-                        . 'type="button" class="btn btn-block btn-xs btn-info">
+                . 'type="button" class="btn btn-block btn-xs btn-info">
                             <b> Q' . $f . ' - ' . $b . '%</b> APPROVE/RECHECK
                             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                     </button>';
         } else if ($a == "APPROVED") {
             $e =    "<button onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
-                        . 'type="button" class="btn btn-block btn-xs btn-success">
+                . 'type="button" class="btn btn-block btn-xs btn-success">
                             <i class="fa fa-thumbs-up"></i>  <b> Q' . $f . ' - ' . $b . '%</b> APPROVED
                             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                     </button>';
         } else if ($a == "RECHECK") {
             $e =    "<button "
-                        . 'type="button" class="btn btn-block btn-xs bg-navy" style="cursor:default;">
+                . 'type="button" class="btn btn-block btn-xs bg-navy" style="cursor:default;">
                             <b> Q' . $f . ' - ' . $b . '%</b> RECHECK
                             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                     </button>';
@@ -519,6 +519,16 @@ class MY_Controller extends CI_Controller
             return "<b class='text-lg text-" . $color . "'>" . $a . "</b>";
         } else {
             return "--";
+        }
+    }
+
+    public function avg4($a, $b, $c, $d)
+    {
+        if ($a && $b && $c && $d) {
+            $t = $a + $b + $c + $d;
+            return round($t / 4, 0);
+        } else {
+            return 0;
         }
     }
 

@@ -40,7 +40,7 @@ $uri = $this->session->schoolmis_login_uri;
 						<div class="callout callout-info">
 							<h5>Notice!</h5>
 
-							<p><?= $getOnLoad["v_grades"]=='t'?"Viewing of Grades is available until":"Viewing of Grades is not available this time"; ?> <b><?= $getOnLoad["vgd"]; ?></b>.</p>
+							<p><?= $getOnLoad["v_grades"] == 't' ? "Viewing of Grades is available until" : "Viewing of Grades is not available this time"; ?> <b><?= $getOnLoad["vgd"]; ?></b>.</p>
 						</div>
 						<div class="card card-navy">
 							<div class="card-header">
@@ -49,6 +49,9 @@ $uri = $this->session->schoolmis_login_uri;
 									<button type="button" class="btn btn-tool collapseAssignedSectionList" data-card-widget="collapse"><i class="fas fa-plus"></i>
 									</button>
 								</div> -->
+								<div class="float-right">
+									<button type="button" onclick="vdetails();" class="btn btn-default btn-xs"><i class="fas fa-eye"></i> View Details</button>
+								</div>
 							</div> <!-- /.card -->
 							<!-- /.card-header -->
 							<div class="card-body">
@@ -61,15 +64,21 @@ $uri = $this->session->schoolmis_login_uri;
 												</h4>
 											</div> -->
 											<div class="card-body p-1 table-responsive">
-												<table class="table table-sm table-hover table-striped" id="tblGradesList" width="100%">
-													<thead>
+												<table class="table table-sm table-hover table-striped table-bordered" id="tblGradesList" width="100%">
+													<thead style="text-align: center;font-weight: bold;">
 														<tr>
-															<th>Subject</th>
-															<th>Q1</th>
-															<th>Q2</th>
-															<th>Q3</th>
-															<th>Q4</th>
+															<td rowspan="2" class="pt-3" width="400">Learing Areas</td>
+															<td colspan="4">Quarter</td>
+															<td rowspan="2" width="1">Final Grade</td>
+															<td rowspan="2" class="pt-3" width="1">Remarks</td>
 														</tr>
+														<tr>
+															<td>1</td>
+															<td>2</td>
+															<td>3</td>
+															<td>4</td>
+														</tr>
+
 													</thead>
 													<tbody>
 														<!-- <tr>
@@ -108,7 +117,7 @@ $uri = $this->session->schoolmis_login_uri;
 		// getTable("AssignedSectionList", 1, -1);
 		// getTable("LearnersList", 0, -1);
 		// getTable("SearchEnrollLearnersList", 0, 10);
-		getTable("GradesList", 0, -1);
+		getTable("GradesList", 1, -1);
 		// getFetchList(f1, "CityMunList", null, 1, {
 		// 	v: 1602
 		// }, 1);

@@ -235,10 +235,10 @@ class Getdata extends MY_Controller
                 $birthDate = date_create($value2->birthdate);
                 $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
                 $sex = substr($value2->sex, 0, 1);
-                $q1 = $value2->q1;
-                $q2 = $value2->q2;
-                $q3 = $value2->q3;
-                $q4 = $value2->q4;
+                $q1 = ($q1stat?$value2->q1:0);
+                $q2 = ($q2stat?$value2->q2:0);
+                $q3 = ($q3stat?$value2->q3:0);
+                $q4 = ($q4stat?$value2->q4:0);
                 $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
                 $c_fmale == 1 && $sex == 'F' ?
                     $c .= '<tr>
