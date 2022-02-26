@@ -19,6 +19,9 @@ class Getdata extends MY_Controller
         $lrn = $this->session->schoolmis_login_lrn;
         $sy = $this->getOnLoad()["sy_id"];
         $v_grades = $this->getOnLoad()["v_grades"];
+        $tga = 0;
+        $ga = 0;
+        $cga = 0;
         $query = $this->db->query("SELECT t4.q1,t4.q2,t4.q3,t4.q4,t1.rm_sctn_sbjct_assgnmnt_id,t2.enrollment_id,t1.subject,t1.subject_abbr,t1.schedule,t1.advisory,t1.full_name,t1.personal_title,t1.parent_party_id FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
                                     LEFT JOIN building_sectioning.view_enrollment$sy t2 ON t1.room_section_id=t2.room_section_id AND t1.schl_yr_id=t2.schl_yr_id
                                     LEFT JOIN(
@@ -45,26 +48,44 @@ class Getdata extends MY_Controller
                                     LEFT JOIN building_sectioning.view_room_section t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rm_sctn_sbjct_assgnmnt_id
                                     WHERE t1.room_section_id=$rmsid AND t2.lrn ='$lrn' AND t1.schl_yr_id=$sy
                                     ORDER BY t1.order_by_sbjct");
-
-        foreach ($query->result() as $key => $value) {
+        $arr = $query->result();
+        foreach ($arr as $key => $value) {
             $p = $value->parent_party_id;
             $t = ($p ? '&emsp;' : null);
-            $q1 = $value->q1;
-            $q2 = $value->q2;
-            $q3 = $value->q3;
-            $q4 = $value->q4;
+            $q1 = $value->q1;//rand(99, 88);//
+            $q2 = $value->q2;//rand(99, 88);//
+            $q3 = $value->q3;//rand(99, 88);//
+            $q4 = $value->q4;//rand(99, 88);//
+            $fg = $this->avg4($q1, $q2, $q3, $q4);
+            if ($fg && !$p) {
+                $ga += intval($fg);
+                $cga += 1;
+            } else if(!$fg && !$p) {
+                $tga += 1;
+            }
             if ($value->full_name) {
                 $data["data"][] = [
                     "<h6>$t $value->subject</h6>
                         <viewdetails class='view_details' style='display:none;'>
                             " . $t . "<small class='text-xs " . ($value->advisory == 't' ? 'text-success' : '') . "'><i class='fa fa-caret-right'></i> $value->full_name</small>
                         <viewdetails/>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? $this->gradeColor($q1) : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? $this->gradeColor($q2) : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? $this->gradeColor($q3) : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? $this->gradeColor($q4) : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . (!$p ? $this->gradeColor($this->avg4($q1, $q2, $q3, $q4)) : '') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q1>0?$q1:'--') : '-') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q2>0?$q2:'--') : '-') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q3>0?$q3:'--') : '-') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q4>0?$q4:'--') : '-') . "</p>",
+                    "<p class='text-center mb-n2'><b>" . (!$p ? ($fg > 0 ? $fg : '--') : '') . "</b></p>",
                     "<p class='text-center mb-n2'>-</p>",
+                ];
+            }
+            if ($key === array_key_last($arr)) {
+                $data["data"][] = [
+                    "<p class='text-right mb-1 text-md'><b>Genera Average</b></p>",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "<p class='text-center mb-1 text-md'><b>" . ($tga == 0 ? round($ga / $cga, 0) : '--') . "</b></p>",
+                    "",
                 ];
             }
         }
