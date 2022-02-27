@@ -243,10 +243,10 @@ $uri = $this->session->schoolmis_login_uri;
                     var st = $("#modalLearnersSubmitGrades .status").val();
                     var rm = $("#modalLearnersSubmitGrades .remarks").val();
 
-                    tblReload('LearnersList');
+                    // tblReload('LearnersList');
                     // tblReload('AssignedSectionList');
                     // getTable("LearnersList", 0, -1);
-                    getTable("AssignedSectionList", 0, -1);
+                    // getTable("AssignedSectionList", 0, -1);
                     // setTimeout(function() {
                     //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
                     // }, 1500);

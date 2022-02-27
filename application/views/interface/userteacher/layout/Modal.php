@@ -249,7 +249,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 <!-- /.modal -->
 <!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalGrades">
+<div class="modal fade" id="modalGradesList">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
@@ -261,14 +261,17 @@ $uri = $this->session->schoolmis_login_uri;
             </div>
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
             <div class="modal-body mb-n3 form_save_dataGradesList">
-                <div class="row">
+                <div class="overlay">
+                    <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
+                </div>
+                <div class="row content">
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
                     <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
                 </div>
 
-                <div class="card-body p-0 table-responsive mt-3">
+                <div class="card-body p-0 table-responsive mt-3 content">
                     <table class="table table-sm table-hover table-striped" id="tblGradesList" width="100%">
                         <thead>
                             <tr>
@@ -286,7 +289,7 @@ $uri = $this->session->schoolmis_login_uri;
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer content">
                 <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
@@ -313,8 +316,8 @@ $uri = $this->session->schoolmis_login_uri;
                 <div class="card card-navy p-0 table-responsive viewAllGrades">
                 </div>
             </div>
-            <div class="overlay" style="display: hidden;">
-                <i class="fas fa-spin text-white fa-5x fa-circle-notch"></i>
+            <div class="overlay">
+                <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
             </div>
         </div>
     </div>
@@ -433,7 +436,7 @@ $uri = $this->session->schoolmis_login_uri;
 
                     <!-- <small><b class="detail">9 - MERCURY</b> JHS ARAL PAN | WD | <b>Q1 - 100%</b></small> -->
                     <input type="text" name="qrssa" id="qrssa" hidden />
-                    <textarea class="form-control form-control-sm text-uppercase mb-2" name="remarks" rows="3" placeholder="REMARKS" nr="1"></textarea>
+                    <textarea class="form-control form-control-sm text-uppercase mb-2 remarks" name="remarks" rows="3" placeholder="REMARKS" nr="1"></textarea>
                     <!-- <input type="password" name="password" class="form-control passwordSubmitGrades submitBtnPrimary" placeholder="Enter Password" /> -->
                 </div>
                 <div class="modal-footer p-1">

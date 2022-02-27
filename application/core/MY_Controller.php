@@ -83,8 +83,8 @@ class MY_Controller extends CI_Controller
                 ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                 </span>';
         } else if ($a || $b) {
-            $e = '<button onclick="preSbmitGrades(' . $d . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
-                    <i class="fa fa-paper-plane"></i> ' . ($a == "RECHECK" ? $a : "SUBMIT") . '<b> Q' . $f . ' - ' . $b . '%</b>
+            $e = '<button onclick="preSbmitGrades(' . $d . ',' . $f . ',' . $b . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
+                    <i class="fa fa-paper-plane"></i> <b>' . ($a == "RECHECK" ? $a : "SUBMIT") . ' Q' . $f . ' - ' . $b . '%</b>
                     ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
                     </button>';
         } else {

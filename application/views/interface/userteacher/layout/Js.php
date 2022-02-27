@@ -48,6 +48,8 @@ $uri = $this->session->schoolmis_login_uri;
     var rssaid = 0;
     var logsHS = 0;
     var adviser = 0;
+    var bTmp = 0;
+    var cTmp = 0;
     $(function() {
         $('.select2').select2()
         $('.select2bs4').select2({
@@ -222,7 +224,7 @@ $uri = $this->session->schoolmis_login_uri;
                 var d = JSON.parse(data);
                 if (d.success == true) {
                     successAlert("Successfully Saved!");
-                    if(formId!="GradesList"){
+                    if (formId != "GradesList") {
                         clear_form("form_save_data" + formId);
                     }
                     $("#modal" + formId).modal('hide');
@@ -260,6 +262,8 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function getTable(tableId, dtd, pl, search) {
+        $("#modal" + tableId + " .content").hide();
+        $("#modal" + tableId + " .overlay").show();
         $("#tbl" + tableId).DataTable().destroy();
         var table, table_data = $("#tbl" + tableId).DataTable({
             // "order": [
@@ -295,13 +299,6 @@ $uri = $this->session->schoolmis_login_uri;
 
                 }] : [],
 
-            // : (tableId == 'LearnersList' ? [{
-            //     text: "<i class='fa fa-cog'></i> Account",
-            //     action: function(e, dt, node, config) {
-            //         validateTable(tableId);
-            //     }
-            // }] : [])
-
             searching: tableId == 'GradesList' ? false : true,
             "search": {
                 "search": search ?? "",
@@ -328,6 +325,31 @@ $uri = $this->session->schoolmis_login_uri;
                     d.rssaid = rssaid;
                     d.by = $("#searchby").val();
                     d.key = $("#keyword").val();
+                }
+            },
+            fnInitComplete: function(oSettings, json) {
+                if (tableId == "AssignedSectionList") {
+                    $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+                }
+                if (tableId == "GradesList") {
+                    $("#modal"+tableId+" .q1c").empty();
+                    $("#modal"+tableId+" .q2c").empty();
+                    $("#modal"+tableId+" .q3c").empty();
+                    $("#modal"+tableId+" .q4c").empty();
+                    if (json && json["details"]) {
+                        if (json["details"]["q1c"]) {
+                            $("#modal"+tableId+" .q1c").html(json["details"]["q1c"])
+                        }if (json["details"]["q2c"]) {
+                            $("#modal"+tableId+" .q2c").html(json["details"]["q2c"])
+                        }if (json["details"]["q3c"]) {
+                            $("#modal"+tableId+" .q3c").html(json["details"]["q3c"])
+                        }if (json["details"]["q4c"]) {
+                            $("#modal"+tableId+" .q4c").html(json["details"]["q4c"])
+                        }
+                    }
+
+                    $("#modal" + tableId + " .content").show();
+                    $("#modal" + tableId + " .overlay").hide();
                 }
             }
         });
@@ -451,7 +473,10 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function getGradesListFN() {
-        tblReload("GradesList");
+        getTable("GradesList", 0, -1);
+        // $("#modalGrades .content").hide();
+        // $("#modalGrades .overlay").show();
+        // tblReload("GradesList");
     }
 
     function getSbjctAssPrsnnl(tableId) {
@@ -619,7 +644,9 @@ $uri = $this->session->schoolmis_login_uri;
             }).done(function() {});
     }
 
-    function preSbmitGrades(a) {
+    function preSbmitGrades(a, b, c) {
+        bTmp = b;
+        cTmp = c;
         $("#modalLearnersSubmitGrades #qrssa").val(a);
         $("#modalLearnersSubmitGrades").modal("show");
     }
@@ -635,7 +662,6 @@ $uri = $this->session->schoolmis_login_uri;
         // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").attr("disabled", true);
         // $("#form_save_dataUnenrollConfirm .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
         var s = $("#form_save_dataSubmitGradesConfirm").serialize();
-        console.log(rssaid)
         $.post("<?= base_url($uri . '/Dataentry/submitGrades') ?>", {
                 c: s,
                 e: rssaid
@@ -644,15 +670,21 @@ $uri = $this->session->schoolmis_login_uri;
                 var result = JSON.parse(data);
                 if (result.success == true) {
                     successAlert(result.message);
-                    $("#modalLearnersSubmitGrades, #modalGrades").modal('hide');
+                    var rm = $("#modalLearnersSubmitGrades .remarks").val();
+                    $("#modalGradesList .q" + bTmp + "c").html('<span ' +
+                        " class='badge w-100 text-sm bg-navy'>" +
+                        "<b>FOR APPROVAL Q" + bTmp + " - " + cTmp + "%</b>" +
+                        (rm ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                        "</span>");
+                    $("#modalLearnersSubmitGrades").modal('hide');
 
-                    tblReload('LearnersList');
+                    // tblReload('LearnersList');
                     // tblReload('AssignedSectionList');
                     // getTable("LearnersList", 0, -1);
-                    getTable("AssignedSectionList", 0, -1);
-                    setTimeout(function() {
-                        $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    }, 1500);
+                    // getTable("AssignedSectionList", 0, -1);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
                     clear_form("form_save_dataSubmitGradesConfirm");
                     // getTable("LearnersList", 0, -1);
                     // $("#modalLearnersUnenroll").modal('hide');
@@ -669,9 +701,9 @@ $uri = $this->session->schoolmis_login_uri;
         ).then(function() {});
     }
 
-    setTimeout(function() {
-        $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
-    }, 2000);
+    // setTimeout(function() {
+    //     $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+    // }, 2000);
 
     $("[type='number']").keydown(function(e) {
         e = e || window.event;
