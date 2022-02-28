@@ -17,6 +17,8 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/dataTables.buttons.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+<!-- Popper -->
+<script src="<?= base_url() ?>plugins/popper/popper.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?= base_url() ?>plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
@@ -205,7 +207,9 @@ $uri = $this->session->schoolmis_login_uri;
             function(data) {
                 var d = JSON.parse(data);
                 $(".form_save_dataPersonSecInfo .viewAllGrades").html(d);
-            }).done(function() {});
+            }).done(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
     }
 
     function preSbmitGrades(a, b, c, d, f, g) {
@@ -242,42 +246,28 @@ $uri = $this->session->schoolmis_login_uri;
                     $("#modalLearnersSubmitGrades, #modalGrades").modal('hide');
                     var st = $("#modalLearnersSubmitGrades .status").val();
                     var rm = $("#modalLearnersSubmitGrades .remarks").val();
-
-                    // tblReload('LearnersList');
-                    // tblReload('AssignedSectionList');
-                    // getTable("LearnersList", 0, -1);
-                    // getTable("AssignedSectionList", 0, -1);
-                    // setTimeout(function() {
-                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    // }, 1500);
                     clear_form("form_save_dataSubmitGradesConfirm");
-
+                    var ye = '<i class="fa fa-envelope float-right text-yellow"></i>';
+                    var ttip = "data-toggle='tooltip' data-placement='bottom' data-html='true' title='<em>Message:</em> <b>" + rm + "</b>'";
                     if (st == "RECHECK") {
-                        $e = $("." + qrssaid).html('<button ' +
+                        $e = $("." + qrssaid).html("<button " + (rm ? ttip : '') +
                             " type='button' class='btn btn-block btn-xs bg-navy' style='cursor:default'>" +
                             "<b> Q" + fTmp + " - " + bTmp + "%</b> RECHECK" +
-                            (rm ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            (rm ? ye : '') +
                             "</button>");
                     } else if (st == "APPROVE") {
-                        $e = $("." + qrssaid).html('<button onclick="preSbmitGrades(\'' + aTmp + '\',' + bTmp + ',\'' + cTmp + '\',' + dTmp + ',' + fTmp + ',' + gTmp + ')"' +
+                        $e = $("." + qrssaid).html("<button " + (rm ? ttip : '') +
+                            ' onclick="preSbmitGrades(\'' + aTmp + '\',' + bTmp + ',\'' + cTmp + '\',' + dTmp + ',' + fTmp + ',' + gTmp + ')"' +
                             " type='button' class='btn btn-block btn-xs bg-success'>" +
                             "<i class='fa fa-thumbs-up'></i> <b> Q" + fTmp + " - " + bTmp + "%</b> APPROVED" +
-                            (rm ? '<i class="fa fa-envelope float-right text-yellow" title="' + rm + '"></i>' : '') +
+                            (rm ? ye : '') +
                             "</button>");
                     } else {
                         $e = null;
                     }
-
-                    // getTable("LearnersList", 0, -1);
-                    // $("#modalLearnersUnenroll").modal('hide');
-                    // getTable("LearnersList", 0, -1);
-                    // getTable("AssignedSectionList", 0, -1);
-                    // setTimeout(function() {
-                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    // }, 1500);
+                    $('[data-toggle="tooltip"]').tooltip()
                 } else if (result.success == false) {
                     failAlert(result.message);
-                    // getTable("LearnersList", 0, -1);
                 }
             }
         ).then(function() {});

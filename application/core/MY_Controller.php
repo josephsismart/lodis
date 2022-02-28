@@ -76,16 +76,18 @@ class MY_Controller extends CI_Controller
     public function submitGradesBtn($a, $b, $c, $d, $f)
     {
         $e = "";
+        $g = 'data-toggle="tooltip" data-placement="bottom" data-html="true" title="<em>Message:</em> <b>' . $c . '</b>"';
+        $h = '<i class="fa fa-envelope float-right text-yellow"></i>';
         if ($a && $a != "RECHECK") {
-            $e = '<span class="badge w-100 text-sm ' . ($a == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">'
+            $e = '<span class="badge w-100 text-sm ' . ($a == 'APPROVED' ? 'bg-success' : 'bg-navy') . '" ' . ($c ? $g : '') . '>'
                 . ($a == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '')
                 . $a . ' Q' . $f . ' - ' . $b . '%
-                ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                ' . ($c ? $h : '') . '
                 </span>';
         } else if ($a || $b) {
-            $e = '<button onclick="preSbmitGrades(' . $d . ',' . $f . ',' . $b . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
+            $e = '<button onclick="preSbmitGrades(' . $d . ',' . $f . ',' . $b . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1" ' . ($c ? $g : '') . '>
                     <i class="fa fa-paper-plane"></i> <b>' . ($a == "RECHECK" ? $a : "SUBMIT") . ' Q' . $f . ' - ' . $b . '%</b>
-                    ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                    ' . ($c ? $h : '') . '
                     </button>';
         } else {
             $e = null;
@@ -96,43 +98,28 @@ class MY_Controller extends CI_Controller
     public function apprvGradesBtn($a, $b, $c, $d, $f, $g)
     {
         $e = "";
-        // if ($a && $a != "RECHECK") {
-        //     $e = '<span class="badge w-100 text-sm ' . ($a == 'APPROVED' ? 'bg-success' : 'bg-navy') . '">'
-        //         . ($a == 'APPROVED' ? '<i class="fa fa-check-circle"></i> ' : '')
-        //         . $a . ' Q' . $f . ' - ' . $b . '%
-        //         ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
-        //         </span>';
-        // } else if ($a || $b) {
-        //     $e = '<button onclick="preSbmitGrades(' . $d . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
-        //             <i class="fa fa-paper-plane"></i> ' . ($a == "RECHECK" ? $a : "SUBMIT") . '<b> Q' . $f . ' - ' . $b . '%</b>
-        //             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
-        //             </button>';
-        // } else {
-        //     $e = null;
-        // }
-
-        // '<button onclick="preSbmitGrades(' . $d . ')" type="button" class="btn btn-block btn-xs btn-info float-right ml-1">
-        //             <i class="fa fa-paper-plane"></i> ' . ($a == "RECHECK" ? $a : "SUBMIT") . '<b> Q' . $f . ' - ' . $b . '%</b>
-        //             ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
-        //             </button>'.
+        $h = 'data-toggle="tooltip" data-placement="bottom" data-html="true" title="<em>Message:</em> <b>' . $c . '</b>"';
+        $i = '<i class="fa fa-envelope float-right text-yellow"></i>';
 
         if ($a == "FOR APPROVAL") {
-            $e =    "<button onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
+            $e =    '<button  ' . ($c ? $h : '') . ' ' .
+                "onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
                 . 'type="button" class="btn btn-block btn-xs btn-info">
                             <b> Q' . $f . ' - ' . $b . '%</b> APPROVE/RECHECK
-                            ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                            ' . ($c ? $i : '') . '
                     </button>';
         } else if ($a == "APPROVED") {
-            $e =    "<button onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
+            $e =    '<button  ' . ($c ? $h : '') . ' ' .
+                "onclick='preSbmitGrades(\"$a\"," . $b . ",\"$c\"," . $d . "," . $f . "," . $g . ")' "
                 . 'type="button" class="btn btn-block btn-xs btn-success">
                             <i class="fa fa-thumbs-up"></i>  <b> Q' . $f . ' - ' . $b . '%</b> APPROVED
-                            ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                            ' . ($c ? $i : '') . '
                     </button>';
         } else if ($a == "RECHECK") {
-            $e =    "<button "
+            $e =    '<button  ' . ($c ? $h : '') . ' '
                 . 'type="button" class="btn btn-block btn-xs bg-navy" style="cursor:default;">
                             <b> Q' . $f . ' - ' . $b . '%</b> RECHECK
-                            ' . ($c ? '<i class="fa fa-envelope float-right text-yellow" title="' . $c . '"></i>' : '') . '
+                            ' . ($c ? $i : '') . '
                     </button>';
         } else {
             $e = null;
