@@ -255,7 +255,7 @@ $uri = $this->session->schoolmis_login_uri;
                 // getTable("LearnersList", 0, -1);
                 getTable("AssignedSectionList", 0, -1);
                 // setTimeout(function() {
-                //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
                 // }, 1500);
 
             }
@@ -302,8 +302,9 @@ $uri = $this->session->schoolmis_login_uri;
                 }] : [],
 
             searching: tableId == 'GradesList' ? false : true,
-            // scrollY: "500p",
-            // scrollY: tableId == 'GradesList' ?"500px":null,
+            // scrollX: true,
+            // scrollY: "500px",
+            // scrollY: tableId == 'GradesList' ? "500px" : null,
             // scrollCollapse: true,
             "search": {
                 "search": search ?? "",
@@ -334,7 +335,11 @@ $uri = $this->session->schoolmis_login_uri;
             },
             fnInitComplete: function(oSettings, json) {
                 if (tableId == "AssignedSectionList") {
-                    $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+                    if(rssaid!=0){
+                        $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    }else{
+                        $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+                    }
                 }
                 if (tableId == "GradesList") {
                     $("#modal" + tableId + " .q1c").empty();

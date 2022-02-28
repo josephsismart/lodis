@@ -616,8 +616,8 @@ class Getdata extends MY_Controller
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
-                    "",
-                    "",
+                    // "",
+                    // "",
                     "",
                     "",
                     "",
@@ -626,8 +626,8 @@ class Getdata extends MY_Controller
 
             $data["data"][] = [
                 ($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname,
-                $sex,
-                $value->enrollment_status,
+                // $sex,
+                // $value->enrollment_status,
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>
                 <input value='" . $value->room_section_id . "' name='rm_sec_id[]' hidden/>
                 <input value='" . $rssaid . "' name='rssaid[]' hidden/>" .

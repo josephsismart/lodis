@@ -250,7 +250,7 @@ $uri = $this->session->schoolmis_login_uri;
 <!-- /.modal -->
 <!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
 <div class="modal fade" id="modalGradesList">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
                 <h5 class="modal-title p-0">
@@ -265,19 +265,19 @@ $uri = $this->session->schoolmis_login_uri;
                     <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
                 </div>
                 <div class="row content">
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
+                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
                 </div>
 
                 <div class="card-body p-0 table-responsive mt-3 content">
-                    <table class="table table-sm table-hover table-striped" id="tblGradesList" width="100%">
+                    <table class="table table-striped table-bordered table-sm " cellspacing="0" id="tblGradesList" width="100%">
                         <thead>
                             <tr>
                                 <th>Student</th>
-                                <th>Sex</th>
-                                <th>Status</th>
+                                <!-- <th>Sex</th>
+                                <th>Status</th> -->
                                 <th>Q1</th>
                                 <th>Q2</th>
                                 <th>Q3</th>
