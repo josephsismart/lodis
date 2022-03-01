@@ -260,31 +260,28 @@ $uri = $this->session->schoolmis_login_uri;
                 </button>
             </div>
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
-            <div class="modal-body mb-n3 form_save_dataGradesList">
-                <div class="overlay">
-                    <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
-                </div>
-                <div class="row content">
+            <div class="modal-body mb-n3 form_save_dataGradesList content">
+                <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
                 </div>
 
-                <div class="card-body p-0 table-responsive mt-3 content">
+                <div class="card-body p-0 table-responsive mt-3">
                     <table class="table table-striped table-bordered table-sm " cellspacing="0" id="tblGradesList" width="100%">
-                        <thead>
-                            <tr>
+                        <thead width="100%">
+                            <tr style="text-align:center;">
                                 <th>Student</th>
                                 <!-- <th>Sex</th>
                                 <th>Status</th> -->
-                                <th>Q1</th>
-                                <th>Q2</th>
-                                <th>Q3</th>
-                                <th>Q4</th>
+                                <th>     Q1      </th>
+                                <th>     Q2      </th>
+                                <th>     Q3      </th>
+                                <th>    Q4 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="text-align:center">
                         </tbody>
                     </table>
                 </div>
@@ -292,6 +289,9 @@ $uri = $this->session->schoolmis_login_uri;
             <div class="modal-footer content">
                 <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+            <div class="overlay">
+                <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
             </div>
             </form>
         </div>

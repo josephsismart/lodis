@@ -309,12 +309,6 @@ $uri = $this->session->schoolmis_login_uri;
 															</tr>
 														</thead>
 														<tbody>
-															<!-- <tr>
-													<td>a</td>
-													<td>a</td>
-													<td>a</td>
-													<td>a</td>
-												</tr> -->
 														</tbody>
 													</table>
 												</div>
@@ -349,7 +343,7 @@ $uri = $this->session->schoolmis_login_uri;
 		getTable("AssignedSectionList", 1, -1);
 		getTable("LearnersList", 0, -1);
 		getTable("SearchEnrollLearnersList", 0, 10);
-		getTable("GradesList", 0, -1);
+		// getTable("GradesList", 0, -1);
 		// getFetchList(f1, "CityMunList", null, 1, {
 		// 	v: 1602
 		// }, 1, 1);

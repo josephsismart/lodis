@@ -612,7 +612,7 @@ class Getdata extends MY_Controller
             $q3 = $value->q3;
             $q4 = $value->q4;
             $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
-            $entry = "<input type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
+            $entry = "<input style='text-align:center;' type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -625,7 +625,7 @@ class Getdata extends MY_Controller
                 ] : "";
 
             $data["data"][] = [
-                ($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname,
+                "<p style='text-align:left' class='mb-0 ml-n2 pr-3'>".($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname."</p>",
                 // $sex,
                 // $value->enrollment_status,
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>

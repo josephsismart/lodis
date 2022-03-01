@@ -119,11 +119,11 @@ $uri = $this->session->schoolmis_login_uri;
                     successAlert(result.message);
                     // getTable("LearnersList", 0, -1);
                     $("#modalLearnersUnenroll").modal('hide');
-                    getTable("LearnersList", 0, -1);
+                    // getTable("LearnersList", 0, -1);
                     getTable("AssignedSectionList", 0, -1);
-                    setTimeout(function() {
-                        $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    }, 1500);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
                 } else if (result.success == false) {
                     failAlert(result.message);
                     // getTable("LearnersList", 0, -1);
@@ -613,11 +613,11 @@ $uri = $this->session->schoolmis_login_uri;
             cache: false,
             processData: false,
             success: function(data) {
-                getTable("LearnersList", 0, -1);
+                // getTable("LearnersList", 0, -1);
                 getTable("AssignedSectionList", 0, -1);
-                setTimeout(function() {
-                    $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                }, 1500);
+                // setTimeout(function() {
+                //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                // }, 1500);
                 $('#file').val('');
                 successAlert("Successfully Saved!");
             },
