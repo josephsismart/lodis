@@ -354,7 +354,7 @@ class MY_Controller extends CI_Controller
             "unenroll" => $unenroll,
             "v_grades" => $v_grades,
             "vgd" => $vgd,
-            "sy_qrtr_e_g" => "<b>SY:</b> " . $grade_dl . " | <b>Q:</b> " . $qrtrR .
+            "sy_qrtr_e_g" => "<b>SY:</b> " . $sy . " | <b>Q:</b> " . $qrtrR .
                 ($enroll_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
                 ($grade_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
         ];

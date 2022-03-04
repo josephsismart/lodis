@@ -612,7 +612,7 @@ class Getdata extends MY_Controller
             $q3 = $value->q3;
             $q4 = $value->q4;
             $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
-            $entry = "<input style='text-align:center;' type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
+            $entry = "<input onclick='maxInput(\"gradeLearner$value->lrn\")' onkeyup='maxInput(\"gradeLearner$value->lrn\")' style='text-align:center;' type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
@@ -625,7 +625,7 @@ class Getdata extends MY_Controller
                 ] : "";
 
             $data["data"][] = [
-                "<p style='text-align:left' class='mb-0 ml-n2 pr-3'>".($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname."</p>",
+                "<p style='text-align:left' class='mb-0 ml-n2 pr-3'>" . ($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname . "</p>",
                 // $sex,
                 // $value->enrollment_status,
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>
@@ -661,6 +661,40 @@ class Getdata extends MY_Controller
         }
         echo json_encode($data);
     }
+
+    // function getHonors()
+    // {
+    //     $data = ["data" => []];
+    //     $c = 1;
+    //     $rsid = $this->input->post("rsid");
+    //     $sy = $this->getOnLoad()["sy_id"];
+    //     $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct FROM(
+    //                                 SELECT t1.learner_enrollment_id,
+    //                                     SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END) AS q1,
+    //                                     SUM(CASE WHEN(t1.qrtr_id=2) THEN t1.grade END) AS q2,
+    //                                     SUM(CASE WHEN(t1.qrtr_id=3) THEN t1.grade END) AS q3,
+    //                                     SUM(CASE WHEN(t1.qrtr_id=4) THEN t1.grade END) AS q4
+    //                                 FROM building_sectioning.tbl_learner_grades$sy t1
+    //                                 GROUP BY t1.learner_enrollment_id) t1
+    //                                 JOIN building_sectioning.tbl_learner_enrollment$sy t2 ON t1.learner_enrollment_id=t2.id
+    //                                 JOIN(SELECT t1.* FROM building_sectioning.view_room_section_sbjct_cnt t1 WHERE t1.schl_yr_id = $sy) t3 ON t2.room_section_id=t3.room_section_id
+    //                                 WHERE t2.room_section_id = 1");
+    //     foreach ($query->result() as $key => $value) {
+    //         $data["data"][] = [
+    //             'WITHH HIGHEST HONORS',
+    //             // '<div style="white-space: nowrap;">' . $value->lrn . ' - ' . $value->last_fullname . '</div>',
+    //             // '<div style="white-space: nowrap;">' . $value->date_time . '</div>',
+    //             // '<div style="white-space: nowrap;">' . $value->action . '</div>',
+    //             // '<div style="white-space: nowrap;">' . $value->ip . '</div>',
+    //             '2',
+    //             '2',
+    //             '4',
+    //             '4',
+    //             '4',
+    //         ];
+    //     }
+    //     echo json_encode($data);
+    // }
     // function getSYInfo()
     // {
     //     $data = ["data" => []];

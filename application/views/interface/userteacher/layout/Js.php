@@ -20,6 +20,7 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.flash.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.html5.min.js"></script>
 <!-- <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script> -->
+<!-- <script src="<?= base_url() ?>plugins/inputmask/jquery.inputmask.min.js"></script> -->
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/vfs_fonts.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
 <!-- Popper -->
@@ -255,7 +256,7 @@ $uri = $this->session->schoolmis_login_uri;
                 // getTable("LearnersList", 0, -1);
                 getTable("AssignedSectionList", 0, -1);
                 // setTimeout(function() {
-                    // $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                // $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
                 // }, 1500);
 
             }
@@ -335,9 +336,9 @@ $uri = $this->session->schoolmis_login_uri;
             },
             fnInitComplete: function(oSettings, json) {
                 if (tableId == "AssignedSectionList") {
-                    if(rssaid!=0){
+                    if (rssaid != 0) {
                         $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    }else{
+                    } else {
                         $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
                     }
                 }
@@ -674,6 +675,15 @@ $uri = $this->session->schoolmis_login_uri;
                 }
             }
         ).then(function() {});
+    }
+
+    function maxInput(a) {
+        var b = $("#" + a).val();
+        if (b > 100 || b == 0) {
+            $("#" + a).val("");
+        } else {
+
+        }
     }
 
     $("[type='number']").keydown(function(e) {

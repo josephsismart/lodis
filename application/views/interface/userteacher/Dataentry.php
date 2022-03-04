@@ -96,6 +96,25 @@ $uri = $this->session->schoolmis_login_uri;
 										<div class="list-group">
 											<div class="list-group-item">
 												<div class="row">
+													<!-- <div class="col-lg-4 col-md-12">
+													</div> -->
+
+													<div class="col-lg-4 col-md-12 small table-responsive" hidden>
+														<table class="table table-sm" id="tblHonors">
+															<thead>
+																<tr>
+																	<th width="150">Honors</th>
+																	<th>Q1</th>
+																	<th>Q2</th>
+																	<th>Q3</th>
+																	<th>Q4</th>
+																	<th>AVG</th>
+																</tr>
+															</thead>
+															<tbody>
+															</tbody>
+														</table>
+													</div>
 													<div class="col-lg-12 col-md-12">
 														<!-- <div class="col-lg-4 col-md-4"> -->
 														<div class="text-center">
@@ -120,7 +139,6 @@ $uri = $this->session->schoolmis_login_uri;
 															</div>
 														</div>
 													</div>
-
 
 													<div class="col-lg-4 col-md-4 small table-responsive" hidden>
 														<table class="table table-sm">
@@ -342,6 +360,7 @@ $uri = $this->session->schoolmis_login_uri;
 		let f3 = "UpdateLearnerInfo";
 		getTable("AssignedSectionList", 1, -1);
 		getTable("LearnersList", 0, -1);
+		// getTable("Honors", 1, -1);
 		getTable("SearchEnrollLearnersList", 0, 10);
 		// getTable("GradesList", 0, -1);
 		// getFetchList(f1, "CityMunList", null, 1, {
