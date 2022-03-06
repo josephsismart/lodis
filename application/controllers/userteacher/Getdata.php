@@ -662,39 +662,91 @@ class Getdata extends MY_Controller
         echo json_encode($data);
     }
 
-    // function getHonors()
-    // {
-    //     $data = ["data" => []];
-    //     $c = 1;
-    //     $rsid = $this->input->post("rsid");
-    //     $sy = $this->getOnLoad()["sy_id"];
-    //     $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct FROM(
-    //                                 SELECT t1.learner_enrollment_id,
-    //                                     SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END) AS q1,
-    //                                     SUM(CASE WHEN(t1.qrtr_id=2) THEN t1.grade END) AS q2,
-    //                                     SUM(CASE WHEN(t1.qrtr_id=3) THEN t1.grade END) AS q3,
-    //                                     SUM(CASE WHEN(t1.qrtr_id=4) THEN t1.grade END) AS q4
-    //                                 FROM building_sectioning.tbl_learner_grades$sy t1
-    //                                 GROUP BY t1.learner_enrollment_id) t1
-    //                                 JOIN building_sectioning.tbl_learner_enrollment$sy t2 ON t1.learner_enrollment_id=t2.id
-    //                                 JOIN(SELECT t1.* FROM building_sectioning.view_room_section_sbjct_cnt t1 WHERE t1.schl_yr_id = $sy) t3 ON t2.room_section_id=t3.room_section_id
-    //                                 WHERE t2.room_section_id = 1");
-    //     foreach ($query->result() as $key => $value) {
-    //         $data["data"][] = [
-    //             'WITHH HIGHEST HONORS',
-    //             // '<div style="white-space: nowrap;">' . $value->lrn . ' - ' . $value->last_fullname . '</div>',
-    //             // '<div style="white-space: nowrap;">' . $value->date_time . '</div>',
-    //             // '<div style="white-space: nowrap;">' . $value->action . '</div>',
-    //             // '<div style="white-space: nowrap;">' . $value->ip . '</div>',
-    //             '2',
-    //             '2',
-    //             '4',
-    //             '4',
-    //             '4',
-    //         ];
-    //     }
-    //     echo json_encode($data);
-    // }
+    function getHonors()
+    {
+        $data = ["data" => []];
+        $c = 1;
+        $rsid = $this->input->post("rsid");
+        $sy = $this->getOnLoad()["sy_id"];
+        $q1a_wst = 0;
+        $q1a_whh = 0;
+        $q1a_wh = 0;
+
+        $q2a_wst = 0;
+        $q2a_whh = 0;
+        $q2a_wh = 0;
+
+        $q3a_wst = 0;
+        $q3a_whh = 0;
+        $q3a_wh = 0;
+
+        $q4a_wst = 0;
+        $q4a_whh = 0;
+        $q4a_wh = 0;
+        $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct FROM(
+                                    SELECT t1.learner_enrollment_id,
+                                        SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END) AS q1,
+                                        SUM(CASE WHEN(t1.qrtr_id=2) THEN t1.grade END) AS q2,
+                                        SUM(CASE WHEN(t1.qrtr_id=3) THEN t1.grade END) AS q3,
+                                        SUM(CASE WHEN(t1.qrtr_id=4) THEN t1.grade END) AS q4
+                                    FROM building_sectioning.tbl_learner_grades$sy t1
+                                    GROUP BY t1.learner_enrollment_id) t1
+                                    JOIN building_sectioning.tbl_learner_enrollment$sy t2 ON t1.learner_enrollment_id=t2.id
+                                    JOIN(SELECT t1.* FROM building_sectioning.view_room_section_sbjct_cnt t1 WHERE t1.schl_yr_id = $sy) t3 ON t2.room_section_id=t3.room_section_id
+                                    WHERE t2.room_section_id = $rsid");
+        foreach ($query->result() as $key => $value) {
+            $ts = $value->total_sbjct;
+            $q1 = round($value->q1 / $ts);
+            $q2 = round($value->q2 / $ts);
+            $q3 = round($value->q3 / $ts);
+            $q4 = round($value->q4 / $ts);
+            $q1a_wst += ($q1 >= 98 &&  $q1 <= 100) ? 1 : 0;
+            $q1a_whh += ($q1 >= 95 &&  $q1 <= 97) ? 1 : 0;
+            $q1a_wh += ($q1 >= 90 &&  $q1 <= 94) ? 1 : 0;
+
+            $q2a_wst += ($q2 >= 98 &&  $q2 <= 100) ? 1 : 0;
+            $q2a_whh += ($q2 >= 95 &&  $q2 <= 97) ? 1 : 0;
+            $q2a_wh += ($q2 >= 90 &&  $q2 <= 94) ? 1 : 0;
+
+            $q3a_wst += ($q3 >= 98 &&  $q3 <= 100) ? 1 : 0;
+            $q3a_whh += ($q3 >= 95 &&  $q3 <= 97) ? 1 : 0;
+            $q3a_wh += ($q3 >= 90 &&  $q3 <= 94) ? 1 : 0;
+
+            $q4a_wst += ($q4 >= 98 &&  $q4 <= 100) ? 1 : 0;
+            $q4a_whh += ($q4 >= 95 &&  $q4 <= 97) ? 1 : 0;
+            $q4a_wh += ($q4 >= 90 &&  $q4 <= 94) ? 1 : 0;
+        }
+
+        $query2 = $this->db->query("SELECT * FROM global.tbl_party WHERE party_type_id=19 AND is_active=true ORDER BY order_by");
+        foreach ($query2->result() as $key => $value) {
+            $pid = $value->id;
+            $q1a_wst = $this->returnDashed($q1a_wst);
+            $q1a_whh = $this->returnDashed($q1a_whh);
+            $q1a_wh = $this->returnDashed($q1a_wh);
+            
+            $q2a_wst = $this->returnDashed($q2a_wst);
+            $q2a_whh = $this->returnDashed($q2a_whh);
+            $q2a_wh = $this->returnDashed($q2a_wh);
+            
+            $q3a_wst = $this->returnDashed($q3a_wst);
+            $q3a_whh = $this->returnDashed($q3a_whh);
+            $q3a_wh = $this->returnDashed($q3a_wh);
+            
+            $q4a_wst = $this->returnDashed($q4a_wst);
+            $q4a_whh = $this->returnDashed($q4a_whh);
+            $q4a_wh = $this->returnDashed($q4a_wh);
+
+            $data["data"][] = [
+                '<p class="mb-n2 text-nowrap">' . $value->description . ' <i>' . $value->abbr . '</i></p>',
+                $pid == 109 ? $q1a_wst : ($pid == 110 ? $q1a_whh : $q1a_wh),
+                $pid == 109 ? $q2a_wst : ($pid == 110 ? $q2a_whh : $q2a_wh),
+                $pid == 109 ? $q3a_wst : ($pid == 110 ? $q3a_whh : $q3a_wh),
+                $pid == 109 ? $q4a_wst : ($pid == 110 ? $q4a_whh : $q4a_wh),
+                '4',
+            ];
+        }
+        echo json_encode($data);
+    }
     // function getSYInfo()
     // {
     //     $data = ["data" => []];

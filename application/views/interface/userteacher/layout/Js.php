@@ -471,6 +471,16 @@ $uri = $this->session->schoolmis_login_uri;
         resetHide(tableId);
         tblReload(tableId, c);
 
+        if (adviser == "t") {
+            getTable("Honors", 0, -1);
+            $(".header1").show();
+            $(".header2").removeClass("col-lg-12");
+            $(".header2").addClass("col-lg-4");
+        } else {
+            $(".header1").hide();
+            $(".header2").removeClass("col-lg-4");
+            $(".header2").addClass("col-lg-12");
+        }
         tblDT = $('#tbl' + tableId).DataTable();
         if (adviser === "t") {
             getTable("LearnersList", 0, -1);

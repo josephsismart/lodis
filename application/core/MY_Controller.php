@@ -145,7 +145,7 @@ class MY_Controller extends CI_Controller
 
     public function returnDashed($a)
     {
-        $return = ($a == 0 ? '-' : number_format($a));
+        $return = ($a == 0 ? '-' : $a);
         return $return;
     }
 
