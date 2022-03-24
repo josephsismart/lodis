@@ -220,22 +220,38 @@ class Getdata extends MY_Controller
                                         LEFT JOIN (SELECT t1.*,q1.grade q1,q2.grade q2,q3.grade q3,q4.grade q4 FROM (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id
                                                 FROM building_sectioning.tbl_learner_grades$sy t1
                                                 GROUP BY t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id) t1
-                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                
+                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
+                                                --     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=1 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=1)q1 ON t1.learner_enrollment_id =q1.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q1.rm_sctn_sbjct_assgnmnt_id
+                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
+                                                --     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=2 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=2)q2 ON t1.learner_enrollment_id =q2.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q2.rm_sctn_sbjct_assgnmnt_id
+                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
+                                                --     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=3 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=3)q3 ON t1.learner_enrollment_id =q3.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q3.rm_sctn_sbjct_assgnmnt_id
+                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
+                                                --     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=4 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
+                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=4)q4 ON t1.learner_enrollment_id =q4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q4.rm_sctn_sbjct_assgnmnt_id)
+
+                                                
+                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                    LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=1 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
                                                     WHERE t1.sy_id=$sy AND t1.qrtr_id=1)q1 ON t1.learner_enrollment_id =q1.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q1.rm_sctn_sbjct_assgnmnt_id
-                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                    LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=2 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
                                                     WHERE t1.sy_id=$sy AND t1.qrtr_id=2)q2 ON t1.learner_enrollment_id =q2.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q2.rm_sctn_sbjct_assgnmnt_id
-                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                    LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=3 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
                                                     WHERE t1.sy_id=$sy AND t1.qrtr_id=3)q3 ON t1.learner_enrollment_id =q3.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q3.rm_sctn_sbjct_assgnmnt_id
-                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
+                                                LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                    LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=4 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
                                                     WHERE t1.sy_id=$sy AND t1.qrtr_id=4)q4 ON t1.learner_enrollment_id =q4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q4.rm_sctn_sbjct_assgnmnt_id)
+
                                             t4 ON t3.enrollment_id=t4.learner_enrollment_id AND t1.id=t4.rm_sctn_sbjct_assgnmnt_id
                                         WHERE t5.subject_id=$sbjctid AND t3.room_section_id=$rsid
                                         ORDER BY t3.sex DESC, t3.last_fullname");
@@ -664,7 +680,27 @@ class Getdata extends MY_Controller
 
     function getHonors()
     {
-        $data = ["data" => []];
+        $data = [
+            "data" => [],
+            "q1a_wst" => [], "q1a_whh" => [], "q1a_wh" => [],
+        ];
+        //q1
+        $data_q1a_wst = [];
+        $data_q1a_whh = [];
+        $data_q1a_wh = [];
+        //q2
+        $data_q2a_wst = [];
+        $data_q2a_whh = [];
+        $data_q2a_wh = [];
+        //q3
+        $data_q3a_wst = [];
+        $data_q3a_whh = [];
+        $data_q3a_wh = [];
+        //q4
+        $data_q4a_wst = [];
+        $data_q4a_whh = [];
+        $data_q4a_wh = [];
+
         $c = 1;
         $rsid = $this->input->post("rsid");
         $sy = $this->getOnLoad()["sy_id"];
@@ -683,16 +719,23 @@ class Getdata extends MY_Controller
         $q4a_wst = 0;
         $q4a_whh = 0;
         $q4a_wh = 0;
-        $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct FROM(
+        $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct,t4.last_fullname FROM(
                                     SELECT t1.learner_enrollment_id,
-                                        SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END) AS q1,
-                                        SUM(CASE WHEN(t1.qrtr_id=2) THEN t1.grade END) AS q2,
-                                        SUM(CASE WHEN(t1.qrtr_id=3) THEN t1.grade END) AS q3,
-                                        SUM(CASE WHEN(t1.qrtr_id=4) THEN t1.grade END) AS q4
-                                    FROM building_sectioning.tbl_learner_grades$sy t1
+                                        COALESCE(SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END),0) AS q1,
+                                        COALESCE(SUM(CASE WHEN(t1.qrtr_id=2) THEN t1.grade END),0) AS q2,
+                                        COALESCE(SUM(CASE WHEN(t1.qrtr_id=3) THEN t1.grade END),0) AS q3,
+                                        COALESCE(SUM(CASE WHEN(t1.qrtr_id=4) THEN t1.grade END),0) AS q4
+                                    FROM (SELECT * FROM building_sectioning.tbl_learner_grades$sy t1
+                                            JOIN (SELECT t1.id,t1.room_section_id,t2.parent_party_id,t2.description,
+                                                                        t3.schl_yr_id
+                                                                        FROM ((building_sectioning.tbl_room_section_subject_assignment t1
+                                                                            LEFT JOIN global.tbl_party t2 ON ((t1.subject_id = t2.id)))
+                                                                            LEFT JOIN building_sectioning.tbl_room_section t3 ON ((t1.room_section_id = t3.id)))
+                                                                    WHERE (t2.parent_party_id IS NULL)) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.id) t1
                                     GROUP BY t1.learner_enrollment_id) t1
                                     JOIN building_sectioning.tbl_learner_enrollment$sy t2 ON t1.learner_enrollment_id=t2.id
                                     JOIN(SELECT t1.* FROM building_sectioning.view_room_section_sbjct_cnt t1 WHERE t1.schl_yr_id = $sy) t3 ON t2.room_section_id=t3.room_section_id
+                                    JOIN building_sectioning.view_enrollment$sy t4 ON t1.learner_enrollment_id=t4.enrollment_id
                                     WHERE t2.room_section_id = $rsid");
         foreach ($query->result() as $key => $value) {
             $ts = $value->total_sbjct;
@@ -700,41 +743,177 @@ class Getdata extends MY_Controller
             $q2 = round($value->q2 / $ts);
             $q3 = round($value->q3 / $ts);
             $q4 = round($value->q4 / $ts);
-            $q1a_wst += ($q1 >= 98 &&  $q1 <= 100) ? 1 : 0;
-            $q1a_whh += ($q1 >= 95 &&  $q1 <= 97) ? 1 : 0;
-            $q1a_wh += ($q1 >= 90 &&  $q1 <= 94) ? 1 : 0;
 
-            $q2a_wst += ($q2 >= 98 &&  $q2 <= 100) ? 1 : 0;
-            $q2a_whh += ($q2 >= 95 &&  $q2 <= 97) ? 1 : 0;
-            $q2a_wh += ($q2 >= 90 &&  $q2 <= 94) ? 1 : 0;
+            //q1
+            if ($q1 >= 98 &&  $q1 <= 100) {
+                $q1a_wst += 1;
+                $data_q1a_wst[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q1,
+                ];
+            } else if ($q1 >= 95 &&  $q1 <= 97) {
+                $q1a_whh += 1;
+                $data_q1a_whh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q1,
+                ];
+            } else if ($q1 >= 90 &&  $q1 <= 94) {
+                $q1a_wh += 1;
+                $data_q1a_wh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q1,
+                ];
+            }
 
-            $q3a_wst += ($q3 >= 98 &&  $q3 <= 100) ? 1 : 0;
-            $q3a_whh += ($q3 >= 95 &&  $q3 <= 97) ? 1 : 0;
-            $q3a_wh += ($q3 >= 90 &&  $q3 <= 94) ? 1 : 0;
+            //q2
+            if ($q2 >= 98 &&  $q2 <= 100) {
+                $q2a_wst += 1;
+                $data_q2a_wst[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q2,
+                ];
+            } else if ($q2 >= 95 &&  $q2 <= 97) {
+                $q2a_whh += 1;
+                $data_q2a_whh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q2,
+                ];
+            } else if ($q2 >= 90 &&  $q2 <= 94) {
+                $q2a_wh += 1;
+                $data_q2a_wh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q2,
+                ];
+            }
 
-            $q4a_wst += ($q4 >= 98 &&  $q4 <= 100) ? 1 : 0;
-            $q4a_whh += ($q4 >= 95 &&  $q4 <= 97) ? 1 : 0;
-            $q4a_wh += ($q4 >= 90 &&  $q4 <= 94) ? 1 : 0;
+            //q3
+            if ($q3 >= 98 &&  $q3 <= 100) {
+                $q3a_wst += 1;
+                $data_q3a_wst[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q3,
+                ];
+            } else if ($q3 >= 95 &&  $q3 <= 97) {
+                $q3a_whh += 1;
+                $data_q3a_whh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q3,
+                ];
+            } else if ($q3 >= 90 &&  $q3 <= 94) {
+                $q3a_wh += 1;
+                $data_q3a_wh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q3,
+                ];
+            }
+
+            //q4
+            if ($q4 >= 98 &&  $q4 <= 100) {
+                $q4a_wst += 1;
+                $data_q4a_wst[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q4,
+                ];
+            } else if ($q4 >= 95 &&  $q4 <= 97) {
+                $q4a_whh += 1;
+                $data_q4a_whh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q4,
+                ];
+            } else if ($q4 >= 90 &&  $q4 <= 94) {
+                $q4a_wh += 1;
+                $data_q4a_wh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $q4,
+                ];
+            }
+
+            // $q2a_wst += ($q2 >= 98 &&  $q2 <= 100) ? 1 : 0;
+            // $q2a_whh += ($q2 >= 95 &&  $q2 <= 97) ? 1 : 0;
+            // $q2a_wh += ($q2 >= 90 &&  $q2 <= 94) ? 1 : 0;
+
+            // $q3a_wst += ($q3 >= 98 &&  $q3 <= 100) ? 1 : 0;
+            // $q3a_whh += ($q3 >= 95 &&  $q3 <= 97) ? 1 : 0;
+            // $q3a_wh += ($q3 >= 90 &&  $q3 <= 94) ? 1 : 0;
+
+            // $q4a_wst += ($q4 >= 98 &&  $q4 <= 100) ? 1 : 0;
+            // $q4a_whh += ($q4 >= 95 &&  $q4 <= 97) ? 1 : 0;
+            // $q4a_wh += ($q4 >= 90 &&  $q4 <= 94) ? 1 : 0;
         }
+        //q1
+        $arrq1_wst = json_encode($data_q1a_wst);
+        $arrq1_whh = json_encode($data_q1a_whh);
+        $arrq1_wh = json_encode($data_q1a_wh);
+        $q1_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_wst . ");'>"
+            . $this->returnDashed($q1a_wst) . "</button>";
+        $q1_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_whh . ");'>"
+            . $this->returnDashed($q1a_whh) . "</button>";
+        $q1_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_wh . ");'>"
+            . $this->returnDashed($q1a_wh) . "</button>";
+        //q2
+        $arrq2_wst = json_encode($data_q2a_wst);
+        $arrq2_whh = json_encode($data_q2a_whh);
+        $arrq2_wh = json_encode($data_q2a_wh);
+        $q2_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_wst . ");'>"
+            . $this->returnDashed($q2a_wst) . "</button>";
+        $q2_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_whh . ");'>"
+            . $this->returnDashed($q2a_whh) . "</button>";
+        $q2_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_wh . ");'>"
+            . $this->returnDashed($q2a_wh) . "</button>";
+
+        //q3
+        $arrq3_wst = json_encode($data_q3a_wst);
+        $arrq3_whh = json_encode($data_q3a_whh);
+        $arrq3_wh = json_encode($data_q3a_wh);
+        $q3_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_wst . ");'>"
+            . $this->returnDashed($q3a_wst) . "</button>";
+        $q3_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_whh . ");'>"
+            . $this->returnDashed($q3a_whh) . "</button>";
+        $q3_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_wh . ");'>"
+            . $this->returnDashed($q3a_wh) . "</button>";
+
+        //q4
+        $arrq4_wst = json_encode($data_q4a_wst);
+        $arrq4_whh = json_encode($data_q4a_whh);
+        $arrq4_wh = json_encode($data_q4a_wh);
+        $q4_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_wst . ");'>"
+            . $this->returnDashed($q4a_wst) . "</button>";
+        $q4_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_whh . ");'>"
+            . $this->returnDashed($q4a_whh) . "</button>";
+        $q4_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_wh . ");'>"
+            . $this->returnDashed($q4a_wh) . "</button>";
 
         $query2 = $this->db->query("SELECT * FROM global.tbl_party WHERE party_type_id=19 AND is_active=true ORDER BY order_by");
         foreach ($query2->result() as $key => $value) {
             $pid = $value->id;
-            $q1a_wst = $this->returnDashed($q1a_wst);
-            $q1a_whh = $this->returnDashed($q1a_whh);
-            $q1a_wh = $this->returnDashed($q1a_wh);
-            
-            $q2a_wst = $this->returnDashed($q2a_wst);
-            $q2a_whh = $this->returnDashed($q2a_whh);
-            $q2a_wh = $this->returnDashed($q2a_wh);
-            
-            $q3a_wst = $this->returnDashed($q3a_wst);
-            $q3a_whh = $this->returnDashed($q3a_whh);
-            $q3a_wh = $this->returnDashed($q3a_wh);
-            
-            $q4a_wst = $this->returnDashed($q4a_wst);
-            $q4a_whh = $this->returnDashed($q4a_whh);
-            $q4a_wh = $this->returnDashed($q4a_wh);
+            //q1
+            $q1a_wst = $q1_wst_btn;
+            $q1a_whh = $q1_whh_btn;
+            $q1a_wh = $q1_wh_btn;
+            //q2
+            $q2a_wst = $q2_wst_btn;
+            $q2a_whh = $q2_whh_btn;
+            $q2a_wh = $q2_wh_btn;
+            //q3
+            $q3a_wst = $q3_wst_btn;
+            $q3a_whh = $q3_whh_btn;
+            $q3a_wh = $q3_wh_btn;
+            //q4
+            $q4a_wst = $q4_wst_btn;
+            $q4a_whh = $q4_whh_btn;
+            $q4a_wh = $q4_wh_btn;
+
+            // $q2a_wst = $this->returnDashed($q2a_wst);
+            // $q2a_whh = $this->returnDashed($q2a_whh);
+            // $q2a_wh = $this->returnDashed($q2a_wh);
+
+            // $q3a_wst = $this->returnDashed($q3a_wst);
+            // $q3a_whh = $this->returnDashed($q3a_whh);
+            // $q3a_wh = $this->returnDashed($q3a_wh);
+
+            // $q4a_wst = $this->returnDashed($q4a_wst);
+            // $q4a_whh = $this->returnDashed($q4a_whh);
+            // $q4a_wh = $this->returnDashed($q4a_wh);
 
             $data["data"][] = [
                 '<p class="mb-n2 text-nowrap">' . $value->description . ' <i>' . $value->abbr . '</i></p>',

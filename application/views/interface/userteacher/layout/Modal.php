@@ -608,3 +608,31 @@ $uri = $this->session->schoolmis_login_uri;
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalHonor">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header bg-navy py-1">
+                <h5 class="modal-title p-0"><span class="fa fa-medal"></span> Honors List
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-1">
+                <!-- <table class="table table-sm tblHonorsList"> -->
+                <table class="table table-striped table-bordered table-sm" cellspacing="0" id="tblHonorsList" width="100%">
+                    <thead>
+                        <tr>
+                            <!-- <th width="1">#</th> -->
+                            <th>#   Learner</th>
+                            <th><center>AVG</center></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

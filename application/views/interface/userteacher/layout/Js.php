@@ -335,6 +335,9 @@ $uri = $this->session->schoolmis_login_uri;
                 }
             },
             fnInitComplete: function(oSettings, json) {
+                if (tableId == "Honors") {
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
                 if (tableId == "AssignedSectionList") {
                     if (rssaid != 0) {
                         $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
@@ -679,7 +682,7 @@ $uri = $this->session->schoolmis_login_uri;
                         "</span>");
                     $("#modalLearnersSubmitGrades").modal('hide');
                     clear_form("form_save_dataSubmitGradesConfirm");
-                    $('[data-toggle="tooltip"]').tooltip()
+                    $('[data-toggle="tooltip"]').tooltip();
                 } else if (result.success == false) {
                     failAlert(result.message);
                 }
@@ -703,6 +706,20 @@ $uri = $this->session->schoolmis_login_uri;
             e.preventDefault();
         }
     });
+
+    function showTableHonors(a) {
+        let i;
+        let cc = 1;
+        $("#tblHonorsList tbody").empty();
+        if (a.length > 0) {
+            for (i = 0; i < a.length; i++) {
+                $("#tblHonorsList tbody").append('<tr>' +
+                    '<td>' + cc++ + '.   ' + a[i]["l"] + '</td>' +
+                    '<td><center>' + a[i]["g"] + '</center></td>' +
+                    '</tr>');
+            }
+        }
+    }
 
 
     var invalidChars = [
