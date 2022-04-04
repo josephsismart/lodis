@@ -659,7 +659,7 @@ $uri = $this->session->schoolmis_login_uri;
         $("#modalLearnersSubmitGrades").modal("show");
     }
 
-    function submitGrades(a) {
+    function submitGrades() {
         validate("form_save_dataSubmitGradesConfirm");
         if (valid != 0) {
             fillIn();
@@ -680,7 +680,7 @@ $uri = $this->session->schoolmis_login_uri;
                         "<b>FOR APPROVAL Q" + bTmp + " - " + cTmp + "%</b>" +
                         (rm ? '<i class="fa fa-envelope float-right text-yellow"></i>' : '') +
                         "</span>");
-                    $("#modalLearnersSubmitGrades").modal('hide');
+                    $("#modalLearnersSubmitGrades,#modalGradesList").modal('hide');
                     clear_form("form_save_dataSubmitGradesConfirm");
                     $('[data-toggle="tooltip"]').tooltip();
                 } else if (result.success == false) {

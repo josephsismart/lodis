@@ -653,6 +653,8 @@ class Dataentry extends MY_Controller
             $login_id = $this->session->schoolmis_login_id;
             $dateNow = $this->now();
             $ret = $true;
+            if($gradeLearner!=null){
+
             for ($i = 0; $i < count($en_id); $i++) {
                 $en = $en_id[$i];
                 $rm = $rm_sec_id[$i];
@@ -713,6 +715,9 @@ class Dataentry extends MY_Controller
             } else {
                 $this->db->trans_commit();
             }
+        }else {
+            $ret = $false;
+        }
         } else {
             $ret = $false;
         }
