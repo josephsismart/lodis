@@ -361,6 +361,38 @@ class MY_Controller extends CI_Controller
         return $data;
     }
 
+    public function getSHdboard(){
+        $sy = $this->getOnLoad()["sy_id"];
+        $query = $this->db->query("SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
+                                    SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
+                                    FROM building_sectioning.view_enrollment$sy t1
+                                    WHERE t1.status_id=5");
+        $query1 = $this->db->query('SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
+                                    SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
+                                    FROM profile.view_schoolpersonnel t1
+                                    WHERE t1."employeeTypeId"=4 AND t1.is_active=TRUE');
+        $row = $query->row();
+        $row1 = $query1->row();
+        $emale =  number_format($row->male);
+        $efmale =  number_format($row->female);
+        $tenroll =  number_format($row->male+$row->female);
+        
+        $tpmale =  number_format($row1->male);
+        $tpfmale =  number_format($row1->female);
+        $ttpenroll =  number_format($row1->male+$row1->female);
+
+        $data = [
+            "emale" => $emale,
+            "efmale" => $efmale,
+            "tenroll" => $tenroll,
+
+            "tpmale" => $tpmale,
+            "tpfmale" => $tpfmale,
+            "ttpenroll" => $ttpenroll,
+        ];
+        return $data;
+    }
+
     public function get_ip()
     {
         $ip = "";

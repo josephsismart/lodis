@@ -70,7 +70,7 @@ class Getdata extends MY_Controller
         $enroll_stat = $this->getOnLoad()["enroll_stat"];
         $grade_stat = $this->getOnLoad()["grade_stat"];
         $query = $this->db->query("SELECT t1.* FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
-                                    WHERE t1.schoolpersonnel_id=$personnel_id AND t1.schl_yr_id=$sy ORDER BY t1.advisory DESC");
+                                    WHERE t1.schoolpersonnel_id=$personnel_id AND t1.schl_yr_id=$sy ORDER BY t1.advisory DESC,t1.sctn_nm,t1.order_by_sbjct");
 
         foreach ($query->result() as $key => $value) {
             $rmid = $value->room_section_id;
