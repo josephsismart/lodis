@@ -246,9 +246,9 @@ $uri = $this->session->schoolmis_login_uri;
 </section>
 <!-- /.content -->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(function() {
 		let f2 = "GradeSecInfo";
 		getTable(f2, 0, 10);
 	});
-</script>
+</script> -->
