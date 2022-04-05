@@ -1,13 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <!-- Highcharts -->
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/highcharts.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/highcharts-3d.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/highcharts-more.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/modules/organization.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/modules/exporting.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/modules/accessibility.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/modules/export-data.js"></script>
-<script src="<?= base_url() ?>plugins/Highcharts-10.0.0/modules/drilldown.js"></script>
 <!-- Content Header (Page header) -->
 <script src="<?= base_url() ?>plugins/jquery/jquery.form.min.js"></script>
 <?php

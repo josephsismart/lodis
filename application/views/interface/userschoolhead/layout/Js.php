@@ -6,7 +6,6 @@ if (!$this->session->schoolmis_login_level) {
 $uri = $this->session->schoolmis_login_uri;
 ?>
 <!-- Bootstrap 4 -->
-
 <script src="<?= base_url() ?>plugins/ol3/ol.js"></script>
 <script src="<?= base_url() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->
@@ -23,6 +22,15 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
+
+<script src="<?= base_url() ?>plugins/highcharts/highcharts.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/highcharts-3d.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/highcharts-more.js"></script>
+<!-- <script src="<?= base_url() ?>plugins/highcharts/modules/organization.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/modules/exporting.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/modules/accessibility.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/modules/export-data.js"></script>
+<script src="<?= base_url() ?>plugins/highcharts/modules/drilldown.js"></script> -->
 
 <script type="text/javascript">
     // Data gathered from http://populationpyramid.net/germany/2015/
