@@ -94,7 +94,7 @@ $uri = $this->session->schoolmis_login_uri;
 							<div class="col-lg-4 col-sm-12 col-4">
 								<div class="small-box bg-success">
 									<div class="inner text-center">
-										<h3><?= $getSHdboard["tpmale"]; ?></h3>
+										<h3><?= $getSHdboard["tpfemale"]; ?></h3>
 									</div>
 									<a href="#" class="small-box-footer">
 										Female <i class="fas fa-female"></i>
@@ -108,6 +108,49 @@ $uri = $this->session->schoolmis_login_uri;
 									</div>
 									<a href="#" class="small-box-footer">
 										Total
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-4 col-sm-4 col-12">
+				<!-- small card -->
+				<div class="small-box bg-warning">
+					<a href="#" class="small-box-footer">
+						User Account <i class="fas fa-users"></i>
+					</a>
+					<div class="inner p-1">
+						<div class="row mb-n3">
+							<div class="col-lg-4 col-sm-12 col-4">
+								<div class="small-box bg-warning">
+									<div class="inner text-center">
+										<h3><?= $getSHdboard["dephead"]; ?></h3>
+									</div>
+									<a href="#" class="small-box-footer">
+										Dept. Head
+									</a>
+								</div>
+							</div>
+							<div class="col-lg-4 col-sm-12 col-4">
+								<div class="small-box bg-warning">
+									<div class="inner text-center">
+										<h3><?= $getSHdboard["teacher"]; ?></h3>
+									</div>
+									<a href="#" class="small-box-footer">
+										Teacher
+									</a>
+								</div>
+							</div>
+							<div class="col-lg-4 col-sm-12 col-4">
+								<div class="small-box bg-warning">
+									<div class="inner text-center">
+										<h3><?= $getSHdboard["learner"]; ?></h3>
+									</div>
+									<a href="#" class="small-box-footer">
+										Learner
 									</a>
 								</div>
 							</div>
@@ -174,7 +217,7 @@ $uri = $this->session->schoolmis_login_uri;
 					</div>
 					<div class="card-body p-2">
 						<div class="row">
-							<div class="col-lg-3 col-md-5 col-sm-3 col-xs-3">
+							<!-- <div class="col-lg-3 col-md-5 col-sm-3 col-xs-3">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
 										<small class="input-group-text text-xs text-bold p-1">S.Y.</small>
@@ -184,7 +227,7 @@ $uri = $this->session->schoolmis_login_uri;
 										<option value="f">FEMALE</option>
 									</select>
 								</div>
-							</div>
+							</div> -->
 							<!-- <div class="col-lg-3 col-md-5 col-sm-3 col-xs-3">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
@@ -214,7 +257,7 @@ $uri = $this->session->schoolmis_login_uri;
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
 				<div class="card card-navy">
 					<div class="card-header p-1 pr-2 pl-2">
-						<h3 class="card-title"><i class="fa fa-chart-bar"></i> Age Bracket Grade level</h3>
+						<h3 class="card-title"><i class="fa fa-chart-bar"></i> Age Bracket</h3>
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
 						</div>

@@ -367,10 +367,19 @@ class MY_Controller extends CI_Controller
                                     SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
                                     FROM building_sectioning.view_enrollment$sy t1
                                     WHERE t1.status_id=5");
-        $query1 = $this->db->query('SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
+
+        $query1 = $this->db->query("SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
                                     SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
                                     FROM profile.view_schoolpersonnel t1
-                                    WHERE t1."employeeTypeId"=4 AND t1.is_active=TRUE');
+                                    WHERE t1.person_id != 1197 
+                                    AND t1.person_id != 1 
+                                    AND t1.person_id != 1431 
+                                    AND t1.person_id != 1102 
+                                    AND t1.is_active=TRUE");
+
+        $query2 = $this->db->query("SELECT t1.role_id,t1.user_description user, COUNT(1) cc FROM account.view_useraccount t1
+                                    GROUP BY t1.user_description,t1.role_id");
+
         $row = $query->row();
         $row1 = $query1->row();
         $emale =  number_format($row->male);
@@ -378,8 +387,15 @@ class MY_Controller extends CI_Controller
         $tenroll =  number_format($row->male+$row->female);
         
         $tpmale =  number_format($row1->male);
-        $tpfmale =  number_format($row1->female);
+        $tpfemale =  number_format($row1->female);
         $ttpenroll =  number_format($row1->male+$row1->female);
+
+        foreach ($query2->result() as $key => $value) {
+            $r = $value->role_id;
+            if ($r==3) {$dephead=(int) $value->cc;}
+            if ($r==7) {$teacher=(int) $value->cc;}
+            if ($r==8) {$learner=(int) $value->cc;}
+        }
 
         $data = [
             "emale" => $emale,
@@ -387,8 +403,12 @@ class MY_Controller extends CI_Controller
             "tenroll" => $tenroll,
 
             "tpmale" => $tpmale,
-            "tpfmale" => $tpfmale,
+            "tpfemale" => $tpfemale,
             "ttpenroll" => $ttpenroll,
+
+            "dephead"=> $dephead,
+            "teacher"=> $teacher,
+            "learner"=> $learner,
         ];
         return $data;
     }
