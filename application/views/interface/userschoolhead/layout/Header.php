@@ -102,9 +102,17 @@ $uri = $this->session->schoolmis_login_uri;
         </li> -->
         <li class="nav-item">
           <a href="<?= base_url() . $uri ?>/dataentry" class="nav-link dataentry">
-            <i class="nav-icon fas fa-edit data_entry"></i>
+            <i class="nav-icon fas fa-tachometer-alt data_entry"></i>
             <p>
-              Data Entry
+              Dashboard
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= base_url() . $uri ?>/reports" class="nav-link reports">
+            <i class="nav-icon fas fa-folder-open reports"></i>
+            <p>
+              Reports
             </p>
           </a>
         </li>

@@ -29,8 +29,8 @@ class Dashboard extends MY_Controller {
 
     function getMFGradelvl()
     {
-        $data = ["series" => [],"categories" => []];
-        $dc = ["male","female"];
+        $data = ["series" => [],"categories" => [],"totals" => []];
+        $dc = ["male","female","total"];
         $c = 1;
         $sy = $this->getOnLoad()["sy_id"];
         $query = $this->db->query("SELECT t1.grade,SUM(t1.male) male,SUM(t1.female) female FROM (
@@ -45,11 +45,8 @@ class Dashboard extends MY_Controller {
                                     ORDER BY t1.grade::integer");
 
         foreach ($query->result() as $key => $value) {
-            $dc["male"][] = (int) $value->male;
-            $dc["female"][] = (int) $value->female;
-            // name: 'Male',
-            // color: "#007bff",
-            // data: [49.9, 71.5, 106.4, 129.2]
+            $dc["male"][]=(int) $value->male;
+            $dc["female"][]=(int) $value->female;
         }
 
         $data["series"][] = [
@@ -62,7 +59,8 @@ class Dashboard extends MY_Controller {
             "color"=>"#dc3545",
             "data"=>$dc["female"],
          ];
-        $data["categories"] = [
+         
+         $data["categories"] = [
             'Grade 7',
             'Grade 8',
             'Grade 9',
