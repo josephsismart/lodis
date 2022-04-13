@@ -5,15 +5,15 @@
     }
     $uri = $this->session->schoolmis_login_uri;
 ?>
-<address style="text-align:left;border-bottom:2px solid green;margin-bottom:5px;padding-bottom:5px;">
+<div style="text-align:left;border-bottom:2px solid #17a2b8;margin-bottom:5px;padding-bottom:5px;">
     <div class="row">
         <div class="col-1 p-2 pl-4">
-            <i style="padding-right:12px;"><img src="<?= $system_svg ?>" width="52" height="52"></i>
+            <i style="padding-right:12px;"><img src="<?= $system_svg ?>" width="70" height="70"></i>
         </div>
-        <div class="col-11 pull-left pl-3">
+        <div class="col-11 pull-left pl-4 pt-3">
             Republic of the Philippines<br>
-            <strong>RICE INVENTORY SYSTEM</strong><br>
+            <strong>LIBERTAD NATIONAL HIGH SCHOOL</strong><br>
             Butuan City
         </div>
     </div>
-</address>
+</div>

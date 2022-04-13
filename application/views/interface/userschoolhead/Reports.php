@@ -31,7 +31,7 @@ $uri = $this->session->schoolmis_login_uri;
 	<div class="container-fluid">
 
 		<div class="row">
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
+			<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
 				<div class="card card-navy">
 					<div class="card-header p-1 pr-2 pl-2">
 						<h3 class="card-title"><i class="fa fa-chart-bar"></i> Male/Female & 4Ps per Grade level</h3>
@@ -42,7 +42,7 @@ $uri = $this->session->schoolmis_login_uri;
 					<div class="card-body p-2">
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
-							<button type="submit" class="btn btn-info btn-sm btn-block submitBtnMFGL"><i class="fa fa-search"></i> VIEW REPORT</button>
+							<button type="submit" class="btn btn-info btn-sm btn-block submitBtnMFGradelvl">VIEW REPORT</button>
 								<!-- <div class="input-group mb-2">
 									<input type="text" class="form-control form-control-sm text-uppercase" name="abbr" placeholder="ABBREVIATION" autocomplete="off">
 									<div class="input-group-append">

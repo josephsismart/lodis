@@ -68,17 +68,17 @@
 <!-- /.modal -->
 
 <!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalReportInvPO">
+<div class="modal fade" id="modalMFGradelvl">
     <div class="modal-dialog modal-xxl">
         <div class="modal-content">
             <div class="modal-header no-print">
-                <h4 class="modal-title">Inventory & Purchase Order List</h4>
+                <h4 class="modal-title">Male / Female Age Bracket</h4>
                 <div  class='radioBtn btn-group pull-right'>
-                    <button type="submit" onclick="printForm('InvPO','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
+                    <button type="submit" onclick="printForm('MFGradelvl','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
                 </div>
             </div>
-            <div class="modal-body p-0" id="printInvPO">
+            <div class="modal-body p-0" id="printMFGradelvl">
                 <div class="table-responsive col-md-12 text-center">
                     <!-- <table width="100%">
                         <tr>
@@ -87,28 +87,60 @@
                         </tr>
                     </table> -->
                     <center>
-                    <table border="1" width="100%" id="tblReportInvPO">
+                    <table border="1" width="100%" id="tblMFGradelvl">
                         <thead>
                             <tr style="text-align:center;border:1px solid white;">
-                                <td colspan="13"><?php $this->load->view('interface/'.$uri.'/layout/Report_header')?></td>
+                                <td colspan="29"><?php $this->load->view('interface/'.$uri.'/layout/Report_header')?></td>
                             </tr>
                             <tr style="text-align:center;border:1px solid white;border-bottom: 1px solid gray;">
-                                <td colspan="13"><br/><h5 id="headerReportInvPO"></h5></td>
+                                <td colspan="29"><h5 id="headerMFGradelvl"></h5></td>
                             </tr>
                             <tr align="center">
-                                <th>#</th>
-                                <th>INV Code</th>
-                                <th>Date</th>
-                                <th>Full Name</th>
-                                <th>Variety</th>
-                                <th>Count</th>
-                                <th>Weight</th>
-                                <th>Sacks</th>
-                                <th>PO Code</th>
-                                <th>Date</th>
-                                <th>Deduct</th>
-                                <th>Kilo</th>
-                                <th>Price</th>
+                                <th rowspan="3">GRADE LVL</br>SECTION</th>
+                                <th colspan="22" class="bg-success">AGE</th>
+                                <th rowspan="2" colspan="2">      Total      </th>
+                                <th rowspan="2" colspan="2">4P'S</th>
+                            </tr>
+                            <tr align="center">
+                                <th colspan="2" width="1">Below 11</th>
+                                <th colspan="2" width="1">      11      </th>
+                                <th colspan="2" width="1">      12      </th>
+                                <th colspan="2" width="1">      13      </th>
+                                <th colspan="2" width="1">      14      </th>
+                                <th colspan="2" width="1">      15      </th>
+                                <th colspan="2" width="1">      16      </th>
+                                <th colspan="2" width="1">      17      </th>
+                                <th colspan="2" width="1">      18      </th>
+                                <th colspan="2" width="1">      19      </th>
+                                <th colspan="2" width="1">Above 19</th>
+                            </tr>
+                            <tr align="center">
+                                <th width="1">M</th><!-- BELOW 11 -->
+                                <th width="1">F</th><!-- BELOW 11 -->
+                                <th width="1">M</th><!-- 11 -->
+                                <th width="1">F</th><!-- 11 -->
+                                <th width="1">M</th><!-- 12 -->
+                                <th width="1">F</th><!-- 12 -->
+                                <th width="1">M</th><!-- 13 -->
+                                <th width="1">F</th><!-- 13 -->
+                                <th width="1">M</th><!-- 14 -->
+                                <th width="1">F</th><!-- 14 -->
+                                <th width="1">M</th><!-- 15 -->
+                                <th width="1">F</th><!-- 15 -->
+                                <th width="1">M</th><!-- 16 -->
+                                <th width="1">F</th><!-- 16 -->
+                                <th width="1">M</th><!-- 17 -->
+                                <th width="1">F</th><!-- 17 -->
+                                <th width="1">M</th><!-- 18 -->
+                                <th width="1">F</th><!-- 18 -->
+                                <th width="1">M</th><!-- 19 -->
+                                <th width="1">F</th><!-- 19 -->
+                                <th width="1">M</th><!-- ABOVE 19 -->
+                                <th width="1">F</th><!-- ABOVE 19 -->
+                                <th width="1">M</th><!-- TOTAL -->
+                                <th width="1">F</th><!-- TOTAL -->
+                                <th width="1">M</th><!-- 4P'S -->
+                                <th width="1">F</th><!-- 4P'S -->
                             </tr>
                         </thead>
                         <tbody>
@@ -118,7 +150,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="submit" onclick="printForm('InvPO','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="submit" onclick="printForm('MFGradelvl','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
         </div>
