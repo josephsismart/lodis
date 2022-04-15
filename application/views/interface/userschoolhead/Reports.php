@@ -56,7 +56,7 @@ $uri = $this->session->schoolmis_login_uri;
 			</div>
 
 
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
+			<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form_save_dataGradeSecInfo">
 				<div class="card card-navy">
 					<div class="card-header p-1 pr-2 pl-2">
 						<h3 class="card-title"><i class="fa fa-chart-bar"></i> Age Bracket</h3>
@@ -67,7 +67,7 @@ $uri = $this->session->schoolmis_login_uri;
 					<div class="card-body p-2">
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</div><!-- /.container-fluid -->

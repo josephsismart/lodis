@@ -97,8 +97,8 @@
                             </tr>
                             <tr align="center">
                                 <th rowspan="3">GRADE LVL</br>SECTION</th>
-                                <th colspan="22" class="bg-success">AGE</th>
-                                <th rowspan="2" colspan="2">      Total      </th>
+                                <th colspan="22">AGE</th>
+                                <th rowspan="2" colspan="2">Total</th>
                                 <th rowspan="2" colspan="2">4P'S</th>
                             </tr>
                             <tr align="center">
@@ -143,7 +143,7 @@
                                 <th width="1">F</th><!-- 4P'S -->
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="text-align:center">
                         </tbody>
                     </table>
                     </center>
