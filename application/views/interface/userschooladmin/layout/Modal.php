@@ -73,8 +73,8 @@ $uri = $this->session->schoolmis_login_uri;
 <div class="modal fade" id="modalPersonnelAccount">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title p-0 mb-n3 mt-n1">
+            <div class="modal-header bg-info py-1 px-2">
+                <h5 class="modal-title">
                     <small><i class='fa fa-user'></i> User Account details</small>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -107,12 +107,16 @@ $uri = $this->session->schoolmis_login_uri;
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="input-group mb-2">
-                                <!-- <div class="input-group-prepend">
+                            <!-- <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                 </div> -->
-                                <select class="form-control form-control-sm select2 selectDepartmentList" data-placeholder="SELECT DEPARTMENT" name="department" style="width:100%;">
+
+                            <div class="input-group mb-2">
+                                <select class="form-control form-control-sm selectDepartmentList" nr="1" data-placeholder="SELECT DEPARTMENT" name="department" id="departmentzzz">
                                 </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" style="cursor:pointer;" onclick='$("#departmentzzz").val(null)'><i class="fas fa-times"></i></span>
+                                </div>
                             </div>
                         </div>
 

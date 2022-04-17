@@ -180,62 +180,32 @@ class Dataentry extends MY_Controller
                 if ($userId) {
                     $this->db->where('id', $userId);
                     if ($this->db->update("account.tbl_useraccount", $data)) {
+                        $this->userlog("UPDATED ACCOUNT " . json_encode($data));
                         $ret = $true;
-                        $data1 = [
-                            "school_department_id" => $deptId,
-                        ];
-                        $this->db->where('basic_info_id', $pid);
-                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
-                            $ret = $true;
-                            if ($role == 3) {
-                                $d = [
-                                    "department_head_person_id" => null,
-                                ];
-                                $this->db->where('department_head_person_id', $spid);
-                                if ($this->db->update("profile.tbl_school_department", $d)) {
-                                    $data2 = [
-                                        "department_head_person_id" => $spid,
-                                        "updated_by" => $login_id,
-                                        "date_updated" => $dateNow,
-                                    ];
-                                    if ($userId) {
-                                        $this->db->where('id', $deptId);
-                                        if ($this->db->update("profile.tbl_school_department", $data2)) {
-                                            $ret = $true;
-                                        } else {
-                                            $ret = $false;
-                                        }
-                                    } else {
-                                        $ret = $false;
-                                    }
-                                } else {
-                                    $ret = $false;
-                                }
+                        if ($deptId) {
+                            $data1 = [
+                                "school_department_id" => $deptId,
+                            ];
+                            $this->db->where('basic_info_id', $pid);
+                            if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                                $ret = $true;
+                            } else {
+                                $ret = $false;
                             }
-                        } else {
-                            $ret = $false;
                         }
-                    } else {
-                        $ret = $false;
-                    }
-                } else {
-                    if ($this->db->insert("account.tbl_useraccount", $data)) {
-                        $inid = $this->db->insert_id();
-                        $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
-                        $ret = $true;
-                        $data1 = [
-                            "school_department_id" => $deptId,
-                        ];
-                        $this->db->where('basic_info_id', $pid);
-                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
-                            $ret = $true;
-                            if ($role == 3) {
+
+                        if ($role == 3) {
+                            $d = [
+                                "department_head_person_id" => null,
+                            ];
+                            $this->db->where('department_head_person_id', $spid);
+                            if ($this->db->update("profile.tbl_school_department", $d)) {
                                 $data2 = [
                                     "department_head_person_id" => $spid,
                                     "updated_by" => $login_id,
                                     "date_updated" => $dateNow,
                                 ];
-                                if ($inid) {
+                                if ($userId) {
                                     $this->db->where('id', $deptId);
                                     if ($this->db->update("profile.tbl_school_department", $data2)) {
                                         $ret = $true;
@@ -245,9 +215,47 @@ class Dataentry extends MY_Controller
                                 } else {
                                     $ret = $false;
                                 }
+                            } else {
+                                $ret = $false;
                             }
-                        } else {
-                            $ret = $false;
+                        }
+                    } else {
+                        $ret = $false;
+                    }
+                } else {
+                    if ($this->db->insert("account.tbl_useraccount", $data)) {
+                        $inid = $this->db->insert_id();
+                        $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
+                        $ret = $true;
+
+                        if ($deptId) {
+                            $data1 = [
+                                "school_department_id" => $deptId,
+                            ];
+                            $this->db->where('basic_info_id', $pid);
+                            if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                                $ret = $true;
+                            } else {
+                                $ret = $false;
+                            }
+                        }
+
+                        if ($role == 3) {
+                            $data2 = [
+                                "department_head_person_id" => $spid,
+                                "updated_by" => $login_id,
+                                "date_updated" => $dateNow,
+                            ];
+                            if ($inid) {
+                                $this->db->where('id', $deptId);
+                                if ($this->db->update("profile.tbl_school_department", $data2)) {
+                                    $ret = $true;
+                                } else {
+                                    $ret = $false;
+                                }
+                            } else {
+                                $ret = $false;
+                            }
                         }
                     } else {
                         $ret = $false;
