@@ -102,22 +102,18 @@ $uri = $this->session->schoolmis_login_uri;
                                 <!-- <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                 </div> -->
-                                <select class="form-control form-control-sm select2 selectRoleList" data-placeholder="SELECT ROLE" name="role" style="width:100%;">
+                                <select class="form-control form-control-sm select2 selectRoleList" data-placeholder="SELECT ROLE" name="role" style="width:100%;" onchange="($(this).val()==4||$(this).val()==6)?$('.selectDepartmentListV').slideUp():$('.selectDepartmentListV').slideDown();">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12">
+
+                        <div class="col-12 selectDepartmentListV">
                             <!-- <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                 </div> -->
 
-                            <div class="input-group mb-2">
-                                <select class="form-control form-control-sm selectDepartmentList" nr="1" data-placeholder="SELECT DEPARTMENT" name="department" id="departmentzzz">
+                                <select class="form-control form-control-sm select2 selectDepartmentList" nr="1" data-placeholder="SELECT DEPARTMENT" name="department">
                                 </select>
-                                <div class="input-group-append">
-                                    <span class="input-group-text" style="cursor:pointer;" onclick='$("#departmentzzz").val(null)'><i class="fas fa-times"></i></span>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="col-12">

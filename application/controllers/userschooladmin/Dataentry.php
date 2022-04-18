@@ -145,6 +145,10 @@ class Dataentry extends MY_Controller
         $false = ["success"   => false];
         $cc = 0;
 
+        if ($role == 4 || $role == 6) {
+            $deptId = null;
+        }
+
         // $confirmpwd $pwd
         $exist = $this->db->query("SELECT * FROM account.tbl_useraccount t1 WHERE t1.username='$email'");
         if ($userId && $exist->num_rows() > 0) {
@@ -182,7 +186,7 @@ class Dataentry extends MY_Controller
                     if ($this->db->update("account.tbl_useraccount", $data)) {
                         $this->userlog("UPDATED ACCOUNT " . json_encode($data));
                         $ret = $true;
-                        if ($deptId) {
+                        // if ($deptId) {
                             $data1 = [
                                 "school_department_id" => $deptId,
                             ];
@@ -192,7 +196,7 @@ class Dataentry extends MY_Controller
                             } else {
                                 $ret = $false;
                             }
-                        }
+                        // }
 
                         if ($role == 3) {
                             $d = [
@@ -228,7 +232,7 @@ class Dataentry extends MY_Controller
                         $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
                         $ret = $true;
 
-                        if ($deptId) {
+                        // if ($deptId) {
                             $data1 = [
                                 "school_department_id" => $deptId,
                             ];
@@ -238,7 +242,7 @@ class Dataentry extends MY_Controller
                             } else {
                                 $ret = $false;
                             }
-                        }
+                        // }
 
                         if ($role == 3) {
                             $data2 = [

@@ -6,7 +6,7 @@
 if (!$this->session->schoolmis_login_level) {
 	redirect(base_url('login'));
 }
-$uri = $this->session->schoolmis_login_uri;
+$uri = "reports";//$this->session->schoolmis_login_uri;
 ?>
 <!-- Content Header (Page header) -->
 
