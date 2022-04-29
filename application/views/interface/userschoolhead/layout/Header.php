@@ -116,6 +116,14 @@ $uri = $this->session->schoolmis_login_uri;
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?= base_url() . $uri ?>/map" class="nav-link map">
+            <i class="nav-icon fas fa-globe map"></i>
+            <p>
+              Map
+            </p>
+          </a>
+        </li>
         <!-- <li class="nav-item">
           <a href="<?= base_url() . $uri ?>/datacontroller" class="nav-link datacontroller">
             <i class="nav-icon fas fa-cog"></i>
