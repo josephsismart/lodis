@@ -50,10 +50,10 @@ class Dataentry extends MY_Controller
                 'added_by' => $login_id,
             ];
         }
-        $b = json_encode($data);
+        // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
             if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $data)) {
-                $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
+                // $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
                 $ret = $true;
             }
         } else {
@@ -132,8 +132,8 @@ class Dataentry extends MY_Controller
 
         if ($create > 0 && count($data_gen) > 0 && $login_id) {
             if ($this->db->insert_batch("account.tbl_useraccount", $data_gen)) {
-                $inid = $this->db->insert_id();
-                $this->userlog("CREATED NEW STUDENT ACCOUNT " . $inid . " " . json_encode($data_gen));
+                // $inid = $this->db->insert_id();
+                // $this->userlog("CREATED NEW STUDENT ACCOUNT " . $inid . " " . json_encode($data_gen));
                 $true += ["message"   => "Successfully created!"];
                 $ret = $true;
             } else {
@@ -150,12 +150,12 @@ class Dataentry extends MY_Controller
         if ($stat == 'disable' || $stat == 'enable' || $stat == 'reset' && count($data_gen) > 0 && $login_id) {
             if ($this->db->update_batch("account.tbl_useraccount", $data_gen, 'username')) {
                 if ($stat == 'reset') {
-                    $this->userlog("PASSWORD RESET STUDENT ACCOUNT " . json_encode($data_gen));
+                    // $this->userlog("PASSWORD RESET STUDENT ACCOUNT " . json_encode($data_gen));
                     $true += ["message"   => "Password reset!"];
                     $ret = $true;
                 } else if ($stat == 'disable' || $stat == 'enable') {
-                    $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
-                    $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
+                    // $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
+                    // $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
                     $d_e2 = $stat == 'disable' ? 'Disabled' : 'Enabled';
                     $true += ["message"   => $d_e2 . " Account!"];
                     $ret = $true;
@@ -177,8 +177,8 @@ class Dataentry extends MY_Controller
         if ($stat == 'disable' || $stat == 'enable' && count($data_gen) > 0 && $login_id) {
 
             if ($this->db->update_batch("account.tbl_useraccount", $data_gen, 'username')) {
-                $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
-                $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
+                // $d_e = $stat == 'disable' ? 'DISABLED' : 'ENABLED';
+                // $this->userlog($d_e . " STUDENT ACCOUNT " . json_encode($data_gen));
                 $true += ["message"   => "Password reset!"];
                 $ret = $true;
             } else {
@@ -250,14 +250,14 @@ class Dataentry extends MY_Controller
             if ($edit == 't' && $enroll_id && $learner_id && $binfo_id) {
                 $this->db->where('id', $binfo_id);
                 if ($this->db->update("profile.tbl_basicinfo", $data)) {
-                    $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
+                    // $this->userlog("UPDATED STUDENT BASIC INFORMATION " . json_encode($data));
                     $data3 = [
                         "status_id" => $status,
                         "enrollment_date" => $enrollDate,
                     ];
                     $this->db->where('learner_id', $learner_id);
                     if ($this->db->update("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
-                        $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
+                        // $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
                         $ret = $true;
                     } else {
                         $ret = $false;
@@ -292,7 +292,7 @@ class Dataentry extends MY_Controller
                     ];
                     if ($lrn_id) {
                         if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data4)) {
-                            $this->userlog("ENROLLED STUDENT " . $lrn_id . " " . json_encode($data4));
+                            // $this->userlog("ENROLLED STUDENT " . $lrn_id . " " . json_encode($data4));
                             $ret = $true;
                         } else {
                             $ret = $false;
@@ -305,11 +305,11 @@ class Dataentry extends MY_Controller
                             "lrn" => $lrn,
                             "basic_info_id" => $inid,
                         ];
-                        $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
+                        // $this->userlog("INSERTED STUDENT DETAILS " . $inid . " " . json_encode($data));
                         if ($inid) {
                             if ($this->db->insert("profile.tbl_learners", $data2)) {
                                 $lrnId = $this->db->insert_id();
-                                $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
+                                // $this->userlog("CREATED LRN FOR STUDENT " . $lrnId . " " . json_encode($data2));
                                 $data3 = [
                                     "learner_id" => $lrnId,
                                     "room_section_id" => $rsId,
@@ -319,7 +319,7 @@ class Dataentry extends MY_Controller
                                 ];
                                 if ($lrnId) {
                                     if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
-                                        $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
+                                        // $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
                                         $ret = $true;
                                     } else {
                                         $ret = $false;
@@ -452,10 +452,10 @@ class Dataentry extends MY_Controller
                                         "barangay_id" => 160202054, //$barangay,
                                         "address_info" => $homeAddress,
                                     ];
-                                    $basicInfoDataLOG = json_encode($basicInfoData);
+                                    // $basicInfoDataLOG = json_encode($basicInfoData);
                                     if ($this->db->insert("profile.tbl_basicinfo", $basicInfoData)) { //INSERT TO TBL_BASICNFO FOR NEW RECORD
                                         $basicInfoId = $this->db->insert_id();
-                                        $this->userlog("INERTED NEW BASIC INFO FROM EXCEL FILE" . $basicInfoDataLOG);
+                                        // $this->userlog("INERTED NEW BASIC INFO FROM EXCEL FILE" . $basicInfoDataLOG);
                                         $ret = $true;
                                         // echo "d";
                                         // echo $basicInfoId;
@@ -478,10 +478,10 @@ class Dataentry extends MY_Controller
                                                 "learning_modality_txt" => $module,
                                                 "remarks" => $rmrks,
                                             ];
-                                            $learnerDataLOG = json_encode($learnerData);
+                                            // $learnerDataLOG = json_encode($learnerData);
                                             if ($this->db->insert("profile.tbl_learners", $learnerData)) {
                                                 $learnerId = $this->db->insert_id();
-                                                $this->userlog("INSERTED NEW LEARNER FROM EXCEL FILE" . $learnerDataLOG);
+                                                // $this->userlog("INSERTED NEW LEARNER FROM EXCEL FILE" . $learnerDataLOG);
                                                 $ret = $true;
                                                 if ($learnerId) {
                                                     $enrollmentData[] = [
@@ -516,10 +516,10 @@ class Dataentry extends MY_Controller
                                         "learning_modality_txt" => $module,
                                         "remarks" => $rmrks,
                                     ];
-                                    $learnerDataLOG = json_encode($learnerData);
+                                    // $learnerDataLOG = json_encode($learnerData);
                                     if ($this->db->insert("profile.tbl_learners", $learnerData)) {
                                         $learnerId = $this->db->insert_id();
-                                        $this->userlog("INSERTED NEW LEARNER FROM EXCEL FILE" . $learnerDataLOG);
+                                        // $this->userlog("INSERTED NEW LEARNER FROM EXCEL FILE" . $learnerDataLOG);
                                         $ret = $true;
                                         if ($learnerId) {
                                             $enrollmentData[] = [
@@ -559,9 +559,9 @@ class Dataentry extends MY_Controller
             // echo json_encode($enrollmentData);
             // echo count($enrollmentData);
             if (count($enrollmentData) > 0 && $login_id) {
-                $enrollmentDataLOG = json_encode($enrollmentData);
+                // $enrollmentDataLOG = json_encode($enrollmentData);
                 if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $enrollmentData)) {
-                    $this->userlog("INSERTED NEW ENROLLEE FROM EXCEL FILE" . $enrollmentDataLOG);
+                    // $this->userlog("INSERTED NEW ENROLLEE FROM EXCEL FILE" . $enrollmentDataLOG);
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -646,78 +646,259 @@ class Dataentry extends MY_Controller
             $en_id = $this->input->post("en_id");
             $rm_sec_id = $this->input->post("rm_sec_id");
             $rssaid = $this->input->post("rssaid");
-            $qrtr = $this->getOnLoad()["qrtr"];
-            $gradeLearner = $this->input->post("gradeLearner");
+            // $qrtr = $this->getOnLoad()["qrtr"];
+            $igq = (string)$this->getOnLoad()["input_grades_qrtr"];
+
+            // for ($x = 0; $x < strlen($igq); $x++) {
+            // }
+
+            // $igq1 = "";
+            // $igq2 = "";
+            // $igq3 = "";
+            // $igq4 = "";
+            // for ($x = 0; $x < strlen($igq); $x++) {
+            //     $qi = $igq[$x];
+            //     if ($qi == 1) {
+            //         $igq1 = 1;
+            //     }
+            //     if ($qi == 2) {
+            //         $igq2 = 2;
+            //     }
+            //     if ($qi == 3) {
+            //         $igq3 = 3;
+            //     }
+            //     if ($qi == 4) {
+            //         $igq4 = 4;
+            //     }
+            // }
+
+
+            // $qrtr1 = 1;
+            // $qrtr2 = 2;
+            // $gradeLearner1 = $this->input->post("gradeLearner1");
+            // $gradeLearner2 = $this->input->post("gradeLearner2");
             $tmpGrade = 0;
 
             $login_id = $this->session->schoolmis_login_id;
             $dateNow = $this->now();
             $ret = $true;
-            if($gradeLearner!=null){
+            // if ($gradeLearner1 != null) {
 
-            for ($i = 0; $i < count($en_id); $i++) {
-                $en = $en_id[$i];
-                $rm = $rm_sec_id[$i];
-                $rssaid1 = $rssaid[$i];
-                $grades = $this->returnNull($gradeLearner[$i]);
-                $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
-                                        WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
-                                        AND t1.qrtr_id=$qrtr AND t1.sy_id=$sy");
-                $srow = $search->row();
 
-                if ($search->num_rows() > 0) {
-                    $tmpId = $srow->id;
-                    $tmpGrade = $srow->grade;
-                    if ($grades == $tmpGrade) {
-                    } else {
-                        $update_data = array(
-                            'grade' => $grades,
-                            'date_updated' => $dateNow,
-                            'updated_by' => $login_id
-                        );
+            for ($x = 0; $x < strlen($igq); $x++) {
+                $qi = $igq[$x];
+                // if ($qi == 1) {
+                //     $igq1 = 1;
+                // }
+                // if ($qi == 2) {
+                //     $igq2 = 2;
+                // }
+                // if ($qi == 3) {
+                //     $igq3 = 3;
+                // }
+                // if ($qi == 4) {
+                //     $igq4 = 4;
+                // }
+                if ($qi >= 1 && $qi <= 4) {
+                    $gradeLearner = $this->input->post("gradeLearner" . $qi);
+                    for ($i = 0; $i < count($en_id); $i++) {
 
-                        // $this->db->where('learner_enrollment_id', $en);
-                        // $this->db->where('room_section_id', $rm);
-                        // $this->db->where('qrtr_id', $qrtr);
-                        // $this->db->where('sy_id', $sy);
-                        $this->db->where('id', $tmpId);
-                        if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+                        if (isset($gradeLearner[$i])) {
+                            $en = $en_id[$i];
+                            $rm = $rm_sec_id[$i];
+                            $rssaid1 = $rssaid[$i];
+                            $grades = $this->returnNull($gradeLearner[$i]);
+                            $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
+                                            WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
+                                            AND t1.qrtr_id=$qi AND t1.sy_id=$sy");
+                            $srow = $search->row();
+
+                            if ($search->num_rows() > 0) {
+                                $tmpId = $srow->id;
+                                $tmpGrade = $srow->grade;
+                                if ($grades == $tmpGrade) {
+                                } else {
+                                    $update_data = array(
+                                        'grade' => $grades,
+                                        'date_updated' => $dateNow,
+                                        'updated_by' => $login_id
+                                    );
+
+                                    // $this->db->where('learner_enrollment_id', $en);
+                                    // $this->db->where('room_section_id', $rm);
+                                    // $this->db->where('qrtr_id', $qrtr);
+                                    // $this->db->where('sy_id', $sy);
+                                    $this->db->where('id', $tmpId);
+                                    if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+                                        $ret = $true;
+                                    } else {
+                                        $ret = $false;
+                                    }
+                                }
+                            } else {
+                                $data[] = [
+                                    'learner_enrollment_id' => $en,
+                                    'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+                                    'qrtr_id' => $qi,
+                                    'grade' => $grades,
+                                    'date_added' => $dateNow,
+                                    'added_by' => $login_id,
+                                    'status_id' => 1,
+                                    'sy_id' => $sy_insert,
+                                ];
+                            }
+                        }
+                    }
+                    // $b = json_encode($data);
+                    if (count($data) > 0 && $login_id) {
+                        if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
+                            // $this->userlog("INSERTED GRADES: " . $b);
                             $ret = $true;
                         } else {
                             $ret = $false;
                         }
                     }
-                } else {
-                    $data[] = [
-                        'learner_enrollment_id' => $en,
-                        'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
-                        'qrtr_id' => $qrtr,
-                        'grade' => $grades,
-                        'date_added' => $dateNow,
-                        'added_by' => $login_id,
-                        'status_id' => 1,
-                        'sy_id' => $sy_insert,
-                    ];
-                }
-            }
-            $b = json_encode($data);
-            if (count($data) > 0 && $login_id) {
-                if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
-                    $this->userlog("INSERTED GRADES: " . $b);
-                    $ret = $true;
+
+                    if ($this->db->trans_status() === false) {
+                        $this->db->trans_rollback();
+                    } else {
+                        $this->db->trans_commit();
+                    }
                 } else {
                     $ret = $false;
                 }
             }
 
-            if ($this->db->trans_status() === false) {
-                $this->db->trans_rollback();
-            } else {
-                $this->db->trans_commit();
-            }
-        }else {
-            $ret = $false;
-        }
+
+            ///q1
+            // for ($i = 0; $i < count($en_id); $i++) {
+            //     $en = $en_id[$i];
+            //     $rm = $rm_sec_id[$i];
+            //     $rssaid1 = $rssaid[$i];
+            //     $grades = $this->returnNull($gradeLearner1[$i]);
+            //     $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
+            //                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
+            //                             AND t1.qrtr_id=$qrtr1 AND t1.sy_id=$sy");
+            //     $srow = $search->row();
+
+            //     if ($search->num_rows() > 0) {
+            //         $tmpId = $srow->id;
+            //         $tmpGrade = $srow->grade;
+            //         if ($grades == $tmpGrade) {
+            //         } else {
+            //             $update_data = array(
+            //                 'grade' => $grades,
+            //                 'date_updated' => $dateNow,
+            //                 'updated_by' => $login_id
+            //             );
+
+            //             // $this->db->where('learner_enrollment_id', $en);
+            //             // $this->db->where('room_section_id', $rm);
+            //             // $this->db->where('qrtr_id', $qrtr);
+            //             // $this->db->where('sy_id', $sy);
+            //             $this->db->where('id', $tmpId);
+            //             if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+            //                 $ret = $true;
+            //             } else {
+            //                 $ret = $false;
+            //             }
+            //         }
+            //     } else {
+            //         $data[] = [
+            //             'learner_enrollment_id' => $en,
+            //             'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+            //             'qrtr_id' => $qrtr1,
+            //             'grade' => $grades,
+            //             'date_added' => $dateNow,
+            //             'added_by' => $login_id,
+            //             'status_id' => 1,
+            //             'sy_id' => $sy_insert,
+            //         ];
+            //     }
+            // }
+            // // $b = json_encode($data);
+            // if (count($data) > 0 && $login_id) {
+            //     if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
+            //         // $this->userlog("INSERTED GRADES: " . $b);
+            //         $ret = $true;
+            //     } else {
+            //         $ret = $false;
+            //     }
+            // }
+
+            // if ($this->db->trans_status() === false) {
+            //     $this->db->trans_rollback();
+            // } else {
+            //     $this->db->trans_commit();
+            // }
+
+
+            // ///q2
+            // for ($i = 0; $i < count($en_id); $i++) {
+            //     $en = $en_id[$i];
+            //     $rm = $rm_sec_id[$i];
+            //     $rssaid1 = $rssaid[$i];
+            //     $grades = $this->returnNull($gradeLearner2[$i]);
+            //     $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
+            //                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
+            //                             AND t1.qrtr_id=$qrtr2 AND t1.sy_id=$sy");
+            //     $srow = $search->row();
+
+            //     if ($search->num_rows() > 0) {
+            //         $tmpId = $srow->id;
+            //         $tmpGrade = $srow->grade;
+            //         if ($grades == $tmpGrade) {
+            //         } else {
+            //             $update_data = array(
+            //                 'grade' => $grades,
+            //                 'date_updated' => $dateNow,
+            //                 'updated_by' => $login_id
+            //             );
+
+            //             // $this->db->where('learner_enrollment_id', $en);
+            //             // $this->db->where('room_section_id', $rm);
+            //             // $this->db->where('qrtr_id', $qrtr);
+            //             // $this->db->where('sy_id', $sy);
+            //             $this->db->where('id', $tmpId);
+            //             if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+            //                 $ret = $true;
+            //             } else {
+            //                 $ret = $false;
+            //             }
+            //         }
+            //     } else {
+            //         $data[] = [
+            //             'learner_enrollment_id' => $en,
+            //             'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+            //             'qrtr_id' => $qrtr1,
+            //             'grade' => $grades,
+            //             'date_added' => $dateNow,
+            //             'added_by' => $login_id,
+            //             'status_id' => 1,
+            //             'sy_id' => $sy_insert,
+            //         ];
+            //     }
+            // }
+            // // $b = json_encode($data);
+            // if (count($data) > 0 && $login_id) {
+            //     if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
+            //         // $this->userlog("INSERTED GRADES: " . $b);
+            //         $ret = $true;
+            //     } else {
+            //         $ret = $false;
+            //     }
+            // }
+
+            // if ($this->db->trans_status() === false) {
+            //     $this->db->trans_rollback();
+            // } else {
+            //     $this->db->trans_commit();
+            // }
+
+
+            // } else {
+            //     $ret = $false;
+            // }
         } else {
             $ret = $false;
         }
@@ -752,8 +933,8 @@ class Dataentry extends MY_Controller
 
             if (count($data) > 0 && $b == 0 && $login_id) {
                 if ($this->db->insert("account.tbl_useraccount", $data)) {
-                    $inid = $this->db->insert_id();
-                    $this->userlog("CREATED NEW STUDENT ACCOUNT " . $inid . " " . json_encode($data));
+                    // $inid = $this->db->insert_id();
+                    // $this->userlog("CREATED NEW STUDENT ACCOUNT " . $inid . " " . json_encode($data));
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -802,7 +983,7 @@ class Dataentry extends MY_Controller
         // $pass = $this->session->schoolmis_pass;
 
         // if ($pass == $password) {
-        if($sy && $qrtr && $login_id){
+        if ($sy && $qrtr && $login_id) {
             //1 3221232
             //2 2123221
             //3 3211123

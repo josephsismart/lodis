@@ -275,10 +275,18 @@ $uri = $this->session->schoolmis_login_uri;
                                 <th>Student</th>
                                 <!-- <th>Sex</th>
                                 <th>Status</th> -->
-                                <th>     Q1      </th>
+                                
+                                <th>Q1</th>
+                                <th>Q2</th>
+                                <th>Q3</th>
+                                <th>Q4</th>
+                                <th>AVG</th>
+
+                                <!-- <th>     Q1      </th>
                                 <th>     Q2      </th>
                                 <th>     Q3      </th>
-                                <th>    Q4 </th>
+                                <th>     Q4      </th>
+                                <th>    AVG </th> -->
                             </tr>
                         </thead>
                         <tbody style="text-align:center">

@@ -112,8 +112,8 @@ $uri = $this->session->schoolmis_login_uri;
                                     <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                 </div> -->
 
-                                <select class="form-control form-control-sm select2 selectDepartmentList" nr="1" data-placeholder="SELECT DEPARTMENT" name="department">
-                                </select>
+                            <select class="form-control form-control-sm select2 selectDepartmentList" nr="1" data-placeholder="SELECT DEPARTMENT" name="department">
+                            </select>
                         </div>
 
                         <div class="col-12">
@@ -229,6 +229,30 @@ $uri = $this->session->schoolmis_login_uri;
                                             <div class="input-group">
                                                 <input type="checkbox" name="grading" checked data-bootstrap-switch data-off-color="gray" data-on-color="success">
                                                 <input type="date" class="form-control form-control-sm" name="gradingdl" nr="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="customQ1" name="customQ1">
+                                                <label for="customQ1" class="custom-control-label">Q1</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="customQ2" name="customQ2">
+                                                <label for="customQ2" class="custom-control-label">Q2</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="customQ3" name="customQ3">
+                                                <label for="customQ3" class="custom-control-label">Q3</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="customQ4" name="customQ4">
+                                                <label for="customQ4" class="custom-control-label">Q4</label>
                                             </div>
                                         </div>
                                     </div>

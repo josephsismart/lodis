@@ -49,10 +49,10 @@ class Dataentry extends MY_Controller
                 'added_by' => $login_id,
             ];
         }
-        $b = json_encode($data);
+        // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
             if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $data)) {
-                $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
+                // $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
                 $ret = $true;
             }
         } else {
@@ -248,10 +248,10 @@ class Dataentry extends MY_Controller
                 ];
             }
         }
-        $b = json_encode($data);
+        // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
             if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
-                $this->userlog("INSERTED GRADES: " . $b);
+                // $this->userlog("INSERTED GRADES: " . $b);
                 $ret = $true;
             } else {
                 $ret = $false;

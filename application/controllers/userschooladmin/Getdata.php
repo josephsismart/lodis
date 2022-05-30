@@ -132,10 +132,14 @@ class Getdata extends MY_Controller
 
     function getPersonnelInfo()
     {
+        parse_str($this->input->post("a"), $filter);
+        $limit = isset($filter['limit']) ? $filter['limit'] : 10;
+        $emp_type_id = isset($filter['emptype']) ? 'WHERE t1."employeeTypeId"=' . $filter['emptype'] . '' : 'WHERE t1."employeeTypeId"=4';
         $data = ["data" => []];
         // $thisQuery = $this->db->query("SELECT * FROM profile.view_schoolpersonnel ORDER BY schoolpersonnel_id DESC");
         $thisQuery = $this->db->query("SELECT t1.* FROM profile.view_schoolpersonnel t1
-                                        ORDER BY t1.schoolpersonnel_id DESC");
+                                        $emp_type_id
+                                        ORDER BY t1.schoolpersonnel_id DESC LIMIT $limit");
         $cc = 1;
         foreach ($thisQuery->result() as $key => $value) {
             $id = $value->schoolpersonnel_id;
@@ -387,6 +391,8 @@ class Getdata extends MY_Controller
             $vbg = $value->view_grades == 't' ? "bg-success" : "bg-gray";
             $edit = $value->edit_student;
             $unenroll = $value->unenroll;
+            $input_grades_qrtr = $value->input_grades_qrtr;
+            $igqstr = (string)$value->input_grades_qrtr;
 
             $edl = $this->dateFormat($value->enrollment_deadline);
             $gdl = $this->dateFormat($value->grading_deadline);
@@ -404,6 +410,11 @@ class Getdata extends MY_Controller
                 "viewing_date" => $value->view_grades_until,
                 "edit" => $value->edit_student == 't' ? true : false,
                 "unenroll" => $value->unenroll == 't' ? true : false,
+                "customQ1" => strpos($igqstr,'1')!==false?true:false,
+                "customQ2" => strpos($igqstr,'2')!==false?true:false,
+                "customQ3" => strpos($igqstr,'3')!==false?true:false,
+                "customQ4" => strpos($igqstr,'4')!==false?true:false,
+
             ];
             $arr1 = json_encode($data1);
 
@@ -421,6 +432,7 @@ class Getdata extends MY_Controller
                     <span class='badge text-md bg-yellow'>" . $this->getOnLoad()["qrtrR"] . "</span>
                     <span class='badge text-xs bg-white'>" . ($edit == 'f' ? '' : " <i class='fa fa-pen'></i>") . "</span>
                     <span class='badge text-xs bg-white'>" . ($unenroll == 'f' ? '' : " <i class='fa fa-trash-alt text-danger'></i>") . "</span>
+                    " . $input_grades_qrtr . "
                 </span>",
 
                 "<span class='badge text-xs " . $ebg . " '>ENRLMNT <br/>" . $edl . "</span>

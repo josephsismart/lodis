@@ -69,11 +69,11 @@ class Dataentry extends MY_Controller
             $id ? "date_updated" : "date_added" => $dateNow,
         ];
 
-        $data_e = json_encode($data);
+        // $data_e = json_encode($data);
 
         if ($id && $firstName && $lastName && $sex && $brgy && $login_id) {
             if (!$this->mainModel->update("profile.tbl_basicinfo", $data, "id", $id)) {
-                $this->userlog("UPDATED PERSONNEL DETAILS " . $data_e);
+                // $this->userlog("UPDATED PERSONNEL DETAILS " . $data_e);
                 $ret = $true;
                 $data2 = [
                     "school_id" => $this->session->schoolmis_login_school_id,
@@ -81,9 +81,9 @@ class Dataentry extends MY_Controller
                     "personal_title_id" => $personaltitle,
                     "status_id" => $empstatus,
                 ];
-                $data2_e = json_encode($data2);
+                // $data2_e = json_encode($data2);
                 if (!$this->mainModel->update("profile.tbl_schoolpersonnel", $data2, "basic_info_id", $id)) {
-                    $this->userlog("UPDATED PERSONNEL DETAILS " . $data2_e);
+                    // $this->userlog("UPDATED PERSONNEL DETAILS " . $data2_e);
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -101,11 +101,11 @@ class Dataentry extends MY_Controller
                     "personal_title_id" => $personaltitle,
                     "status_id" => $empstatus,
                 ];
-                $data2_e = json_encode($data2);
-                $this->userlog("INSERTED PERSONNEL " . $inid . " " . json_encode($data));
+                // $data2_e = json_encode($data2);
+                // $this->userlog("INSERTED PERSONNEL " . $inid . " " . json_encode($data));
                 if ($inid) {
                     if ($this->db->insert("profile.tbl_schoolpersonnel", $data2)) {
-                        $this->userlog("INSERTED PERSONNEL DETAILS " . $data2_e);
+                        // $this->userlog("INSERTED PERSONNEL DETAILS " . $data2_e);
                         $ret = $true;
                     } else {
                         $ret = $false;
@@ -184,18 +184,18 @@ class Dataentry extends MY_Controller
                 if ($userId) {
                     $this->db->where('id', $userId);
                     if ($this->db->update("account.tbl_useraccount", $data)) {
-                        $this->userlog("UPDATED ACCOUNT " . json_encode($data));
+                        // $this->userlog("UPDATED ACCOUNT " . json_encode($data));
                         $ret = $true;
                         // if ($deptId) {
-                            $data1 = [
-                                "school_department_id" => $deptId,
-                            ];
-                            $this->db->where('basic_info_id', $pid);
-                            if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
-                                $ret = $true;
-                            } else {
-                                $ret = $false;
-                            }
+                        $data1 = [
+                            "school_department_id" => $deptId,
+                        ];
+                        $this->db->where('basic_info_id', $pid);
+                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                            $ret = $true;
+                        } else {
+                            $ret = $false;
+                        }
                         // }
 
                         if ($role == 3) {
@@ -229,19 +229,19 @@ class Dataentry extends MY_Controller
                 } else {
                     if ($this->db->insert("account.tbl_useraccount", $data)) {
                         $inid = $this->db->insert_id();
-                        $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
+                        // $this->userlog("CREATED NEW ACCOUNT " . $inid . " " . json_encode($data));
                         $ret = $true;
 
                         // if ($deptId) {
-                            $data1 = [
-                                "school_department_id" => $deptId,
-                            ];
-                            $this->db->where('basic_info_id', $pid);
-                            if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
-                                $ret = $true;
-                            } else {
-                                $ret = $false;
-                            }
+                        $data1 = [
+                            "school_department_id" => $deptId,
+                        ];
+                        $this->db->where('basic_info_id', $pid);
+                        if ($this->db->update("profile.tbl_schoolpersonnel", $data1)) {
+                            $ret = $true;
+                        } else {
+                            $ret = $false;
+                        }
                         // }
 
                         if ($role == 3) {
@@ -312,7 +312,7 @@ class Dataentry extends MY_Controller
             }
         } else if ($grade && $sy && $sectionName && $sched && $login_id) {
             if ($this->db->insert("building_sectioning.tbl_room_section", $data)) {
-                $this->userlog("INSERTED SECTION " . json_encode($data));
+                // $this->userlog("INSERTED SECTION " . json_encode($data));
                 $ret = $true;
             } else {
                 $ret = $false;
@@ -359,10 +359,10 @@ class Dataentry extends MY_Controller
         if (count($data) == 0) {
             $ret = $true;
         } else {
-            $b = json_encode($data);
+            // $b = json_encode($data);
             if (count($data) > 0 && $login_id) {
                 if ($this->db->insert_batch("building_sectioning.tbl_gradelvl_subject", $data)) {
-                    $this->userlog("INSERTED GRADE LVL SUBJECTS: " . $b);
+                    // $this->userlog("INSERTED GRADE LVL SUBJECTS: " . $b);
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -434,10 +434,10 @@ class Dataentry extends MY_Controller
                 ];
             }
         }
-        $b = json_encode($data);
+        // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
             if ($this->db->insert_batch("building_sectioning.tbl_room_section_subject_assignment", $data)) {
-                $this->userlog("INSERTED SUBJECT ASSIGNMENT: " . $b);
+                // $this->userlog("INSERTED SUBJECT ASSIGNMENT: " . $b);
                 $ret = $true;
             } else {
                 $ret = $false;
@@ -476,12 +476,12 @@ class Dataentry extends MY_Controller
             ];
             if ($index && $sbjctnm && $abbr && $ordr && $login_id) {
                 if (!$this->mainModel->update("global.tbl_party", $data, "party_index", $index)) {
-                    $this->userlog("UPDATED SUBJECT " . json_encode($data));
+                    // $this->userlog("UPDATED SUBJECT " . json_encode($data));
                     $ret = $true;
                 }
             } else if ($sbjctnm && $abbr && $ordr && $login_id) {
                 if ($this->db->insert("global.tbl_party", $data)) {
-                    $this->userlog("INSERTED SUBJECT " . json_encode($data));
+                    // $this->userlog("INSERTED SUBJECT " . json_encode($data));
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -535,10 +535,10 @@ class Dataentry extends MY_Controller
                 ];
             }
         }
-        $b = json_encode($data);
+        // $b = json_encode($data);
         if ($valid == 0 && $login_id) {
             if ($this->db->insert_batch("building_sectioning.tbl_room_section_subject_assignment", $data)) {
-                $this->userlog("INSERTED SUBJECT ASSIGNMENT: " . $b);
+                // $this->userlog("INSERTED SUBJECT ASSIGNMENT: " . $b);
                 $ret = $true;
             }
         } else {
@@ -571,6 +571,11 @@ class Dataentry extends MY_Controller
         $v_date = $this->input->post("viewing_date");
         $edit = $this->input->post("edit") == true ? true : false;
         $unenroll = $this->input->post("unenroll") == true ? true : false;
+        $customQ1 = $this->input->post("customQ1");
+        $customQ2 = $this->input->post("customQ2");
+        $customQ3 = $this->input->post("customQ3");
+        $customQ4 = $this->input->post("customQ4");
+        $input_grades_qrtr = ($customQ1 ? 1 : "") . ($customQ2 ? 2 : "") . ($customQ3 ? 3 : "") . ($customQ4 ? 4 : "");
 
         if ($qrtrid && $quarter) {
             $data = [
@@ -583,11 +588,12 @@ class Dataentry extends MY_Controller
                 "view_grades_until" => $v_date ? $v_date : null,
                 "edit_student" => $edit,
                 "unenroll" => $unenroll,
+                "input_grades_qrtr" => $input_grades_qrtr,
             ];
-            $b = json_encode($data);
+            // $b = json_encode($data);
             $this->db->where('id', $qrtrid);
             if ($this->db->update("global.tbl_sy", $data)) {
-                $this->userlog("UPDATED QUARTER DETAILS" . $b);
+                // $this->userlog("UPDATED QUARTER DETAILS" . $b);
                 $ret = $true;
             } else {
                 $ret = $false;
@@ -627,12 +633,12 @@ class Dataentry extends MY_Controller
             ];
             if ($duuid && $name && $abbr && $login_id) {
                 if (!$this->mainModel->update("profile.tbl_school_department", $data, "uuid", $duuid)) {
-                    $this->userlog("UPDATED DEPARTMENT " . json_encode($data));
+                    // $this->userlog("UPDATED DEPARTMENT " . json_encode($data));
                     $ret = $true;
                 }
             } else if ($name && $abbr && $login_id) {
                 if ($this->db->insert("profile.tbl_school_department", $data)) {
-                    $this->userlog("INSERTED DEPARTMENT " . json_encode($data));
+                    // $this->userlog("INSERTED DEPARTMENT " . json_encode($data));
                     $ret = $true;
                 } else {
                     $ret = $false;
@@ -839,7 +845,7 @@ class Dataentry extends MY_Controller
                                         JOIN global.tbl_status t4 ON ((t1.status_id = t4.id)));
 
                                         ")) {
-                        $this->userlog("INSERTED AND ACTIVATED NEW SCHOOL YEAR " . json_encode($data2));
+                        // $this->userlog("INSERTED AND ACTIVATED NEW SCHOOL YEAR " . json_encode($data2));
                         $ret = $true;
                     } else {
                         $ret = $false;

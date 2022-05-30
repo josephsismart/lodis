@@ -25,7 +25,7 @@ $uri = $this->session->schoolmis_login_uri;
 				<div class="row">
 					<div class="col-12">
 						<?= form_open(base_url($uri . '/Dataentry/savePersonnelInfo'), 'id=form_save_dataPersonnelInfo'); ?>
-						<input  name="personId" hidden nr="1">
+						<input name="personId" hidden nr="1">
 						<div class="card card-navy">
 							<div class="card-header p-1 pr-2 pl-2">
 								<h3 class="card-title"><i class="fa fa-user"></i> Personnel Information Details</h3>
@@ -222,7 +222,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 					<div class="col-12">
 						<div class="card">
-							<div class="card-header p-1 pr-2 pl-2">
+							<div class="card-header p-1 pr-2 pl-2 bg-navy">
 								<h3 class="card-title"><i class="fa fa-list"></i> Personnel & User Account List</h3>
 								<div class="card-tools">
 									<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -230,6 +230,45 @@ $uri = $this->session->schoolmis_login_uri;
 								</div>
 							</div>
 							<div class="card-body p-2" style="overflow: auto;">
+
+								<form id="form_save_dataPersonnelSearch">
+									<div class="card">
+										<div class="card-body p-1 ">
+											<div class="row mb-n2">
+												<!-- <div class="col-3 col-md-2 col-sm-3 col-xs-3"> -->
+												<div class="col-6">
+													<div class="input-group mb-2">
+														<div class="input-group-prepend">
+															<span class="input-group-text"><i class="fas fa-filter"></i></span>
+														</div>
+														<select class="form-control form-control-sm" name="limit">
+															<option value="10">View 10 records</option>
+															<option value="30">View 30 records</option>
+															<option value="50">View 50 records</option>
+															<option value="70">View 70 records</option>
+															<option value="100">View 100 records</option>
+															<option value="ALL">View ALL records</option>
+														</select>
+													</div>
+												</div>
+												<!-- <div class="col-3 col-md-2 col-sm-3 col-xs-3"> -->
+												<div class="col-6">
+													<div class="input-group mb-2">
+														<div class="input-group-prepend">
+															<span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+														</div>
+														<select class="form-control form-control-sm selectEmpList" name="emptype">
+														</select>
+														<div class="input-group-append">
+															<button type="button" class="btn btn-warning btn-sm text-white" onclick="getTable('PersonnelInfo', 0, 10);"><i class="fas fa-search"></i> View</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+
 								<div class="table-responsive mailbox-messages">
 									<table id="tblPersonnelInfo" style="width:100%;" class="table table-sm table-striped table-hover">
 										<thead>
@@ -333,7 +372,7 @@ $uri = $this->session->schoolmis_login_uri;
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-12">
 						<div class="card card-navy">
 							<div class="card-header p-1 pr-2 pl-2">
@@ -346,7 +385,7 @@ $uri = $this->session->schoolmis_login_uri;
 								<div class="table-responsive mailbox-messages">
 									<?= form_open(base_url($uri . '/Dataentry/saveDeptInfo'), 'id=form_save_dataDeptInfo'); ?>
 									<div class="row">
-										<input name="duuid" nr="1" hidden/>
+										<input name="duuid" nr="1" hidden />
 										<div class="col-lg-12 col-md-12 col-sm-12 mb-2">
 											<input type="text" class="form-control form-control-sm text-uppercase" name="name" placeholder="DEPARTMENT NAME" autocomplete="off">
 										</div>
@@ -459,7 +498,7 @@ $uri = $this->session->schoolmis_login_uri;
 		// 	v: null
 		// }, 0, 1);
 
-		getFetchList(f1, "EmpList", "PartyList", 0, {
+		getFetchList("PersonnelSearch", "EmpList", "PartyList", 0, {
 			v: 2
 		}, 1);
 		getFetchList(f1, "PtitleList", "PartyList", 0, {
@@ -493,7 +532,7 @@ $uri = $this->session->schoolmis_login_uri;
 		saveForm("SYInfo", ["SYInfo"], null);
 		saveForm("SbjctAssPrsnnl", [""], null);
 		saveForm("GradeSubject", [""], null);
-		saveForm("PersonnelAccount", [f1,"DeptInfo"], null);
+		saveForm("PersonnelAccount", [f1, "DeptInfo"], null);
 		saveForm("Subject", ["SubjectList"], null);
 		saveForm("DeptInfo", ["DeptInfo"], null);
 		saveForm("QuarterInfo", ["SYInfo"], null);

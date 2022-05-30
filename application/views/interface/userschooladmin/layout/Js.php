@@ -289,8 +289,12 @@ $uri = $this->session->schoolmis_login_uri;
             ],
             ajax: {
                 url: "<?= base_url($uri . '/getdata/get') ?>" + tableId,
-                icon: "POST",
-                data: function(d) {}
+                type: "POST",
+                data: function(d) {
+                    if (tableId == "PersonnelInfo") {
+                        d.a = $("#form_save_dataPersonnelSearch").serialize();
+                    }
+                }
             }
         });
 
@@ -319,6 +323,10 @@ $uri = $this->session->schoolmis_login_uri;
             // }, 3000);
 
         }
+    }
+
+    function searchPersonnel() {
+        alert('a')
     }
 
     function tblReload(tableId) {

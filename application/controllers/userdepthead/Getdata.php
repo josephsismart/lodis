@@ -196,10 +196,10 @@ class Getdata extends MY_Controller
             <div class="row">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c 3221232'.$rssa_id.'">' . $this->apprvGradesBtn($q1stat, $q1c, $q1rmrk, 3221232, 1, $rssa_id) . '</span></div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c 2123221'.$rssa_id.'">' . $this->apprvGradesBtn($q2stat, $q2c, $q2rmrk, 2123221, 2, $rssa_id) . '</span></div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c 3211123'.$rssa_id.'">' . $this->apprvGradesBtn($q3stat, $q3c, $q3rmrk, 3211123, 3, $rssa_id) . '</span></div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c 4522323'.$rssa_id.'">' . $this->apprvGradesBtn($q4stat, $q4c, $q4rmrk, 4522323, 4, $rssa_id) . '</span></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c 3221232' . $rssa_id . '">' . $this->apprvGradesBtn($q1stat, $q1c, $q1rmrk, 3221232, 1, $rssa_id) . '</span></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c 2123221' . $rssa_id . '">' . $this->apprvGradesBtn($q2stat, $q2c, $q2rmrk, 2123221, 2, $rssa_id) . '</span></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c 3211123' . $rssa_id . '">' . $this->apprvGradesBtn($q3stat, $q3c, $q3rmrk, 3211123, 3, $rssa_id) . '</span></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c 4522323' . $rssa_id . '">' . $this->apprvGradesBtn($q4stat, $q4c, $q4rmrk, 4522323, 4, $rssa_id) . '</span></div>
                     </div>
                     <div class="post">
                         <div class="user-block">
@@ -225,6 +225,7 @@ class Getdata extends MY_Controller
                                 <th>Q2</th>
                                 <th>Q3</th>
                                 <th>Q4</th>
+                                <th>AVG</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -235,14 +236,17 @@ class Getdata extends MY_Controller
                 $birthDate = date_create($value2->birthdate);
                 $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
                 $sex = substr($value2->sex, 0, 1);
-                $q1 = ($q1stat?$value2->q1:0);
-                $q2 = ($q2stat?$value2->q2:0);
-                $q3 = ($q3stat?$value2->q3:0);
-                $q4 = ($q4stat?$value2->q4:0);
+                $q1 = ($q1stat ? $value2->q1 : 0);
+                $q2 = ($q2stat ? $value2->q2 : 0);
+                $q3 = ($q3stat ? $value2->q3 : 0);
+                $q4 = ($q4stat ? $value2->q4 : 0);
+                $avg = round(($q1 + $q2 + $q3 + $q4) / 4,0);
+
                 $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
                 $c_fmale == 1 && $sex == 'F' ?
                     $c .= '<tr>
                                 <td> </td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -262,6 +266,7 @@ class Getdata extends MY_Controller
                                 <td>' . $this->gradeColor($q2) . '</td>
                                 <td>' . $this->gradeColor($q3) . '</td>
                                 <td>' . $this->gradeColor($q4) . '</td>
+                                <td>' . $this->gradeColor($avg) . '</td>
                             </tr>';
             }
 

@@ -284,6 +284,7 @@ class Getdata extends MY_Controller
                                 <th>Q2</th>
                                 <th>Q3</th>
                                 <th>Q4</th>
+                                <th>AVG</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -308,10 +309,12 @@ class Getdata extends MY_Controller
                 $q2 = $value2->q2;
                 $q3 = $value2->q3;
                 $q4 = $value2->q4;
+                $avg = round(($q1 + $q2 + $q3 + $q4) / 4, 0);
                 $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
                 $c_fmale == 1 && $sex == 'F' ?
                     $c .= '<tr>
                                 <td> </td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -331,6 +334,7 @@ class Getdata extends MY_Controller
                                 <td>' . $this->gradeColor($q2) . '</td>
                                 <td>' . $this->gradeColor($q3) . '</td>
                                 <td>' . $this->gradeColor($q4) . '</td>
+                                <td>' . $this->gradeColor($avg) . '</td>
                             </tr>';
             }
 
@@ -523,6 +527,7 @@ class Getdata extends MY_Controller
         $personnel_id = $this->session->schoolmis_login_prsnnl_Id;
         $sy = $this->getOnLoad()["sy_id"];
         $qrtr = $this->getOnLoad()["qrtr"];
+        $igq = (string)$this->getOnLoad()["input_grades_qrtr"];
         $rssaid = $this->input->post("rssaid");
 
         $q1c = null;
@@ -537,6 +542,26 @@ class Getdata extends MY_Controller
         $q4c = null;
         $q4stat = null;
         $q4rmrk = null;
+
+        $igq1 = "";
+        $igq2 = "";
+        $igq3 = "";
+        $igq4 = "";
+        for ($x = 0; $x < strlen($igq); $x++) {
+            $qi = $igq[$x];
+            if ($qi == 1) {
+                $igq1 = 1;
+            }
+            if ($qi == 2) {
+                $igq2 = 2;
+            }
+            if ($qi == 3) {
+                $igq3 = 3;
+            }
+            if ($qi == 4) {
+                $igq4 = 4;
+            }
+        }
 
         $query = $this->db->query("SELECT t4.q1,t4.q2,t4.q3,t4.q4, t1.id,t3.last_fullname,t3.sex,t3.birthdate,t3.lrn,t3.enrollment_id,t3.room_section_id FROM building_sectioning.tbl_room_section_subject_assignment t1
                                     LEFT JOIN building_sectioning.tbl_room_section t2 ON t1.room_section_id=t2.id
@@ -628,13 +653,17 @@ class Getdata extends MY_Controller
             $q2 = $value->q2;
             $q3 = $value->q3;
             $q4 = $value->q4;
-            $v = $qrtr == 1 ? $q1 : ($qrtr == 2 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
-            $entry = "<input onclick='maxInput(\"gradeLearner$value->lrn\")' onkeyup='maxInput(\"gradeLearner$value->lrn\")' style='text-align:center;' type='number' class='form-control' name='gradeLearner[]' value='$v' placeholder='--' nr='1' id='gradeLearner$value->lrn'/>";
+            $avg = round(($q1 + $q2 + $q3 + $q4) / 4, 0);
+            $v = $qrtr == 1 ? $q1 : ($qrtr == 12 ? $q2 : ($qrtr == 3 ? $q3 : $q4));
+            $entry1 = $igq1 != "" ? $this->grades_input($value->lrn, $q1, 1) : "";
+            $entry2 = $igq2 != "" ? $this->grades_input($value->lrn, $q2, 2) : "";
+            $entry3 = $igq3 != "" ? $this->grades_input($value->lrn, $q3, 3) : "";
+            $entry4 = $igq4 != "" ? $this->grades_input($value->lrn, $q4, 4) : "";
+
             $c_fmale == 1 && $sex == 'F' ?
                 $data["data"][] = [
                     " ",
-                    // "",
-                    // "",
+                    "",
                     "",
                     "",
                     "",
@@ -643,15 +672,14 @@ class Getdata extends MY_Controller
 
             $data["data"][] = [
                 "<p style='text-align:left' class='mb-0 ml-n2 pr-3'>" . ($sex == 'M' ? $c_male++ : $c_fmale++) . ". " . $value->last_fullname . "</p>",
-                // $sex,
-                // $value->enrollment_status,
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>
                 <input value='" . $value->room_section_id . "' name='rm_sec_id[]' hidden/>
                 <input value='" . $rssaid . "' name='rssaid[]' hidden/>" .
-                    ($qrtr == 1 && ($q1stat == null || $q1stat == "RECHECK") ? $entry : $this->gradeColor($q1)),
-                ($qrtr == 2 && ($q2stat == null || $q2stat == "RECHECK") ? $entry : $this->gradeColor($q2)),
-                ($qrtr == 3 && ($q3stat == null || $q3stat == "RECHECK") ? $entry : $this->gradeColor($q3)),
-                ($qrtr == 4 && ($q4stat == null || $q4stat == "RECHECK") ? $entry : $this->gradeColor($q4)),
+                    ($igq1 != "" && ($q1stat == null || $q1stat == "RECHECK") ? $entry1 : $this->gradeColor($q1)),
+                ($igq2 != "" && ($q2stat == null || $q2stat == "RECHECK") ? $entry2 : $this->gradeColor($q2)),
+                ($igq3 != "" && ($q3stat == null || $q3stat == "RECHECK") ? $entry3 : $this->gradeColor($q3)),
+                ($igq4 != "" && ($q4stat == null || $q4stat == "RECHECK") ? $entry4 : $this->gradeColor($q4)),
+                "  " . $this->gradeColor($avg),
             ];
         }
         echo json_encode($data);

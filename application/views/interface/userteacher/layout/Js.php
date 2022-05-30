@@ -220,8 +220,10 @@ $uri = $this->session->schoolmis_login_uri;
                     return false;
                 }
                 a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
-                $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
-                $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+                if (formId != "GradesList") {
+                    $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
+                    $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+                }
             },
             success: function(data) {
                 var d = JSON.parse(data);
@@ -493,6 +495,8 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function getGradesListFN() {
+        $("#form_save_dataGradesList .submitBtnPrimary").attr("disabled", false);
+        $("#form_save_dataGradesList .submitBtnPrimary").html("Save Grades");
         getTable("GradesList", 0, -1);
     }
 

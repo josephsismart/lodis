@@ -321,6 +321,7 @@ class MY_Controller extends CI_Controller
         $unenroll = $row->unenroll;
         $v_grades = $row->view_grades;
         $v_grades_date = $row->view_grades_until;
+        $input_grades_qrtr = $row->input_grades_qrtr;
         $qrtrR = $qrtr == 1 ? "1st" : ($qrtr == 2 ? "2nd" : ($qrtr == 3 ? "3rd" : ($qrtr == 4 ? "4th" : "--")));
         $edl = "";
         $edl1 = "";
@@ -354,6 +355,7 @@ class MY_Controller extends CI_Controller
             "unenroll" => $unenroll,
             "v_grades" => $v_grades,
             "vgd" => $vgd,
+            "input_grades_qrtr" => $input_grades_qrtr,
             "sy_qrtr_e_g" => "<b>SY:</b> " . $sy . " | <b>Q:</b> " . $qrtrR .
                 ($enroll_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>ENRLMNT: </b>" . $edl . "</small>" : "") .
                 ($grade_stat == 't' ? " | <small class='text-success text-bold' style='white-space: nowrap;'><b>GRADES: </b>" . $gdl . "</small>" : ""),
@@ -361,7 +363,8 @@ class MY_Controller extends CI_Controller
         return $data;
     }
 
-    public function getSHdboard(){
+    public function getSHdboard()
+    {
         $sy = $this->getOnLoad()["sy_id"];
         $query = $this->db->query("SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
                                     SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
@@ -384,17 +387,23 @@ class MY_Controller extends CI_Controller
         $row1 = $query1->row();
         $emale =  number_format($row->male);
         $efmale =  number_format($row->female);
-        $tenroll =  number_format($row->male+$row->female);
-        
+        $tenroll =  number_format($row->male + $row->female);
+
         $tpmale =  number_format($row1->male);
         $tpfemale =  number_format($row1->female);
-        $ttpenroll =  number_format($row1->male+$row1->female);
+        $ttpenroll =  number_format($row1->male + $row1->female);
 
         foreach ($query2->result() as $key => $value) {
             $r = $value->role_id;
-            if ($r==3) {$dephead=(int) $value->cc;}
-            if ($r==7) {$teacher=(int) $value->cc;}
-            if ($r==8) {$learner=(int) $value->cc;}
+            if ($r == 3) {
+                $dephead = (int) $value->cc;
+            }
+            if ($r == 7) {
+                $teacher = (int) $value->cc;
+            }
+            if ($r == 8) {
+                $learner = (int) $value->cc;
+            }
         }
 
         $data = [
@@ -406,9 +415,9 @@ class MY_Controller extends CI_Controller
             "tpfemale" => $tpfemale,
             "ttpenroll" => $ttpenroll,
 
-            "dephead"=> $dephead,
-            "teacher"=> $teacher,
-            "learner"=> $learner,
+            "dephead" => $dephead,
+            "teacher" => $teacher,
+            "learner" => $learner,
         ];
         return $data;
     }
@@ -579,6 +588,16 @@ class MY_Controller extends CI_Controller
             $b = date_format($c, "M d, Y");
         }
         return strtoUpper($b);
+    }
+
+    public function grades_input($lrn, $q, $qrtr)
+    {
+        return  "<center><input style='width:50px;text-align:center'
+                         onclick='maxInput(\"gradeLearner$lrn\")' onkeyup='maxInput(\"gradeLearner$lrn\")'
+                         style='text-align:center;' type='number' class='form-control' 
+                         name='gradeLearner".$qrtr."[]' value='$q' 
+                         placeholder='--' nr='1' 
+                         id='gradeLearner$lrn'/></center>";
     }
 }
 
