@@ -679,7 +679,7 @@ class Getdata extends MY_Controller
                 ($igq2 != "" && ($q2stat == null || $q2stat == "RECHECK") ? $entry2 : $this->gradeColor($q2)),
                 ($igq3 != "" && ($q3stat == null || $q3stat == "RECHECK") ? $entry3 : $this->gradeColor($q3)),
                 ($igq4 != "" && ($q4stat == null || $q4stat == "RECHECK") ? $entry4 : $this->gradeColor($q4)),
-                "  " . $this->gradeColor($avg),
+                "".$this->gradeColor($avg),
             ];
         }
         echo json_encode($data);

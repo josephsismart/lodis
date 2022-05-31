@@ -699,6 +699,7 @@ class Dataentry extends MY_Controller
                 // if ($qi == 4) {
                 //     $igq4 = 4;
                 // }
+                $data = [];
                 if ($qi >= 1 && $qi <= 4) {
                     $gradeLearner = $this->input->post("gradeLearner" . $qi);
                     for ($i = 0; $i < count($en_id); $i++) {

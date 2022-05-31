@@ -220,10 +220,10 @@ $uri = $this->session->schoolmis_login_uri;
                     return false;
                 }
                 a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
-                if (formId != "GradesList") {
-                    $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
-                    $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
-                }
+                // if (formId != "GradesList") {
+                //     $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
+                //     $("#form_save_data" + formId + " .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+                // }
             },
             success: function(data) {
                 var d = JSON.parse(data);

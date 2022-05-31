@@ -40,7 +40,7 @@ $uri = $this->session->schoolmis_login_uri;
 								<!-- <label>Basic Information</label> -->
 								<h6>Basic Information Details</h6>
 								<div class="row">
-									<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="col-lg-4 col-md-6 col-sm-6 col-6">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text firstName"><i class="fas fa-user"></i></span>
@@ -48,16 +48,16 @@ $uri = $this->session->schoolmis_login_uri;
 											<input type="text" class="form-control form-control-sm text-uppercase" name="firstName" placeholder="FIRST NAME" autocomplete="off">
 										</div>
 									</div>
-									<div class="col-lg-3 col-md-12 col-sm-12 mb-2">
+									<div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-2">
 										<input type="text" class="form-control form-control-sm text-uppercase" name="middleName" placeholder="MIDDLE NAME" autocomplete="off" nr="1">
 									</div>
-									<div class="col-lg-4 col-md-12 col-sm-12 mb-2">
+									<div class="col-lg-4 col-md-6 col-sm-6 col-6 mb-2">
 										<input type="text" class="form-control form-control-sm text-uppercase" name="lastName" placeholder="LAST NAME" autocomplete="off">
 									</div>
-									<div class="col-lg-1 col-md-12 col-sm-12 mb-2">
+									<div class="col-lg-1 col-md-6 col-sm-6 col-6 mb-2">
 										<input type="text" class="form-control form-control-sm text-uppercase" name="extName" placeholder="EXTN" autocomplete="off" nr="1">
 									</div>
-									<div class="col-lg-2 col-md-12 col-sm-12">
+									<div class="col-lg-2 col-md-6 col-sm-6 col-6 col-6">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
@@ -68,7 +68,7 @@ $uri = $this->session->schoolmis_login_uri;
 											</select>
 										</div>
 									</div>
-									<div class="col-lg-3 col-md-12 col-sm-12">
+									<div class="col-lg-3 col-md-6 col-sm-6 col-6">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text birthdate"><i class="fas fa-birthday-cake"></i></span>
@@ -98,7 +98,7 @@ $uri = $this->session->schoolmis_login_uri;
 											</select>
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="col-lg-4 col-md-6 col-sm-6 col-6">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<!-- <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span> -->
@@ -113,7 +113,7 @@ $uri = $this->session->schoolmis_login_uri;
 											<!-- </div> -->
 										</div>
 									</div>
-									<div class="col-lg-3 col-md-12 col-sm-12">
+									<div class="col-lg-3 col-md-6 col-sm-6 col-6">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<!-- <span class="input-group-text brgy"><i class="fas fa-map-marker-alt"></i></span> -->
@@ -128,7 +128,7 @@ $uri = $this->session->schoolmis_login_uri;
 											<div class="input-group-prepend">
 												<span class="input-group-text homeAddress"><i class="fas fa-home"></i></span>
 											</div>
-											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" nr="1">
+											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off" nr="1">
 										</div>
 									</div>
 									<!-- <div class="col-lg-3 col-md-12 col-sm-12">
@@ -177,7 +177,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 								<h6 class="mt-2">Employment Information Details</h6>
 								<div class="row">
-									<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="col-4">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="fas fa-briefcase"></i></span>
@@ -186,7 +186,7 @@ $uri = $this->session->schoolmis_login_uri;
 											</select>
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="col-4">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="fas fa-briefcase"></i></span>
@@ -199,7 +199,7 @@ $uri = $this->session->schoolmis_login_uri;
 											</div> -->
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-12 col-sm-12">
+									<div class="col-4">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text"><i class="fas fa-briefcase"></i></span>
@@ -260,7 +260,7 @@ $uri = $this->session->schoolmis_login_uri;
 														<select class="form-control form-control-sm selectEmpList" name="emptype">
 														</select>
 														<div class="input-group-append">
-															<button type="button" class="btn btn-warning btn-sm text-white" onclick="getTable('PersonnelInfo', 0, 10);"><i class="fas fa-search"></i> View</button>
+															<button type="button" class="btn btn-warning btn-sm text-white" onclick="getTable('PersonnelInfo', 0, 5);"><i class="fas fa-search"></i> View</button>
 														</div>
 													</div>
 												</div>
@@ -303,10 +303,10 @@ $uri = $this->session->schoolmis_login_uri;
 								<div class="table-responsive mailbox-messages">
 									<?= form_open(base_url($uri . '/Dataentry/saveGradeSubject'), 'id=form_save_dataGradeSubject'); ?>
 									<div class="row">
-										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+										<div class="col-8 mb-2">
 											<select class="form-control form-control-sm selectGLevelList" data-placeholder="K-12" name="gradek12" onchange="getFetchList('GradeSubject', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSubject .selectGLevelList').val()}, 0);getSelectSubject();"></select>
 										</div>
-										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+										<div class="col-4 mb-2">
 											<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="gradelevel" onchange="getSelectSubject();"></select>
 										</div>
 										<div class="col-lg-12 col-md-12 col-sm-12 mb-2 sbj">
@@ -337,18 +337,18 @@ $uri = $this->session->schoolmis_login_uri;
 								<div class="table-responsive mailbox-messages">
 									<?= form_open(base_url($uri . '/Dataentry/saveGradeSecInfo'), 'id=form_save_dataGradeSecInfo'); ?>
 									<div class="row">
-										<div class="col-lg-7 col-md-12 col-sm-12 mb-2">
+										<div class="col-8 mb-2">
 											<!-- <label class="mb-n2">K-12</label> -->
 											<select class="form-control form-control-sm selectGLevelList" data-placeholder="K-12" name="gradelevel" onchange="getFetchList('GradeSecInfo', 'GradeList', 'PartyList', 0, {v: $('#form_save_dataGradeSecInfo .selectGLevelList').val()}, 0);"></select>
 										</div>
-										<div class="col-lg-5 col-md-12 col-sm-12 mb-2">
+										<div class="col-4 mb-2">
 											<!-- <label class="mb-n2">Grade Level</label> -->
 											<select class="form-control form-control-sm selectGradeList" data-placeholder="GRADE LEVEL" name="grade"></select>
 										</div>
-										<div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+										<div class="col-7 mb-2">
 											<input type="text" class="form-control form-control-sm text-uppercase" name="sectionName" placeholder="SECTION NAME" autocomplete="off">
 										</div>
-										<div class="col-lg-6 col-md-12 col-sm-12">
+										<div class="col-5">
 											<div class="input-group mb-2">
 												<select class="form-control form-control-sm selectSchedList" data-placeholder="SCHEDULE" name="sched"></select>
 												<div class="input-group-append">
@@ -386,16 +386,18 @@ $uri = $this->session->schoolmis_login_uri;
 									<?= form_open(base_url($uri . '/Dataentry/saveDeptInfo'), 'id=form_save_dataDeptInfo'); ?>
 									<div class="row">
 										<input name="duuid" nr="1" hidden />
-										<div class="col-lg-12 col-md-12 col-sm-12 mb-2">
+										<div class="col-7">
 											<input type="text" class="form-control form-control-sm text-uppercase" name="name" placeholder="DEPARTMENT NAME" autocomplete="off">
 										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12">
-											<div class="input-group mb-2">
+										<div class="col-5">
+											<div class="input-group">
 												<input type="text" class="form-control form-control-sm text-uppercase" name="abbr" placeholder="ABBREVIATION" autocomplete="off">
 												<div class="input-group-append">
 													<button type="submit" class="btn btn-info btn-sm submitBtnPrimary">SAVE</button>
 												</div>
 											</div>
+										</div>
+										<div class="col-12 mb-2">
 											<small><i><b>**Note: </b> Please refer to <b>User Account</b> when assigning Department Head**</i></small>
 										</div>
 									</div>
@@ -461,7 +463,7 @@ $uri = $this->session->schoolmis_login_uri;
 	$(function() {
 		let f1 = "PersonnelInfo";
 		let f2 = "GradeSecInfo";
-		getTable(f1, 0, 10);
+		getTable(f1, 0, 5);
 		getTable(f2, 0, 5);
 		getTable("SYInfo", 0, 5);
 		getTable("SubjectList", 0, 10);
@@ -499,6 +501,9 @@ $uri = $this->session->schoolmis_login_uri;
 		// }, 0, 1);
 
 		getFetchList("PersonnelSearch", "EmpList", "PartyList", 0, {
+			v: 2
+		}, 1);
+		getFetchList(f1, "EmpList", "PartyList", 0, {
 			v: 2
 		}, 1);
 		getFetchList(f1, "PtitleList", "PartyList", 0, {
