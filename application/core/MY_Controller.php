@@ -73,8 +73,9 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function submitGradesBtn($a, $b, $c, $d, $f)
+    public function submitGradesBtn($a, $b, $mm, $d, $f)
     {
+        $c = $this->clean($mm);
         $e = "";
         $g = 'data-toggle="tooltip" data-placement="bottom" data-html="true" title="<em>Message:</em> <b>' . $c . '</b>"';
         $h = '<i class="fa fa-envelope float-right text-yellow"></i>';
@@ -95,8 +96,9 @@ class MY_Controller extends CI_Controller
         return $e;
     }
 
-    public function apprvGradesBtn($a, $b, $c, $d, $f, $g)
+    public function apprvGradesBtn($a, $b, $mm, $d, $f, $g)
     {
+        $c = $this->clean($mm);
         $e = "";
         $h = 'data-toggle="tooltip" data-placement="bottom" data-html="true" title="<em>Message:</em> <b>' . $c . '</b>"';
         $i = '<i class="fa fa-envelope float-right text-yellow"></i>';
@@ -134,7 +136,8 @@ class MY_Controller extends CI_Controller
 
     public function clean($string)
     {
-        return preg_replace('/[^a-zA-Z0-9\s]/', '', $string);
+        $string = str_replace(' ', '-', $string);
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
     }
 
     public function returnNull($a)

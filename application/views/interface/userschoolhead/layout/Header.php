@@ -108,6 +108,14 @@ $uri = $this->session->schoolmis_login_uri;
             </p>
           </a>
         </li>
+        <!-- <li class="nav-item">
+          <a href="<?= base_url() . $uri ?>/grades" class="nav-link dataentry">
+            <i class="nav-icon fas fa-paper-plane grades_submission"></i>
+            <p>
+              Grades Submission
+            </p>
+          </a>
+        </li> -->
         <li class="nav-item">
           <a href="<?= base_url() . $uri ?>/reports" class="nav-link reports">
             <i class="nav-icon fas fa-folder-open reports"></i>
