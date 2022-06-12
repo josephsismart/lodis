@@ -144,6 +144,14 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function getTable(tableId, dtd, pl) {
+        $(".form_save_data" + tableId + " .overlay").show();
+        // a = $("#tblGradeSecInfo .btneye").text();
+
+        // $("#tblGradeSecInfo .btneye").attr("disabled", true);
+        // $("#tblGradeSecInfo .btneye").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+
+        // $("#tblGradeSecInfo .btneye").attr("disabled", false);
+        // $("#tblGradeSecInfo .btneye").html(a);
         $("#tbl" + tableId).DataTable().destroy();
         var table, table_data = $("#tbl" + tableId).DataTable({
             "order": [
@@ -178,35 +186,48 @@ $uri = $this->session->schoolmis_login_uri;
             $(".searchBtn").html("<span class=\"fa fa-search\"></span>");
             dtd == 1 ? $("#tbl" + tableId).DataTable().destroy() : "";
             $(".collapse" + tableId).trigger('click');
+            $(".form_save_data" + tableId + " .overlay").hide();
+
         });
         $("#tbl" + tableId + "_filter").addClass("row");
         $("#tbl" + tableId + "_filter label").css("width", "99.3%");
         $("#tbl" + tableId + "_filter .form-control-sm").css("width", "99.3%");
 
-        if (tableId == "SubjectList") {
-            getFetchList('GradeSubject', "SubjectList", "PartyList", 0, {
-                v: 17
-            }, 0);
+        // if (tableId == "SubjectList") {
+        //     getFetchList('GradeSubject', "SubjectList", "PartyList", 0, {
+        //         v: 17
+        //     }, 0);
 
-            setTimeout(() => {
-                arr = [];
-                $("#form_save_dataGradeSubject .selectSubjectList option").each(function() {
-                    let a = $(this).attr("value");
-                    a != '' ? arr.push($(this).attr("value")) : null;
-                });
-                console.log(arr)
-            }, 3000);
+        //     setTimeout(() => {
+        //         arr = [];
+        //         $("#form_save_dataGradeSubject .selectSubjectList option").each(function() {
+        //             let a = $(this).attr("value");
+        //             a != '' ? arr.push($(this).attr("value")) : null;
+        //         });
+        //         console.log(arr)
+        //     }, 3000);
 
-        }
+        // }
     }
 
     function customTabViewAllGrades(b) {
+        a = $("#tblGradeSecInfo .btneye").text();
+
+        $("#tblGradeSecInfo .btneye").attr("disabled", true);
+        $("#tblGradeSecInfo .btneye").html("<span class=\"fa fa-sync-alt fa-pulse\"></span>");
+
+        $(".form_view_dataGradesInfo .overlay").show();
+        $(".form_view_dataGradesInfo .viewAllGrades").empty();
         $.get("<?= base_url($uri . "/Getdata/getViewAllGrades") ?>", {
                 a: b
             },
             function(data) {
                 var d = JSON.parse(data);
-                $(".form_save_dataPersonSecInfo .viewAllGrades").html(d);
+                $(".form_view_dataGradesInfo .viewAllGrades").html(d);
+                $(".form_view_dataGradesInfo .overlay").fadeToggle();
+
+                $("#tblGradeSecInfo .btneye").attr("disabled", false);
+                $("#tblGradeSecInfo .btneye").html("<span class='fa fa-eye'></span>");
             }).done(function() {
             $('[data-toggle="tooltip"]').tooltip()
         });

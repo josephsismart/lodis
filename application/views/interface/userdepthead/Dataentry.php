@@ -51,10 +51,14 @@ $uri = $this->session->schoolmis_login_uri;
 						</div>
 					</div>
 
+					<div class="overlay dark" style="display:none;">
+						<i class="fas fa-2x fa-sync-alt fa-spin"></i>
+					</div>
+
 				</div>
 			</div>
 
-			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form_save_dataPersonSecInfo">
+			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 form_view_dataGradesInfo">
 				<div class="card card-success">
 					<div class="card-header p-1 pr-2 pl-2">
 						<h3 class="card-title"><i class="fa fa-puzzle-piece"></i> List of Sections Handled</h3>
@@ -64,7 +68,9 @@ $uri = $this->session->schoolmis_login_uri;
 					</div>
 					<div class="card card-navy p-0 table-responsive viewAllGrades" style="overflow: auto;">
 					</div>
-
+					<div class="overlay dark" style="display:none;">
+						<i class="fas fa-2x fa-sync-alt fa-spin"></i>
+					</div>
 				</div>
 			</div>
 

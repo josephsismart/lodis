@@ -203,7 +203,7 @@ class Getdata extends MY_Controller
                     </div>
                     <div class="post">
                         <div class="user-block">
-                            <img class="img-circle img-bordered-sm" src="http://' . $_SERVER['HTTP_HOST'] . '/lodis/dist/img/avatar1.jpg" alt="user image">
+                            <img class="img-circle img-bordered-sm" src="'.base_url("dist/img/avatar1.jpg").'" alt="user image">
                             <span class="username">
                                 <a href="#" class="personnel">' . $fn_advsry . ' - ' . $fn_advsry_ttl . '</a>
                             </span>
