@@ -143,6 +143,8 @@ class Getdata extends MY_Controller
         $cc = 1;
         foreach ($thisQuery->result() as $key => $value) {
             $id = $value->schoolpersonnel_id;
+            $is_a_v = $value->is_active_schl_personnel;
+            $is_active = $is_a_v < 1 ? "<span class='badge bg-danger'>INACTIVE</span>" : "";
             if ($value->birthdate) {
                 $birthDate = date_create($value->birthdate);
                 $birthDate = strtoupper(date_format($birthDate, "M d, Y"));
@@ -161,6 +163,7 @@ class Getdata extends MY_Controller
                 "sex" => $value->sex_bool,
                 "birthdate" => $value->birthdate,
                 "homeAddress" => $value->address_info,
+                "is_active" => $is_a_v,
                 "cty" => $value->citymun_id,
                 "brgy" => $value->barangay_id,
                 "personName" => $value->full_name,
@@ -185,7 +188,7 @@ class Getdata extends MY_Controller
                 "<span class='badge'>" . $value->employee_type . "</span><br/>
                 <span class='badge'>" . $value->status . "</span>",
                 "<div class='row'><div class='col-6'>
-                    <span class='badge text-md'>$value->full_name</span><span class='badge'>" . $value->personal_title . "</span><br/>
+                    <span class='badge text-md'>$value->full_name</span><span class='badge'>" . $value->personal_title . "</span>" . $is_active . "<br/>
                     <span class='badge'>" . $value->address_details . "</span>,
                     <span class='badge font-weight-light'>" . $value->sex . "</span>, 
                     <span class='badge font-weight-light'>" . $birthDate . "</span>
@@ -410,10 +413,10 @@ class Getdata extends MY_Controller
                 "viewing_date" => $value->view_grades_until,
                 "edit" => $value->edit_student == 't' ? true : false,
                 "unenroll" => $value->unenroll == 't' ? true : false,
-                "customQ1" => strpos($igqstr,'1')!==false?true:false,
-                "customQ2" => strpos($igqstr,'2')!==false?true:false,
-                "customQ3" => strpos($igqstr,'3')!==false?true:false,
-                "customQ4" => strpos($igqstr,'4')!==false?true:false,
+                "customQ1" => strpos($igqstr, '1') !== false ? true : false,
+                "customQ2" => strpos($igqstr, '2') !== false ? true : false,
+                "customQ3" => strpos($igqstr, '3') !== false ? true : false,
+                "customQ4" => strpos($igqstr, '4') !== false ? true : false,
 
             ];
             $arr1 = json_encode($data1);

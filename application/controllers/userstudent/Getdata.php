@@ -52,39 +52,40 @@ class Getdata extends MY_Controller
         foreach ($arr as $key => $value) {
             $p = $value->parent_party_id;
             $t = ($p ? '&emsp;' : null);
-            $q1 = $value->q1;//rand(99, 88);//
-            $q2 = $value->q2;//rand(99, 88);//
-            $q3 = $value->q3;//rand(99, 88);//
-            $q4 = $value->q4;//rand(99, 88);//
+            $q1 = $value->q1; //rand(99, 88);//
+            $q2 = $value->q2; //rand(99, 88);//
+            $q3 = $value->q3; //rand(99, 88);//
+            $q4 = $value->q4; //rand(99, 88);//
             $fg = $this->avg4($q1, $q2, $q3, $q4);
             if ($fg && !$p) {
                 $ga += intval($fg);
                 $cga += 1;
-            } else if(!$fg && !$p) {
+            } else if (!$fg && !$p) {
                 $tga += 1;
             }
             if ($value->full_name) {
+                $f_g = (!$p ? ($fg > 0 ? $fg : '--') : '');
                 $data["data"][] = [
                     "<h6>$t $value->subject</h6>
                         <viewdetails class='view_details' style='display:none;'>
                             " . $t . "<small class='text-xs " . ($value->advisory == 't' ? 'text-success' : '') . "'><i class='fa fa-caret-right'></i> $value->full_name</small>
                         <viewdetails/>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q1>0?$q1:'--') : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q2>0?$q2:'--') : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q3>0?$q3:'--') : '-') . "</p>",
-                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q4>0?$q4:'--') : '-') . "</p>",
-                    "<p class='text-center mb-n2'><b>" . (!$p ? ($fg > 0 ? $fg : '--') : '') . "</b></p>",
-                    "<p class='text-center mb-n2'>-</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q1 > 0 ? $q1 : '--') : '--') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q2 > 0 ? $q2 : '--') : '--') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q3 > 0 ? $q3 : '--') : '--') . "</p>",
+                    "<p class='text-center mb-n2'>" . ($v_grades == 't' ? ($q4 > 0 ? $q4 : '--') : '--') . "</p>",
+                    "<p class='text-center mb-n2'><b>" . ($v_grades == 't' ?$f_g: '--') . "</b></p>",
+                    "<p class='text-center mb-n2'>" . ($p ? '' : ($v_grades == 't' ? ($f_g != "--" ? ($f_g >= 75 ? "PASSED" : "FAILED") : "--") : '--')) . "</p>",
                 ];
             }
             if ($key === array_key_last($arr)) {
                 $data["data"][] = [
-                    "<p class='text-right mb-1 text-md'><b>Genera Average</b></p>",
+                    "<p class='text-right mb-1 text-md'><b>General Average</b></p>",
                     "",
                     "",
                     "",
                     "",
-                    "<p class='text-center mb-1 text-md'><b>" . ($tga == 0 ? round($ga / $cga, 0) : '--') . "</b></p>",
+                    "<p class='text-center mb-1 text-md'><b>" . ($v_grades == 't' ? ($tga == 0 ? round($ga / $cga, 0) : '--') : '--') . "</b></p>",
                     "",
                 ];
             }

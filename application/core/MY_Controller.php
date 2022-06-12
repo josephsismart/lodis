@@ -381,7 +381,8 @@ class MY_Controller extends CI_Controller
                                     AND t1.person_id != 1 
                                     AND t1.person_id != 1431 
                                     AND t1.person_id != 1102 
-                                    AND t1.is_active=TRUE");
+                                    -- AND t1.is_active=TRUE
+                                    AND t1.is_active_schl_personnel>0");
 
         $query2 = $this->db->query("SELECT t1.role_id,t1.user_description, COUNT(1) AS cc FROM account.view_useraccount t1
                                     GROUP BY t1.user_description,t1.role_id");

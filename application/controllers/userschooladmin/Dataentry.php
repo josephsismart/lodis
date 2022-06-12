@@ -40,6 +40,7 @@ class Dataentry extends MY_Controller
         $brgy = $this->input->post("brgy");
         // $prk = $this->input->post("prk");
         $homeAddress = strtoupper($this->input->post("homeAddress"));
+        $is_active = strtoupper($this->input->post("is_active"));
         // $emailAddress = $this->input->post("emailAddress");
         // $genAcc = $this->input->post("createAccount");
         // $createAccount = $genAcc!=""||$genAcc!=null?1:0;
@@ -79,6 +80,7 @@ class Dataentry extends MY_Controller
                     "school_id" => $this->session->schoolmis_login_school_id,
                     "employee_type_id" => $emptype,
                     "personal_title_id" => $personaltitle,
+                    "is_active" => $is_active,
                     "status_id" => $empstatus,
                 ];
                 // $data2_e = json_encode($data2);
@@ -99,6 +101,7 @@ class Dataentry extends MY_Controller
                     "employee_type_id" => $emptype,
                     "basic_info_id" => $inid,
                     "personal_title_id" => $personaltitle,
+                    "is_active" => $is_active,
                     "status_id" => $empstatus,
                 ];
                 // $data2_e = json_encode($data2);

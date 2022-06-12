@@ -123,12 +123,20 @@ $uri = $this->session->schoolmis_login_uri;
 											</select>
 										</div>
 									</div>
-									<div class="col-lg-12 col-md-12 col-sm-12 address_details">
+									<div class="col-9 col-lg-10 address_details">
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<span class="input-group-text homeAddress"><i class="fas fa-home"></i></span>
 											</div>
 											<input type="text" class="form-control form-control-sm text-uppercase" name="homeAddress" placeholder="ADDRESS DETAILS" autocomplete="off" nr="1">
+										</div>
+									</div>
+									<div class="col-3 col-lg-2 address_details">
+										<div class="input-group mb-2">
+											<select class="form-control form-control-sm" name="is_active">
+												<option value="1">ACTIVE</option>
+												<option value="0">INACTIVE</option>
+											</select>
 										</div>
 									</div>
 									<!-- <div class="col-lg-3 col-md-12 col-sm-12">
