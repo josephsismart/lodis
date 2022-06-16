@@ -389,7 +389,8 @@ class Dataentry extends MY_Controller
         $valid = 0;
         $rmsecid = $this->input->post("rmsecid");
         $sbjct = $this->input->post("sbjct");
-        $assignPerson = $this->input->post("schlpersonnel");
+        $assignP = $this->input->post("schlpersonnel");
+        $assignPerson = $assignP;#==""?null:$assignP;
         $advisory = $this->input->post("advisory");
         $login_id = $this->session->schoolmis_login_id;
         $dateNow = $this->now();
@@ -409,7 +410,7 @@ class Dataentry extends MY_Controller
                 if ($assprsn == $tmpassprsn) {
                 } else {
                     $update_data = array(
-                        'schl_personnel_id' => $assprsn,
+                        'schl_personnel_id' => $assprsn==""?null:$assprsn,
                         'advisory' => $sbject == $advisory ? true : false,
                     );
                     $this->db->where('id', $tmpId);
