@@ -390,7 +390,7 @@ class Dataentry extends MY_Controller
         $rmsecid = $this->input->post("rmsecid");
         $sbjct = $this->input->post("sbjct");
         $assignP = $this->input->post("schlpersonnel");
-        $assignPerson = $assignP;#==""?null:$assignP;
+        $assignPerson = $assignP; #==""?null:$assignP;
         $advisory = $this->input->post("advisory");
         $login_id = $this->session->schoolmis_login_id;
         $dateNow = $this->now();
@@ -410,7 +410,7 @@ class Dataentry extends MY_Controller
                 if ($assprsn == $tmpassprsn) {
                 } else {
                     $update_data = array(
-                        'schl_personnel_id' => $assprsn==""?null:$assprsn,
+                        'schl_personnel_id' => $assprsn == "" ? null : $assprsn,
                         'advisory' => $sbject == $advisory ? true : false,
                     );
                     $this->db->where('id', $tmpId);
@@ -579,7 +579,7 @@ class Dataentry extends MY_Controller
         $customQ2 = $this->input->post("customQ2");
         $customQ3 = $this->input->post("customQ3");
         $customQ4 = $this->input->post("customQ4");
-        $input_grades_qrtr = ($customQ1 ? 1 : "") . ($customQ2 ? 2 : "") . ($customQ3 ? 3 : "") . ($customQ4 ? 4 : "");
+        $input_grades_qrtr = ($customQ1 ? 1 : null) . ($customQ2 ? 2 : null) . ($customQ3 ? 3 : null) . ($customQ4 ? 4 : null);
 
         if ($qrtrid && $quarter) {
             $data = [
@@ -592,7 +592,7 @@ class Dataentry extends MY_Controller
                 "view_grades_until" => $v_date ? $v_date : null,
                 "edit_student" => $edit,
                 "unenroll" => $unenroll,
-                "input_grades_qrtr" => $input_grades_qrtr,
+                "input_grades_qrtr" => $input_grades_qrtr ? $input_grades_qrtr : null,
             ];
             // $b = json_encode($data);
             $this->db->where('id', $qrtrid);

@@ -231,8 +231,11 @@ $uri = $this->session->schoolmis_login_uri;
                     successAlert("Successfully Saved!");
                     if (formId != "GradesList") {
                         clear_form("form_save_data" + formId);
+                        $("#modal" + formId).modal('hide');
                     }
-                    $("#modal" + formId).modal('hide');
+                    if (formId == "GradesList") {
+                        getGradesListFN();
+                    }
                     if (tblId.length > 1) {
                         for (var i = 0; i < tblId.length; i++) {
                             getTable(tblId[i], dtd, pl);
@@ -684,8 +687,8 @@ $uri = $this->session->schoolmis_login_uri;
                         "<b>FOR APPROVAL Q" + bTmp + " - " + cTmp + "%</b>" +
                         (rm ? '<i class="fa fa-envelope float-right text-yellow"></i>' : '') +
                         "</span>");
-                    $("#modalLearnersSubmitGrades,#modalGradesList").modal('hide');
-                    clear_form("form_save_dataSubmitGradesConfirm");
+                    $("#modalLearnersSubmitGrades").modal('hide');
+                    $("#modalLearnersSubmitGrades .remarks").val("");
                     $('[data-toggle="tooltip"]').tooltip();
                 } else if (result.success == false) {
                     failAlert(result.message);
@@ -799,5 +802,56 @@ $uri = $this->session->schoolmis_login_uri;
             accompWindow.print();
             accompWindow.close();
         }, 1000);
+    }
+
+    //reports
+    function reportsConsoGrades() {
+        // $("printConsoGrades")
+        // alert(rssaid)
+        // alert('z')
+
+        // a = $(".submitBtnMFGradelvl").text();
+        // $(".submitBtnMFGradelvl").attr("disabled", true);
+        // $(".submitBtnMFGradelvl").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        // var pl = 1;
+        // $("#tblReportConsoGrades").DataTable().destroy();
+        // var table, table_data = $("#tblReportConsoGrades").DataTable({
+        //     ajax: {
+        //         url: "<?= base_url($uri . '/reports/getReportConsoGrades') ?>",
+        //         type: "POST",
+        //         data: function(d) {
+        //             d.rsid = rsid;
+        //         }
+        //     },
+        //     fnInitComplete: function(oSettings, json) {
+
+        //         $("#tblReportConsoGrades").DataTable().destroy();
+        //         $("#modalReportConsoGrades").modal("show");
+
+        //         // $(".submitBtnReportConsoGrades").attr("disabled", false);
+        //         // $(".submitBtnReportConsoGrades").html(a);
+        //     }
+        // });
+        // alert(rsid)
+
+        $("#tblReportConsoGrades tbody").empty();
+        $.post("<?= base_url($uri . '/reports/getReportConsoGrades') ?>", {
+                rsid: rsid
+            },
+            function(data) {
+                // console.log(data)
+                var result = JSON.parse(data);
+                console.log(result);
+                $("#tblReportConsoGrades tbody").append("<tr>" + result["thead"] + "</tr>");
+                $("#tblReportConsoGrades tbody").append("<tr>" + result["tbody"] + "</tr>");
+            }
+        ).then(function() {
+            // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+        });
+        $("#modalReportConsoGrades").modal("show");
+
+
+
+
     }
 </script>

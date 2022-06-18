@@ -7,7 +7,7 @@ if (!$this->session->schoolmis_login_level) {
 $uri = $this->session->schoolmis_login_uri;
 ?>
 <!-- <div class="modal fade show" id="modalEnrollment" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalEnrollment">
+<div class="modal fade" id="modalEnrollment" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
@@ -249,7 +249,7 @@ $uri = $this->session->schoolmis_login_uri;
 
 <!-- /.modal -->
 <!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalGradesList">
+<div class="modal fade" id="modalGradesList" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
@@ -310,7 +310,7 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<div class="modal fade" id="modalAllGrades">
+<div class="modal fade" id="modalAllGrades" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-gradient-success p-2 px-3">
@@ -331,7 +331,7 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<div class="modal fade" id="modalAllStudentLogs">
+<div class="modal fade" id="modalAllStudentLogs" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-gradient-default p-2 px-3">
@@ -372,7 +372,7 @@ $uri = $this->session->schoolmis_login_uri;
 <!-- /.card -->
 
 <!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalLearnersList">
+<div class="modal fade" id="modalLearnersList" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header bg-gradient-navy p-2">
@@ -400,7 +400,7 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<div class="modal fade" id="modalLearnersUnenroll">
+<div class="modal fade" id="modalLearnersUnenroll" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <form id="form_save_dataUnenrollConfirm">
             <div class="modal-content">
@@ -428,7 +428,7 @@ $uri = $this->session->schoolmis_login_uri;
 </div>
 
 <!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade mt-5" id="modalLearnersSubmitGrades">
+<div class="modal fade mt-5" id="modalLearnersSubmitGrades" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <form id="form_save_dataSubmitGradesConfirm">
             <div class="modal-content">
@@ -456,7 +456,7 @@ $uri = $this->session->schoolmis_login_uri;
 </div>
 
 <!-- <div class="modal fade show" id="modalLearnersList" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalUpdateLearnerInfo">
+<div class="modal fade" id="modalUpdateLearnerInfo" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-primary p-2">
@@ -617,7 +617,7 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
-<div class="modal fade" id="modalHonor">
+<div class="modal fade" id="modalHonor" data-backdrop="static">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header bg-navy py-1">

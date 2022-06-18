@@ -109,9 +109,18 @@ class Getdata extends MY_Controller
                 "male" => $male,
                 "female" => $female,
                 "total_enrollee" => $t_enrollee,
-                "enroll" => ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right">Enroll</button>' : "",
-                "grade" => ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGradesList" class="btn btn-xs btn-primary float-right ml-1">Grades</button>' : '',
-                "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1">View All Grades</button>' : '',
+                "enroll" => ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right"><b style="font-size:10px;">ENROLL</b></button>' : "",
+                "grade" => ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGradesList" class="btn btn-xs btn-primary float-right ml-1"><b style="font-size:10px;">GRADES</b></button>' : '',
+                "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1"><b style="font-size:10px;">ALL GRADES</b></button>' : '',
+                "reports" => '<div class="btn-group float-right border-0 ml-1">
+                                <button class="btn btn-xs btn-default" readonly><b style="font-size:10px;">REPORTS</b></button>
+                                <button type="button" class="btn btn-xs btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu" role="menu" style="">
+                                <a class="dropdown-item" href="#" onclick="reportsConsoGrades()">Consolidated Grades</a>
+                                </div>
+                            </div>',
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>
                                                 </button>
@@ -158,7 +167,9 @@ class Getdata extends MY_Controller
         $content2 = null;
         $sy = $this->getOnLoad()["sy_id"];
         $qrtr = $this->getOnLoad()["qrtr"];
-        $query = $this->db->query("SELECT t1.*,t2.parent FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+        $query = $this->db->query("SELECT t1.subject_abbr,t1.subject,t1.subject_id,t1.full_name,
+        t1.personal_title,t1.advisory,t1.schedule,t1.grade,t1.sctn_nm,t1.parent_party_id,
+        t2.parent FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
                                     LEFT JOIN (SELECT t1.parent_party_id AS parent FROM global.tbl_party t1
                                                             WHERE t1.parent_party_id IS NOT NULL
                                                             GROUP BY t1.parent_party_id) t2 ON t1.subject_id = t2.parent
@@ -213,14 +224,14 @@ class Getdata extends MY_Controller
             }
 
 
-            $query2 = $this->db->query("SELECT t4.q1,t4.q2,t4.q3,t4.q4,t5.advisory,t5.full_name AS teacher_full_name,t5.personal_title,t1.id,t3.* FROM building_sectioning.tbl_room_section_subject_assignment t1
+            $query2 = $this->db->query("SELECT t4.q1,t4.q2,t4.q3,t4.q4,t5.advisory,t5.full_name AS teacher_full_name,t5.personal_title,t1.id,
+                                        t3.last_fullname,t3.enrollment_status,t3.sex,t3.lrn FROM building_sectioning.tbl_room_section_subject_assignment t1
                                         LEFT JOIN building_sectioning.tbl_room_section t2 ON t1.room_section_id=t2.id
                                         LEFT JOIN building_sectioning.view_enrollment$sy t3 ON t1.room_section_id=t3.room_section_id
 				                        LEFT JOIN building_sectioning.view_subject_grdlvl_personnel_assgnmnt t5 ON t1.room_section_id=t5.room_section_id AND t1.subject_id=t5.subject_id
                                         LEFT JOIN (SELECT t1.*,q1.grade q1,q2.grade q2,q3.grade q3,q4.grade q4 FROM (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id
                                                 FROM building_sectioning.tbl_learner_grades$sy t1
                                                 GROUP BY t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id) t1
-                                                
                                                 LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
                                                     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=1 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
@@ -237,22 +248,7 @@ class Getdata extends MY_Controller
                                                     FROM building_sectioning.tbl_learner_grades$sy t1
                                                     LEFT JOIN(SELECT rssa_id FROM building_sectioning.tbl_learner_grades_stat$sy WHERE sy_id=$sy AND qrtr=4 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
                                                     WHERE t1.sy_id=$sy AND t1.qrtr_id=4)q4 ON t1.learner_enrollment_id =q4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q4.rm_sctn_sbjct_assgnmnt_id)
-
-                                                
-                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
-                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=1)q1 ON t1.learner_enrollment_id =q1.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q1.rm_sctn_sbjct_assgnmnt_id
-                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
-                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=2)q2 ON t1.learner_enrollment_id =q2.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q2.rm_sctn_sbjct_assgnmnt_id
-                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
-                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=3)q3 ON t1.learner_enrollment_id =q3.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q3.rm_sctn_sbjct_assgnmnt_id
-                                                -- LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, t1.grade
-                                                --     FROM building_sectioning.tbl_learner_grades$sy t1
-                                                --     WHERE t1.sy_id=$sy AND t1.qrtr_id=4)q4 ON t1.learner_enrollment_id =q4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q4.rm_sctn_sbjct_assgnmnt_id)
-
-                                            t4 ON t3.enrollment_id=t4.learner_enrollment_id AND t1.id=t4.rm_sctn_sbjct_assgnmnt_id
+                                                    t4 ON t3.enrollment_id=t4.learner_enrollment_id AND t1.id=t4.rm_sctn_sbjct_assgnmnt_id
                                         WHERE t5.subject_id=$sbjctid AND t3.room_section_id=$rsid
                                         ORDER BY t3.sex DESC, t3.last_fullname");
 
@@ -302,8 +298,8 @@ class Getdata extends MY_Controller
             $c_male = 1;
             $c_fmale = 1;
             foreach ($query2->result() as $key2 => $value2) {
-                $birthDate = date_create($value2->birthdate);
-                $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
+                // $birthDate = date_create($value2->birthdate);
+                // $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
                 $sex = substr($value2->sex, 0, 1);
                 $q1 = $value2->q1;
                 $q2 = $value2->q2;
@@ -679,7 +675,7 @@ class Getdata extends MY_Controller
                 ($igq2 != "" && ($q2stat == null || $q2stat == "RECHECK") ? $entry2 : $this->gradeColor($q2)),
                 ($igq3 != "" && ($q3stat == null || $q3stat == "RECHECK") ? $entry3 : $this->gradeColor($q3)),
                 ($igq4 != "" && ($q4stat == null || $q4stat == "RECHECK") ? $entry4 : $this->gradeColor($q4)),
-                "".$this->gradeColor($avg),
+                "" . $this->gradeColor($avg),
             ];
         }
         echo json_encode($data);
