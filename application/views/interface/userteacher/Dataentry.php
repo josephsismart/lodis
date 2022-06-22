@@ -85,8 +85,8 @@ $uri = $this->session->schoolmis_login_uri;
 									<div class="col-12 col-lg-5 col-md-12 col-sm-6 col-xs-12 mb-2">
 										<span class="others">
 										</span>
-										<!-- <span class="reports">
-										</span> -->
+										<span class="reports">
+										</span>
 										<span class="grade_all">
 										</span>
 										<span class="grade">

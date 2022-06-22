@@ -103,6 +103,7 @@ class Getdata extends MY_Controller
             $male = number_format($qrow->male) ?? "-";
             $female = number_format($qrow->female) ?? "-";
             $t_enrollee = number_format($qrow->total_enrollee) ?? "-";
+            $conso = ($advsry == 't') ? '<a class="dropdown-item" href="#" onclick="reportsConsoGrades()">Consolidated Grades</a>' : '';
             $data2 = [
                 "personnel" => $qrow->full_name . " - " . $qrow->personal_title,
                 "description" => "Class Advisory <b>" . $qrow->grade . " - " . $qrow->sctn_nm . "</b><small> <i>" . $qrow->subject . "</i> | <i>" . $qrow->sched . "</i></small>",
@@ -118,8 +119,8 @@ class Getdata extends MY_Controller
                                 <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" style="">
-                                <a class="dropdown-item" href="#" onclick="reportsConsoGrades()">Consolidated Grades</a>
-                                </div>
+                                ' . $conso .
+                                '</div>
                             </div>',
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>

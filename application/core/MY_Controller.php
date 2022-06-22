@@ -146,9 +146,21 @@ class MY_Controller extends CI_Controller
         return $return;
     }
 
+    public function returnZero($a)
+    {
+        $return = !$a ? 0 : $a;
+        return $return;
+    }
+
     public function returnDashed($a)
     {
-        $return = ($a == 0 ? '-' : $a);
+        $return = ($a == 0 ? '--' : $a);
+        return $return;
+    }
+
+    public function returnDDashed($a)
+    {
+        $return = ($a == 0 ? '--' : ($a == NULL ? '--' : $a));
         return $return;
     }
 
@@ -599,7 +611,7 @@ class MY_Controller extends CI_Controller
         return  "<center><input style='width:50px;text-align:center'
                          onclick='maxInput(\"gradeLearner$lrn\")' onkeyup='maxInput(\"gradeLearner$lrn\")'
                          style='text-align:center;' type='number' class='form-control' 
-                         name='gradeLearner".$qrtr."[]' value='$q' 
+                         name='gradeLearner" . $qrtr . "[]' value='$q' 
                          placeholder='--' nr='1' 
                          id='gradeLearner$lrn'/></center>";
     }

@@ -833,7 +833,9 @@ $uri = $this->session->schoolmis_login_uri;
         //     }
         // });
         // alert(rsid)
-
+        mdl = 'modalReportConsoGrades';
+        $("#" + mdl + " .content").hide();
+        $("#" + mdl + " .overlay").show();
         $("#tblReportConsoGrades tbody").empty();
         $.post("<?= base_url($uri . '/reports/getReportConsoGrades') ?>", {
                 rsid: rsid
@@ -841,14 +843,17 @@ $uri = $this->session->schoolmis_login_uri;
             function(data) {
                 // console.log(data)
                 var result = JSON.parse(data);
-                console.log(result);
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["thead"] + "</tr>");
+                $("#tblReportConsoGrades tbody").append("<tr>" + result["thead2"] + "</tr>");
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["tbody"] + "</tr>");
             }
         ).then(function() {
             // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+
+            $("#" + mdl + " .content").show();
+            $("#" + mdl + " .overlay").hide();
         });
-        $("#modalReportConsoGrades").modal("show");
+        $("#" + mdl).modal("show");
 
 
 
