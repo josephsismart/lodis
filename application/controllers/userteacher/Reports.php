@@ -34,11 +34,14 @@ class Reports extends MY_Controller
         $thead2 = [];
         $tbody = [];
 
-        $qar = ["q1" => []];
+        $qar = [];
         $qar1 = 0;
         $cc = 1;
+        $cc_fmale = 1;
+        $cc_male = 1;
         $ccc = 1;
         $rssaid = 0;
+        $sbjct_cc = 0;
         $sy = $this->getOnLoad()["sy_id"];
         $queryHead = $this->db->query("SELECT t1.rm_sctn_sbjct_assgnmnt_id,t1.subject_abbr,t1.subject,t1.subject_id,t1.full_name,
         t1.personal_title,t1.advisory,t1.schedule,t1.grade,t1.sctn_nm,t1.parent_party_id,
@@ -48,27 +51,41 @@ class Reports extends MY_Controller
                                                 GROUP BY t1.parent_party_id) t2 ON t1.subject_id = t2.parent
                                     WHERE t1.room_section_id=$rsid AND t1.schl_yr_id=$sy AND t1.full_name IS NOT NULL 
                                     ORDER BY t1.order_by_sbjct");
-        $thead[] = ["<td width='1' rowspan='2'>Learner</td>"];
+        $thead[] = ["<td width='1' rowspan='2'>#</td><td width='1' rowspan='2'>Learner</td>"];
+        $t_eid = 0;
+
         foreach ($queryHead->result() as $key => $value) {
-            $qar1 = 0;
+            // $qar1 = 0;
             $color = $value->color;
             $stc = 'background-color:' . $color;
+            $sbjct_cc++;
             $thead[] = [
                 "<td colspan='5' style='" . $stc . ";'>" . $value->subject_abbr . "</td>"
             ];
+
             $thead2[] = [
                 "<td>Q1</td><td>Q2</td><td>Q3</td><td>Q4</td><td style='" . $stc . ";'>FG</td>"
             ];
             $rssaid = $value->rm_sctn_sbjct_assgnmnt_id;
 
-            $queryBody = $this->db->query("SELECT t2.last_fullname,t2.enrollment_id
+            $queryBody = $this->db->query("SELECT t2.sex,t2.last_fullname,t2.enrollment_id
                                             FROM building_sectioning.view_enrollment1 t2
                                             WHERE t2.room_section_id=$rsid
+                                            ORDER BY t2.sex_bool DESC,t2.last_fullname 
                                             ");
             if (empty($tbody)) {
                 foreach ($queryBody->result() as $key => $value2) {
+                    $sex = substr($value2->sex, 0, 1);
+                    if ($cc_fmale == 1 && $sex == 'F') {
+                        $tbody[] = [
+                            "<tr><td align='left'> </td></tr>"
+                        ];
+                    }
                     $tbody[] = [
-                        "<tr id='" . $value2->enrollment_id . "'><td align='left'>" . $cc++ . " " . $value2->last_fullname . "</td></tr>"
+                        "<tr id='" . $value2->enrollment_id . "'><td align='left'>" . ($sex == 'M' ? $cc_male++ : $cc_fmale++) . "</td><td align='left' style='white-space: nowrap;'>" . $value2->last_fullname . "</td></tr>"
+                    ];
+                    $qar[] = [
+                        "eid" => $value2->enrollment_id,
                     ];
                 }
             }
@@ -95,41 +112,74 @@ class Reports extends MY_Controller
                 $q4 = $this->returnZero($value3->q4);
                 $avg = round(($q1 + $q2 + $q3 + $q4) / 4, 0);
 
-                // $zz 
-                $qar1 += $q1;
-
-                // $qar[] = ["q1" . $eid => $qar1];
-
                 $tbody[] = [
                     "<script>
-                        $('#tblReportConsoGrades #" . $eid . "').append('<td width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q1) . "</td>'+
-                                                                        '<td width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q2) . "</td>'+
-                                                                        '<td width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q3) . "</td>'+
-                                                                        '<td width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q4) . "</td>'+
-                                                                        '<td width=" . 1 . " align=" . 'center' . " style=" . $stc . ">" . $this->returnDDashed($avg) . "</td>')
+                        $('#tblReportConsoGrades #" . $eid . "').append('<td class=" . 'q1' . $eid . " width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q1) . "</td>'+
+                                                                        '<td class=" . 'q2' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q2) . "</td>'+
+                                                                        '<td class=" . 'q3' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q3) . "</td>'+
+                                                                        '<td class=" . 'q4' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q4) . "</td>'+
+                                                                        '<td class=" . 'avg' . $eid . "  width=" . 1 . " align=" . 'center' . " style=" . $stc . ">" . $this->returnDDashed($avg) . "</td>')
                     </script>"
                 ];
             }
         }
 
-        // $thead[] = [
-        //     "<td colspan='8' width='1'>QUARTER AVE. & RANK</td>" .
-        //         "<td rowspan='2' width='1'>GEN. AV.</td>" .
-        //         "<td rowspan='2' width='1'>FINAL RANK</td>"
-        // ];
-        // $thead2[] = [
-        //     "<td>Q1</td><td>R1</td>" .
-        //         "<td>Q2</td><td>R2</td>" .
-        //         "<td>Q3</td><td>R3</td>" .
-        //         "<td>Q4</td><td>R4</td>"
-        // ];
-        // for ($i = 0; count($qar); $i++) {
-        //     $tbody[] = [
-        //         "<script>
-        //         $('#tblReportConsoGrades #" . $eid . "').append('<td width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q1) . "</td>)
-        //     </script>"
-        //     ];
-        // }
+        $thead[] = [
+            "<td colspan='8' width='1'>QUARTER AVE. & RANK</td>" .
+                "<td rowspan='2' width='1'>GEN. AV.</td>" .
+                "<td rowspan='2' width='1'>FINAL RANK</td>"
+        ];
+
+        $thead2[] = [
+            "<td>Q1</td><td>R1</td>" .
+                "<td>Q2</td><td>R2</td>" .
+                "<td>Q3</td><td>R3</td>" .
+                "<td>Q4</td><td>R4</td>"
+        ];
+        $zz = 0;
+        for ($i = 0; $i < count($qar); $i++) {
+
+            $tbody[] = [
+                "<script>
+                    var sumq1 = 0,sumq2 = 0,sumq3 = 0,sumq4 = 0,sumavg = 0;
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .q1" . $qar[$i]["eid"] . "').each(function(){
+                        a = $(this).html()=='--'?0:$(this).html();
+                        sumq1 += +a/" . $sbjct_cc . ";
+                    });
+
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .q2" . $qar[$i]["eid"] . "').each(function(){
+                        a = $(this).html()=='--'?0:$(this).html();
+                        sumq2 += +a/" . $sbjct_cc . ";
+                    });
+
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .q3" . $qar[$i]["eid"] . "').each(function(){
+                        a = $(this).html()=='--'?0:$(this).html();
+                        sumq3 += +a/" . $sbjct_cc . ";
+                    });
+
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .q4" . $qar[$i]["eid"] . "').each(function(){
+                        a = $(this).html()=='--'?0:$(this).html();
+                        sumq4 += +a/" . $sbjct_cc . ";
+                    });
+
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .avg" . $qar[$i]["eid"] . "').each(function(){
+                        a = $(this).html()=='--'?0:$(this).html();
+                        sumavg += +a/" . $sbjct_cc . ";
+                    });
+
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q1TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq1.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q1Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q2TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq2.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q2Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q3TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq3.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q3Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q4TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq4.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q4Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'avgTBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumavg.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'avgRank' . " width=" . 1 . " align=" . 'center' . "></td>');
+                </script>"
+            ];
+        }
 
         $data["thead"] = $thead;
         $data["thead2"] = $thead2;

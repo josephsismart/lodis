@@ -804,6 +804,43 @@ $uri = $this->session->schoolmis_login_uri;
         }, 1000);
     }
 
+    //ranking
+
+    function changeArr(input, N) {
+        // Copy input array into newArray
+        var newArray = JSON.parse(JSON.stringify(input));
+
+        // Sort newArray[] in ascending order
+        newArray.sort((a, b) => a - b);
+
+        var i;
+
+        // Map to store the rank of
+        // the array element
+        var ranks = new Map();
+
+        var rank = 1;
+
+        for (var index = 0; index < N; index++) {
+
+            var element = newArray[index];
+
+            // Update rank of element
+            if (!ranks.has(element)) {
+                ranks.set(element, rank);
+                rank++;
+            }
+        }
+
+        // Assign ranks to elements
+        for (var index = 0; index < N; index++) {
+            var element = input[index];
+            input[index] = ranks.get(input[index]);
+        }
+        return input;
+    }
+
+
     //reports
     function reportsConsoGrades() {
         // $("printConsoGrades")
@@ -846,9 +883,68 @@ $uri = $this->session->schoolmis_login_uri;
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["thead"] + "</tr>");
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["thead2"] + "</tr>");
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["tbody"] + "</tr>");
+
+
+
             }
         ).then(function() {
-            // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+
+
+            var arr1 = [],
+                arr2 = [],
+                arr3 = [],
+                arr4 = [],
+                avg = [];
+            $("#tblReportConsoGrades .q1TBRank").each(function() {
+                arr1.push((parseInt($(this).html())) * -1);
+            });
+
+            $("#tblReportConsoGrades .q2TBRank").each(function() {
+                arr2.push((parseInt($(this).html())) * -1);
+            });
+
+            $("#tblReportConsoGrades .q3TBRank").each(function() {
+                arr3.push((parseInt($(this).html())) * -1);
+            });
+
+            $("#tblReportConsoGrades .q4TBRank").each(function() {
+                arr4.push((parseInt($(this).html())) * -1);
+            });
+
+            $("#tblReportConsoGrades .avgTBRank").each(function() {
+                avg.push((parseInt($(this).html())) * -1);
+            });
+
+            var N1 = arr1.length,
+                N2 = arr2.length,
+                N3 = arr3.length,
+                N4 = arr4.length,
+                N5 = arr4.length;
+            arr1 = changeArr(arr1, N1);
+            arr2 = changeArr(arr2, N2);
+            arr3 = changeArr(arr3, N3);
+            arr4 = changeArr(arr4, N4);
+            avg = changeArr(avg, N5);
+            var i1 = 0,
+                i2 = 0,
+                i3 = 0,
+                i4 = 0,
+                i5 = 0;
+            $("#tblReportConsoGrades .q1Rank").each(function() {
+                $(this).html(arr1[i1++]);
+            });
+            $("#tblReportConsoGrades .q2Rank").each(function() {
+                $(this).html(arr2[i2++]);
+            });
+            $("#tblReportConsoGrades .q3Rank").each(function() {
+                $(this).html(arr3[i3++]);
+            });
+            $("#tblReportConsoGrades .q4Rank").each(function() {
+                $(this).html(arr4[i4++]);
+            });
+            $("#tblReportConsoGrades .avgRank").each(function() {
+                $(this).html(avg[i5++]);
+            });
 
             $("#" + mdl + " .content").show();
             $("#" + mdl + " .overlay").hide();

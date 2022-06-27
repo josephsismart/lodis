@@ -26,8 +26,8 @@
                 </div>
             </div>
             <div class="modal-body p-0 content" id="printConsoGrades">
-                <div class="table-responsive col-md-12 text-center">
-                    <table width="100%" border="1" id="tblReportConsoGrades">
+                <div class=" col-md-12 text-center">
+                    <table class="table-responsive" width="100%" border="1" id="tblReportConsoGrades">
                         <!-- <thead>
                             <tr style="text-align:center;border:1px solid white;">
                                 <td colspan="13"><?php $this->load->view('interface/'.$uri.'/layout/Report_header')?></td>
