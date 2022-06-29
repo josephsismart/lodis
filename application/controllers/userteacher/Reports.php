@@ -41,11 +41,17 @@ class Reports extends MY_Controller
         $cc_male = 1;
         $ccc = 1;
         $rssaid = 0;
+        $ppid = 0;
+        $ppid_cc = 0;
         $sbjct_cc = 0;
+        $optional = "";
+        $na = "";
+        $optional_cc = 0;
+        $na_cc = 0;
         $sy = $this->getOnLoad()["sy_id"];
         $queryHead = $this->db->query("SELECT t1.rm_sctn_sbjct_assgnmnt_id,t1.subject_abbr,t1.subject,t1.subject_id,t1.full_name,
         t1.personal_title,t1.advisory,t1.schedule,t1.grade,t1.sctn_nm,t1.parent_party_id,
-        t2.parent,t1.color FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+        t2.parent,t1.color,t1.is_optional,t1.is_na FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
                                     LEFT JOIN (SELECT t1.parent_party_id AS parent FROM global.tbl_party t1
                                                 WHERE t1.parent_party_id IS NOT NULL
                                                 GROUP BY t1.parent_party_id) t2 ON t1.subject_id = t2.parent
@@ -57,8 +63,14 @@ class Reports extends MY_Controller
         foreach ($queryHead->result() as $key => $value) {
             // $qar1 = 0;
             $color = $value->color;
+            $optional = $value->is_optional;
             $stc = 'background-color:' . $color;
-            $sbjct_cc++;
+            $na = $value->is_na;
+            $na_cc = $na_cc + ($na == "t" ? 1  : 0);
+            $sbjct_cc = $sbjct_cc + (($optional == "t" || $na == "t") ? 0  : 1);
+            $optional_cc = $optional_cc + ($optional == "t" ? 1  : 0);
+
+
             $thead[] = [
                 "<td colspan='5' style='" . $stc . ";'>" . $value->subject_abbr . "</td>"
             ];
@@ -67,6 +79,8 @@ class Reports extends MY_Controller
                 "<td>Q1</td><td>Q2</td><td>Q3</td><td>Q4</td><td style='" . $stc . ";'>FG</td>"
             ];
             $rssaid = $value->rm_sctn_sbjct_assgnmnt_id;
+            // $ppid = $value->parent_party_id;
+            // $ppid_cc =  $ppid_cc + ($ppid == null ? 0  : 1);
 
             $queryBody = $this->db->query("SELECT t2.sex,t2.last_fullname,t2.enrollment_id
                                             FROM building_sectioning.view_enrollment1 t2
@@ -111,14 +125,15 @@ class Reports extends MY_Controller
                 $q3 = $this->returnZero($value3->q3);
                 $q4 = $this->returnZero($value3->q4);
                 $avg = round(($q1 + $q2 + $q3 + $q4) / 4, 0);
+                // $avg2 = ($q1 + $q2 + $q3 + $q4) / 4;
 
                 $tbody[] = [
                     "<script>
-                        $('#tblReportConsoGrades #" . $eid . "').append('<td class=" . 'q1' . $eid . " width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q1) . "</td>'+
-                                                                        '<td class=" . 'q2' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q2) . "</td>'+
-                                                                        '<td class=" . 'q3' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q3) . "</td>'+
-                                                                        '<td class=" . 'q4' . $eid . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q4) . "</td>'+
-                                                                        '<td class=" . 'avg' . $eid . "  width=" . 1 . " align=" . 'center' . " style=" . $stc . ">" . $this->returnDDashed($avg) . "</td>')
+                        $('#tblReportConsoGrades #" . $eid . "').append('<td class=" . ($na == "f" ? 'q1' . $eid : '') . " width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q1) . "</td>'+
+                                                                        '<td class=" . ($na == "f" ? 'q2' . $eid : '') . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q2) . "</td>'+
+                                                                        '<td class=" . ($na == "f" ? 'q3' . $eid : '') . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q3) . "</td>'+
+                                                                        '<td class=" . ($na == "f" ? 'q4' . $eid : '') . "  width=" . 1 . " align=" . 'center' . ">" . $this->returnDDashed($q4) . "</td>'+
+                                                                        '<td class=" . ($na == "f" ? 'avg' . $eid : '') . "  width=" . 1 . " align=" . 'center' . " style=" . $stc . ">" . $this->returnDDashed($avg) . "</td>')
                     </script>"
                 ];
             }
@@ -137,8 +152,8 @@ class Reports extends MY_Controller
                 "<td>Q4</td><td>R4</td>"
         ];
         $zz = 0;
+        $sbjct_cc = $sbjct_cc + ($optional_cc > 0 ? 1 : 0);
         for ($i = 0; $i < count($qar); $i++) {
-
             $tbody[] = [
                 "<script>
                     var sumq1 = 0,sumq2 = 0,sumq3 = 0,sumq4 = 0,sumavg = 0;
