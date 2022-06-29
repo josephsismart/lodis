@@ -19,7 +19,7 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/jszip.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.flash.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.html5.min.js"></script>
-<!-- <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script> -->
+<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script>
 <!-- <script src="<?= base_url() ?>plugins/inputmask/jquery.inputmask.min.js"></script> -->
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/vfs_fonts.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
@@ -31,6 +31,11 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
+<!-- ExportExcel -->
+<script src="<?= base_url() ?>plugins/tablexcel/src/jquery.table2excel.js"></script>
+<!-- <script src="<?= base_url() ?>plugins/tablexcel/src/pdfmake.min.js"></script> -->
+<script src="<?= base_url() ?>plugins/tablexcel/src/vfs_fonts.min.js"></script>
+
 
 <script type="text/javascript">
     setInterval(function() {
@@ -795,13 +800,50 @@ $uri = $this->session->schoolmis_login_uri;
         accompWindow.document.write('<link rel="stylesheet" href="<?= base_url() ?>plugins/fontawesome-free/css/all.min.css">' +
             '<link rel="stylesheet" href="<?= base_url() ?>dist/css/adminlte.min.css">');
         accompWindow.document.write('</head>');
-        accompWindow.document.write('<style> @page { size: ' + c + ' ' + orientation + ';' + margin + '} .square {height: 100px;width: 100px;border:1px solid black; } </style>');
+        accompWindow.document.write('<style> @page { size: ' + c + ' ' + orientation + ';' + margin + '} </style>');
         accompWindow.document.write('<body>' + $("#print" + a).html() + '</body>');
         accompWindow.document.write('</html>');
         setTimeout(function() {
             accompWindow.print();
             accompWindow.close();
         }, 1000);
+    }
+
+    function downloadExcel(a, b) {
+        // var preserveColors = (table.hasClass('table2excel_with_colors') ? true : false);
+        $('#' + a).table2excel({
+            //exclude: ".noExl",
+            name: b,
+            filename: b + new Date().toISOString().replace(/[\-\:\.]/g, ""),
+            fileext: ".xls",
+            exclude_img: false,
+            exclude_links: false,
+            exclude_inputs: false,
+            preserveColors: true
+        });
+    }
+
+    function generatePDF() {
+        // var docDefinition = {
+        //     content: [{
+        //         table: {
+        //             // headers are automatically repeated if the table spans over multiple pages
+        //             // you can declare how many rows should be treated as headers
+        //             headerRows: 1,
+        //             widths: ['*', 'auto', 100, '*'],
+
+        //             body: $("#tblLearnersList tbody").html()
+        //         }
+        //     }]
+        // };
+        // open the PDF in a new window
+        // pdfMake.createPdf(docDefinition).open();
+
+        // // print the PDF
+        // pdfMake.createPdf(docDefinition).print();
+
+        // download the PDF
+        // pdfMake.createPdf(docDefinition).download('optionalName.pdf');
     }
 
     //ranking
@@ -948,6 +990,16 @@ $uri = $this->session->schoolmis_login_uri;
 
             $("#" + mdl + " .content").show();
             $("#" + mdl + " .overlay").hide();
+
+
+            // $('#tblReportConsoGrades').DataTable({
+            //     dom: 'Bfrtip',
+            //     buttons: [{
+            //         extend: 'pdfHtml5',
+            //         orientation: 'landscape',
+            //         pageSize: 'LEGAL'
+            //     }]
+            // });
         });
         $("#" + mdl).modal("show");
 

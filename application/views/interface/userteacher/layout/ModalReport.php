@@ -1,11 +1,11 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script src="<?= base_url() ?>plugins/jquery/jquery.form.min.js"></script>
-<?php 
-    if (!$this->session->schoolmis_login_level) {
-        redirect(base_url('login'));
-    }
-    $uri = $this->session->schoolmis_login_uri;
- ?>
+<?php
+if (!$this->session->schoolmis_login_level) {
+    redirect(base_url('login'));
+}
+$uri = $this->session->schoolmis_login_uri;
+?>
 <style>
     @media (min-width: 992px) {
         .modal-xxl {
@@ -20,17 +20,18 @@
         <div class="modal-content">
             <div class="modal-header no-print">
                 <h4 class="modal-title">Consolidated Grades <?= $getOnLoad["sy"]; ?></h4>
-                <div  class='radioBtn btn-group pull-right'>
-                    <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button>
+                <div class='radioBtn btn-group pull-right'>
+                    <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-primary submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button>
+                    <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="modal-body p-0 content" id="printConsoGrades">
-                <div class=" col-md-12 text-center">
-                    <table class="table-responsive" width="100%" border="1" id="tblReportConsoGrades">
+                <div class="table-responsive col-md-12 text-center">
+                    <table border="1" id="tblReportConsoGrades">
                         <!-- <thead>
                             <tr style="text-align:center;border:1px solid white;">
-                                <td colspan="13"><?php $this->load->view('interface/'.$uri.'/layout/Report_header')?></td>
+                                <td colspan="13"><?php $this->load->view('interface/' . $uri . '/layout/Report_header') ?></td>
                             </tr>
                             <tr style="text-align:center;border:1px solid white;border-bottom: 1px solid gray;">
                                 <td colspan="13"><br/><h5 id="headerReportConsoGrades"></h5></td>
@@ -47,7 +48,8 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between content">
-                <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Consolidated Grades');" class="btn btn-primary submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <!-- <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button> -->
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
             <div class="overlay">

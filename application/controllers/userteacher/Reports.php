@@ -96,7 +96,8 @@ class Reports extends MY_Controller
                         ];
                     }
                     $tbody[] = [
-                        "<tr id='" . $value2->enrollment_id . "'><td align='left'>" . ($sex == 'M' ? $cc_male++ : $cc_fmale++) . "</td><td align='left' style='white-space: nowrap;'>" . $value2->last_fullname . "</td></tr>"
+                        "<tr id='" . $value2->enrollment_id . "'><td align='left'>" . ($sex == 'M' ? $cc_male++ : $cc_fmale++) . "</td>
+                        <td align='left' style='white-space: nowrap;'>" . $value2->last_fullname . "</td></tr>"
                     ];
                     $qar[] = [
                         "eid" => $value2->enrollment_id,
