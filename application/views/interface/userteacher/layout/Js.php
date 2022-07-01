@@ -885,33 +885,6 @@ $uri = $this->session->schoolmis_login_uri;
 
     //reports
     function reportsConsoGrades() {
-        // $("printConsoGrades")
-        // alert(rssaid)
-        // alert('z')
-
-        // a = $(".submitBtnMFGradelvl").text();
-        // $(".submitBtnMFGradelvl").attr("disabled", true);
-        // $(".submitBtnMFGradelvl").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
-        // var pl = 1;
-        // $("#tblReportConsoGrades").DataTable().destroy();
-        // var table, table_data = $("#tblReportConsoGrades").DataTable({
-        //     ajax: {
-        //         url: "<?= base_url($uri . '/reports/getReportConsoGrades') ?>",
-        //         type: "POST",
-        //         data: function(d) {
-        //             d.rsid = rsid;
-        //         }
-        //     },
-        //     fnInitComplete: function(oSettings, json) {
-
-        //         $("#tblReportConsoGrades").DataTable().destroy();
-        //         $("#modalReportConsoGrades").modal("show");
-
-        //         // $(".submitBtnReportConsoGrades").attr("disabled", false);
-        //         // $(".submitBtnReportConsoGrades").html(a);
-        //     }
-        // });
-        // alert(rsid)
         mdl = 'modalReportConsoGrades';
         $("#" + mdl + " .content").hide();
         $("#" + mdl + " .overlay").show();
@@ -920,18 +893,15 @@ $uri = $this->session->schoolmis_login_uri;
                 rsid: rsid
             },
             function(data) {
-                // console.log(data)
                 var result = JSON.parse(data);
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["thead"] + "</tr>");
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["thead2"] + "</tr>");
                 $("#tblReportConsoGrades tbody").append("<tr>" + result["tbody"] + "</tr>");
-
-
-
+                $("#tblReportConsoGrades tbody").append("<tr width='100%'>" + result["signatory1"] + "</tr>");
+                $("#tblReportConsoGrades tbody").append("<tr width='100%'>" + result["signatory2"] + "</tr>");
+                $("#tblReportConsoGrades tbody").append("<tr width='100%'>" + result["signatory3"] + "</tr>");
             }
         ).then(function() {
-
-
             var arr1 = [],
                 arr2 = [],
                 arr3 = [],

@@ -21,27 +21,14 @@ $uri = $this->session->schoolmis_login_uri;
             <div class="modal-header no-print">
                 <h4 class="modal-title">Consolidated Grades <?= $getOnLoad["sy"]; ?></h4>
                 <div class='radioBtn btn-group pull-right'>
-                    <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-primary submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button>
-                    <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button>
-                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                    <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-xs btn-primary submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button>
+                    <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn btn-xs bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button>
+                    <button type="button" class="btn btn-xs btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="modal-body p-0 content" id="printConsoGrades">
                 <div class="table-responsive col-md-12 text-center">
-                    <table border="1" id="tblReportConsoGrades">
-                        <!-- <thead>
-                            <tr style="text-align:center;border:1px solid white;">
-                                <td colspan="13"><?php $this->load->view('interface/' . $uri . '/layout/Report_header') ?></td>
-                            </tr>
-                            <tr style="text-align:center;border:1px solid white;border-bottom: 1px solid gray;">
-                                <td colspan="13"><br/><h5 id="headerReportConsoGrades"></h5></td>
-                            </tr>
-                            <tr align="center">
-                                <th>#</th>
-                                <th>INV Code</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead> -->
+                    <table border="1" id="tblReportConsoGrades" width="100%">
                         <tbody>
                         </tbody>
                     </table>

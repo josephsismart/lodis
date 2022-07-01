@@ -28,15 +28,18 @@ class Reports extends MY_Controller
 
     function getReportConsoGrades()
     {
-        $data = ["thead" => [], "thead2" => [], "tbody" => []];
+        $data = ["thead" => [], "thead2" => [], "tbody" => [], "signatory1" => [], "signatory2" => [], "signatory3" => []];
         $rsid = $this->input->post("rsid");
         $thead = [];
         $thead2 = [];
         $tbody = [];
+        $signatory1 = [];
+        $signatory2 = [];
+        $signatory3 = [];
 
         $qar = [];
         $qar1 = 0;
-        $cc = 1;
+        $cc = 0;
         $cc_fmale = 1;
         $cc_male = 1;
         $ccc = 1;
@@ -74,6 +77,40 @@ class Reports extends MY_Controller
             $thead[] = [
                 "<td colspan='5' style='" . $stc . ";'>" . $value->subject_abbr . "</td>"
             ];
+
+            if ($na != "t") {
+                $cc++;
+
+                if ($cc == 1 || $cc == 5) {
+                    $signatory1[] = [
+                        "<tr><td style='border:1px solid white;border-top:1px solid black;border-bottom:1px solid white'> </td></tr><tr><td style='border:1px solid white;'> </td></tr>"
+                    ];
+                }
+                if ($cc == 9) {
+                    $signatory2[] = [
+                        "<tr><td style='border:1px solid white;'> </td></tr><tr><td style='border:1px solid white;'> </td></tr>"
+                    ];
+                }
+                if ($cc <= 4) {
+                    $signatory1[] = [
+                        "<td style='border:1px solid white' colspan='" . ($cc == 1 ? 15 : 20) . "' width='1'><p style='text-align:center'><u>  " . strtoupper($value->full_name) . '  </u></br>' .
+                            strtoupper($value->personal_title) . '-' .
+                            strtoupper($value->subject_abbr) . "</p></td>"
+                    ];
+                } else if ($cc <= 8) {
+                    $signatory2[] = [
+                        "<td style='border:1px solid white' colspan='" . ($cc == 5 ? 15 : 20) . "' width='1'><p style='text-align:center'><u>  " . strtoupper($value->full_name) . '  </u></br>' .
+                            strtoupper($value->personal_title) . '-' .
+                            strtoupper($value->subject_abbr) . "</p></td>"
+                    ];
+                } else {
+                    $signatory3[] = [
+                        "<td style='border:1px solid white' colspan='" . ($cc == 9 ? 15 : 20) . "' width='1'><p style='text-align:center'><u>  " . strtoupper($value->full_name) . '  </u></br>' .
+                            strtoupper($value->personal_title) . '-' .
+                            strtoupper($value->subject_abbr) . "</p></td>"
+                    ];
+                }
+            }
 
             $thead2[] = [
                 "<td>Q1</td><td>Q2</td><td>Q3</td><td>Q4</td><td style='" . $stc . ";'>FG</td>"
@@ -200,6 +237,9 @@ class Reports extends MY_Controller
         $data["thead"] = $thead;
         $data["thead2"] = $thead2;
         $data["tbody"] = $tbody;
+        $data["signatory1"] = $signatory1;
+        $data["signatory2"] = $signatory2;
+        $data["signatory3"] = $signatory3;
 
         echo json_encode($data);
     }
