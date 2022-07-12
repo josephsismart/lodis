@@ -20,22 +20,25 @@ $uri = $this->session->schoolmis_login_uri;
         <div class="modal-content">
             <div class="modal-header no-print">
                 <h4 class="modal-title">Consolidated Grades <?= $getOnLoad["sy"]; ?></h4>
-                <div class='radioBtn btn-group pull-right'>
-                    <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-xs btn-primary submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button>
+                <div class='radioBtn btn-group pull-right content'>
+                    <!-- <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Inventory details & Purchase Order');" class="btn btn-xs btn-primary submitBtnPrimary btn-xs content"><i class="fa fa-print"></i> Print</button> -->
                     <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn btn-xs bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button>
                     <button type="button" class="btn btn-xs btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="modal-body p-0 content" id="printConsoGrades">
                 <div class="table-responsive col-md-12 text-center">
+                    <!-- tblReportConsoGradesz -->
                     <table border="1" id="tblReportConsoGrades" width="100%">
+                    <!-- <table class="table table-sm table-bordered table-hover table-striped" id="tblReportConsoGrades" width="100%"> -->
                         <tbody>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="modal-footer justify-content-between content">
-                <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Consolidated Grades');" class="btn btn-primary submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <!-- <button type="submit" onclick="printForm('ConsoGrades','l','Legal','Consolidated Grades');" class="btn btn-primary submitBtnPrimary"><i class="fa fa-print"></i> Print</button> -->
+                <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn btn-xs bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button>
                 <!-- <button type="submit" onclick="downloadExcel('tblReportConsoGrades','Consolidated Grades');" class="btn bg-green submitBtnPrimary"><i class="fas fa-file-excel"></i> Export</button> -->
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>

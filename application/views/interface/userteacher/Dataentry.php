@@ -87,6 +87,8 @@ $uri = $this->session->schoolmis_login_uri;
 										</span>
 										<span class="reports">
 										</span>
+										<span class="forms">
+										</span>
 										<span class="grade_all">
 										</span>
 										<span class="grade">
@@ -110,7 +112,7 @@ $uri = $this->session->schoolmis_login_uri;
 																	<th>Q2</th>
 																	<th>Q3</th>
 																	<th>Q4</th>
-																	<!-- <th>AVG</th> -->
+																	<th>FG</th>
 																</tr>
 															</thead>
 															<tbody>

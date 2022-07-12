@@ -164,6 +164,13 @@ class MY_Controller extends CI_Controller
         return $return;
     }
 
+    public function returnBtnHonor($a, $b)
+    {
+        $return = $b ? "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . json_encode($a) . ");'>"
+            . $this->returnDashed($b) . "</button>" : "-";
+        return $return;
+    }
+
     public function RegionList($filter, $default)
     {
         $data = ["data" => []];

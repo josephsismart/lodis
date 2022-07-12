@@ -85,7 +85,8 @@ class Getdata extends MY_Controller
                     "",
                     "",
                     "",
-                    "<p class='text-center mb-1 text-md'><b>" . ($v_grades == 't' ? ($tga == 0 ? round($ga / $cga, 0) : '--') : '--') . "</b></p>",
+                    // "<p class='text-center mb-1 text-md'><b>" . ($v_grades == 't' ? ($tga == 0 ? round($ga / $cga, 0) : '--') : '--') . "</b></p>",
+                    round($ga / $cga, 0),//"<p class='text-center mb-1 text-md'><b>" . ($v_grades == 't' ? ($tga == 0 ? round($ga / $cga, 0) : '--') : '--') . "</b></p>",
                     "",
                 ];
             }

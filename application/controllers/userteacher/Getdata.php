@@ -88,58 +88,46 @@ class Getdata extends MY_Controller
             $subject = $value->subject_abbr;
             $s = $value->sctn_nm;
             $advsry = $value->advisory;
-            // $q1c = $value->q1c;
-            // $q1stat = $value->q1stat;
-            // $q1rmrk = $value->q1rmrk;
-            // $q2c = $value->q2c;
-            // $q2stat = $value->q2stat;
-            // $q2rmrk = $value->q2rmrk;
-            // $q3c = $value->q3c;
-            // $q3stat = $value->q3stat;
-            // $q3rmrk = $value->q3rmrk;
-            // $q4c = $value->q4c;
-            // $q4stat = $value->q4stat;
-            // $q4rmrk = $value->q4rmrk;
             $male = number_format($qrow->male) ?? "-";
             $female = number_format($qrow->female) ?? "-";
             $t_enrollee = number_format($qrow->total_enrollee) ?? "-";
-            $conso = ($advsry == 't') ? '<a class="dropdown-item" href="#" onclick="reportsConsoGrades()">Consolidated Grades</a>' : '';
+            $conso = ($advsry == 't') ? '<a class="dropdown-item text-xs" href="#" onclick="reportsConsoGrades()">CONSOLIDATED GRADES</a>' : '';
+            $enroll = ($advsry == 't' && $enroll_stat == 't') ? '<a class="dropdown-item bg-success text-xs" href="#" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment">ENROLLMENT</a>' : '';
+            $grade = ($grade_stat == 't') ? '<a class="dropdown-item bg-primary text-xs" href="#" data-toggle="modal" onclick="getGradesListFN()" data-target="#modalGradesList">GRADES</a>' : '';
+            $grade_all = ($advsry == 't') ? '<a class="dropdown-item bg-info text-xs" href="#" data-toggle="modal" onclick="customTabViewAllGrades()" data-target="#modalAllGrades">GRADES STATUS</a>' : '';
+            // $enroll = ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right"><b style="font-size:10px;">ENROLL</b></button>' : "",
+            // $grade = ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGradesList" class="btn btn-xs btn-primary float-right ml-1"><b style="font-size:10px;">GRADES</b></button>' : '',
+            // $grade_all = ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1"><b style="font-size:10px;">ALL GRADES</b></button>' : '',
+
             $data2 = [
                 "personnel" => $qrow->full_name . " - " . $qrow->personal_title,
                 "description" => "Class Advisory <b>" . $qrow->grade . " - " . $qrow->sctn_nm . "</b><small> <i>" . $qrow->subject . "</i> | <i>" . $qrow->sched . "</i></small>",
                 "male" => $male,
                 "female" => $female,
                 "total_enrollee" => $t_enrollee,
-                "enroll" => ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right"><b style="font-size:10px;">ENROLL</b></button>' : "",
-                "grade" => ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGradesList" class="btn btn-xs btn-primary float-right ml-1"><b style="font-size:10px;">GRADES</b></button>' : '',
-                "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1"><b style="font-size:10px;">ALL GRADES</b></button>' : '',
-                "reports" => '<div class="btn-group float-right border-0 ml-1">
-                                <button class="btn btn-xs btn-default" readonly><b style="font-size:10px;">REPORTS</b></button>
-                                <button type="button" class="btn btn-xs btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu" style="">
-                                ' . $conso .
-                                '</div>
-                            </div>',
+                // "enroll" => ($advsry == 't' && $enroll_stat == 't') ? '<button type="submit" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment" class="btn btn-xs btn-success float-right"><b style="font-size:10px;">ENROLL</b></button>' : "",
+                // "grade" => ($grade_stat == 't') ? '<button type="submit" onclick="getGradesListFN()" data-toggle="modal" data-target="#modalGradesList" class="btn btn-xs btn-primary float-right ml-1"><b style="font-size:10px;">GRADES</b></button>' : '',
+                // "grade_all" => ($advsry == 't') ? '<button onclick="customTabViewAllGrades()" data-toggle="modal" data-target="#modalAllGrades" class="btn btn-xs btn-info float-right ml-1"><b style="font-size:10px;">ALL GRADES</b></button>' : '',
+                "reports" => '<div class="float-right ml-1">
+                            <button class="btn btn-xs bg-navy" data-toggle="dropdown"><b style="font-size:10px;"><i class="fa fa-file"></i> REPORTS</b> | <i class="fa fa-caret-down"></i></button>
+                            <div class="dropdown-menu p-0" role="menu">
+                            ' . $conso  . '</div></div>',
+
+                "forms" => '<div class="float-right ml-1">
+                            <button class="btn btn-xs bg-navy" data-toggle="dropdown"><b style="font-size:10px;"><i class="fa fa-list-ul"></i> FORMS</b> | <i class="fa fa-caret-down"></i></button>
+                            <div class="dropdown-menu p-0" role="menu">
+                            ' . $enroll  . $grade  . $grade_all   . '</div></div>',
+
                 "others" => ($advsry == 't') ? '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
                                                     <span class="fa fa-ellipsis-h"></span>
                                                 </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#" onclick="logsHideShow()">Logs & Account Settings</a>
-                                                    <a class="dropdown-item" href="#" onclick="allStudentLogs()">View All Student Logs</a>
+                                                <div class="dropdown-menu p-0" role="menu">
+                                                    <a class="dropdown-item text-xs" href="#" onclick="logsHideShow()">Logs & Account Settings</a>
+                                                    <a class="dropdown-item text-xs" href="#" onclick="allStudentLogs()">View All Student Logs</a>
                                                 </div>' : '',
             ];
 
-            // $data3 = [
-            //     "q1c" => $this->submitGradesBtn($q1stat, $q1c, $q1rmrk, 3221232, 1),
-            //     "q2c" => $this->submitGradesBtn($q2stat, $q2c, $q2rmrk, 2123221, 2),
-            //     "q3c" => $this->submitGradesBtn($q3stat, $q3c, $q3rmrk, 3211123, 3),
-            //     "q4c" => $this->submitGradesBtn($q4stat, $q4c, $q4rmrk, 4522323, 4),
-            // ];
             $arr2 = json_encode($data2);
-            // $arr3 = json_encode($data3);
-            // getDetails(\"GradesList\",$arr3,1,\".\");
             $slct = ($advsry === 't' && $key === array_key_first($query->result()) ? 'slctdRadioAdvisory' : '');
             $data["data"][] = [
                 "<div class='row' style='white-space: nowrap;'>
@@ -726,6 +714,10 @@ class Getdata extends MY_Controller
         $data_q4a_wst = [];
         $data_q4a_whh = [];
         $data_q4a_wh = [];
+        //q4
+        $data_fga_wst = [];
+        $data_fga_whh = [];
+        $data_fga_wh = [];
 
         $c = 1;
         $rsid = $this->input->post("rsid");
@@ -745,6 +737,10 @@ class Getdata extends MY_Controller
         $q4a_wst = 0;
         $q4a_whh = 0;
         $q4a_wh = 0;
+
+        $fga_wst = 0;
+        $fga_whh = 0;
+        $fga_wh = 0;
         $query = $this->db->query("SELECT t2.room_section_id ,t1.*,t3.total_sbjct,t4.last_fullname FROM(
                                     SELECT t1.learner_enrollment_id,
                                         COALESCE(SUM(CASE WHEN(t1.qrtr_id=1) THEN t1.grade END),0) AS q1,
@@ -769,6 +765,7 @@ class Getdata extends MY_Controller
             $q2 = round($value->q2 / $ts);
             $q3 = round($value->q3 / $ts);
             $q4 = round($value->q4 / $ts);
+            $fg = round(($q1 + $q2 + $q3 + $q4) / 4);
 
             //q1
             if ($q1 >= 98 &&  $q1 <= 100) {
@@ -854,60 +851,48 @@ class Getdata extends MY_Controller
                 ];
             }
 
-            // $q2a_wst += ($q2 >= 98 &&  $q2 <= 100) ? 1 : 0;
-            // $q2a_whh += ($q2 >= 95 &&  $q2 <= 97) ? 1 : 0;
-            // $q2a_wh += ($q2 >= 90 &&  $q2 <= 94) ? 1 : 0;
-
-            // $q3a_wst += ($q3 >= 98 &&  $q3 <= 100) ? 1 : 0;
-            // $q3a_whh += ($q3 >= 95 &&  $q3 <= 97) ? 1 : 0;
-            // $q3a_wh += ($q3 >= 90 &&  $q3 <= 94) ? 1 : 0;
-
-            // $q4a_wst += ($q4 >= 98 &&  $q4 <= 100) ? 1 : 0;
-            // $q4a_whh += ($q4 >= 95 &&  $q4 <= 97) ? 1 : 0;
-            // $q4a_wh += ($q4 >= 90 &&  $q4 <= 94) ? 1 : 0;
+            //fg
+            if ($fg >= 98 &&  $fg <= 100) {
+                $fga_wst += 1;
+                $data_fga_wst[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $fg,
+                ];
+            } else if ($fg >= 95 &&  $fg <= 97) {
+                $fga_whh += 1;
+                $data_fga_whh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $fg,
+                ];
+            } else if ($fg >= 90 &&  $fg <= 94) {
+                $fga_wh += 1;
+                $data_fga_wh[] = [
+                    "l" => $value->last_fullname,
+                    "g" => $fg,
+                ];
+            }
         }
+
         //q1
-        $arrq1_wst = json_encode($data_q1a_wst);
-        $arrq1_whh = json_encode($data_q1a_whh);
-        $arrq1_wh = json_encode($data_q1a_wh);
-        $q1_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_wst . ");'>"
-            . $this->returnDashed($q1a_wst) . "</button>";
-        $q1_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_whh . ");'>"
-            . $this->returnDashed($q1a_whh) . "</button>";
-        $q1_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq1_wh . ");'>"
-            . $this->returnDashed($q1a_wh) . "</button>";
+        $q1_wst_btn = $this->returnBtnHonor($data_q1a_wst, $q1a_wst);
+        $q1_whh_btn = $this->returnBtnHonor($data_q1a_whh, $q1a_whh);
+        $q1_wh_btn = $this->returnBtnHonor($data_q1a_wh, $q1a_wh);
         //q2
-        $arrq2_wst = json_encode($data_q2a_wst);
-        $arrq2_whh = json_encode($data_q2a_whh);
-        $arrq2_wh = json_encode($data_q2a_wh);
-        $q2_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_wst . ");'>"
-            . $this->returnDashed($q2a_wst) . "</button>";
-        $q2_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_whh . ");'>"
-            . $this->returnDashed($q2a_whh) . "</button>";
-        $q2_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq2_wh . ");'>"
-            . $this->returnDashed($q2a_wh) . "</button>";
-
+        $q2_wst_btn = $this->returnBtnHonor($data_q2a_wst, $q2a_wst);
+        $q2_whh_btn = $this->returnBtnHonor($data_q2a_whh, $q2a_whh);
+        $q2_wh_btn = $this->returnBtnHonor($data_q2a_wh, $q2a_wh);
         //q3
-        $arrq3_wst = json_encode($data_q3a_wst);
-        $arrq3_whh = json_encode($data_q3a_whh);
-        $arrq3_wh = json_encode($data_q3a_wh);
-        $q3_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_wst . ");'>"
-            . $this->returnDashed($q3a_wst) . "</button>";
-        $q3_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_whh . ");'>"
-            . $this->returnDashed($q3a_whh) . "</button>";
-        $q3_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq3_wh . ");'>"
-            . $this->returnDashed($q3a_wh) . "</button>";
-
+        $q3_wst_btn = $this->returnBtnHonor($data_q3a_wst, $q3a_wst);
+        $q3_whh_btn = $this->returnBtnHonor($data_q3a_whh, $q3a_whh);
+        $q3_wh_btn = $this->returnBtnHonor($data_q3a_wh, $q3a_wh);
         //q4
-        $arrq4_wst = json_encode($data_q4a_wst);
-        $arrq4_whh = json_encode($data_q4a_whh);
-        $arrq4_wh = json_encode($data_q4a_wh);
-        $q4_wst_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_wst . ");'>"
-            . $this->returnDashed($q4a_wst) . "</button>";
-        $q4_whh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_whh . ");'>"
-            . $this->returnDashed($q4a_whh) . "</button>";
-        $q4_wh_btn = "<button class='btn btn-xs px-0 my-n2' onclick='$(\"#modalHonor\").modal(\"show\");showTableHonors(" . $arrq4_wh . ");'>"
-            . $this->returnDashed($q4a_wh) . "</button>";
+        $q4_wst_btn = $this->returnBtnHonor($data_q4a_wst, $q4a_wst);
+        $q4_whh_btn = $this->returnBtnHonor($data_q4a_whh, $q4a_whh);
+        $q4_wh_btn = $this->returnBtnHonor($data_q4a_wh, $q4a_wh);
+        //q4
+        $fg_wst_btn = $this->returnBtnHonor($data_fga_wst, $fga_wst);
+        $fg_whh_btn = $this->returnBtnHonor($data_fga_whh, $fga_whh);
+        $fg_wh_btn = $this->returnBtnHonor($data_fga_wh, $fga_wh);
 
         $query2 = $this->db->query("SELECT * FROM global.tbl_party WHERE party_type_id=19 AND is_active=true ORDER BY order_by");
         foreach ($query2->result() as $key => $value) {
@@ -928,18 +913,10 @@ class Getdata extends MY_Controller
             $q4a_wst = $q4_wst_btn;
             $q4a_whh = $q4_whh_btn;
             $q4a_wh = $q4_wh_btn;
-
-            // $q2a_wst = $this->returnDashed($q2a_wst);
-            // $q2a_whh = $this->returnDashed($q2a_whh);
-            // $q2a_wh = $this->returnDashed($q2a_wh);
-
-            // $q3a_wst = $this->returnDashed($q3a_wst);
-            // $q3a_whh = $this->returnDashed($q3a_whh);
-            // $q3a_wh = $this->returnDashed($q3a_wh);
-
-            // $q4a_wst = $this->returnDashed($q4a_wst);
-            // $q4a_whh = $this->returnDashed($q4a_whh);
-            // $q4a_wh = $this->returnDashed($q4a_wh);
+            //fg
+            $fga_wst = $fg_wst_btn;
+            $fga_whh = $fg_whh_btn;
+            $fga_wh = $fg_wh_btn;
 
             $data["data"][] = [
                 '<p class="mb-n2 text-nowrap">' . $value->description . ' <i>' . $value->abbr . '</i></p>',
@@ -947,6 +924,7 @@ class Getdata extends MY_Controller
                 $pid == 109 ? $q2a_wst : ($pid == 110 ? $q2a_whh : $q2a_wh),
                 $pid == 109 ? $q3a_wst : ($pid == 110 ? $q3a_whh : $q3a_wh),
                 $pid == 109 ? $q4a_wst : ($pid == 110 ? $q4a_whh : $q4a_wh),
+                $pid == 109 ? $fga_wst : ($pid == 110 ? $fga_whh : $fga_wh),
                 '4',
             ];
         }

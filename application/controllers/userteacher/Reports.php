@@ -214,21 +214,23 @@ class Reports extends MY_Controller
                         a = $(this).html()=='--'?0:$(this).html();
                         sumq4 += +a/" . $sbjct_cc . ";
                     });
+                    
+                    sumq1 = parseInt(sumq1.toFixed());
+                    sumq2 = parseInt(sumq2.toFixed());
+                    sumq3 = parseInt(sumq3.toFixed());
+                    sumq4 = parseInt(sumq4.toFixed());
+                    
+                    sumavg = parseInt(((sumq1+sumq2+sumq3+sumq4)/4).toFixed());
 
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . " .avg" . $qar[$i]["eid"] . "').each(function(){
-                        a = $(this).html()=='--'?0:$(this).html();
-                        sumavg += +a/" . $sbjct_cc . ";
-                    });
-
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q1TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq1.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q1TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq1+'</td>');
                     $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q1Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q2TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq2.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q2TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq2+'</td>');
                     $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q2Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q3TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq3.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q3TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq3+'</td>');
                     $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q3Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q4TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq4.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q4TBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumq4+'</td>');
                     $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'q4Rank' . " width=" . 1 . " align=" . 'center' . "></td>');
-                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'avgTBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumavg.toFixed()+'</td>');
+                    $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'avgTBRank' . " width=" . 1 . " align=" . 'center' . ">'+sumavg+'</td>');
                     $('#tblReportConsoGrades #" . $qar[$i]["eid"] . "').append('<td class=" . 'avgRank' . " width=" . 1 . " align=" . 'center' . "></td>');
                 </script>"
             ];
