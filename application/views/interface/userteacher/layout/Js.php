@@ -19,12 +19,10 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/jszip.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.flash.min.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/buttons.html5.min.js"></script>
-<script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script>
+<!-- <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/pdfmake.min.js"></script> -->
 <!-- <script src="<?= base_url() ?>plugins/inputmask/jquery.inputmask.min.js"></script> -->
 <script src="<?= base_url() ?>plugins/datatables/extensions/buttons/js/vfs_fonts.js"></script>
 <script src="<?= base_url() ?>plugins/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
-<!-- Popper -->
-<script src="<?= base_url() ?>plugins/popper/popper.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?= base_url() ?>plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
@@ -33,9 +31,14 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
 <!-- ExportExcel -->
 <script src="<?= base_url() ?>plugins/tablexcel/src/jquery.table2excel.js"></script>
-<!-- <script src="<?= base_url() ?>plugins/tablexcel/src/pdfmake.min.js"></script> -->
-<script src="<?= base_url() ?>plugins/tablexcel/src/vfs_fonts.min.js"></script>
+<!-- ImportExcel -->
+<script src="<?= base_url() ?>plugins/jquery/xlsx.full.min.js"></script>
+<script src="<?= base_url() ?>plugins/jquery/jszip.js"></script>
 
+<!-- <script src="<?= base_url() ?>plugins/tablexport/FileSaver.min.js"></script>
+<script src="<?= base_url() ?>plugins/tablexport/Blob.min.js"></script>
+<script src="<?= base_url() ?>plugins/tablexport/xls.core.min.js"></script>
+<script src="<?= base_url() ?>plugins/tablexport/tableexport.js"></script> -->
 
 <script type="text/javascript">
     setInterval(function() {
@@ -53,11 +56,15 @@ $uri = $this->session->schoolmis_login_uri;
     var grdlvl = 0;
     var rmid = 0;
     var rsid = 0;
+    var sec_name = "";
     var rssaid = 0;
     var logsHS = 0;
     var adviser = 0;
     var bTmp = 0;
     var cTmp = 0;
+    var filename = "";
+
+    var vars = {};
     $(function() {
         $('.select2').select2()
         $('.select2bs4').select2({
@@ -214,7 +221,6 @@ $uri = $this->session->schoolmis_login_uri;
     }
 
     function saveForm(formId, tblId, tbl, dtd, pl) {
-        let a = "";
         var saveData = {
             clearForm: false,
             resetForm: false,
@@ -234,13 +240,19 @@ $uri = $this->session->schoolmis_login_uri;
                 var d = JSON.parse(data);
                 if (d.success == true) {
                     successAlert("Successfully Saved!");
-                    if (formId != "GradesList") {
-                        clear_form("form_save_data" + formId);
+                    if ((formId == "GradesList") || (formId == "GradesPSList")) {} else {
                         $("#modal" + formId).modal('hide');
+                        clear_form("form_save_data" + formId);
                     }
+
                     if (formId == "GradesList") {
                         getGradesListFN();
                     }
+
+                    if (formId == "GradesPSList") {
+                        getGradesPSListFN();
+                    }
+
                     if (tblId.length > 1) {
                         for (var i = 0; i < tblId.length; i++) {
                             getTable(tblId[i], dtd, pl);
@@ -249,9 +261,9 @@ $uri = $this->session->schoolmis_login_uri;
                     tbl ? removeAllItemList("tbl" + tbl) : null;
                     tbl ? $("#btn" + tbl).trigger("click") : null;
 
-                    if (formId == 'EnrollmentInfo') {
-                        $('#modalEnrollment').modal('hide');
-                    }
+                    // if (formId == 'EnrollmentInfo') {
+                    //     $('#modalEnrollment').modal('hide');
+                    // }
                 } else if (d.exist == true) {
                     existAlert("Person already exist!<br/>You can search and add TEST RESULT");
                 } else if (d.existCode == true) {
@@ -277,119 +289,133 @@ $uri = $this->session->schoolmis_login_uri;
     function getTable(tableId, dtd, pl, search) {
         $("#modal" + tableId + " .content").hide();
         $("#modal" + tableId + " .overlay").show();
-        $("#tbl" + tableId).DataTable().destroy();
-        var table, table_data = $("#tbl" + tableId).DataTable({
-            // "order": [
-            //     [0, "asc"]
-            // ],
-            dom: 'Bfrtip',
-            buttons: tableId == 'SearchEnrollLearnersList' ? [{
-                    text: "<i class='fa fa-check text-success'></i> Enroll",
-                    action: function(e, dt, node, config) {
-                        validateTable(tableId);
+        setTimeout(() => {
+            $("#tbl" + tableId).DataTable().destroy();
+            var table, table_data = $("#tbl" + tableId).DataTable({
+                // "order": [
+                //     [0, "asc"]
+                // ],
+                dom: 'Bfrtip',
+                buttons: tableId == 'SearchEnrollLearnersList' ? [{
+                        text: "<i class='fa fa-check text-success'></i> Enroll",
+                        action: function(e, dt, node, config) {
+                            validateTable(tableId);
+                        }
+                    }] : [] &&
+                    tableId == 'LearnersList' ? [{
+                        text: "<i class='fa fa-cog'></i> Account",
+                        action: function(e, dt, node, config) {
+                            validateTable(tableId);
+                        }
+                    }, {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> Print',
+                        header: "_excel"
+
+                    }] : [] &&
+                    tableId == 'AllStudentLogs' ? [{
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> Print',
+                        header: "_excel"
+
+                    }, {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel"></i> Export Excel',
+                        header: "_excel"
+
+                    }] : [],
+
+                searching: ((tableId == "GradesList" || tableId == "GradesPSList") ? false : true),
+                // scrollX: true,
+                // scrollY: "500px",
+                // scrollY: tableId == 'GradesList' ? "500px" : null,
+                // scrollCollapse: true,
+                "search": {
+                    "search": search ?? "",
+                },
+                "info": pl == -1 ? false : true,
+                "paging": pl == -1 ? false : true,
+                "ordering": pl == -1 ? false : true,
+                "oLanguage": {
+                    "sSearch": ""
+                },
+                language: {
+                    searchPlaceholder: "Search...",
+                },
+                pageLength: pl,
+                lengthMenu: [
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
+                ],
+
+                ajax: {
+                    url: "<?= base_url($uri . '/getdata/get') ?>" + tableId,
+                    type: "POST",
+                    cache: true,
+                    data: function(d) {
+                        d.rsid = rsid;
+                        d.rssaid = rssaid;
+                        d.by = $("#searchby").val();
+                        d.key = $("#keyword").val();
                     }
-                }] : [] &&
-                tableId == 'LearnersList' ? [{
-                    text: "<i class='fa fa-cog'></i> Account",
-                    action: function(e, dt, node, config) {
-                        validateTable(tableId);
+                },
+
+                fnInitComplete: function(oSettings, json) {
+                    if (tableId == "Honors") {
+                        $('[data-toggle="tooltip"]').tooltip();
                     }
-                }, {
-                    extend: 'print',
-                    text: '<i class="fa fa-print"></i> Print',
-                    header: "_excel"
-
-                }] : [] &&
-                tableId == 'AllStudentLogs' ? [{
-                    extend: 'print',
-                    text: '<i class="fa fa-print"></i> Print',
-                    header: "_excel"
-
-                }, {
-                    extend: 'excel',
-                    text: '<i class="fa fa-file-excel"></i> Export Excel',
-                    header: "_excel"
-
-                }] : [],
-
-            searching: tableId == 'GradesList' ? false : true,
-            // scrollX: true,
-            // scrollY: "500px",
-            // scrollY: tableId == 'GradesList' ? "500px" : null,
-            // scrollCollapse: true,
-            "search": {
-                "search": search ?? "",
-            },
-            "info": pl == -1 ? false : true,
-            "paging": pl == -1 ? false : true,
-            "ordering": pl == -1 ? false : true,
-            "oLanguage": {
-                "sSearch": ""
-            },
-            language: {
-                searchPlaceholder: "Search...",
-            },
-            pageLength: pl,
-            lengthMenu: [
-                [10, 25, 50, 100],
-                [10, 25, 50, 100]
-            ],
-            ajax: {
-                url: "<?= base_url($uri . '/getdata/get') ?>" + tableId,
-                type: "POST",
-                data: function(d) {
-                    d.rsid = rsid;
-                    d.rssaid = rssaid;
-                    d.by = $("#searchby").val();
-                    d.key = $("#keyword").val();
-                }
-            },
-            fnInitComplete: function(oSettings, json) {
-                if (tableId == "Honors") {
-                    $('[data-toggle="tooltip"]').tooltip();
-                }
-                if (tableId == "AssignedSectionList") {
-                    if (rssaid != 0) {
-                        $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
-                    } else {
-                        $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+                    if (tableId == "AssignedSectionList") {
+                        if (rssaid != 0) {
+                            $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                        } else {
+                            $(".form_save_dataSectionList .slctdRadioAdvisory").attr("checked", true).trigger("click");
+                        }
                     }
-                }
-                if (tableId == "GradesList") {
-                    $("#modal" + tableId + " .q1c").empty();
-                    $("#modal" + tableId + " .q2c").empty();
-                    $("#modal" + tableId + " .q3c").empty();
-                    $("#modal" + tableId + " .q4c").empty();
-                    if (json && json["details"]) {
-                        if (json["details"]["q1c"]) {
-                            $("#modal" + tableId + " .q1c").html(json["details"]["q1c"])
+
+                    if (tableId == "GradesList") {
+                        $("#modal" + tableId + " .q1c").empty();
+                        $("#modal" + tableId + " .q2c").empty();
+                        $("#modal" + tableId + " .q3c").empty();
+                        $("#modal" + tableId + " .q4c").empty();
+                        if (json && json["details"]) {
+                            if (json["details"]["q1c"]) {
+                                $("#modal" + tableId + " .q1c").html(json["details"]["q1c"])
+                            }
+                            if (json["details"]["q2c"]) {
+                                $("#modal" + tableId + " .q2c").html(json["details"]["q2c"])
+                            }
+                            if (json["details"]["q3c"]) {
+                                $("#modal" + tableId + " .q3c").html(json["details"]["q3c"])
+                            }
+                            if (json["details"]["q4c"]) {
+                                $("#modal" + tableId + " .q4c").html(json["details"]["q4c"])
+                            }
                         }
-                        if (json["details"]["q2c"]) {
-                            $("#modal" + tableId + " .q2c").html(json["details"]["q2c"])
-                        }
-                        if (json["details"]["q3c"]) {
-                            $("#modal" + tableId + " .q3c").html(json["details"]["q3c"])
-                        }
-                        if (json["details"]["q4c"]) {
-                            $("#modal" + tableId + " .q4c").html(json["details"]["q4c"])
-                        }
+                        $('[data-toggle="tooltip"]').tooltip()
+                    }
+
+                    if (tableId == "GradesPSList") {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    }
+
+                    if (tableId == "GradesSMEAList") {
+                        downloadExcel('tbl' + tableId, filename);
                     }
                     $("#modal" + tableId + " .content").show();
                     $("#modal" + tableId + " .overlay").hide();
-                    $('[data-toggle="tooltip"]').tooltip()
                 }
-            }
-        });
+            });
 
-        $("#tbl" + tableId).on('draw.dt', function() {
-            $(".searchBtn").attr("disabled", false);
-            $(".searchBtn").html("<span class=\"fa fa-search\"></span>");
-            dtd == 1 ? $("#tbl" + tableId).DataTable().destroy() : "";
-            $(".collapse" + tableId).trigger('click');
-        });
-        $("#tbl" + tableId + "_filter").addClass("row");
-        $("#tbl" + tableId + "_filter label").css("width", "99.3%");
-        $("#tbl" + tableId + "_filter .form-control-sm").css("width", "99.3%");
+            $("#tbl" + tableId).on('draw.dt', function() {
+                $(".searchBtn").attr("disabled", false);
+                $(".searchBtn").html("<span class=\"fa fa-search\"></span>");
+                dtd == 1 ? $("#tbl" + tableId).DataTable().destroy() : "";
+                $(".collapse" + tableId).trigger('click');
+            });
+            $("#tbl" + tableId + "_filter").addClass("row");
+            $("#tbl" + tableId + "_filter label").css("width", "99.3%");
+            $("#tbl" + tableId + "_filter .form-control-sm").css("width", "99.3%");
+        }, 100);
     }
 
     function validateTable(table_id) {
@@ -474,10 +500,11 @@ $uri = $this->session->schoolmis_login_uri;
         tblReload(tableId);
     }
 
-    function getLearnersListFN(tableId, a, b, c) {
+    function getLearnersListFN(tableId, a, b, c, d) {
         rsid = a;
         rssaid = b;
         adviser = c;
+        sec_name = d;
         $("." + tableId).show();
         $("#tbl" + tableId + " tbody").empty();
         $("#form_save_dataEnrollmentInfo #ersid").val(a)
@@ -506,6 +533,12 @@ $uri = $this->session->schoolmis_login_uri;
         $("#form_save_dataGradesList .submitBtnPrimary").attr("disabled", false);
         $("#form_save_dataGradesList .submitBtnPrimary").html("Save Grades");
         getTable("GradesList", 0, -1);
+    }
+
+    function getGradesPSListFN() {
+        $("#form_save_dataGradesPSList .submitBtnPrimary").attr("disabled", false);
+        $("#form_save_dataGradesPSList .submitBtnPrimary").html("Save Grades");
+        getTable("GradesPSList", 0, -1);
     }
 
     function getSbjctAssPrsnnl(tableId) {
@@ -654,14 +687,20 @@ $uri = $this->session->schoolmis_login_uri;
     function customTabViewAllGrades() {
         $("#modalAllGrades .overlay").show();
         $("#modalAllGrades .viewAllGrades").empty();
-        $.get("<?= base_url($uri . "/Getdata/getViewAllGrades") ?>", {
-                a: rsid
-            },
-            function(data) {
-                var d = JSON.parse(data);
-                $("#modalAllGrades .viewAllGrades").html(d);
-                $("#modalAllGrades .overlay").hide();
-            }).done(function() {});
+        if (vars['viewAllGrades' + rsid] != undefined) {
+            $("#modalAllGrades .viewAllGrades").html(vars['viewAllGrades' + rsid]);
+            $("#modalAllGrades .overlay").hide();
+        } else {
+            $.get("<?= base_url($uri . "/Getdata/getViewAllGrades") ?>", {
+                    a: rsid
+                },
+                function(data) {
+                    var d = JSON.parse(data);
+                    vars['viewAllGrades' + rsid] = d;
+                    $("#modalAllGrades .viewAllGrades").html(d);
+                    $("#modalAllGrades .overlay").hide();
+                }).done(function() {});
+        }
     }
 
     function preSbmitGrades(a, b, c) {
@@ -702,7 +741,7 @@ $uri = $this->session->schoolmis_login_uri;
         ).then(function() {});
     }
 
-    function maxInput(a) {
+    function maxInput(a, c) {
         var b = $("#" + a).val();
         if (b > 100 || b == 0) {
             $("#" + a).val("");
@@ -710,6 +749,11 @@ $uri = $this->session->schoolmis_login_uri;
 
         }
     }
+
+    // function autoavg(a) {
+    //     console.log('a')
+    //     $(this).text("zz")
+    // }
 
     $("[type='number']").keydown(function(e) {
         e = e || window.event;
@@ -743,6 +787,11 @@ $uri = $this->session->schoolmis_login_uri;
     function clean(a) {
         var str = a;
         return str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
+    }
+
+    function cleanInt(a) {
+        var str = a;
+        return str.replace(/\D/g, '');
     }
 
     const Toast = Swal.mixin({
@@ -972,9 +1021,156 @@ $uri = $this->session->schoolmis_login_uri;
             // });
         });
         $("#" + mdl).modal("show");
-
-
-
-
     }
+
+
+    function uploadFile(a, b, c) {
+        //Reference the FileUpload element.
+        var fileUpload = $("#" + a + " #" + b)[0];
+
+        //Validate whether File is valid Excel file.
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            if (typeof(FileReader) != "undefined") {
+                var reader = new FileReader();
+
+                //For Browsers other than IE.
+                if (reader.readAsBinaryString) {
+                    reader.onload = function(e) {
+                        ProcessExcel(e.target.result, c);
+                    };
+                    reader.readAsBinaryString(fileUpload.files[0]);
+                } else {
+                    //For IE Browser.
+                    reader.onload = function(e) {
+                        var data = "";
+                        var bytes = new Uint8Array(e.target.result);
+                        for (var i = 0; i < bytes.byteLength; i++) {
+                            data += String.fromCharCode(bytes[i]);
+                        }
+                        ProcessExcel(data, c);
+                    };
+                    reader.readAsText(fileUpload.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid Excel file.");
+        }
+        // console.log($("#" + c).html())
+
+        $('#' + c + ' #gradeLearner1320261403231').val(1)
+        $('#' + c + ' #gradeLearner1320231300522').val(1)
+
+
+        // var tb = $('#' + c + ':eq(0) tbody');
+        // var size = tb.find("tr").length;
+        // console.log("Number of rows : " + size);
+        // tb.find("tr").each(function(index, element) {
+        //     var colSize = $(element).find('td').length;
+        //     console.log("  Number of cols in row " + (index + 1) + " : " + colSize);
+        //     $(element).find('td center input').each(function(index, element) {
+        //         var colVal = $(element).text();
+        //         // console.log(element.val())
+        //         console.log(element)
+        //         console.log(element.value = 1)
+        //         // console.log("    Value in col " + (index + 1) + " : " + colVal.trim());
+        //     });
+        // });
+    }
+
+    function ProcessExcel(data, c) {
+        //Read the Excel File data.
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+
+        // //Fetch the name of First Sheet.
+        var firstSheet = workbook.SheetNames[0];
+
+        // //Read all rows from First Sheet into an JSON array.
+        var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+
+        // //Create a HTML Table element.
+        // var table = $("<table />");
+        // table[0].border = "1";
+
+        // //Add the header row.
+        // var row = $(table[0].insertRow(-1));
+
+        // //Add the header cells.
+        // var headerCell = $("<th />");
+        // headerCell.html("No");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("LRN");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("Name");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("Q1");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("Q2");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("Q3");
+        // row.append(headerCell);
+
+        // var headerCell = $("<th />");
+        // headerCell.html("Q4");
+        // row.append(headerCell);
+
+        //Add the data rows from Excel file.
+        for (var i = 0; i < excelRows.length; i++) {
+            //Add the data row.
+            // var row = $(table[0].insertRow(-1));
+
+            //Add the data cells.
+            // var cell = $("<td />");
+            // cell.html(excelRows[i].No);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Lrn);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Name);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Q1);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Q2);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Q3);
+            // row.append(cell);
+
+            // cell = $("<td />");
+            // cell.html(excelRows[i].Q4);
+            // row.append(cell);
+
+            var lrn = cleanInt(excelRows[i].Lrn);
+            $('#' + c + ' #gradeLearner' + lrn + '1').val(excelRows[i].Q1)
+            $('#' + c + ' #gradeLearner' + lrn + '2').val(excelRows[i].Q2)
+            $('#' + c + ' #gradeLearner' + lrn + '3').val(excelRows[i].Q3)
+            $('#' + c + ' #gradeLearner' + lrn + '4').val(excelRows[i].Q4)
+        }
+
+        // var dvExcel = $("#dvExcel");
+        // dvExcel.html("");
+        // dvExcel.append(table);
+    };
 </script>

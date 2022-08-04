@@ -253,14 +253,55 @@ $uri = $this->session->schoolmis_login_uri;
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary p-2 px-3">
-                <h5 class="modal-title p-0">
-                    Grades Entry form - SY: <b><?= $getOnLoad["sy"]; ?> | </b> Q: <b><?= $getOnLoad["qrtr"]; ?></b></h5>
+                <h5 class="modal-title p-0 text-md">
+                    Grades Entry form - SY: <b><?= $getOnLoad["sy"]; ?> | </b> Q: <b><?= $getOnLoad["qrtr"]; ?></b>
+                </h5>
+                <!-- <div class='radioBtn btn-group pull-right'>
+                    <button type="button" class="btn bg-navy btn-xs"><i class="fa fa-upload"></i> Upload Grades Data</button>
+                    <button type="button" class="btn btn-xs btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                </div> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+            <div class="card card-default collapsed-card m-1">
+                <!-- <div class="card"> -->
+                <div class="card-header cursor-pointer p-2" data-card-widget="collapse" role="button">
+                    <h3 class="card-title">
+                        <i class="fas fa-upload"></i>
+                        <u>Upload Grades Data (<i>Click to toggle</i>)</u>
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body collapse p-1" style="display:none;">
+                    <!-- <div class="card-body collapse"> -->
+                    <form method="post" enctype="multipart/form-data" id="uploadGrades">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" required accept=".xlsx">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary" onclick="uploadFile('uploadGrades','customFile','tblGradesList')"><i class="fa fa-upload"></i> Upload File</button>
+                            </div>
+
+                            <!-- <input type="file" id="fileUpload" />
+                            <input type="button" id="upload" value="Upload" />
+                            <hr /> -->
+                            <!-- <div id="dvExcel"></div> -->
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
             <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
-            <div class="modal-body mb-n3 form_save_dataGradesList content">
+            <div class="modal-body mt-n2 form_save_dataGradesList">
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
                     <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
@@ -269,24 +310,15 @@ $uri = $this->session->schoolmis_login_uri;
                 </div>
 
                 <div class="card-body p-0 table-responsive mt-3">
-                    <table class="table table-striped table-bordered table-sm " cellspacing="0" id="tblGradesList" width="100%">
+                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesList" width="100%">
                         <thead width="100%">
                             <tr style="text-align:center;">
-                                <th>Student</th>
-                                <!-- <th>Sex</th>
-                                <th>Status</th> -->
-                                
-                                <th>Q1</th>
-                                <th>Q2</th>
-                                <th>Q3</th>
-                                <th>Q4</th>
-                                <th>AVG</th>
-
-                                <!-- <th>     Q1      </th>
-                                <th>     Q2      </th>
-                                <th>     Q3      </th>
-                                <th>     Q4      </th>
-                                <th>    AVG </th> -->
+                                <th align="left">Student</th>
+                                <th width="1">Q1</th>
+                                <th width="1">Q2</th>
+                                <th width="1">Q3</th>
+                                <th width="1">Q4</th>
+                                <th width="1">AVG</th>
                             </tr>
                         </thead>
                         <tbody style="text-align:center">
@@ -310,6 +342,92 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
 </div>
 
+
+<!-- /.modal -->
+<!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+<div class="modal fade" id="modalGradesPSList" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-pink p-2 px-3">
+                <h5 class="modal-title p-0 text-md">
+                    Periodical Exam / Percentage Score form - SY: <b><?= $getOnLoad["sy"]; ?> | </b> Q: <b><?= $getOnLoad["qrtr"]; ?></b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="card card-default collapsed-card m-1">
+                <!-- <div class="card"> -->
+                <div class="card-header cursor-pointer p-2" data-card-widget="collapse" role="button">
+                    <h3 class="card-title">
+                        <i class="fas fa-upload"></i>
+                        <u>Upload Grades Data (<i>Click to toggle</i>)</u>
+                    </h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body collapse p-1" style="display:none;">
+                    <!-- <div class="card-body collapse"> -->
+                    <form method="post" enctype="multipart/form-data" id="uploadGradesPS">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFilePS" required accept=".xlsx">
+                                    <label class="custom-file-label" for="customFilePS">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-primary" onclick="uploadFile('uploadGradesPS','customFilePS','tblGradesPSList')"><i class="fa fa-upload"></i> Upload File</button>
+                            </div>
+
+                            <!-- <input type="file" id="fileUpload" />
+                            <input type="button" id="upload" value="Upload" />
+                            <hr /> -->
+                            <!-- <div id="dvExcel"></div> -->
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+
+            <?= form_open(base_url($uri . '/Dataentry/saveGradesPSList'), 'id=form_save_dataGradesPSList'); ?>
+            <div class="modal-body mb-n3 form_save_dataGradesPSList">
+                <div class="card-body p-0 table-responsive">
+                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesPSList" width="100%">
+                        <thead width="100%">
+                            <tr style="text-align:center;">
+                                <th align="left">Student</th>
+                                <th width="1">Q1</th>
+                                <th width="1">Q2</th>
+                                <th width="1">Q3</th>
+                                <th width="1">Q4</th>
+                                <th width="1">AVG</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center" class="content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer content">
+                <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+            <div class="overlay">
+                <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
+            </div>
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="custom-tabs-four-import" role="tabpanel" aria-labelledby="custom-tabs-four-import-tab">
+            Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" id="modalAllGrades" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -330,6 +448,7 @@ $uri = $this->session->schoolmis_login_uri;
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="modalAllStudentLogs" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -634,7 +753,9 @@ $uri = $this->session->schoolmis_login_uri;
                         <tr>
                             <!-- <th width="1">#</th> -->
                             <th>#   Learner</th>
-                            <th><center>AVG</center></th>
+                            <th>
+                                <center>AVG</center>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -644,3 +765,11 @@ $uri = $this->session->schoolmis_login_uri;
         </div>
     </div>
 </div>
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

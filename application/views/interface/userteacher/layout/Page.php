@@ -32,6 +32,7 @@
        <!-- /.control-sidebar -->
         <?php $this->load->view('interface/'.$uri.'/layout/Modal')?>
         <?php $this->load->view('interface/'.$uri.'/layout/ModalReport')?>
+        <?php $this->load->view('interface/'.$uri.'/layout/ModalDownloadable')?>
     </div>
 
     <?php $this->load->view('interface/'.$uri.'/layout/Js'); ?>

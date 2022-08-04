@@ -615,12 +615,13 @@ class MY_Controller extends CI_Controller
 
     public function grades_input($lrn, $q, $qrtr)
     {
+        $id = $lrn.$qrtr;
         return  "<center><input style='width:50px;text-align:center'
-                         onclick='maxInput(\"gradeLearner$lrn\")' onkeyup='maxInput(\"gradeLearner$lrn\")'
+                         onclick='maxInput(\"gradeLearner$id\")' onkeyup='maxInput(\"gradeLearner$id\");'
                          style='text-align:center;' type='number' class='form-control' 
                          name='gradeLearner" . $qrtr . "[]' value='$q' 
                          placeholder='--' nr='1' 
-                         id='gradeLearner$lrn'/></center>";
+                         id='gradeLearner$id'/></center>";
     }
 }
 

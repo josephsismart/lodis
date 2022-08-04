@@ -68,32 +68,25 @@ $uri = $this->session->schoolmis_login_uri;
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="row">
-									<div class="col-12 col-lg-7 col-md-12 col-sm-6 col-xs-12">
+									<div class="col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12">
 										<div class="post">
 											<div class="user-block">
 												<img class="img-circle img-bordered-sm" src="<?= base_url(); ?>/dist/img/avatar1.jpg" alt="user image">
 												<span class="username">
 													<a href="#" class="personnel">-</a>
-													<!-- <a href="#" class="personnel">Jonathan Burke Jr. - Teacher I</a> -->
-													<!-- <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a> -->
 												</span>
 												<span class="description">-</span>
-												<!-- <span class="description">Class Advisory <b>Grade XII - ABCD</b> <small><i>ARTS</i> | <i>WD</i></small></span> -->
 											</div>
 										</div>
 									</div>
-									<div class="col-12 col-lg-5 col-md-12 col-sm-6 col-xs-12 mb-2">
+									<div class="col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-2">
 										<span class="others">
+										</span>
+										<span class="downloads">
 										</span>
 										<span class="reports">
 										</span>
 										<span class="forms">
-										</span>
-										<span class="grade_all">
-										</span>
-										<span class="grade">
-										</span>
-										<span class="enroll">
 										</span>
 									</div>
 									<div class="col-12">
@@ -216,7 +209,7 @@ $uri = $this->session->schoolmis_login_uri;
 															</tbody>
 														</table>
 													</div>
-													
+
 													<div class="col-lg-4 col-md-4 small table-responsive" hidden>
 														<table class="table table-sm">
 															<thead>
@@ -367,11 +360,7 @@ $uri = $this->session->schoolmis_login_uri;
 		getTable("AssignedSectionList", 1, -1);
 		getTable("LearnersList", 0, -1);
 		getTable("Honors", 1, -1);
-		getTable("SearchEnrollLearnersList", 0, 10);
-		// getTable("GradesList", 0, -1);
-		// getFetchList(f1, "CityMunList", null, 1, {
-		// 	v: 1602
-		// }, 1, 1);
+		// getTable("SearchEnrollLearnersList", 0, 10, "", 1);
 		getFetchList(f1, "BarangayList", null, 1, {
 			v: 160201
 		}, 0, 1);
@@ -384,9 +373,9 @@ $uri = $this->session->schoolmis_login_uri;
 		getFetchList(f1, "LearnerStatus", "StatusList", 0, {
 			v: 4
 		}, 1);
-
 		saveForm(f1, ["LearnersList"], null, 1, -1);
 		saveForm("GradesList", [null], null, 1, -1);
+		saveForm("GradesPSList", [null], null, 1, -1);
 		saveForm(f3, [null], null, 1, -1);
 	});
 </script>

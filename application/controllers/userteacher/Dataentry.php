@@ -907,6 +907,101 @@ class Dataentry extends MY_Controller
         echo json_encode($ret);
     }
 
+    function saveGradesPSList()
+    {
+        $this->db->trans_begin();
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+        if ($this->getOnLoad()["grade_stat"] == 't') {
+            $data = [];
+            $sy = $this->getOnLoad()["sy_id"];
+            $sy_insert = (int)$sy;
+
+            $en_id = $this->input->post("en_id");
+            $rm_sec_id = $this->input->post("rm_sec_id");
+            $rssaid = $this->input->post("rssaid");
+            $igq = (string)$this->getOnLoad()["input_grades_qrtr"];
+
+            $tmpGrade = 0;
+
+            $login_id = $this->session->schoolmis_login_id;
+            $dateNow = $this->now();
+            $ret = $true;
+
+
+            for ($x = 0; $x < strlen($igq); $x++) {
+                $qi = $igq[$x];
+                $data = [];
+                if ($qi >= 1 && $qi <= 4) {
+                    $gradeLearner = $this->input->post("gradeLearner" . $qi);
+                    for ($i = 0; $i < count($en_id); $i++) {
+
+                        if (isset($gradeLearner[$i])) {
+                            $en = $en_id[$i];
+                            $rm = $rm_sec_id[$i];
+                            $rssaid1 = $rssaid[$i];
+                            $grades = $this->returnNull($gradeLearner[$i]);
+                            $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades_ps$sy t1
+                                            WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
+                                            AND t1.qrtr_id=$qi AND t1.sy_id=$sy");
+                            $srow = $search->row();
+
+                            if ($search->num_rows() > 0) {
+                                $tmpId = $srow->id;
+                                $tmpGrade = $srow->grade;
+                                if ($grades == $tmpGrade) {
+                                } else {
+                                    $update_data = array(
+                                        'grade' => $grades,
+                                        'date_updated' => $dateNow,
+                                        'updated_by' => $login_id
+                                    );
+
+                                    $this->db->where('id', $tmpId);
+                                    if ($this->db->update("building_sectioning.tbl_learner_grades_ps$sy", $update_data)) {
+                                        $ret = $true;
+                                    } else {
+                                        $ret = $false;
+                                    }
+                                }
+                            } else {
+                                $data[] = [
+                                    'learner_enrollment_id' => $en,
+                                    'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+                                    'qrtr_id' => $qi,
+                                    'grade' => $grades,
+                                    'date_added' => $dateNow,
+                                    'added_by' => $login_id,
+                                    'status_id' => 1,
+                                    'sy_id' => $sy_insert,
+                                ];
+                            }
+                        }
+                    }
+                    if (count($data) > 0 && $login_id) {
+                        if ($this->db->insert_batch("building_sectioning.tbl_learner_grades_ps$sy", $data)) {
+                            $ret = $true;
+                        } else {
+                            $ret = $false;
+                        }
+                    }
+
+                    if ($this->db->trans_status() === false) {
+                        $this->db->trans_rollback();
+                    } else {
+                        $this->db->trans_commit();
+                    }
+                } else {
+                    $ret = $false;
+                }
+            }
+        } else {
+            $ret = $false;
+        }
+
+        echo json_encode($ret);
+    }
+
     function learnerAccount()
     {
         $this->db->trans_begin();
