@@ -1029,7 +1029,9 @@ $uri = $this->session->schoolmis_login_uri;
         var fileUpload = $("#" + a + " #" + b)[0];
 
         //Validate whether File is valid Excel file.
-        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        var regex = /(.xls|.xlsx)$/;
+        // console.log(fileUpload)
+        // console.log(regex.test(fileUpload.value.toLowerCase()))
         if (regex.test(fileUpload.value.toLowerCase())) {
             if (typeof(FileReader) != "undefined") {
                 var reader = new FileReader();
@@ -1060,8 +1062,8 @@ $uri = $this->session->schoolmis_login_uri;
         }
         // console.log($("#" + c).html())
 
-        $('#' + c + ' #gradeLearner1320261403231').val(1)
-        $('#' + c + ' #gradeLearner1320231300522').val(1)
+        // $('#' + c + ' #gradeLearner1320261403231').val(1)
+        // $('#' + c + ' #gradeLearner1320231300522').val(1)
 
 
         // var tb = $('#' + c + ':eq(0) tbody');
