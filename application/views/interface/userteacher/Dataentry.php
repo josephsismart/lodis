@@ -65,6 +65,25 @@ $uri = $this->session->schoolmis_login_uri;
 									</button>
 								</div> -->
 							</div> <!-- /.card -->
+
+							<!-- <table class="" style="border:1px solid black;" border="1" id="tblGradesSMEAList" width="100%">
+								<thead>
+									<tr>
+										<th rowspan="2" class="th-color" width="1">No</th>
+										<th rowspan="2" class="th-color" width="1">Lrn</th>
+										<th rowspan="2" class="th-color">Name</th>
+										<th colspan="4">Grades Entry Data</th>
+									</tr>
+									<tr>
+										<th class="th-color">Q1</th>
+										<th class="th-color">Q2</th>
+										<th class="th-color">Q3</th>
+										<th class="th-color">Q4</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table> -->
 							<!-- /.card-header -->
 							<div class="card-body">
 								<div class="row">
@@ -82,8 +101,8 @@ $uri = $this->session->schoolmis_login_uri;
 									<div class="col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12 mb-2">
 										<span class="others">
 										</span>
-										<span class="downloads">
-										</span>
+										<!-- <span class="downloads">
+										</span> -->
 										<span class="reports">
 										</span>
 										<span class="forms">

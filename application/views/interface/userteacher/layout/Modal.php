@@ -267,11 +267,21 @@ $uri = $this->session->schoolmis_login_uri;
 
             <div class="card card-default collapsed-card m-1">
                 <!-- <div class="card"> -->
-                <div class="card-header cursor-pointer p-2" data-card-widget="collapse" role="button">
-                    <h3 class="card-title">
-                        <i class="fas fa-upload"></i>
-                        <u>Upload Grades Data (<i>Click to toggle</i>)</u>
-                    </h3>
+                <div class="card-header cursor-pointer p-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h3 class="card-title" data-card-widget="collapse" role="button">
+                                <i class="fas fa-upload"></i>
+                                <u>Upload Grades Data (<i>Click to toggle</i>)</u>
+                            </h3>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-xs btn-warning float-right text-white downloadform" onclick="getGradesSMEAListFN()">
+                                <i class="fas fa-download"></i>
+                                Download Form
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body collapse p-1" style="display:none;">
@@ -281,11 +291,12 @@ $uri = $this->session->schoolmis_login_uri;
                             <div class="col-6">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFile" required accept=".xlsx">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                    <label class="custom-file-label customFile" for="customFile">Choose file</label>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="button" class="btn btn-primary" onclick="uploadFile('uploadGrades','customFile','tblGradesList')"><i class="fa fa-upload"></i> Upload File</button>
+                                <button type="button" class="btn btn-primary" onclick="uploadFile('uploadGrades','customFile','tblGradesPSList')"><i class="fa fa-upload"></i> Upload File</button>
+                                <!-- <button type="button" class="btn btn-primary" onclick="uploadFile('uploadGradesPS','customFilePS','tblGradesPSList')"><i class="fa fa-upload"></i> Upload File</button> -->
                             </div>
 
                             <!-- <input type="file" id="fileUpload" />
@@ -300,40 +311,90 @@ $uri = $this->session->schoolmis_login_uri;
             </div>
             <!-- /.card-body -->
 
-            <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
-            <div class="modal-body mt-n2 form_save_dataGradesList">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
-                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
-                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
-                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
+            <div class="modal-body mt-n2 form_save_dataGradesList p-1">
+
+                <div class="card card-default card-tabs">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link bg-navy active" id="custom-tabs-one-grade-tab" data-toggle="pill" href="#custom-tabs-one-grade" role="tab" aria-controls="custom-tabs-one-grade" aria-selected="true">Quarter Grades</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link bg-pink" id="custom-tabs-one-ps-tab" data-toggle="pill" href="#custom-tabs-one-ps" role="tab" aria-controls="custom-tabs-one-ps" aria-selected="false">Quarter Exam/PS</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                            <div class="tab-pane fade active show" id="custom-tabs-one-grade" role="tabpanel" aria-labelledby="custom-tabs-one-grade-tab">
+
+                                <?= form_open(base_url($uri . '/Dataentry/saveGradesList'), 'id=form_save_dataGradesList'); ?>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q1c">-</span></div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q2c">-</span></div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q3c">-</span></div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 p-1"><span class="q4c">-</span></div>
+                                </div>
+
+                                <div class="card-body p-0 table-responsive mt-3">
+                                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesList" width="100%">
+                                        <thead width="100%">
+                                            <tr style="text-align:center;">
+                                                <th align="left">Student</th>
+                                                <th width="1">Q1</th>
+                                                <th width="1">Q2</th>
+                                                <th width="1">Q3</th>
+                                                <th width="1">Q4</th>
+                                                <th width="1">AVG</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align:center">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer p-0 content">
+                                    <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                                </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-one-ps" role="tabpanel" aria-labelledby="custom-tabs-one-ps-tab">
+                                <?= form_open(base_url($uri . '/Dataentry/saveGradesPSList'), 'id=form_save_dataGradesPSList'); ?>
+                                <div class="card-body p-0 table-responsive">
+                                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesPSList" width="100%">
+                                        <thead width="100%">
+                                            <tr style="text-align:center;">
+                                                <th align="left">Student</th>
+                                                <th width="1">Q1</th>
+                                                <th width="1">Q2</th>
+                                                <th width="1">Q3</th>
+                                                <th width="1">Q4</th>
+                                                <th width="1">AVG</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align:center" class="content">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer p-0 content">
+                                    <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
                 </div>
 
-                <div class="card-body p-0 table-responsive mt-3">
-                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesList" width="100%">
-                        <thead width="100%">
-                            <tr style="text-align:center;">
-                                <th align="left">Student</th>
-                                <th width="1">Q1</th>
-                                <th width="1">Q2</th>
-                                <th width="1">Q3</th>
-                                <th width="1">Q4</th>
-                                <th width="1">AVG</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-align:center">
-                        </tbody>
-                    </table>
-                </div>
             </div>
-            <div class="modal-footer content">
+            <!-- <div class="modal-footer content">
                 <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-            </div>
+            </div> -->
             <div class="overlay">
                 <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
             </div>
-            </form>
         </div>
 
         <div class="tab-pane fade" id="custom-tabs-four-import" role="tabpanel" aria-labelledby="custom-tabs-four-import-tab">
@@ -392,33 +453,7 @@ $uri = $this->session->schoolmis_login_uri;
             <!-- /.card-body -->
 
 
-            <?= form_open(base_url($uri . '/Dataentry/saveGradesPSList'), 'id=form_save_dataGradesPSList'); ?>
-            <div class="modal-body mb-n3 form_save_dataGradesPSList">
-                <div class="card-body p-0 table-responsive">
-                    <table class="table-striped table-hover table-bordered" cellspacing="0" id="tblGradesPSList" width="100%">
-                        <thead width="100%">
-                            <tr style="text-align:center;">
-                                <th align="left">Student</th>
-                                <th width="1">Q1</th>
-                                <th width="1">Q2</th>
-                                <th width="1">Q3</th>
-                                <th width="1">Q4</th>
-                                <th width="1">AVG</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-align:center" class="content">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer content">
-                <button type="submit" class="btn btn-info submitBtnPrimary">Save Grades</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-            </div>
-            <div class="overlay">
-                <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
-            </div>
-            </form>
+
         </div>
 
         <div class="tab-pane fade" id="custom-tabs-four-import" role="tabpanel" aria-labelledby="custom-tabs-four-import-tab">

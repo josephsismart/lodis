@@ -399,7 +399,11 @@ $uri = $this->session->schoolmis_login_uri;
                     }
 
                     if (tableId == "GradesSMEAList") {
+                        // $("#modalDLLearnerGradesSP").modal("show");
                         downloadExcel('tbl' + tableId, filename);
+                        
+                        $(".downloadform").attr("disabled", false);
+                        $(".downloadform").html("<span class=\"fa fa-download\"></span> Download form");
                     }
                     $("#modal" + tableId + " .content").show();
                     $("#modal" + tableId + " .overlay").hide();
@@ -1047,7 +1051,7 @@ $uri = $this->session->schoolmis_login_uri;
                     reader.onload = function(e) {
                         var data = "";
                         var bytes = new Uint8Array(e.target.result);
-                        for (var i = 0; i < bytes.byteLength; i++) {
+                        for (var i = 1; i < bytes.byteLength; i++) {
                             data += String.fromCharCode(bytes[i]);
                         }
                         ProcessExcel(data, c);
@@ -1080,6 +1084,10 @@ $uri = $this->session->schoolmis_login_uri;
         //         // console.log("    Value in col " + (index + 1) + " : " + colVal.trim());
         //     });
         // });
+        fileUpload = null;
+        $("#" + a + " #" + b).val("");
+        $("#" + a + " ." + b).text("Choose file");
+        customFile
     }
 
     function ProcessExcel(data, c) {
@@ -1088,12 +1096,11 @@ $uri = $this->session->schoolmis_login_uri;
             type: 'binary'
         });
 
+
         // //Fetch the name of First Sheet.
         var firstSheet = workbook.SheetNames[0];
-
         // //Read all rows from First Sheet into an JSON array.
         var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
-
         // //Create a HTML Table element.
         // var table = $("<table />");
         // table[0].border = "1";
@@ -1131,7 +1138,10 @@ $uri = $this->session->schoolmis_login_uri;
         // row.append(headerCell);
 
         //Add the data rows from Excel file.
-        for (var i = 0; i < excelRows.length; i++) {
+        // console.log('zzzz')
+        // console.log(excelRows)
+        // console.log(excelRows.length)
+        for (var i = 1; i < excelRows.length; i++) {
             //Add the data row.
             // var row = $(table[0].insertRow(-1));
 
@@ -1164,11 +1174,30 @@ $uri = $this->session->schoolmis_login_uri;
             // cell.html(excelRows[i].Q4);
             // row.append(cell);
 
+            // __EMPTY: "No"
+            // __EMPTY_1: "Lrn"
+            // __EMPTY_2: "Name"
+            // __EMPTY_3: "Q1"
+            // __EMPTY_4: "Q2"
+            // __EMPTY_5: "Q3"
+            // __EMPTY_6: "Q4"
+            // __EMPTY_7: "|"
+            // __EMPTY_8: " Q1 "
+            // __EMPTY_9: " Q2 "
+            // __EMPTY_10: " Q3 "
+            // __EMPTY_11: " Q4 "
+
+            // console.log(excelRows[i].Lrn)
             var lrn = cleanInt(excelRows[i].Lrn);
-            $('#' + c + ' #gradeLearner' + lrn + '1').val(excelRows[i].Q1)
-            $('#' + c + ' #gradeLearner' + lrn + '2').val(excelRows[i].Q2)
-            $('#' + c + ' #gradeLearner' + lrn + '3').val(excelRows[i].Q3)
-            $('#' + c + ' #gradeLearner' + lrn + '4').val(excelRows[i].Q4)
+            $('#tblGradesList #gradeLearner' + lrn + '1').val(excelRows[i].Grades_Entry_Data)
+            $('#tblGradesList #gradeLearner' + lrn + '2').val(excelRows[i].__EMPTY)
+            $('#tblGradesList #gradeLearner' + lrn + '3').val(excelRows[i].__EMPTY_1)
+            $('#tblGradesList #gradeLearner' + lrn + '4').val(excelRows[i].__EMPTY_2)
+            
+            $('#tblGradesPSList #gradeLearner' + lrn + '1').val(excelRows[i].Percentage_Score_Data)
+            $('#tblGradesPSList #gradeLearner' + lrn + '2').val(excelRows[i].__EMPTY_3)
+            $('#tblGradesPSList #gradeLearner' + lrn + '3').val(excelRows[i].__EMPTY_4)
+            $('#tblGradesPSList #gradeLearner' + lrn + '4').val(excelRows[i].__EMPTY_5)
         }
 
         // var dvExcel = $("#dvExcel");
