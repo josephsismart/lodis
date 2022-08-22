@@ -128,6 +128,8 @@ class Dataentry extends MY_Controller
         }
 
         echo json_encode($ret);
+        $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+        $this->db->query("REFRESH MATERIALIZED VIEW profile.view_schoolpersonnel;");
     }
 
     function savePersonnelAccount()
@@ -276,6 +278,8 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
+                $this->db->query("REFRESH MATERIALIZED VIEW account.view_useraccount;");
+                $this->db->query("REFRESH MATERIALIZED VIEW profile.view_schoolpersonnel;");
             }
         } else {
             $ret = $false;

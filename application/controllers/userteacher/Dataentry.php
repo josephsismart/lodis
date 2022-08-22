@@ -191,7 +191,7 @@ class Dataentry extends MY_Controller
                 $this->db->trans_commit();
             }
         }
-
+        $this->db->query("REFRESH MATERIALIZED VIEW account.view_useraccount;");
         echo json_encode($ret);
     }
 
@@ -351,6 +351,14 @@ class Dataentry extends MY_Controller
 
 
         echo json_encode($ret);
+        $this->db->query("
+        REFRESH MATERIALIZED VIEW profile.view_basicinfo;
+        REFRESH MATERIALIZED VIEW profile.view_learner;
+        REFRESH MATERIALIZED VIEW building_sectioning.view_enrollment$sy;
+ ");
+        // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_learner;");
+        // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+
     }
 
     function saveImportEnrollmentInfo()
@@ -769,142 +777,15 @@ class Dataentry extends MY_Controller
                     $ret = $false;
                 }
             }
-
-
-            ///q1
-            // for ($i = 0; $i < count($en_id); $i++) {
-            //     $en = $en_id[$i];
-            //     $rm = $rm_sec_id[$i];
-            //     $rssaid1 = $rssaid[$i];
-            //     $grades = $this->returnNull($gradeLearner1[$i]);
-            //     $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
-            //                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
-            //                             AND t1.qrtr_id=$qrtr1 AND t1.sy_id=$sy");
-            //     $srow = $search->row();
-
-            //     if ($search->num_rows() > 0) {
-            //         $tmpId = $srow->id;
-            //         $tmpGrade = $srow->grade;
-            //         if ($grades == $tmpGrade) {
-            //         } else {
-            //             $update_data = array(
-            //                 'grade' => $grades,
-            //                 'date_updated' => $dateNow,
-            //                 'updated_by' => $login_id
-            //             );
-
-            //             // $this->db->where('learner_enrollment_id', $en);
-            //             // $this->db->where('room_section_id', $rm);
-            //             // $this->db->where('qrtr_id', $qrtr);
-            //             // $this->db->where('sy_id', $sy);
-            //             $this->db->where('id', $tmpId);
-            //             if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
-            //                 $ret = $true;
-            //             } else {
-            //                 $ret = $false;
-            //             }
-            //         }
-            //     } else {
-            //         $data[] = [
-            //             'learner_enrollment_id' => $en,
-            //             'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
-            //             'qrtr_id' => $qrtr1,
-            //             'grade' => $grades,
-            //             'date_added' => $dateNow,
-            //             'added_by' => $login_id,
-            //             'status_id' => 1,
-            //             'sy_id' => $sy_insert,
-            //         ];
-            //     }
-            // }
-            // // $b = json_encode($data);
-            // if (count($data) > 0 && $login_id) {
-            //     if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
-            //         // $this->userlog("INSERTED GRADES: " . $b);
-            //         $ret = $true;
-            //     } else {
-            //         $ret = $false;
-            //     }
-            // }
-
-            // if ($this->db->trans_status() === false) {
-            //     $this->db->trans_rollback();
-            // } else {
-            //     $this->db->trans_commit();
-            // }
-
-
-            // ///q2
-            // for ($i = 0; $i < count($en_id); $i++) {
-            //     $en = $en_id[$i];
-            //     $rm = $rm_sec_id[$i];
-            //     $rssaid1 = $rssaid[$i];
-            //     $grades = $this->returnNull($gradeLearner2[$i]);
-            //     $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
-            //                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
-            //                             AND t1.qrtr_id=$qrtr2 AND t1.sy_id=$sy");
-            //     $srow = $search->row();
-
-            //     if ($search->num_rows() > 0) {
-            //         $tmpId = $srow->id;
-            //         $tmpGrade = $srow->grade;
-            //         if ($grades == $tmpGrade) {
-            //         } else {
-            //             $update_data = array(
-            //                 'grade' => $grades,
-            //                 'date_updated' => $dateNow,
-            //                 'updated_by' => $login_id
-            //             );
-
-            //             // $this->db->where('learner_enrollment_id', $en);
-            //             // $this->db->where('room_section_id', $rm);
-            //             // $this->db->where('qrtr_id', $qrtr);
-            //             // $this->db->where('sy_id', $sy);
-            //             $this->db->where('id', $tmpId);
-            //             if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
-            //                 $ret = $true;
-            //             } else {
-            //                 $ret = $false;
-            //             }
-            //         }
-            //     } else {
-            //         $data[] = [
-            //             'learner_enrollment_id' => $en,
-            //             'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
-            //             'qrtr_id' => $qrtr1,
-            //             'grade' => $grades,
-            //             'date_added' => $dateNow,
-            //             'added_by' => $login_id,
-            //             'status_id' => 1,
-            //             'sy_id' => $sy_insert,
-            //         ];
-            //     }
-            // }
-            // // $b = json_encode($data);
-            // if (count($data) > 0 && $login_id) {
-            //     if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
-            //         // $this->userlog("INSERTED GRADES: " . $b);
-            //         $ret = $true;
-            //     } else {
-            //         $ret = $false;
-            //     }
-            // }
-
-            // if ($this->db->trans_status() === false) {
-            //     $this->db->trans_rollback();
-            // } else {
-            //     $this->db->trans_commit();
-            // }
-
-
-            // } else {
-            //     $ret = $false;
-            // }
         } else {
             $ret = $false;
         }
 
         echo json_encode($ret);
+
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.m_view_all_grades_stat$sy;
+        REFRESH MATERIALIZED VIEW building_sectioning.m_view_grades$sy;
+        REFRESH MATERIALIZED VIEW building_sectioning.m_view_qrtr_grades_stat$sy;");
     }
 
     function saveGradesPSList()

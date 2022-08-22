@@ -230,6 +230,8 @@ $uri = $this->session->schoolmis_login_uri;
                     fillIn();
                     return false;
                 }
+                $("#modal" + formId + " .tab-content").hide();
+                $("#modal" + formId + " .overlay").show();
                 a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
                 // if (formId != "GradesList") {
                 //     $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);
@@ -273,6 +275,8 @@ $uri = $this->session->schoolmis_login_uri;
                 } else {
                     failAlert("Something went wrong!");
                 }
+                // $("#modal" + formId + " .overlay").hide();
+                $("#modal" + formId + " .tab-content").show();
                 $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", false);
                 $("#form_save_data" + formId + " .submitBtnPrimary").html(a);
                 // getTable("LearnersList", 0, -1);
@@ -401,7 +405,7 @@ $uri = $this->session->schoolmis_login_uri;
                     if (tableId == "GradesSMEAList") {
                         // $("#modalDLLearnerGradesSP").modal("show");
                         downloadExcel('tbl' + tableId, filename);
-                        
+
                         $(".downloadform").attr("disabled", false);
                         $(".downloadform").html("<span class=\"fa fa-download\"></span> Download form");
                     }
@@ -1193,7 +1197,7 @@ $uri = $this->session->schoolmis_login_uri;
             $('#tblGradesList #gradeLearner' + lrn + '2').val(excelRows[i].__EMPTY)
             $('#tblGradesList #gradeLearner' + lrn + '3').val(excelRows[i].__EMPTY_1)
             $('#tblGradesList #gradeLearner' + lrn + '4').val(excelRows[i].__EMPTY_2)
-            
+
             $('#tblGradesPSList #gradeLearner' + lrn + '1').val(excelRows[i].Percentage_Score_Data)
             $('#tblGradesPSList #gradeLearner' + lrn + '2').val(excelRows[i].__EMPTY_3)
             $('#tblGradesPSList #gradeLearner' + lrn + '3').val(excelRows[i].__EMPTY_4)

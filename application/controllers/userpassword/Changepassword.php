@@ -61,6 +61,7 @@ class Changepassword extends MY_Controller
                     $this->db->trans_rollback();
                 } else {
                     $this->db->trans_commit();
+                    $this->db->query("REFRESH MATERIALIZED VIEW account.view_useraccount;");
                 }
             } else {
                 $ret = $false;
