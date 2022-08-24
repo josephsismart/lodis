@@ -354,8 +354,7 @@ class Dataentry extends MY_Controller
         $this->db->query("
         REFRESH MATERIALIZED VIEW profile.view_basicinfo;
         REFRESH MATERIALIZED VIEW profile.view_learner;
-        REFRESH MATERIALIZED VIEW building_sectioning.view_enrollment$sy;
- ");
+        REFRESH MATERIALIZED VIEW building_sectioning.view_enrollment$sy;");
         // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_learner;");
         // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
 

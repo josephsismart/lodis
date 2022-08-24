@@ -120,7 +120,7 @@ class Reports extends MY_Controller
             // $ppid_cc =  $ppid_cc + ($ppid == null ? 0  : 1);
 
             $queryBody = $this->db->query("SELECT t2.sex,t2.last_fullname,t2.enrollment_id
-                                            FROM building_sectioning.view_enrollment1 t2
+                                            FROM building_sectioning.view_enrollment$sy t2
                                             WHERE t2.room_section_id=$rsid
                                             ORDER BY t2.sex_bool DESC,t2.last_fullname 
                                             ");
@@ -142,7 +142,7 @@ class Reports extends MY_Controller
                 }
             }
 
-            $queryBody2 = $this->db->query("SELECT t1.enrollment_id,t1.full_name,t2.q1,t2.q2,t2.q3,t2.q4 FROM building_sectioning.view_enrollment1 t1
+            $queryBody2 = $this->db->query("SELECT t1.enrollment_id,t1.full_name,t2.q1,t2.q2,t2.q3,t2.q4 FROM building_sectioning.view_enrollment$sy t1
                                             LEFT JOIN(SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id, 
                                                         SUM(t1.q1) AS q1,SUM(t1.q2) AS q2,SUM(t1.q3) AS q3,SUM(t1.q4) AS q4 from(
                                                         SELECT t1.id,t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,

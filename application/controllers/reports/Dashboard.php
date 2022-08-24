@@ -92,7 +92,7 @@ class Dashboard extends MY_Controller {
                                                 ,SUM(CASE WHEN t1.age_gap>19 THEN 1 END) AS above_20
                                             FROM (SELECT t1.sex,
                                                         date_part('YEAR',  AGE(t1.birthdate)) AS age_gap
-                                                    FROM building_sectioning.view_enrollment1 t1
+                                                    FROM building_sectioning.view_enrollment$sy t1
                                                     WHERE t1.schl_yr_id=1 AND t1.status_id=5) t1
                                                     GROUP BY t1.sex, t1.age_gap) t2
                                                     GROUP BY t2.sex");

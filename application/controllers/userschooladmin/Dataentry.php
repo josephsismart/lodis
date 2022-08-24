@@ -130,6 +130,7 @@ class Dataentry extends MY_Controller
         echo json_encode($ret);
         $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
         $this->db->query("REFRESH MATERIALIZED VIEW profile.view_schoolpersonnel;");
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.view_subject_grdlvl_personnel_assgnmnt;");
     }
 
     function savePersonnelAccount()
@@ -334,6 +335,8 @@ class Dataentry extends MY_Controller
             $this->db->trans_commit();
         }
         echo json_encode($ret);
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.view_subject_grdlvl_personnel_assgnmnt;
+                          REFRESH MATERIALIZED VIEW building_sectioning.view_room_section;");
     }
 
     function saveGradeSubject()
@@ -384,6 +387,7 @@ class Dataentry extends MY_Controller
         }
 
         echo json_encode($ret);
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.view_subject_grdlvl_personnel_assgnmnt;");
     }
 
     function saveSbjctAssPrsnnl()
@@ -459,6 +463,8 @@ class Dataentry extends MY_Controller
         }
 
         echo json_encode($ret);
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.view_room_section;
+                          REFRESH MATERIALIZED VIEW building_sectioning.view_subject_grdlvl_personnel_assgnmnt;");
     }
 
     function saveSubject()
@@ -560,6 +566,7 @@ class Dataentry extends MY_Controller
         }
 
         echo json_encode($ret);
+        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.view_subject_grdlvl_personnel_assgnmnt;");
     }
 
     function saveQuarterInfo()

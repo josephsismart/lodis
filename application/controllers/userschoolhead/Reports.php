@@ -147,7 +147,7 @@ class Reports extends MY_Controller
                                                 FROM (SELECT t1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
                                                             date_part('YEAR',  AGE(t1.birthdate)) AS age_gap,
                                                             t1.sex_bool
-                                                        FROM building_sectioning.view_enrollment1 t1
+                                                        FROM building_sectioning.view_enrollment$sy t1
                                                         WHERE t1.schl_yr_id=1 AND t1.status_id=5) t1
                                                         GROUP BY t1.rssaid,t1.age_gap,t1.sex_bool) t2 ON t1.rm_sctn_sbjct_assgnmnt_id = t2.rssaid
                                     WHERE t1.schl_yr_id = 1
