@@ -701,7 +701,7 @@ class Dataentry extends MY_Controller
             if ($from && $to && $sy) {
                 if ($this->db->insert("global.tbl_sy", $data2)) {
                     $inid = $this->db->insert_id();
-                    if ($this->db->query("CREATE TABLE building_sectioning.tbl_learner_enrollment$inid (
+                    if ($this->db->query("CREATE TABLE sy$sy.bs_tbl_learner_enrollment (
                                             id bigint NOT NULL,
                                             learner_id bigint NOT NULL,
                                             room_section_id bigint NOT NULL,
@@ -709,34 +709,34 @@ class Dataentry extends MY_Controller
                                             enrollment_date timestamp(6) without time zone,
                                             added_by bigint
                                         );
-                                        ALTER TABLE building_sectioning.tbl_learner_enrollment$inid OWNER TO postgres; 
-                                        CREATE SEQUENCE building_sectioning.tbl_learner_enrollment_seq$inid
+                                        ALTER TABLE sy$sy.bs_tbl_learner_enrollment OWNER TO postgres; 
+                                        CREATE SEQUENCE sy$sy.bs_tbl_learner_enrollment_seq
                                             START WITH 1
                                             INCREMENT BY 1
                                             NO MINVALUE
                                             NO MAXVALUE
                                             CACHE 1;
-                                        ALTER TABLE building_sectioning.tbl_learner_enrollment_seq$inid OWNER TO postgres;
-                                        ALTER SEQUENCE building_sectioning.tbl_learner_enrollment_seq$inid OWNED BY building_sectioning.tbl_learner_enrollment$inid.id;
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid ALTER COLUMN id SET DEFAULT nextval('building_sectioning.tbl_learner_enrollment_seq$inid'::regclass);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE sy$sy.bs_tbl_learner_enrollment_seq OWNER TO postgres;
+                                        ALTER SEQUENCE sy$sy.bs_tbl_learner_enrollment_seq OWNED BY sy$sy.bs_tbl_learner_enrollment.id;
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment ALTER COLUMN id SET DEFAULT nextval('sy$sy.bs_tbl_learner_enrollment_seq'::regclass);
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_learner_id_key UNIQUE (learner_id);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_pkey$inid PRIMARY KEY (id);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_added_by_fkey FOREIGN KEY (added_by) REFERENCES account.tbl_useraccount(id);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_learner_id_fkey FOREIGN KEY (learner_id) REFERENCES profile.tbl_learners(id);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_room_id_fkey FOREIGN KEY (room_section_id) REFERENCES building_sectioning.tbl_room_section(id);
-                                        ALTER TABLE ONLY building_sectioning.tbl_learner_enrollment$inid
+                                        ALTER TABLE ONLY sy$sy.bs_tbl_learner_enrollment
                                             ADD CONSTRAINT tbl_learner_enrollment_status_id_fkey FOREIGN KEY (status_id) REFERENCES global.tbl_status(id);
 
 
 
 
 
-                                        -- CREATE TABLE building_sectioning.tbl_learner_grades$inid (
+                                        -- CREATE TABLE sy$sy.bs_tbl_learner_grades (
                                         --     id bigint NOT NULL,
                                         --     learner_enrollment_id bigint NOT NULL,
                                         --     room_sec_sub_ass_id bigint NOT NULL,
@@ -750,27 +750,27 @@ class Dataentry extends MY_Controller
                                         -- );
 
 
-                                        -- ALTER TABLE building_sectioning.tbl_learner_grades$inid OWNER TO postgres;
+                                        -- ALTER TABLE sy$sy.bs_tbl_learner_grades OWNER TO postgres;
 
                                         
-                                        -- ALTER TABLE building_sectioning.tbl_learner_grades_seq$inid OWNER TO postgres;
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid ALTER COLUMN id SET DEFAULT nextval('building_sectioning.tbl_learner_grades_seq$inid'::regclass);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE sy$sy.bs_tbl_learner_grades_seq OWNER TO postgres;
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades ALTER COLUMN id SET DEFAULT nextval('sy$sy.bs_tbl_learner_grades_seq'::regclass);
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_pkey$inid PRIMARY KEY (id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_added_by_fkey FOREIGN KEY (added_by) REFERENCES account.tbl_useraccount(id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
-                                        --     ADD CONSTRAINT tbl_learner_grades_learner_id_fkey FOREIGN KEY (learner_enrollment_id) REFERENCES building_sectioning.tbl_learner_enrollment$inid(id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
+                                        --     ADD CONSTRAINT tbl_learner_grades_learner_id_fkey FOREIGN KEY (learner_enrollment_id) REFERENCES sy$sy.bs_tbl_learner_enrollment(id);
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_qrtr_id_fkey FOREIGN KEY (qrtr_id) REFERENCES global.tbl_party(id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_status_id_fkey FOREIGN KEY (status_id) REFERENCES global.tbl_status(id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_subject_id_fkey FOREIGN KEY (room_sec_sub_ass_id) REFERENCES building_sectioning.tbl_room_section_subject_assignment(id);
-                                        -- ALTER TABLE ONLY building_sectioning.tbl_learner_grades$inid
+                                        -- ALTER TABLE ONLY sy$sy.bs_tbl_learner_grades
                                         --     ADD CONSTRAINT tbl_learner_grades_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES account.tbl_useraccount(id);
 
-                                        CREATE TABLE building_sectioning.tbl_learner_grades$inid (
+                                        CREATE TABLE sy$sy.bs_tbl_learner_grades (
                                             id bigint NOT NULL,
                                             learner_enrollment_id bigint NOT NULL,
                                             room_section_id bigint NOT NULL,
@@ -785,24 +785,24 @@ class Dataentry extends MY_Controller
                                             CONSTRAINT tbl_learner_grades_pkey$inid PRIMARY KEY (id),
                                             CONSTRAINT tbl_learner_grades_sy_id_fkey$inid FOREIGN KEY (sy_id) REFERENCES global.tbl_sy(id),
                                             CONSTRAINT tbl_learner_grades_added_by_fkey$inid FOREIGN KEY (added_by) REFERENCES account.tbl_useraccount(id),
-                                            CONSTRAINT tbl_learner_grades_learner_id_fkey$inid FOREIGN KEY (learner_enrollment_id) REFERENCES building_sectioning.tbl_learner_enrollment$inid(id),
+                                            CONSTRAINT tbl_learner_grades_learner_id_fkey$inid FOREIGN KEY (learner_enrollment_id) REFERENCES sy$sy.bs_tbl_learner_enrollment(id),
                                             CONSTRAINT tbl_learner_grades_status_id_fkey$inid FOREIGN KEY (status_id) REFERENCES global.tbl_status(id),
                                             CONSTRAINT tbl_learner_grades_subject_id_fkey$inid FOREIGN KEY (room_section_id) REFERENCES building_sectioning.tbl_room_section(id),
                                             CONSTRAINT tbl_learner_grades_updated_by_fkey$inid FOREIGN KEY (updated_by) REFERENCES account.tbl_useraccount(id)
                                         );
 
-                                        ALTER TABLE building_sectioning.tbl_learner_grades$inid OWNER TO postgres;
+                                        ALTER TABLE sy$sy.bs_tbl_learner_grades OWNER TO postgres;
 
-                                        CREATE SEQUENCE building_sectioning.tbl_learner_grades_seq$inid
+                                        CREATE SEQUENCE sy$sy.bs_tbl_learner_grades_seq
                                             START WITH 1
                                             INCREMENT BY 1
                                             NO MINVALUE
                                             NO MAXVALUE
                                             CACHE 1;
 
-                                        ALTER SEQUENCE building_sectioning.tbl_learner_grades_seq$inid OWNED BY building_sectioning.tbl_learner_grades$inid.id;
+                                        ALTER SEQUENCE sy$sy.bs_tbl_learner_grades_seq OWNED BY sy$sy.bs_tbl_learner_grades.id;
 
-                                        CREATE OR REPLACE VIEW building_sectioning.view_enrollment$inid AS 
+                                        CREATE OR REPLACE VIEW sy$sy.bs_view_enrollment AS 
                                         SELECT t1.id AS enrollment_id,
                                         t1.room_section_id,
                                         t3.rm_sctn_sbjct_assgnmnt_id,
@@ -854,7 +854,7 @@ class Dataentry extends MY_Controller
                                         t2.barangay_name,
                                         t2.purok_id,
                                         t2.purok_name
-                                    FROM (((building_sectioning.tbl_learner_enrollment$inid t1
+                                    FROM (((sy$sy.bs_tbl_learner_enrollment t1
                                         JOIN profile.view_learner t2 ON ((t1.learner_id = t2.learner_id)))
                                         JOIN building_sectioning.view_room_section t3 ON ((t1.room_section_id = t3.id)))
                                         JOIN global.tbl_status t4 ON ((t1.status_id = t4.id)));

@@ -37,7 +37,7 @@ class Dashboard extends MY_Controller {
                                         SELECT t1.grade,
                                                 CASE WHEN t1.sex_bool=TRUE THEN count(1) ELSE 0 END AS male,
                                                 CASE WHEN t1.sex_bool=FALSE THEN count(1) ELSE 0 END AS female
-                                        FROM building_sectioning.view_enrollment$sy t1
+                                        FROM sy$sy.bs_view_enrollment$sy t1
                                         WHERE t1.status_id=5
                                         GROUP BY t1.grade,t1.sex_bool 
                                     )t1
@@ -92,7 +92,7 @@ class Dashboard extends MY_Controller {
                                                 ,SUM(CASE WHEN t1.age_gap>19 THEN 1 END) AS above_20
                                             FROM (SELECT t1.sex,
                                                         date_part('YEAR',  AGE(t1.birthdate)) AS age_gap
-                                                    FROM building_sectioning.view_enrollment$sy t1
+                                                    FROM sy$sy.bs_view_enrollment$sy t1
                                                     WHERE t1.schl_yr_id=1 AND t1.status_id=5) t1
                                                     GROUP BY t1.sex, t1.age_gap) t2
                                                     GROUP BY t2.sex");

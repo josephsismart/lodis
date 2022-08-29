@@ -41,7 +41,7 @@ class Login extends MY_Controller
                                             WHERE t1.person_id=$person_id AND t1.is_active_schl_personnel=1 LIMIT 1");
             }
             if ($row1->role_id == 8) {
-                $result = $this->db->query("SELECT t1.* FROM building_sectioning.view_enrollment$sy t1
+                $result = $this->db->query("SELECT t1.* FROM sy$sy.bs_view_enrollment t1
                                             WHERE t1.person_id=$person_id AND t1.schl_yr_id=$sy LIMIT 1");
                 $rm_id = $result->row()->room_id;
                 $result2 = $this->db->query("SELECT t3.* from building_sectioning.tbl_room t1

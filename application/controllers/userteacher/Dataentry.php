@@ -52,7 +52,7 @@ class Dataentry extends MY_Controller
         }
         // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
-            if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $data)) {
+            if ($this->db->insert_batch("sy$sy.bs_tbl_learner_enrollment", $data)) {
                 // $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
                 $ret = $true;
             }
@@ -256,7 +256,7 @@ class Dataentry extends MY_Controller
                         "enrollment_date" => $enrollDate,
                     ];
                     $this->db->where('learner_id', $learner_id);
-                    if ($this->db->update("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                    if ($this->db->update("sy$sy.bs_tbl_learner_enrollment", $data3)) {
                         // $this->userlog("UPDATED STUDENT STATUS " . json_encode($data3));
                         $ret = $true;
                     } else {
@@ -269,7 +269,7 @@ class Dataentry extends MY_Controller
 
 
                 $query = $this->db->query("SELECT t1.id, t2.grade, t2.sctn_nm FROM profile.tbl_learners t1
-                                            LEFT JOIN building_sectioning.view_enrollment$sy t2 ON t1.id=t2.learner_id
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2 ON t1.id=t2.learner_id
                                             WHERE t1.lrn='$lrn' LIMIT 1");
                 $row = $query->row();
 
@@ -291,7 +291,7 @@ class Dataentry extends MY_Controller
                         "added_by" => $login_id,
                     ];
                     if ($lrn_id) {
-                        if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data4)) {
+                        if ($this->db->insert("sy$sy.bs_tbl_learner_enrollment", $data4)) {
                             // $this->userlog("ENROLLED STUDENT " . $lrn_id . " " . json_encode($data4));
                             $ret = $true;
                         } else {
@@ -318,7 +318,7 @@ class Dataentry extends MY_Controller
                                     "added_by" => $login_id,
                                 ];
                                 if ($lrnId) {
-                                    if ($this->db->insert("building_sectioning.tbl_learner_enrollment$sy", $data3)) {
+                                    if ($this->db->insert("sy$sy.bs_tbl_learner_enrollment", $data3)) {
                                         // $this->userlog("ENROLLED STUDENT " . $lrnId . " " . json_encode($data3));
                                         $ret = $true;
                                     } else {
@@ -354,7 +354,7 @@ class Dataentry extends MY_Controller
         $this->db->query("
         REFRESH MATERIALIZED VIEW profile.view_basicinfo;
         REFRESH MATERIALIZED VIEW profile.view_learner;
-        REFRESH MATERIALIZED VIEW building_sectioning.view_enrollment$sy;");
+        REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
         // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_learner;");
         // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
 
@@ -567,7 +567,7 @@ class Dataentry extends MY_Controller
             // echo count($enrollmentData);
             if (count($enrollmentData) > 0 && $login_id) {
                 // $enrollmentDataLOG = json_encode($enrollmentData);
-                if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $enrollmentData)) {
+                if ($this->db->insert_batch("sy$sy.bs_tbl_learner_enrollment", $enrollmentData)) {
                     // $this->userlog("INSERTED NEW ENROLLEE FROM EXCEL FILE" . $enrollmentDataLOG);
                     $ret = $true;
                 } else {
@@ -609,8 +609,8 @@ class Dataentry extends MY_Controller
             $false += ["message"   => "Please contact the Administrator"];
             $ret = $false;
         } else {
-            if ($this->db->query("DELETE FROM building_sectioning.tbl_learner_grades$sy WHERE MD5(learner_enrollment_id::text)='$enroll_id'")) {
-                if ($this->db->query("DELETE FROM building_sectioning.tbl_learner_enrollment$sy WHERE MD5(learner_id::text)='$learner_id'")) {
+            if ($this->db->query("DELETE FROM sy$sy.bs_tbl_learner_grades WHERE MD5(learner_enrollment_id::text)='$enroll_id'")) {
+                if ($this->db->query("DELETE FROM sy$sy.bs_tbl_learner_enrollment WHERE MD5(learner_id::text)='$learner_id'")) {
                     $this->db->query("UPDATE account.tbl_useraccount SET is_active=false WHERE MD5(basic_info_id::text)='$binfo_id'");
                     if ($this->db->trans_status() === false) {
                         $this->db->trans_rollback();
@@ -716,7 +716,7 @@ class Dataentry extends MY_Controller
                             $rm = $rm_sec_id[$i];
                             $rssaid1 = $rssaid[$i];
                             $grades = $this->returnNull($gradeLearner[$i]);
-                            $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
+                            $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades t1
                                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
                                             AND t1.qrtr_id=$qi AND t1.sy_id=$sy");
                             $srow = $search->row();
@@ -737,7 +737,7 @@ class Dataentry extends MY_Controller
                                     // $this->db->where('qrtr_id', $qrtr);
                                     // $this->db->where('sy_id', $sy);
                                     $this->db->where('id', $tmpId);
-                                    if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+                                    if ($this->db->update("sy$sy.bs_tbl_learner_grades", $update_data)) {
                                         $ret = $true;
                                     } else {
                                         $ret = $false;
@@ -759,7 +759,7 @@ class Dataentry extends MY_Controller
                     }
                     // $b = json_encode($data);
                     if (count($data) > 0 && $login_id) {
-                        if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
+                        if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades", $data)) {
                             // $this->userlog("INSERTED GRADES: " . $b);
                             $ret = $true;
                         } else {
@@ -782,9 +782,9 @@ class Dataentry extends MY_Controller
 
         echo json_encode($ret);
 
-        $this->db->query("REFRESH MATERIALIZED VIEW building_sectioning.m_view_all_grades_stat$sy;
-        REFRESH MATERIALIZED VIEW building_sectioning.m_view_grades$sy;
-        REFRESH MATERIALIZED VIEW building_sectioning.m_view_qrtr_grades_stat$sy;");
+        $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_all_grades_stat;
+        REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades;
+        REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_qrtr_grades_stat;");
     }
 
     function saveGradesPSList()
@@ -821,7 +821,7 @@ class Dataentry extends MY_Controller
                             $rm = $rm_sec_id[$i];
                             $rssaid1 = $rssaid[$i];
                             $grades = $this->returnNull($gradeLearner[$i]);
-                            $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades_ps$sy t1
+                            $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades_ps t1
                                             WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
                                             AND t1.qrtr_id=$qi AND t1.sy_id=$sy");
                             $srow = $search->row();
@@ -838,7 +838,7 @@ class Dataentry extends MY_Controller
                                     );
 
                                     $this->db->where('id', $tmpId);
-                                    if ($this->db->update("building_sectioning.tbl_learner_grades_ps$sy", $update_data)) {
+                                    if ($this->db->update("sy$sy.bs_tbl_learner_grades_ps", $update_data)) {
                                         $ret = $true;
                                     } else {
                                         $ret = $false;
@@ -859,7 +859,7 @@ class Dataentry extends MY_Controller
                         }
                     }
                     if (count($data) > 0 && $login_id) {
-                        if ($this->db->insert_batch("building_sectioning.tbl_learner_grades_ps$sy", $data)) {
+                        if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades_ps", $data)) {
                             $ret = $true;
                         } else {
                             $ret = $false;
@@ -892,7 +892,7 @@ class Dataentry extends MY_Controller
         $dateNow = $this->now();
         $true = ["success"   => true];
         $false = ["success"   => false];
-        $query = $this->db->query("SELECT t1.basic_info_id, t1.lrn FROM building_sectioning.view_enrollment$sy t1
+        $query = $this->db->query("SELECT t1.basic_info_id, t1.lrn FROM sy$sy.bs_view_enrollment t1
                                     WHERE t1.person_uuid='$uuid'");
         $row = $query->row();
         if ($query->num_rows() > 0) {
@@ -975,7 +975,7 @@ class Dataentry extends MY_Controller
             ];
 
             // $this->db->where('rssa_id', $rssa_id);
-            if ($this->db->query("UPDATE building_sectioning.tbl_learner_grades_stat$sy 
+            if ($this->db->query("UPDATE sy$sy.bs_tbl_learner_grades_stat 
                                   SET is_active=false WHERE rssa_id=$rssa_id AND qrtr=$q AND sy_id=$sy")) {
                 $data1 = [
                     "rssa_id" => $rssa_id,
@@ -985,7 +985,7 @@ class Dataentry extends MY_Controller
                     "remarks" => $remarks,
                     "added_by" => $login_id,
                 ];
-                if ($this->db->insert("building_sectioning.tbl_learner_grades_stat$sy", $data1)) {
+                if ($this->db->insert("sy$sy.bs_tbl_learner_grades_stat", $data1)) {
                     $true += ["message"   => "Successfully submitted!"];
                     $ret = $true;
                 }

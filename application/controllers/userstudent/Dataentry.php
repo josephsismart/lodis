@@ -51,7 +51,7 @@ class Dataentry extends MY_Controller
         }
         // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
-            if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $data)) {
+            if ($this->db->insert_batch("sy$sy.bs_tbl_learner_enrollment", $data)) {
                 // $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
                 $ret = $true;
             }
@@ -172,7 +172,7 @@ class Dataentry extends MY_Controller
         // }
         // $b = json_encode($data);
         // if (count($data) > 0 && $login_id) {
-        //     if ($this->db->insert_batch("building_sectioning.tbl_learner_enrollment$sy", $data)) {
+        //     if ($this->db->insert_batch("sy$sy.bs_tbl_learner_enrollment", $data)) {
         //         $this->userlog("INSERTED NEW ENROLLMENT: " . $b);
                 $ret = $true;
         //     }
@@ -210,7 +210,7 @@ class Dataentry extends MY_Controller
             $en = $en_id[$i];
             $rm = $rm_sec_id[$i];
             $grades = $this->returnNull($gradeLearner[$i]);
-            $search = $this->db->query("SELECT t1.* FROM building_sectioning.tbl_learner_grades$sy t1
+            $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades t1
                                         WHERE t1.learner_enrollment_id=$en AND t1.room_section_id=$rm 
                                         AND t1.qrtr_id=$qrtr AND t1.sy_id=$sy");
             $srow = $search->row();
@@ -229,7 +229,7 @@ class Dataentry extends MY_Controller
                     $this->db->where('room_section_id', $rm);
                     $this->db->where('qrtr_id', $qrtr);
                     $this->db->where('sy_id', $sy);
-                    if ($this->db->update("building_sectioning.tbl_learner_grades$sy", $update_data)) {
+                    if ($this->db->update("sy$sy.bs_tbl_learner_grades", $update_data)) {
                         $ret = $true;
                     } else {
                         $ret = $false;
@@ -250,7 +250,7 @@ class Dataentry extends MY_Controller
         }
         // $b = json_encode($data);
         if (count($data) > 0 && $login_id) {
-            if ($this->db->insert_batch("building_sectioning.tbl_learner_grades$sy", $data)) {
+            if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades", $data)) {
                 // $this->userlog("INSERTED GRADES: " . $b);
                 $ret = $true;
             } else {

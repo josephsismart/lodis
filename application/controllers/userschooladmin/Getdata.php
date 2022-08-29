@@ -334,7 +334,7 @@ class Getdata extends MY_Controller
         $thisQuery = $this->db->query("SELECT t1.*,t2.male,t2.female,t2.total_enrollee FROM building_sectioning.view_room_section t1
                                         LEFT JOIN (SELECT t1.room_section_id,t1.schl_yr_id, SUM(CASE WHEN t1.sex_bool='t' THEN 1 ELSE 0 END) AS male,
                                         SUM(CASE WHEN t1.sex_bool='f' THEN 1 ELSE 0 END) AS female, SUM(1) AS total_enrollee
-                                        FROM building_sectioning.view_enrollment$sy t1
+                                        FROM sy$sy.bs_view_enrollment t1
                                         GROUP by t1.room_section_id,t1.schl_yr_id) t2 ON t1.id=t2.room_section_id
                                         AND t1.schl_yr_id=t2.schl_yr_id
                                         WHERE t1.schl_yr_id=$sy

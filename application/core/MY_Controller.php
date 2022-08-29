@@ -390,7 +390,7 @@ class MY_Controller extends CI_Controller
         $sy = $this->getOnLoad()["sy_id"];
         $query = $this->db->query("SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
                                     SUM(CASE WHEN t1.sex_bool=FALSE THEN 1 END) AS female
-                                    FROM building_sectioning.view_enrollment$sy t1
+                                    FROM sy$sy.bs_view_enrollment t1
                                     WHERE t1.status_id=5");
 
         $query1 = $this->db->query("SELECT SUM(CASE WHEN t1.sex_bool=TRUE THEN 1 END) AS male,
@@ -536,7 +536,7 @@ class MY_Controller extends CI_Controller
             "ip" => $ip,
         ];
         if ($login_id) {
-            $this->db->insert("global.tbl_userlogs_learner$sy", $data);
+            $this->db->insert("sy$sy.g_tbl_userlogs_learner", $data);
         }
     }
 
@@ -566,7 +566,7 @@ class MY_Controller extends CI_Controller
     public function enrollmentChecker($a)
     {
         $sy = $this->getOnLoad()["sy_id"];
-        $query = $this->db->query("SELECT t1.id FROM building_sectioning.tbl_learner_enrollment$sy t1 WHERE t1.learner_id=$a");
+        $query = $this->db->query("SELECT t1.id FROM sy$sy.bs_tbl_learner_enrollment t1 WHERE t1.learner_id=$a");
         if ($query->num_rows() > 0) {
             return $query->row()->id;
         } else {

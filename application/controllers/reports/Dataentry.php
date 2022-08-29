@@ -61,7 +61,7 @@ class Dataentry extends MY_Controller
             ];
 
             // $this->db->where('rssa_id', $rssa_id);
-            if ($this->db->query("UPDATE building_sectioning.tbl_learner_grades_stat$sy 
+            if ($this->db->query("UPDATE sy$sy.bs_tbl_learner_grades_stat$sy 
                                   SET is_active=false WHERE rssa_id=$rssa_id AND qrtr=$q AND sy_id=$sy")) {
                 $data1 = [
                     "rssa_id" => $rssa_id,
@@ -71,7 +71,7 @@ class Dataentry extends MY_Controller
                     "remarks" => $remarks,
                     "added_by" => $login_id,
                 ];
-                if ($this->db->insert("building_sectioning.tbl_learner_grades_stat$sy", $data1)) {
+                if ($this->db->insert("sy$sy.bs_tbl_learner_grades_stat$sy", $data1)) {
                     $true += ["message"   => "Successfully submitted!"];
                     $ret = $true;
                 }

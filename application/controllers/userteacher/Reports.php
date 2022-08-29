@@ -120,7 +120,7 @@ class Reports extends MY_Controller
             // $ppid_cc =  $ppid_cc + ($ppid == null ? 0  : 1);
 
             $queryBody = $this->db->query("SELECT t2.sex,t2.last_fullname,t2.enrollment_id
-                                            FROM building_sectioning.view_enrollment$sy t2
+                                            FROM sy$sy.bs_view_enrollment t2
                                             WHERE t2.room_section_id=$rsid
                                             ORDER BY t2.sex_bool DESC,t2.last_fullname 
                                             ");
@@ -142,7 +142,7 @@ class Reports extends MY_Controller
                 }
             }
 
-            $queryBody2 = $this->db->query("SELECT t1.enrollment_id,t1.full_name,t2.q1,t2.q2,t2.q3,t2.q4 FROM building_sectioning.view_enrollment$sy t1
+            $queryBody2 = $this->db->query("SELECT t1.enrollment_id,t1.full_name,t2.q1,t2.q2,t2.q3,t2.q4 FROM sy$sy.bs_view_enrollment t1
                                             LEFT JOIN(SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id, 
                                                         SUM(t1.q1) AS q1,SUM(t1.q2) AS q2,SUM(t1.q3) AS q3,SUM(t1.q4) AS q4 from(
                                                         SELECT t1.id,t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,
@@ -150,7 +150,7 @@ class Reports extends MY_Controller
                                                         CASE WHEN(t1.qrtr_id=2)THEN t1.grade ELSE NULL END AS q2,
                                                         CASE WHEN(t1.qrtr_id=3)THEN t1.grade ELSE NULL END AS q3,
                                                         CASE WHEN(t1.qrtr_id=4)THEN t1.grade ELSE NULL END AS q4
-                                                        FROM building_sectioning.tbl_learner_grades1 t1
+                                                        FROM sy$sy.bs_tbl_learner_grades t1
                                                         )AS t1 
                                                         WHERE t1.rm_sctn_sbjct_assgnmnt_id=$rssaid
                                                         GROUP BY t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id) t2 ON t1.enrollment_id=t2.learner_enrollment_id
