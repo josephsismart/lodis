@@ -640,7 +640,7 @@ class Dataentry extends MY_Controller
         echo json_encode($ret);
     }
 
-    function saveGradesList()
+    function saveGradesList_backup()
     {
         $this->db->trans_begin();
         $true = ["success"   => true];
@@ -787,6 +787,108 @@ class Dataentry extends MY_Controller
         REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_qrtr_grades_stat;");
     }
 
+    function saveGradesList()
+    {
+        $this->db->trans_begin();
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+        if ($this->getOnLoad()["grade_stat"] == 't') {
+            $data = [];
+            $data_update = [];
+            $q1 = null;
+            $q2 = null;
+            $q3 = null;
+            $q4 = null;
+
+            $sy = $this->getOnLoad()["sy_id"];
+
+            $en_id = $this->input->post("en_id");
+            $rssaid = $this->input->post("rssaid");
+
+            $login_id = $this->session->schoolmis_login_id;
+            $dateNow = $this->now();
+            $ret = $true;
+
+            $ql1 = $this->returnEmptyArr($this->input->post("gradeLearner1"));
+            $ql2 = $this->returnEmptyArr($this->input->post("gradeLearner2"));
+            $ql3 = $this->returnEmptyArr($this->input->post("gradeLearner3"));
+            $ql4 = $this->returnEmptyArr($this->input->post("gradeLearner4"));
+
+            $q1 = $this->input->post("gradeLearner1");
+            $q2 = $this->input->post("gradeLearner2");
+            $q3 = $this->input->post("gradeLearner3");
+            $q4 = $this->input->post("gradeLearner4");
+
+            $data = [];
+            $data_update = [];
+            for ($i = 0; $i < count($en_id); $i++) {
+                $en = $en_id[$i];
+                $rssaid1 = $rssaid[$i];
+                $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades t1
+                WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1");
+                $srow = $search->row();
+
+                $qq1 = $ql1 > 0 ? $this->returnNull($q1[$i]) : null;
+                $qq2 = $ql2 > 0 ? $this->returnNull($q2[$i]) : null;
+                $qq3 = $ql3 > 0 ? $this->returnNull($q3[$i]) : null;
+                $qq4 = $ql4 > 0 ? $this->returnNull($q4[$i]) : null;
+
+                if ($search->num_rows() > 0) {
+                    $data_update[$i] = [
+                        'id' => $srow->id,
+                        'date_updated' => $dateNow,
+                        'updated_by' => $login_id,
+                    ];
+                    $ql1 > 0 ? $data_update[$i] += ['q1' => $qq1] : '';
+                    $ql2 > 0 ? $data_update[$i] += ['q2' => $qq2] : '';
+                    $ql3 > 0 ? $data_update[$i] += ['q3' => $qq3] : '';
+                    $ql4 > 0 ? $data_update[$i] += ['q4' => $qq4] : '';
+                }
+
+                if ($search->num_rows() == 0) {
+                    $data[$i] = [
+                        'learner_enrollment_id' => $en,
+                        'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+                        'date_added' => $dateNow,
+                        'added_by' => $login_id,
+                    ];
+                    $ql1 > 0 ? $data[$i] += ['q1' => $qq1] : '';
+                    $ql2 > 0 ? $data[$i] += ['q2' => $qq2] : '';
+                    $ql3 > 0 ? $data[$i] += ['q3' => $qq3] : '';
+                    $ql4 > 0 ? $data[$i] += ['q4' => $qq4] : '';
+                }
+            }
+            if (count($data) > 0 && $login_id) {
+                if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades", $data)) {
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
+            }
+
+            if (count($data_update) > 0 && $login_id) {
+                if ($this->db->update_batch("sy$sy.bs_tbl_learner_grades", $data_update, 'id')) {
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
+            }
+
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+
+                $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades;
+                                  REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_all_grades_stat;");
+            }
+        } else {
+            $ret = $false;
+        }
+
+        echo json_encode($ret);
+    }
+
     function saveGradesPSList()
     {
         $this->db->trans_begin();
@@ -794,86 +896,83 @@ class Dataentry extends MY_Controller
         $false = ["success"   => false];
         if ($this->getOnLoad()["grade_stat"] == 't') {
             $data = [];
+            $data_update = [];
+            $q1 = null;
+            $q2 = null;
+            $q3 = null;
+            $q4 = null;
+
             $sy = $this->getOnLoad()["sy_id"];
-            $sy_insert = (int)$sy;
 
             $en_id = $this->input->post("en_id");
-            $rm_sec_id = $this->input->post("rm_sec_id");
             $rssaid = $this->input->post("rssaid");
-            $igq = (string)$this->getOnLoad()["input_grades_qrtr"];
-
-            $tmpGrade = 0;
 
             $login_id = $this->session->schoolmis_login_id;
             $dateNow = $this->now();
             $ret = $true;
 
+            $q1 = $this->returnNull($this->input->post("gradeLearner1"));
+            $q2 = $this->returnNull($this->input->post("gradeLearner2"));
+            $q3 = $this->returnNull($this->input->post("gradeLearner3"));
+            $q4 = $this->returnNull($this->input->post("gradeLearner4"));
 
-            for ($x = 0; $x < strlen($igq); $x++) {
-                $qi = $igq[$x];
-                $data = [];
-                if ($qi >= 1 && $qi <= 4) {
-                    $gradeLearner = $this->input->post("gradeLearner" . $qi);
-                    for ($i = 0; $i < count($en_id); $i++) {
+            $data = [];
+            $data_update = [];
+            for ($i = 0; $i < count($en_id); $i++) {
 
-                        if (isset($gradeLearner[$i])) {
-                            $en = $en_id[$i];
-                            $rm = $rm_sec_id[$i];
-                            $rssaid1 = $rssaid[$i];
-                            $grades = $this->returnNull($gradeLearner[$i]);
-                            $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades_ps t1
-                                            WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1 
-                                            AND t1.qrtr_id=$qi AND t1.sy_id=$sy");
-                            $srow = $search->row();
+                $en = $en_id[$i];
+                $rssaid1 = $rssaid[$i];
 
-                            if ($search->num_rows() > 0) {
-                                $tmpId = $srow->id;
-                                $tmpGrade = $srow->grade;
-                                if ($grades == $tmpGrade) {
-                                } else {
-                                    $update_data = array(
-                                        'grade' => $grades,
-                                        'date_updated' => $dateNow,
-                                        'updated_by' => $login_id
-                                    );
 
-                                    $this->db->where('id', $tmpId);
-                                    if ($this->db->update("sy$sy.bs_tbl_learner_grades_ps", $update_data)) {
-                                        $ret = $true;
-                                    } else {
-                                        $ret = $false;
-                                    }
-                                }
-                            } else {
-                                $data[] = [
-                                    'learner_enrollment_id' => $en,
-                                    'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
-                                    'qrtr_id' => $qi,
-                                    'grade' => $grades,
-                                    'date_added' => $dateNow,
-                                    'added_by' => $login_id,
-                                    'status_id' => 1,
-                                    'sy_id' => $sy_insert,
-                                ];
-                            }
-                        }
-                    }
-                    if (count($data) > 0 && $login_id) {
-                        if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades_ps", $data)) {
-                            $ret = $true;
-                        } else {
-                            $ret = $false;
-                        }
-                    }
+                $search = $this->db->query("SELECT t1.* FROM sy$sy.bs_tbl_learner_grades_ps t1
+                WHERE t1.learner_enrollment_id=$en AND t1.rm_sctn_sbjct_assgnmnt_id=$rssaid1");
+                $srow = $search->row();
 
-                    if ($this->db->trans_status() === false) {
-                        $this->db->trans_rollback();
-                    } else {
-                        $this->db->trans_commit();
-                    }
+                if ($search->num_rows() > 0) {
+                    $data_update[] = [
+                        'id' => $srow->id,
+                        'q1' => $q1 ? $this->returnNull($q1[$i]) : null,
+                        'q2' => $q2 ? $this->returnNull($q2[$i]) : null,
+                        'q3' => $q3 ? $this->returnNull($q3[$i]) : null,
+                        'q4' => $q4 ? $this->returnNull($q4[$i]) : null,
+                        'date_updated' => $dateNow,
+                        'updated_by' => $login_id,
+                    ];
+                } else {
+                    $data[] = [
+                        'learner_enrollment_id' => $en,
+                        'rm_sctn_sbjct_assgnmnt_id' => $rssaid1,
+                        'q1' => $q1 ? $this->returnNull($q1[$i]) : null,
+                        'q2' => $q2 ? $this->returnNull($q2[$i]) : null,
+                        'q3' => $q3 ? $this->returnNull($q3[$i]) : null,
+                        'q4' => $q4 ? $this->returnNull($q4[$i]) : null,
+                        'date_added' => $dateNow,
+                        'added_by' => $login_id,
+                    ];
+                }
+            }
+            if (count($data) > 0 && $login_id) {
+                if ($this->db->insert_batch("sy$sy.bs_tbl_learner_grades_ps", $data)) {
+                    $ret = $true;
                 } else {
                     $ret = $false;
                 }
+            }
+
+            if (count($data_update) > 0 && $login_id) {
+                if ($this->db->update_batch("sy$sy.bs_tbl_learner_grades_ps", $data_update, 'id')) {
+                    $ret = $true;
+                } else {
+                    $ret = $false;
+                }
+            }
+
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+
+                $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades_ps;");
             }
         } else {
             $ret = $false;
@@ -994,6 +1093,8 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
+                $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades;
+                                  REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_all_grades_stat;");
             }
         } else {
             $false += ["message"   => "Password mismatch!"];

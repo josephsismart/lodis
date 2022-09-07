@@ -230,8 +230,8 @@ $uri = $this->session->schoolmis_login_uri;
                     fillIn();
                     return false;
                 }
-                $("#modal" + formId + " .tab-content").hide();
-                $("#modal" + formId + " .overlay").show();
+                // $("#modal" + formId + " .tab-content").hide();
+                // $("#modal" + formId + " .overlay").show();
                 a = $("#form_save_data" + formId + " .submitBtnPrimary").text();
                 // if (formId != "GradesList") {
                 //     $("#form_save_data" + formId + " .submitBtnPrimary").attr("disabled", true);

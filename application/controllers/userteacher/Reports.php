@@ -146,10 +146,10 @@ class Reports extends MY_Controller
                                             LEFT JOIN(SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id, 
                                                         SUM(t1.q1) AS q1,SUM(t1.q2) AS q2,SUM(t1.q3) AS q3,SUM(t1.q4) AS q4 from(
                                                         SELECT t1.id,t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,
-                                                        CASE WHEN(t1.qrtr_id=1)THEN t1.grade ELSE NULL END AS q1,
-                                                        CASE WHEN(t1.qrtr_id=2)THEN t1.grade ELSE NULL END AS q2,
-                                                        CASE WHEN(t1.qrtr_id=3)THEN t1.grade ELSE NULL END AS q3,
-                                                        CASE WHEN(t1.qrtr_id=4)THEN t1.grade ELSE NULL END AS q4
+                                                        t1.q1,
+                                                        t1.q2,
+                                                        t1.q3,
+                                                        t1.q4
                                                         FROM sy$sy.bs_tbl_learner_grades t1
                                                         )AS t1 
                                                         WHERE t1.rm_sctn_sbjct_assgnmnt_id=$rssaid

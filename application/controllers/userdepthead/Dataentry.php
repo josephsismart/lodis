@@ -41,7 +41,7 @@ class Dataentry extends MY_Controller
         $status = $filter['status'];
         $stat = $status == "APPROVE" ? 18 : ($status == "RECHECK" ? 20 : null);
 
-        if($sy && $qrtr && $login_id && $stat){
+        if ($sy && $qrtr && $login_id && $stat) {
             //1 3221232
             //2 2123221
             //3 3211123
@@ -76,6 +76,8 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
+                $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades;
+                                  REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_all_grades_stat;");
             }
         } else {
             $false += ["message"   => "Password mismatch!"];

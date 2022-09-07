@@ -146,6 +146,12 @@ class MY_Controller extends CI_Controller
         return $return;
     }
 
+    public function returnEmptyArr($a)
+    {
+        $return = !$a ? 0 : count($a);
+        return $return;
+    }
+
     public function returnZero($a)
     {
         $return = !$a ? 0 : $a;
