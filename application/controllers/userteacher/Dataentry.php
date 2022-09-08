@@ -347,17 +347,11 @@ class Dataentry extends MY_Controller
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
+            $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+            $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
         }
 
-
         echo json_encode($ret);
-        $this->db->query("
-        REFRESH MATERIALIZED VIEW profile.view_basicinfo;
-        REFRESH MATERIALIZED VIEW profile.view_learner;
-        REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
-        // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_learner;");
-        // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
-
     }
 
     function saveImportEnrollmentInfo()
@@ -579,6 +573,8 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
+                $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+                $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
             }
         } else {
             $ret = $false;
@@ -878,7 +874,6 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
-
                 $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades;
                                   REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_all_grades_stat;");
             }
@@ -971,7 +966,6 @@ class Dataentry extends MY_Controller
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
-
                 $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_m_view_grades_ps;");
             }
         } else {

@@ -225,47 +225,12 @@ class Getdata extends MY_Controller
 				                        LEFT JOIN building_sectioning.view_subject_grdlvl_personnel_assgnmnt t5 ON t1.room_section_id=t5.room_section_id AND t1.subject_id=t5.subject_id
                                         LEFT JOIN (
 
-                                                    SELECT t1.* FROM sy$sy.bs_m_view_qrtr_grades_stat t1
+                                                    SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,
+                                                            CASE WHEN(COALESCE(t1.q1stat,'')!='18')THEN 0 ELSE t1.q1 END AS q1,
+                                                            CASE WHEN(COALESCE(t1.q2stat,'')!='18')THEN 0 ELSE t1.q2 END AS q2,
+                                                            CASE WHEN(COALESCE(t1.q3stat,'')!='18')THEN 0 ELSE t1.q3 END AS q3,
+                                                            CASE WHEN(COALESCE(t1.q4stat,'')!='18')THEN 0 ELSE t1.q4 END AS q4 FROM sy$sy.bs_m_view_grades t1
                                             
-                                                    -- SELECT t1.*,q1.grade q1,q2.grade q2,q3.grade q3,q4.grade q4 FROM (
-                                                    
-                                                    -- SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id
-                                                    --     FROM sy$sy.bs_tbl_learner_grades t1
-                                                    --     GROUP BY t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id) t1
-                                                    --     LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
-                                                    --         FROM sy$sy.bs_tbl_learner_grades t1
-                                                    --         LEFT JOIN(SELECT rssa_id FROM sy$sy.bs_tbl_learner_grades_stat WHERE sy_id=$sy AND qrtr=1 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                    --         WHERE t1.sy_id=$sy AND t1.qrtr_id=1)q1 ON t1.learner_enrollment_id =q1.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q1.rm_sctn_sbjct_assgnmnt_id
-                                                    --     LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
-                                                    --         FROM sy$sy.bs_tbl_learner_grades t1
-                                                    --         LEFT JOIN(SELECT rssa_id FROM sy$sy.bs_tbl_learner_grades_stat WHERE sy_id=$sy AND qrtr=2 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                    --         WHERE t1.sy_id=$sy AND t1.qrtr_id=2)q2 ON t1.learner_enrollment_id =q2.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q2.rm_sctn_sbjct_assgnmnt_id
-                                                    --     LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
-                                                    --         FROM sy$sy.bs_tbl_learner_grades t1
-                                                    --         LEFT JOIN(SELECT rssa_id FROM sy$sy.bs_tbl_learner_grades_stat WHERE sy_id=$sy AND qrtr=3 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                    --         WHERE t1.sy_id=$sy AND t1.qrtr_id=3)q3 ON t1.learner_enrollment_id =q3.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q3.rm_sctn_sbjct_assgnmnt_id
-                                                    --     LEFT JOIN (SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id, CASE WHEN t2.rssa_id IS NULL THEN 0 ELSE t1.grade END AS grade
-                                                    --         FROM sy$sy.bs_tbl_learner_grades t1
-                                                    --         LEFT JOIN(SELECT rssa_id FROM sy$sy.bs_tbl_learner_grades_stat WHERE sy_id=$sy AND qrtr=4 AND is_active=true AND status_id=18) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                    --         WHERE t1.sy_id=$sy AND t1.qrtr_id=4)q4 ON t1.learner_enrollment_id =q4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id =q4.rm_sctn_sbjct_assgnmnt_id
-                                                    
-
-                                                    -- SELECT t1.learner_enrollment_id, t1.rm_sctn_sbjct_assgnmnt_id,
-                                                    --         SUM(CASE WHEN (t1.qrtr_id=1 AND t2.stats->>'qrtr'='1' AND t2.stats->>'stat_id'::TEXT='18') THEN t1.grade ELSE 0 END) AS q1,
-                                                    --         SUM(CASE WHEN (t1.qrtr_id=2 AND t2.stats->>'qrtr'='2' AND t2.stats->>'stat_id'::TEXT='18') THEN t1.grade ELSE 0 END) AS q2,
-                                                    --         SUM(CASE WHEN (t1.qrtr_id=3 AND t2.stats->>'qrtr'='3' AND t2.stats->>'stat_id'::TEXT='18') THEN t1.grade ELSE 0 END) AS q3,
-                                                    --         SUM(CASE WHEN (t1.qrtr_id=4 AND t2.stats->>'qrtr'='4' AND t2.stats->>'stat_id'::TEXT='18') THEN t1.grade ELSE 0 END) AS q4
-                                                    -- FROM sy$sy.bs_tbl_learner_grades t1 
-                                                    -- LEFT JOIN (SELECT t1.rssa_id,jsonb_build_object('qrtr',t1.qrtr,'stat',t2.description,'stat_id',t1.status_id,'rmrk',t1.remarks) as stats
-                                                    --     FROM sy$sy.bs_tbl_learner_grades_stat t1
-                                                    --     LEFT JOIN global.tbl_status t2 ON t1.status_id=t2.id
-                                                    --     WHERE t1.is_active=true AND t1.sy_id=$sy
-                                                    --     GROUP BY t1.rssa_id,t1.qrtr,t2.description,t1.status_id,t1.remarks) t2 ON t1.rm_sctn_sbjct_assgnmnt_id=t2.rssa_id
-                                                    -- WHERE t1.sy_id=$sy
-                                                    -- GROUP BY  t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id
-                                                    
-
-
                                                     )
                                                     t4 ON t3.enrollment_id=t4.learner_enrollment_id AND t1.id=t4.rm_sctn_sbjct_assgnmnt_id
                                         WHERE t5.subject_id=$sbjctid AND t3.room_section_id=$rsid
