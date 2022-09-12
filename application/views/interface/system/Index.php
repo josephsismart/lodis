@@ -61,7 +61,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="nav-link">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://lodis.herokuapp.com" target="_blank" class="nav-link text-primary"><b>Portal</b></a>
+                            <a href="https://lodis.herokuapp.com/login" target="_blank" class="nav-link text-primary"><b>Portal</b></a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
@@ -282,7 +282,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ramsismar
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2021-2022 <a href="https://lodis.herokuapp.com" target="_blank">LODIS App</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2021-2022 <a href="https://lodis.herokuapp.com/lodis" target="_blank">LODIS App</a>.</strong> All rights reserved.
         </footer>
         <div id="gwt-standard-footer"><iframe src="//gwhs.i.gov.ph/gwt-footer/footer-source.html" id="footer-gwt-frame" width="100%" scrolling="no" style="border: 0px; min-height: 188px; margin-bottom: -3px; overflow: hidden; height: 193px;"></iframe></div>
     </div>
