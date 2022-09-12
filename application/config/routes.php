@@ -58,6 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
 //admin
 $route['map'] = 'system/Map';
 $route['login'] = 'system/Login';
+$route['index'] = 'system/Index';
 $route['registration'] = 'system/Registration';
 
 $route['updatePassword'] = 'userpassword/Changepassword/updatePassword';

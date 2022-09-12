@@ -11,7 +11,7 @@ class Main extends MY_Controller {
 
     public function index()
     {
-        redirect(base_url('login'));
+        redirect(base_url('index'));
     }
 
     public function page_not_found(){
