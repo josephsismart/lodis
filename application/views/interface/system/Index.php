@@ -177,28 +177,130 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="row">
 
 
-                        <div class="col-lg-6 col-12">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <div class="card card-primary card-outline">
+
                                 <div class="card-body">
-                                    <h5 class="card-title mb-2">School Head</h5>
-
-                                    <img class="img-fluid pad mb-3" src="<?= base_url() ?>/dist/img/profile/GABOR.png" alt="Photo">
-
-                                    <h5>RUEL P. GABOR, PRINCIPAL IV</h5>
-                                    <!-- <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i> Share</button>
-                                    <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i> Like</button> -->
-                                    <span class="float-left text-muted">Principal</span>
+                                    <div class="row">
+                                        <h5 class="card-title mb-2">School Head</h5>
+                                        <div class="col-12"></div>
+                                        <div class="col-12 text-center">
+                                            <a href="http://ebeis.deped.gov.ph" target="_blank">
+                                                <img class="img-fluid pad mb-3 img-circle" width="200" src="<?= base_url() ?>/dist/img/profile/GABOR.jpg" alt="Photo">
+                                            </a>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <h5>RUEL P. GABOR</h5>
+                                            <span class="float-center text-muted">PRINCIPAL IV</span>
+                                            <p class="card-text text-justify font-italic font-weight-lighter mt-3">
+                                                &emsp;&emsp;"Sed ut perspiciati Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
+
                         </div>
-                        <div class="col-lg-6 col-12">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="card-title mb-2">News</h5>
+                                        </div>
+                                        <div class="col-12 py-1">
+                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo1.png') center center;">
+                                                <div class="row">
+                                                    <div class="col-12 overlay">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
+                                                                <h6 class="widget-user-desc text-right">read more</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 py-1">
+                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo2.png') center center;">
+                                                <div class="row">
+                                                    <div class="col-12 overlay">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
+                                                                <h6 class="widget-user-desc text-right">read more</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 py-1">
+                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo1.png') center center;">
+                                                <div class="row">
+                                                    <div class="col-12 overlay">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
+                                                                <h6 class="widget-user-desc text-right">read more</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div><!-- /.card -->
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header border-0">
+                                    <h3 class="card-title">Linkages</h3>
+                                </div>
+                                <div class="card-body table-responsive p-0" style="overflow:hidden">
+                                    <div class="row text-center">
+                                        <div class="col-12 p-1">
+                                            <a href="http://lis.deped.gov.ph" target="_blank">
+                                                <img src="<?= base_url() ?>/dist/img/linkages/lis.webp" alt="Product 1" height="50">
+                                            </a>
+                                        </div>
+                                        <div class="col-12 p-1">
+                                            <a href="http://ebeis.deped.gov.ph" target="_blank">
+                                                <img src="<?= base_url() ?>/dist/img/linkages/ebeis.webp" alt="Product 1" height="50">
+                                            </a>
+                                        </div>
+                                        <div class="col-12 p-1">
+                                            <a href="http://deped.gov.ph" target="_blank">
+                                                <img src="<?= base_url() ?>/dist/img/linkages/deped.webp" alt="Product 1" height="50">
+                                            </a>
+                                        </div>
+                                        <div class="col-12 p-1">
+                                            <a href="http://lrmds.deped.gov.ph/" target="_blank">
+                                                <img src="<?= base_url() ?>/dist/img/linkages/lrp.webp" alt="Product 1" height="50">
+                                            </a>
+                                        </div>
+                                        <div class="col-12 p-1">
+                                            <a href="http://http://ehris.deped.gov.ph/" target="_blank">
+                                                <img src="<?= base_url() ?>/dist/img/linkages/ehris.webp" alt="Product 1" height="50">
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
                                     <h5 class="card-title mb-2">About</h5>
 
                                     <p class="card-text">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
                                     </p>
                                     <a href="#" class="card-link">See more</a>
                                     <!-- <a href="#" class="card-link">Card link</a>
