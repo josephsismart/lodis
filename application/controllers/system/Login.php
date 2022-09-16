@@ -179,7 +179,7 @@ class Login extends MY_Controller
         ];
         $this->session->unset_userdata($array_logout);
         $this->session->sess_destroy();
-        redirect(base_url('login'));
+        redirect(base_url());
     }
 }
 

@@ -61,7 +61,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="#" class="nav-link">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://lodis.herokuapp.com/login" target="_blank" class="nav-link text-primary"><b>Portal</b></a>
+                            <a href="<?= base_url() ?>/login" class="nav-link text-primary"><b>Portal</b></a>
                         </li>
                         <!-- <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
@@ -200,8 +200,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
 
                             </div>
-
                         </div>
+
+
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
@@ -210,47 +211,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <h5 class="card-title mb-2">News</h5>
                                         </div>
                                         <div class="col-12 py-1">
-                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo1.png') center center;">
-                                                <div class="row">
-                                                    <div class="col-12 overlay">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
-                                                                <h6 class="widget-user-desc text-right">read more</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news4.png') center center;">
+                                                <div class="bg-primary py-2 px-1">
+                                                    <h5 class="widget-user-username text-right">Bayanihan para sa Bayan 2022</h5>
+                                                    <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12 py-1">
-                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo2.png') center center;">
-                                                <div class="row">
-                                                    <div class="col-12 overlay">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
-                                                                <h6 class="widget-user-desc text-right">read more</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news2.png') center center;">
+                                                <div class="bg-primary py-2 px-1">
+                                                    <h5 class="widget-user-username text-right">Brigada Skwela 2022</h5>
+                                                    <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12 py-1">
-                                            <div class="widget-user-header text-gray py-5" style="background: url('<?= base_url() ?>/dist/img/photo1.png') center center;">
-                                                <div class="row">
-                                                    <div class="col-12 overlay">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <h4 class="widget-user-username text-right">Kick-off of Brigada Year 2022</h4><br />
-                                                                <h6 class="widget-user-desc text-right">read more</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news3.png') center center;">
+                                                <div class="bg-primary py-2 px-1">
+                                                    <h5 class="widget-user-username text-right">Graduation Ceremony 2021</h5>
+                                                    <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-12 p-0 m-0">
+                                        <h6 class="text-right">see more...</h6>
                                     </div>
 
 
@@ -260,7 +246,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-header border-0">
-                                    <h3 class="card-title">Linkages</h3>
+                                    <h3 class="card-title">Available Links</h3>
                                 </div>
                                 <div class="card-body table-responsive p-0" style="overflow:hidden">
                                     <div class="row text-center">
@@ -386,7 +372,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Default to the left -->
             <strong>Copyright &copy; 2021-2022 <a href="https://lodis.herokuapp.com/lodis" target="_blank">LODIS App</a>.</strong> All rights reserved.
         </footer>
-        <div id="gwt-standard-footer"><iframe src="//gwhs.i.gov.ph/gwt-footer/footer-source.html" id="footer-gwt-frame" width="100%" scrolling="no" style="border: 0px; min-height: 188px; margin-bottom: -3px; overflow: hidden; height: 193px;"></iframe></div>
+        <div id="gwt-standard-footer"><iframe src="//gwhs.i.gov.ph/gwt-footer/footer-source.html" id="footer-gwt-frame" width="100%" style="border: 0px; min-height: 13rem; margin-bottom: -3px;"></iframe></div>
     </div>
     <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
     <!-- ./wrapper -->
