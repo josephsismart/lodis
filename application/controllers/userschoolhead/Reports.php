@@ -30,8 +30,11 @@ class Reports extends MY_Controller
 
     function getMFGradelvl()
     {
+        parse_str($this->input->post("a"), $filter);
+        $sy = $filter['sy'];
+        
         $data = ["data" => []];
-        $sy = $this->getOnLoad()["sy_id"];
+        // $sy = $this->getOnLoad()["sy_id"];
         $tmpG = "";
 
         $tb11_m = 0;
@@ -165,32 +168,32 @@ class Reports extends MY_Controller
         foreach ($query->result() as $key => $value) {
             $total = [
                 "<center><b>TOTAL</b></center>",
-                "<b>".number_format($tb11_m)."</b>",
-                "<b>".number_format($tb11_f)."</b>",
-                "<b>".number_format($t11_m)."</b>",
-                "<b>".number_format($t11_f)."</b>",
-                "<b>".number_format($t12_m)."</b>",
-                "<b>".number_format($t12_f)."</b>",
-                "<b>".number_format($t13_m)."</b>",
-                "<b>".number_format($t13_f)."</b>",
-                "<b>".number_format($t14_m)."</b>",
-                "<b>".number_format($t14_f)."</b>",
-                "<b>".number_format($t15_m)."</b>",
-                "<b>".number_format($t15_f)."</b>",
-                "<b>".number_format($t16_m)."</b>",
-                "<b>".number_format($t16_f)."</b>",
-                "<b>".number_format($t17_m)."</b>",
-                "<b>".number_format($t17_f)."</b>",
-                "<b>".number_format($t18_m)."</b>",
-                "<b>".number_format($t18_f)."</b>",
-                "<b>".number_format($t19_m)."</b>",
-                "<b>".number_format($t19_f)."</b>",
-                "<b>".number_format($t20_m)."</b>",
-                "<b>".number_format($t20_f)."</b>",
-                "<b>".number_format($total_m)."</b>",
-                "<b>".number_format($total_f)."</b>",
-                "<b>".number_format($t4p_m)."</b>",
-                "<b>".number_format($t4p_f)."</b>",
+                "<b>" . number_format($tb11_m) . "</b>",
+                "<b>" . number_format($tb11_f) . "</b>",
+                "<b>" . number_format($t11_m) . "</b>",
+                "<b>" . number_format($t11_f) . "</b>",
+                "<b>" . number_format($t12_m) . "</b>",
+                "<b>" . number_format($t12_f) . "</b>",
+                "<b>" . number_format($t13_m) . "</b>",
+                "<b>" . number_format($t13_f) . "</b>",
+                "<b>" . number_format($t14_m) . "</b>",
+                "<b>" . number_format($t14_f) . "</b>",
+                "<b>" . number_format($t15_m) . "</b>",
+                "<b>" . number_format($t15_f) . "</b>",
+                "<b>" . number_format($t16_m) . "</b>",
+                "<b>" . number_format($t16_f) . "</b>",
+                "<b>" . number_format($t17_m) . "</b>",
+                "<b>" . number_format($t17_f) . "</b>",
+                "<b>" . number_format($t18_m) . "</b>",
+                "<b>" . number_format($t18_f) . "</b>",
+                "<b>" . number_format($t19_m) . "</b>",
+                "<b>" . number_format($t19_f) . "</b>",
+                "<b>" . number_format($t20_m) . "</b>",
+                "<b>" . number_format($t20_f) . "</b>",
+                "<b>" . number_format($total_m) . "</b>",
+                "<b>" . number_format($total_f) . "</b>",
+                "<b>" . number_format($t4p_m) . "</b>",
+                "<b>" . number_format($t4p_f) . "</b>",
             ];
 
             $t_m = $value->below_11_m + $value->age_11_m + $value->age_12_m + $value->age_13_m + $value->age_14_m + $value->age_15_m + $value->age_16_m + $value->age_17_m + $value->age_18_m + $value->age_19_m + $value->above_20_m;
@@ -234,7 +237,7 @@ class Reports extends MY_Controller
                 ];
             }
             $data["data"][] = [
-                '<p class="mb-n2 p-0 mt-n2" align="left">'.$value->sctn_nm.'</p>',
+                '<p class="mb-n2 p-0 mt-n2" align="left">' . $value->sctn_nm . '</p>',
                 $value->below_11_m,
                 $value->below_11_f,
                 $value->age_11_m,
@@ -289,7 +292,7 @@ class Reports extends MY_Controller
             $t4p_m += (int) $value->four_ps_m;
             $t4p_f += (int) $value->four_ps_f;
 
-            
+
             $stb11_m += (int) $value->below_11_m;
             $stb11_f += (int) $value->below_11_f;
             $st11_m += (int) $value->age_11_m;
@@ -324,34 +327,200 @@ class Reports extends MY_Controller
         $data["data"][] = $empty;
         $data["data"][] = [
             "<center><b>GRAND TOTAL</b></center>",
-            "<b>".number_format($stb11_m)."</b>",
-            "<b>".number_format($stb11_f)."</b>",
-            "<b>".number_format($st11_m)."</b>",
-            "<b>".number_format($st11_f)."</b>",
-            "<b>".number_format($st12_m)."</b>",
-            "<b>".number_format($st12_f)."</b>",
-            "<b>".number_format($st13_m)."</b>",
-            "<b>".number_format($st13_f)."</b>",
-            "<b>".number_format($st14_m)."</b>",
-            "<b>".number_format($st14_f)."</b>",
-            "<b>".number_format($st15_m)."</b>",
-            "<b>".number_format($st15_f)."</b>",
-            "<b>".number_format($st16_m)."</b>",
-            "<b>".number_format($st16_f)."</b>",
-            "<b>".number_format($st17_m)."</b>",
-            "<b>".number_format($st17_f)."</b>",
-            "<b>".number_format($st18_m)."</b>",
-            "<b>".number_format($st18_f)."</b>",
-            "<b>".number_format($st19_m)."</b>",
-            "<b>".number_format($st19_f)."</b>",
-            "<b>".number_format($st20_m)."</b>",
-            "<b>".number_format($st20_f)."</b>",
-            "<b>".number_format($stotal_m)."</b>",
-            "<b>".number_format($stotal_f)."</b>",
-            "<b>".number_format($st4p_m)."</b>",
-            "<b>".number_format($st4p_f)."</b>",
+            "<b>" . number_format($stb11_m) . "</b>",
+            "<b>" . number_format($stb11_f) . "</b>",
+            "<b>" . number_format($st11_m) . "</b>",
+            "<b>" . number_format($st11_f) . "</b>",
+            "<b>" . number_format($st12_m) . "</b>",
+            "<b>" . number_format($st12_f) . "</b>",
+            "<b>" . number_format($st13_m) . "</b>",
+            "<b>" . number_format($st13_f) . "</b>",
+            "<b>" . number_format($st14_m) . "</b>",
+            "<b>" . number_format($st14_f) . "</b>",
+            "<b>" . number_format($st15_m) . "</b>",
+            "<b>" . number_format($st15_f) . "</b>",
+            "<b>" . number_format($st16_m) . "</b>",
+            "<b>" . number_format($st16_f) . "</b>",
+            "<b>" . number_format($st17_m) . "</b>",
+            "<b>" . number_format($st17_f) . "</b>",
+            "<b>" . number_format($st18_m) . "</b>",
+            "<b>" . number_format($st18_f) . "</b>",
+            "<b>" . number_format($st19_m) . "</b>",
+            "<b>" . number_format($st19_f) . "</b>",
+            "<b>" . number_format($st20_m) . "</b>",
+            "<b>" . number_format($st20_f) . "</b>",
+            "<b>" . number_format($stotal_m) . "</b>",
+            "<b>" . number_format($stotal_f) . "</b>",
+            "<b>" . number_format($st4p_m) . "</b>",
+            "<b>" . number_format($st4p_f) . "</b>",
         ];
 
         echo json_encode($data);
+    }
+
+    function getSMEA()
+    {
+        //form_report_dataSMEA
+
+        parse_str($this->input->post("a"), $filter);
+        $sy = $filter['sy'];
+        $qrtr = $filter['qrtr'];
+        // echo "</br>";
+        // echo $sy;
+        // echo "</br>";
+        // echo $qrtr;
+        // echo "</br>";
+        // echo "yyyyy";
+
+        //         SELECT t4.description, t1.rm_sctn_sbjct_assgnmnt_id AS rssa_id, t1.room_section_id AS rsid, t1.full_name,t1.grade,t1.sctn_nm,
+        // 	   t2.m,t2.f,(t2.m + t2.f) AS t,t3.*  
+        // FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+        // LEFT JOIN(SELECT t1.room_section_id AS rsid,
+        // 					SUM(CASE WHEN(t1.sex_bool=TRUE)THEN 1 END) AS m,
+        // 					SUM(CASE WHEN(t1.sex_bool=FALSE)THEN 1 END) AS f 
+        // 			FROM sy1.bs_view_enrollment t1
+        // 			WHERE t1.status_id=5
+        // 			GROUP BY t1.room_section_id)t2 ON t1.room_section_id  = t2.rsid
+        // LEFT JOIN sy1.bs_view_grades_ps_avg t3 ON t1.rm_sctn_sbjct_assgnmnt_id = t3.rssaid
+        // LEFT JOIN "global".tbl_party t4 ON t1.subject_id = t4.id
+        // WHERE t1.schl_yr_id =1 AND t1.subject_id = 72
+        // ORDER BY t1.grade::Int,t1.sctn_nm
+
+        $query = $this->db->query("SELECT t1.rssaid,
+                                    COALESCE(t2.m, 0::bigint) AS m_b75,
+                                    COALESCE(t2.f, 0::bigint) AS f_b75,
+                                    COALESCE(t2.m + t2.f, 0::bigint) AS t_b75,
+                                    COALESCE(t3.m, 0::bigint) AS m_75_79,
+                                    COALESCE(t3.f, 0::bigint) AS f_75_79,
+                                    COALESCE(t3.m + t3.f, 0::bigint) AS t_75_79,
+                                    COALESCE(t4.m, 0::bigint) AS m_80_84,
+                                    COALESCE(t4.f, 0::bigint) AS f_80_84,
+                                    COALESCE(t4.m + t4.f, 0::bigint) AS t_80_84,
+                                    COALESCE(t5.m, 0::bigint) AS m_85_89,
+                                    COALESCE(t5.f, 0::bigint) AS f_85_89,
+                                    COALESCE(t5.m + t5.f, 0::bigint) AS t_85_89,
+                                    COALESCE(t6.m, 0::bigint) AS m_90_94,
+                                    COALESCE(t6.f, 0::bigint) AS f_90_94,
+                                    COALESCE(t6.m + t6.f, 0::bigint) AS t_90_94,
+                                    COALESCE(t7.m, 0::bigint) AS m_95_100,
+                                    COALESCE(t7.f, 0::bigint) AS f_95_100,
+                                    COALESCE(t7.m + t7.f, 0::bigint) AS t_95_100,
+                                    COALESCE(t8.m, 0::bigint) AS m_t,
+                                    COALESCE(t8.f, 0::bigint) AS f_t,
+                                    COALESCE(t8.m + t8.f, 0::bigint) AS t
+                                FROM ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid
+                                        FROM sy$sy.bs_tbl_learner_grades_ps t1_1
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id
+                                        ORDER BY t1_1.rm_sctn_sbjct_assgnmnt_id) t1
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr < 75
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t2 ON t1.rssaid = t2.rssaid
+                                        
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr >= 75 AND t1_1.$qrtr <= 79
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t3 ON t1.rssaid = t3.rssaid
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr >= 80 AND t1_1.$qrtr <= 84
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t4 ON t1.rssaid = t4.rssaid
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr >= 85 AND t1_1.$qrtr <= 89
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t5 ON t1.rssaid = t5.rssaid
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr >= 90 AND t1_1.$qrtr <= 94
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t6 ON t1.rssaid = t6.rssaid
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        WHERE t1_1.$qrtr >= 95 AND t1_1.$qrtr <= 100
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t7 ON t1.rssaid = t7.rssaid
+                                    LEFT JOIN ( SELECT t1_1.rm_sctn_sbjct_assgnmnt_id AS rssaid,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = true THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS m,
+                                            COALESCE(sum(
+                                                CASE
+                                                    WHEN t2_1.sex_bool = false THEN 1
+                                                    ELSE NULL::integer
+                                                END), 0::bigint) AS f
+                                        FROM sy$sy.bs_m_view_grades_ps t1_1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2_1 ON t1_1.learner_enrollment_id = t2_1.enrollment_id
+                                        GROUP BY t1_1.rm_sctn_sbjct_assgnmnt_id) t8 ON t1.rssaid = t8.rssaid;");
+
+        foreach ($query->result() as $key => $value) {
+            echo $value->rssaid . "<br/>";
+        }
+        // echo json_encode($data);
     }
 }

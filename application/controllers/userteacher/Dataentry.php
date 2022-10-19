@@ -612,9 +612,60 @@ class Dataentry extends MY_Controller
                         $this->db->trans_rollback();
                     } else {
                         $this->db->trans_commit();
+                        $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+                        $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
                     }
 
                     $true += ["message"   => "Successfully unenrolled!"];
+                    $ret = $true;
+                } else {
+                    $false += ["message"   => "Something went wrong!"];
+                    $ret = $false;
+                }
+            } else {
+                $false += ["message"   => "Something went wrong!"];
+                $ret = $false;
+            }
+        }
+        echo json_encode($ret);
+    }
+
+
+    function learnerTransfer()
+    {
+        $this->db->trans_begin();
+        $sy = $this->getOnLoad()["sy_id"];
+        $transfer = $this->getOnLoad()["transfer"];
+
+        $details = $this->input->post("details");
+        $a = explode('|', $details);
+        $enroll_id = $a[0];
+        $learner_id = $a[1];
+        $binfo_id = $a[2];
+        $password = md5($this->input->post("password"));
+        $pass = $this->session->schoolmis_pass;
+        $true = ["success"   => true];
+        $false = ["success"   => false];
+
+        if ($password != $pass) {
+            $false += ["message"   => "Password mismatch!"];
+            $ret = $false;
+        } else if ($transfer != 't') {
+            $false += ["message"   => "Please contact the Administrator"];
+            $ret = $false;
+        } else {
+            if ($this->db->query("DELETE FROM sy$sy.bs_tbl_learner_grades WHERE MD5(learner_enrollment_id::text)='$enroll_id'")) {
+                if ($this->db->query("DELETE FROM sy$sy.bs_tbl_learner_enrollment WHERE MD5(learner_id::text)='$learner_id'")) {
+                    $this->db->query("UPDATE account.tbl_useraccount SET is_active=false WHERE MD5(basic_info_id::text)='$binfo_id'");
+                    if ($this->db->trans_status() === false) {
+                        $this->db->trans_rollback();
+                    } else {
+                        $this->db->trans_commit();
+                        $this->db->query("REFRESH MATERIALIZED VIEW profile.view_basicinfo;");
+                        $this->db->query("REFRESH MATERIALIZED VIEW sy$sy.bs_view_enrollment;");
+                    }
+
+                    $true += ["message"   => "Successfully transfered!"];
                     $ret = $true;
                 } else {
                     $false += ["message"   => "Something went wrong!"];

@@ -24,7 +24,6 @@ $uri = $this->session->schoolmis_login_uri;
 <script src="<?= base_url() ?>dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
     $(".submitBtnMFGradelvl").click(function() {
-        a = $(".submitBtnMFGradelvl").text();
         $(".submitBtnMFGradelvl").attr("disabled", true);
         $(".submitBtnMFGradelvl").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
         var pl = 1;
@@ -33,7 +32,10 @@ $uri = $this->session->schoolmis_login_uri;
             ajax: {
                 url: "<?= base_url($uri . '/reports/getMFGradelvl') ?>",
                 type: "POST",
-                data: function(d) {}
+                data: function(d) {
+                    d.a = $("#form_report_dataG4Ps").serialize();
+                    return table_data;
+                }
             },
             fnInitComplete: function(oSettings, json) {
 
@@ -41,7 +43,34 @@ $uri = $this->session->schoolmis_login_uri;
                 $("#modalMFGradelvl").modal("show");
 
                 $(".submitBtnMFGradelvl").attr("disabled", false);
-                $(".submitBtnMFGradelvl").html(a);
+                $(".submitBtnMFGradelvl").html("<span class=\"fa fa-search\"></span>");
+            }
+        });
+
+    });
+
+    $(".submitBtnSMEA").click(function() {
+        a = $(".submitBtnSMEA").text();
+        // $(".submitBtnSMEA").attr("disabled", true);
+        $(".submitBtnSMEA").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        var pl = 1;
+        $("#tblSMEA").DataTable().destroy();
+        var table, table_data = $("#tblSMEA").DataTable({
+            ajax: {
+                url: "<?= base_url($uri . '/reports/getSMEA') ?>",
+                type: "POST",
+                data: function(d) {
+                    d.a = $("#form_report_dataSMEA").serialize();
+                    return table_data;
+                }
+            },
+            fnInitComplete: function(oSettings, json) {
+
+                $("#tblSMEA").DataTable().destroy();
+                $("#modalSMEA").modal("show");
+
+                $(".submitBtnSMEA").attr("disabled", false);
+                $(".submitBtnSMEA").html(a);
             }
         });
 

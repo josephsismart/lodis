@@ -147,6 +147,38 @@ $uri = $this->session->schoolmis_login_uri;
         });
     }
 
+    function transfer() {
+        validate("form_save_dataTransferConfirm");
+        if (valid != 0) {
+            fillIn();
+            return false;
+        }
+        // a = $("#form_save_dataTransferConfirm .submitBtnPrimary").text();
+        // $("#form_save_dataTransferConfirm .submitBtnPrimary").attr("disabled", true);
+        // $("#form_save_dataTransferConfirm .submitBtnPrimary").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        s = $("#form_save_dataTransferConfirm").serialize();
+        $.post("<?= base_url($uri . '/Dataentry/learnerTransfer') ?>", s,
+            function(data) {
+                var result = JSON.parse(data);
+                if (result.success == true) {
+                    successAlert(result.message);
+                    // getTable("LearnersList", 0, -1);
+                    $("#modalLearnersTransfer").modal('hide');
+                    // getTable("LearnersList", 0, -1);
+                    getTable("AssignedSectionList", 0, -1);
+                    // setTimeout(function() {
+                    //     $(".form_save_dataSectionList #slctRmRadio" + rsid + rssaid).attr("checked", true).trigger("click");
+                    // }, 1500);
+                } else if (result.success == false) {
+                    failAlert(result.message);
+                    // getTable("LearnersList", 0, -1);
+                }
+            }
+        ).then(function() {
+            // s2 == 1 ? $("#form_save_data" + formId + " .select" + getList).select2() : "";
+        });
+    }
+
     function validate(form_id) {
         let invalid = 0;
         $($("#" + form_id).find("select").get().reverse()).each(function() {

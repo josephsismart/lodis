@@ -164,7 +164,7 @@ $uri = $this->session->schoolmis_login_uri;
 </div>
 
 <!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-<div class="modal fade" id="modalReportStckPR">
+    <div class="modal fade" id="modalSMEA">
     <div class="modal-dialog modal-xxl">
         <div class="modal-content">
             <div class="modal-header no-print">
@@ -183,30 +183,62 @@ $uri = $this->session->schoolmis_login_uri;
                         </tr>
                     </table> -->
                     <center>
-                        <table border="1" width="100%" id="tblReportStckPR">
+                        <table border="1" width="100%" id="tblSMEA">
                             <thead>
-                                <tr style="text-align:center;border:1px solid white;">
+                                <!-- <tr style="text-align:center;border:1px solid white;">
                                     <td colspan="13"><?php $this->load->view('interface/' . $uri . '/layout/Report_header') ?></td>
                                 </tr>
                                 <tr style="text-align:center;border:1px solid white;border-bottom: 1px solid gray;">
                                     <td colspan="13"><br />
-                                        <h5 id="headerReportStckPR"></h5>
+                                        <h5 id="headerSMEA"></h5>
                                     </td>
+                                </tr> -->
+                                <tr align="center">
+                                    <td rowspan="2" width="1">No.</td>
+                                    <td rowspan="2" width="200">NAME OF TEACHER</td>
+                                    <td rowspan="2" width="100">SECTION</td>
+                                    <td colspan="3" width="80">TOTAL ENROLLMENT AS OF JAN 2022</td>
+                                    <td rowspan="2" width="80">OVER-ALL GPA</td>
+                                    <td colspan="3" width="80">75 BELOW</td>
+                                    <td colspan="3" width="80">75-79</td>
+                                    <td colspan="3" width="80">80-84</td>
+                                    <td colspan="3" width="80">85-89</td>
+                                    <td colspan="3" width="80">90-94</td>
+                                    <td colspan="3" width="80">95-100</td>
+                                    <td colspan="3" width="80">TOTAL</td>
                                 </tr>
                                 <tr align="center">
-                                    <th>#</th>
-                                    <th>PO Code</th>
-                                    <th>STCK Code</th>
-                                    <th>Date</th>
-                                    <th>Sacks</th>
-                                    <th>Kilos</th>
-                                    <th>PR Code</th>
-                                    <th>Date</th>
-                                    <th>Full Name</th>
-                                    <th>Category</th>
-                                    <th>Subcategory</th>
-                                    <th>Kilos</th>
-                                    <th>Price</th>
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
+
+                                    <td width="1">M</td>
+                                    <td width="1">F</td>
+                                    <td width="1">T</td>
                                 </tr>
                             </thead>
                             <tbody>

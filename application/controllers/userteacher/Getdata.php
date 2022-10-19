@@ -91,15 +91,16 @@ class Getdata extends MY_Controller
             $male = number_format($qrow->male) ?? "-";
             $female = number_format($qrow->female) ?? "-";
             $t_enrollee = number_format($qrow->total_enrollee) ?? "-";
-            $conso = ($advsry == 't') ? '<a class="dropdown-item text-xs" href="#" onclick="reportsConsoGrades()">CONSOLIDATED GRADES</a>' : '';
-            $enroll = ($advsry == 't' && $enroll_stat == 't') ? '<a class="dropdown-item bg-success text-xs" href="#" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment">ENROLLMENT</a>' : '';
-            $grade = ($grade_stat == 't') ? '<a class="dropdown-item bg-primary text-xs" href="#" data-toggle="modal" onclick="getGradesListFN();getGradesPSListFN();" data-target="#modalGradesList">GRADES & EXAM</a>' : '';
-            // $q_exam = '<a class="dropdown-item bg-pink text-xs" href="#" data-toggle="modal" onclick="getGradesPSListFN()" data-target="#modalGradesPSList">QUARTER EXAM/PS</a>';
-            $grade_all = ($advsry == 't') ? '<a class="dropdown-item bg-info text-xs" href="#" data-toggle="modal" onclick="customTabViewAllGrades()" data-target="#modalAllGrades">GRADES STATUS</a>' : '';
+            $conso = ($advsry == 't') ? '<a class="dropdown-item text-xs" role="button" onclick="reportsConsoGrades()">CONSOLIDATED GRADES</a>' : '';
+            $smea = ($advsry == 't') ? '<a class="dropdown-item text-xs" role="button" onclick="reportsConsoGrades()">CONSOLIDATED GRADES</a>' : '';
+            $enroll = ($advsry == 't' && $enroll_stat == 't') ? '<a class="dropdown-item bg-success text-xs" role="button" data-toggle="modal" onclick="clear_form1()" data-target="#modalEnrollment">ENROLLMENT</a>' : '';
+            $grade = ($grade_stat == 't') ? '<a class="dropdown-item bg-primary text-xs" role="button" data-toggle="modal" onclick="getGradesListFN();getGradesPSListFN();" data-target="#modalGradesList">GRADES & EXAM</a>' : '';
+            // $q_exam = '<a class="dropdown-item bg-pink text-xs" role="button" data-toggle="modal" onclick="getGradesPSListFN()" data-target="#modalGradesPSList">QUARTER EXAM/PS</a>';
+            $grade_all = ($advsry == 't') ? '<a class="dropdown-item bg-info text-xs" role="button" data-toggle="modal" onclick="customTabViewAllGrades()" data-target="#modalAllGrades">GRADES STATUS</a>' : '';
 
-            // $gradesDL = '<a class="dropdown-item bg-primary text-xs" href="#"' .
+            // $gradesDL = '<a class="dropdown-item bg-primary text-xs" role="button"' .
             //     " onclick=\"getGradesSMEAListFN(1)\">GRADES FORM</a>";
-            // $qeDL = '<a class="dropdown-item bg-pink text-xs" href="#"' .
+            // $qeDL = '<a class="dropdown-item bg-pink text-xs" role="button"' .
             //     " onclick=\"getGradesSMEAListFN(2)\">QUARTER EXAM FORM</a>";
 
             $data2 = [
@@ -127,8 +128,8 @@ class Getdata extends MY_Controller
                                                     <span class="fa fa-ellipsis-h"></span>
                                                 </button>
                                                 <div class="dropdown-menu p-0" role="menu">
-                                                    <a class="dropdown-item text-xs" href="#" onclick="logsHideShow()">Logs & Account Settings</a>
-                                                    <a class="dropdown-item text-xs" href="#" onclick="allStudentLogs()">View All Student Logs</a>
+                                                    <a class="dropdown-item text-xs" role="button" onclick="logsHideShow()">Logs & Account Settings</a>
+                                                    <a class="dropdown-item text-xs" role="button" onclick="allStudentLogs()">View All Student Logs</a>
                                                 </div>' : '',
             ];
 
@@ -244,7 +245,7 @@ class Getdata extends MY_Controller
                         <div class="user-block">
                             <img class="img-circle img-bordered-sm" src="' . base_url() . '/dist/img/avatar1.jpg" alt="user image">
                             <span class="username">
-                                <a href="#" class="personnel">' . $teacher . ' - ' . $title . '</a>
+                                <a role="button" class="personnel">' . $teacher . ' - ' . $title . '</a>
                             </span>
                             <span class="description">' . $advisory . '<b>' . $grd_sctn . '</b><small> <i>' . $sbjct . '</i> | <i>' . $schedule . '</i></small></span>
                             <!-- <span class="description">Class Advisory <b>Grade XII - ABCD</b> <small><i>ARTS</i> | <i>WD</i></small></span> -->
@@ -441,8 +442,8 @@ class Getdata extends MY_Controller
                     ($value->logs ? '<span title="' . $value->logs . ' Log(s) Count" class="badge badge-danger button-badge">' . $logs . '</span>' : '<span class="fa fa-ellipsis-h"></span>') . '
                         </button>
                         <div class="dropdown-menu" style="cursor:pointer;">
-                        ' . ($value->logs ? "<a class='dropdown-item' href='#' onclick='allStudentLogs(\" $searchLog \")'><i class='fa fa-list'></i> View Logs</a>" : null) . '
-                        ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' href='#'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
+                        ' . ($value->logs ? "<a class='dropdown-item' role='button' onclick='allStudentLogs(\" $searchLog \")'><i class='fa fa-list'></i> View Logs</a>" : null) . '
+                        ' . ($value->learner_account ? "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"1\")' role='button'><i class='fa fa-key'></i> Reset Password</a>" : "<a class='dropdown-item' onclick='learnerAccnt(\"$personUuid\",\"0\")'><i class='fa fa-plus'></i> Create Account</a>") . '
                         </div>
                     </div>
                 </div>
@@ -456,7 +457,17 @@ class Getdata extends MY_Controller
                 $birthDate,
                 $value->address_details,
                 '<div class="normal_view" style="white-space: nowrap;">
-                    ' . $value->enrollment_status . ($unenroll == 't' && $advsry == 1 ? " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'></span>" : '') . '
+                    ' . $value->enrollment_status . ($unenroll == 't' && $advsry == 1 ?
+                    // " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'>
+                    // </span>"
+                    '<button type="button" class="btn btn-xs text-sm float-right btn-outline-secondary rounded-circle border-0 ml-1" data-toggle="dropdown" aria-expanded="true">
+                        <span class="fa fa-ellipsis-h"></span>
+                    </button>
+                    <div class="dropdown-menu p-0" role="menu">'.
+                        "<a class='dropdown-item text-xs bg-danger' role='button' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'><span class='fa fa-trash-alt'></span> UNENROLL</a>".
+                        // "<a class='dropdown-item text-xs bg-info' role='button' onclick='getDetails(\"TransferConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordTransfer\").val(\"\").focus(); } ,200);$(\"#modalLearnersTransfer\").modal(\"show\");'><span class='fa fa-arrow-right'></span> TRANSFER</a>
+                    "</div>"
+                    : '') . '
                 </div>',
             ];
         }
@@ -682,7 +693,7 @@ class Getdata extends MY_Controller
                 "<input value='" . $value->enrollment_id . "' name='en_id[]' hidden/>
                 <input value='" . $value->room_section_id . "' name='rm_sec_id[]' hidden/>
                 <input value='" . $rssaid . "' name='rssaid[]' hidden/>" .
-                  ($igq1 != "" && ($q1stat == null || $q1stat == "RECHECK") ? $entry1 : $this->gradeColor($q1)),
+                    ($igq1 != "" && ($q1stat == null || $q1stat == "RECHECK") ? $entry1 : $this->gradeColor($q1)),
                 ($igq2 != "" && ($q2stat == null || $q2stat == "RECHECK") ? $entry2 : $this->gradeColor($q2)),
                 ($igq3 != "" && ($q3stat == null || $q3stat == "RECHECK") ? $entry3 : $this->gradeColor($q3)),
                 ($igq4 != "" && ($q4stat == null || $q4stat == "RECHECK") ? $entry4 : $this->gradeColor($q4)),
@@ -1049,7 +1060,7 @@ class Getdata extends MY_Controller
     //                     <span class='fa fa-ellipsis-h'></span>
     //                 </button>
     //                 <div class='dropdown-menu'>
-    //                     <a class='dropdown-item' href='#' onclick='getDetails(\"MemberUser\",1)'>Edit Information</a>
+    //                     <a class='dropdown-item' role='button' onclick='getDetails(\"MemberUser\",1)'>Edit Information</a>
     //                 </div>
     //             </div></div>",
     //         ];

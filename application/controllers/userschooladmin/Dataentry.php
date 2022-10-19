@@ -280,7 +280,7 @@ class Dataentry extends MY_Controller
             } else {
                 $this->db->trans_commit();
                 $this->db->query("REFRESH MATERIALIZED VIEW account.view_useraccount;");
-                $this->db->query("REFRESH MATERIALIZED VIEW profile.view_schoolpersonnel;");
+                // $this->db->query("REFRESH MATERIALIZED VIEW profile.view_schoolpersonnel;");
             }
         } else {
             $ret = $false;

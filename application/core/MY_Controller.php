@@ -334,6 +334,22 @@ class MY_Controller extends CI_Controller
         return $data;
     }
 
+    public function GradesSectionList($filter)
+    {
+        $data = ["data" => []];
+        $thisQuery = $this->db->query("SELECT * FROM global.tbl_status t1 
+                                        WHERE t1.status_type_id=$filter 
+                                        AND t1.is_active=true
+                                        ORDER BY t1.order_by");
+        foreach ($thisQuery->result() as $key => $value) {
+            $data["data"][] = [
+                "id" => $value->id,
+                "item" => $value->description,
+            ];
+        }
+        return $data;
+    }
+
     public function getOnLoad()
     {
         $query = $this->db->query("SELECT * FROM global.tbl_sy t1 WHERE t1.is_active=true");

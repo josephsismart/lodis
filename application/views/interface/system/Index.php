@@ -212,7 +212,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <div class="col-12 py-1">
                                             <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news4.png') center center;">
-                                                <div class="bg-primary py-2 px-1">
+                                                <div class="bg-gradient-navy py-2 px-1">
                                                     <h5 class="widget-user-username text-right">Bayanihan para sa Bayan 2022</h5>
                                                     <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>
@@ -220,7 +220,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <div class="col-12 py-1">
                                             <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news2.png') center center;">
-                                                <div class="bg-primary py-2 px-1">
+                                                <div class="bg-gradient-navy py-2 px-1">
                                                     <h5 class="widget-user-username text-right">Brigada Skwela 2022</h5>
                                                     <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>
@@ -228,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                         <div class="col-12 py-1">
                                             <div class="widget-user-header text-black py-5 my-2" style="background: url('<?= base_url() ?>/dist/img/news/news3.png') center center;">
-                                                <div class="bg-primary py-2 px-1">
+                                                <div class="bg-gradient-navy py-2 px-1">
                                                     <h5 class="widget-user-username text-right">Graduation Ceremony 2021</h5>
                                                     <h6 class="text-right font-weight-lighter">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium ...</h6>
                                                 </div>

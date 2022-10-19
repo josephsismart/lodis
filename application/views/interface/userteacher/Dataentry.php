@@ -380,6 +380,9 @@ $uri = $this->session->schoolmis_login_uri;
 		getTable("LearnersList", 0, -1);
 		getTable("Honors", 1, -1);
 		// getTable("SearchEnrollLearnersList", 0, 10, "", 1);
+		// getFetchList('TransferConfirm', "BarangayList", null, 1, {
+		// 	v: 160201
+		// }, 0, 1);
 		getFetchList(f1, "BarangayList", null, 1, {
 			v: 160201
 		}, 0, 1);
