@@ -1073,7 +1073,7 @@ class Reports extends MY_Controller
                             <script>
                                 $("#customGPA-tabs-' . $sbjctid . ' .gpa_m").text("' . $t_m . '");
                                 $("#customGPA-tabs-' . $sbjctid . ' .gpa_f").text("' . $t_f . '");
-                                $("#customGPA-tabs-' . $sbjctid . ' .gpa_t").text("' . $t_f . '");
+                                $("#customGPA-tabs-' . $sbjctid . ' .gpa_t").text("' . $t_t . '");
                                 $("#customGPA-tabs-' . $sbjctid . ' .gpa_avg").text("' . $t_mps . '");
                                 $("#customGPA-tabs-' . $sbjctid . ' .gpa_mb7").text("' . $t_mb7 . '");
                                 $("#customGPA-tabs-' . $sbjctid . ' .gpa_fb7").text("' . $t_fb7 . '");
