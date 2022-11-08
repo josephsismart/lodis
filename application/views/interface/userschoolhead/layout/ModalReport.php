@@ -163,92 +163,47 @@ $uri = $this->session->schoolmis_login_uri;
     <!-- /.modal-dialog -->
 </div>
 
-<!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
-    <div class="modal fade" id="modalSMEA">
+<div class="modal fade" id="modalMPS">
     <div class="modal-dialog modal-xxl">
         <div class="modal-content">
             <div class="modal-header no-print">
-                <h4 class="modal-title">Stocks & Purchase Request List</h4>
+                <h4 class="modal-title header"></h4>
                 <div class='radioBtn btn-group pull-right'>
-                    <button type="submit" onclick="printForm('StckPR','l','Legal','Stocks & Purchase Request');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
+                    <button type="submit" onclick="printForm('MPS','l','Legal','MPS');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
                 </div>
             </div>
-            <div class="modal-body p-0" id="printStckPR">
-                <div class="table-responsive col-md-12 text-center">
-                    <!-- <table width="100%">
-                        <tr>
-                            <td>
-                            </td>
-                        </tr>
-                    </table> -->
-                    <center>
-                        <table border="1" width="100%" id="tblSMEA">
-                            <thead>
-                                <!-- <tr style="text-align:center;border:1px solid white;">
-                                    <td colspan="13"><?php $this->load->view('interface/' . $uri . '/layout/Report_header') ?></td>
-                                </tr>
-                                <tr style="text-align:center;border:1px solid white;border-bottom: 1px solid gray;">
-                                    <td colspan="13"><br />
-                                        <h5 id="headerSMEA"></h5>
-                                    </td>
-                                </tr> -->
-                                <tr align="center">
-                                    <td rowspan="2" width="1">No.</td>
-                                    <td rowspan="2" width="200">NAME OF TEACHER</td>
-                                    <td rowspan="2" width="100">SECTION</td>
-                                    <td colspan="3" width="80">TOTAL ENROLLMENT AS OF JAN 2022</td>
-                                    <td rowspan="2" width="80">OVER-ALL GPA</td>
-                                    <td colspan="3" width="80">75 BELOW</td>
-                                    <td colspan="3" width="80">75-79</td>
-                                    <td colspan="3" width="80">80-84</td>
-                                    <td colspan="3" width="80">85-89</td>
-                                    <td colspan="3" width="80">90-94</td>
-                                    <td colspan="3" width="80">95-100</td>
-                                    <td colspan="3" width="80">TOTAL</td>
-                                </tr>
-                                <tr align="center">
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-
-                                    <td width="1">M</td>
-                                    <td width="1">F</td>
-                                    <td width="1">T</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </center>
+            <div class="modal-body p-2" id="printMPS">
+                <div class="card card-navy p-0 mb-1 table-responsive viewMPS" style="overflow: auto;">
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="submit" onclick="printForm('StckPR','l','Legal','Stocks & Purchase Request');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="submit" onclick="printForm('MPS','l','Legal','MPS');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- <div class="modal fade show" id="modal-default" aria-modal="true" style="padding-right: 16px; display: block;"> -->
+<div class="modal fade" id="modalGPA">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+            <div class="modal-header no-print">
+                <h4 class="modal-title header"></h4>
+                <div class='radioBtn btn-group pull-right'>
+                    <button type="submit" onclick="printForm('GPA','l','Legal','GPA');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modal-body p-2" id="printGPA">
+                <div class="card card-navy p-0 mb-1 table-responsive viewGPA" style="overflow: auto;">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" onclick="printForm('GPA','l','Legal','GPA');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
         </div>
