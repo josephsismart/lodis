@@ -4,6 +4,7 @@ if (!$this->session->schoolmis_login_level) {
     redirect(base_url('login'));
 }
 $uri = $this->session->schoolmis_login_uri;
+$uri_reports = "reports";
 ?>
 <!-- Bootstrap 4 -->
 
@@ -318,6 +319,29 @@ $uri = $this->session->schoolmis_login_uri;
         var str = a;
         return str === undefined ? null : str.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-');
     }
+
+    $(".submitBtnMPS_GPA").click(function() {
+        $(".submitBtnMPS_GPA").attr("disabled", true);
+        $(".submitBtnMPS_GPA").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        $.get("<?= base_url($uri_reports . "/reports/getMPS_GPA_dept") ?>", {
+                sy: $("#form_report_dataMPS_GPA [name='sy']").val(),
+                qrtr: $("#form_report_dataMPS_GPA [name='qrtr']").val(),
+                report: $("#form_report_dataMPS_GPA [name='report']").val(),
+            },
+            function(data) {
+                var d = JSON.parse(data);
+                // console.log(d)
+                // JHS MPS_GPA DATA FOR THE 4th QUARTER S.Y 2021 - 2022
+                $("#modalMPS_GPA .header").html("MPS_GPA DATA FOR THE "+$("#form_report_dataMPS_GPA #qrtr option:selected").text() + "QUARTER S.Y. " + $("#form_report_dataMPS_GPA #sy option:selected").text())
+                $("#modalMPS_GPA").modal("show");
+                $("#modalMPS_GPA .viewMPS_GPA").html(d);
+                $(".submitBtnMPS_GPA").attr("disabled", false);
+                $(".submitBtnMPS_GPA").html("<span class='fa fa-search'></span>");
+            }).done(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+    });
 
     const Toast = Swal.mixin({
         toast: true,

@@ -187,3 +187,27 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<div class="modal fade" id="modalMPS_GPA">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+            <div class="modal-header no-print">
+                <h4 class="modal-title header"></h4>
+                <div class='radioBtn btn-group pull-right'>
+                    <button type="submit" onclick="printForm('MPS_GPA','l','Legal','MPS_GPA');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modal-body p-2" id="printMPS_GPA">
+                <div class="card card-navy p-0 mb-1 table-responsive viewMPS_GPA" style="overflow: auto;">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" onclick="printForm('MPS_GPA','l','Legal','MPS_GPA');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

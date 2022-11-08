@@ -73,6 +73,14 @@ class MY_Controller extends CI_Controller
         }
     }
 
+    public function redirect_session()
+    {
+        $login = $this->session->schoolmis_login_id;
+        if (!$login) {
+            redirect(base_url('/'));
+        }
+    }
+
     public function submitGradesBtn($a, $b, $mm, $d, $f)
     {
         $c = $this->clean($mm);

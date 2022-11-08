@@ -66,7 +66,9 @@ $uri = $this->session->schoolmis_login_uri;
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
 						</div>
 					</div>
-					<div class="card card-navy p-0 table-responsive viewAllGrades" style="overflow: auto;">
+					<div class="card-body p-1" style="overflow: auto;">
+						<div class="card card-navy p-0 table-responsive viewAllGrades" style="overflow: auto;">
+						</div>
 					</div>
 					<div class="overlay dark" style="display:none;">
 						<i class="fas fa-2x fa-sync-alt fa-spin"></i>

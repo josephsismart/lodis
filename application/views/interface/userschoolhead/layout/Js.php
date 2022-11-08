@@ -4,6 +4,7 @@ if (!$this->session->schoolmis_login_level) {
     redirect(base_url('login'));
 }
 $uri = $this->session->schoolmis_login_uri;
+$uri_reports = "reports";
 ?>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url() ?>plugins/ol3/ol.js"></script>
@@ -52,7 +53,7 @@ $uri = $this->session->schoolmis_login_uri;
     $(".submitBtnMPS").click(function() {
         $(".submitBtnMPS").attr("disabled", true);
         $(".submitBtnMPS").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
-        $.get("<?= base_url($uri . "/reports/getMPS") ?>", {
+        $.get("<?= base_url($uri_reports . "/reports/getMPS") ?>", {
                 sy: $("#form_report_dataMPS [name='sy']").val(),
                 qrtr: $("#form_report_dataMPS [name='qrtr']").val(),
             },
@@ -60,7 +61,7 @@ $uri = $this->session->schoolmis_login_uri;
                 var d = JSON.parse(data);
                 // console.log(d)
                 // JHS MPS DATA FOR THE 4th QUARTER S.Y 2021 - 2022
-                $("#modalMPS .header").html("MPS DATA FOR THE "+$("#form_report_dataMPS #qrtr option:selected").text() + "QUARTER S.Y. " + $("#form_report_dataMPS #sy option:selected").text())
+                $("#modalMPS .header").html("MPS DATA FOR THE " + $("#form_report_dataMPS #qrtr option:selected").text() + "QUARTER S.Y. " + $("#form_report_dataMPS #sy option:selected").text())
                 $("#modalMPS").modal("show");
                 $("#modalMPS .viewMPS").html(d);
                 $(".submitBtnMPS").attr("disabled", false);
@@ -74,7 +75,7 @@ $uri = $this->session->schoolmis_login_uri;
     $(".submitBtnGPA").click(function() {
         $(".submitBtnGPA").attr("disabled", true);
         $(".submitBtnGPA").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
-        $.get("<?= base_url($uri . "/reports/getGPA") ?>", {
+        $.get("<?= base_url($uri_reports . "/reports/getGPA") ?>", {
                 sy: $("#form_report_dataGPA [name='sy']").val(),
                 qrtr: $("#form_report_dataGPA [name='qrtr']").val(),
             },
@@ -82,7 +83,7 @@ $uri = $this->session->schoolmis_login_uri;
                 var d = JSON.parse(data);
                 // console.log(d)
                 // JHS GPA DATA FOR THE 4th QUARTER S.Y 2021 - 2022
-                $("#modalGPA .header").html("GPA DATA FOR THE "+$("#form_report_dataGPA #qrtr option:selected").text() + "QUARTER S.Y. " + $("#form_report_dataGPA #sy option:selected").text())
+                $("#modalGPA .header").html("GPA DATA FOR THE " + $("#form_report_dataGPA #qrtr option:selected").text() + "QUARTER S.Y. " + $("#form_report_dataGPA #sy option:selected").text())
                 $("#modalGPA").modal("show");
                 $("#modalGPA .viewGPA").html(d);
                 $(".submitBtnGPA").attr("disabled", false);
