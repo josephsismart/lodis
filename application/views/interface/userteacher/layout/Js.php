@@ -865,6 +865,7 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
                         console.log(i)
                         i++;
                         // console.log(i)
+                        g_s = d[i - 1]["grade"] + ' - ' + d[i - 1]["sctn_nm"];
                         if (d.length <= i) {
                             break;
                         } else {
@@ -879,7 +880,7 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
                                 'Butuan City' +
                                 '</div></div>' +
                                 '</td></tr>' +
-                                '<tr><td style="padding:1px;font-size:8px;" colspan="2"><b>' + d[i - 1]["lrn"] + '</b>    |   <?= $sy_; ?>  - Q-' + q + ' </td></tr>' +
+                                '<tr><td style="padding:1px;font-size:8px;" colspan="2">' + g_s + '  |  <?= $sy_; ?>  - Q-' + q + '<br/><b>' + d[i - 1]["lrn"] + '</b></td></tr>' +
                                 '<tr><td style="padding:1px;" colspan="2"><b>' + d[i - 1]["last_fullname"] + '</b></td></tr>' +
                                 '<tr><td style="padding:0px;">Learing Areas</td><td style="padding:0px;" width="1">GRD</td></tr>' + g +
                                 '</table>' +

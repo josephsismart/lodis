@@ -1877,7 +1877,7 @@ class Reports extends MY_Controller
         //                                     GROUP BY t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname
         // --                                    ORDER BY t1.order_by_sbjct
 
-        $query1 = $this->db->query("SELECT t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname,
+        $query1 = $this->db->query("SELECT t2.grade,t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname,
                                     jsonb_agg(json_build_object(
                                     'order_by_sbjct',t1.order_by_sbjct,
                                             'q1',t4.q1,
@@ -1904,11 +1904,12 @@ class Reports extends MY_Controller
                                                         FROM sy$sy.bs_m_view_grades t1) t4 ON t2.enrollment_id=t4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id=t4.rm_sctn_sbjct_assgnmnt_id
                                             LEFT JOIN building_sectioning.view_room_section t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rm_sctn_sbjct_assgnmnt_id
                                             WHERE t1.room_section_id=$rmsid AND t4.q$qrtr IS NOT NULL  -- AND t2.lrn ='214526130052' AND t1.schl_yr_id=1
-                                            GROUP BY t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname");
+                                            GROUP BY t2.grade,t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname");
         foreach ($query1->result() as $key => $value) {
             $arr[] = [
                 "enrollment_id" => $value->enrollment_id,
                 "sctn_nm" => $value->sctn_nm,
+                "grade" => $value->grade,
                 "sy" => $value->sy,
                 "lrn" => $value->lrn,
                 "last_fullname" => $value->last_fullname,
