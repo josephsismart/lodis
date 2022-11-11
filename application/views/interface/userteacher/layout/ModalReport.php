@@ -30,7 +30,7 @@ $uri = $this->session->schoolmis_login_uri;
                 <div class="table-responsive col-md-12 text-center">
                     <!-- tblReportConsoGradesz -->
                     <table border="1" id="tblReportConsoGrades" width="100%">
-                    <!-- <table class="table table-sm table-bordered table-hover table-striped" id="tblReportConsoGrades" width="100%"> -->
+                        <!-- <table class="table table-sm table-bordered table-hover table-striped" id="tblReportConsoGrades" width="100%"> -->
                         <tbody>
                         </tbody>
                     </table>
@@ -44,6 +44,64 @@ $uri = $this->session->schoolmis_login_uri;
             </div>
             <div class="overlay">
                 <i class="fas fa-spin text-white fa-3x fa-circle-notch"></i>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modalGRADE_SLIP">
+    <div class="modal-dialog modal-xxl">
+        <div class="modal-content">
+            <div class="modal-header no-print">
+                <h4 class="modal-title header"></h4>
+                <div class='radioBtn btn-group pull-right'>
+                    <button type="submit" onclick="printForm('GRADE_SLIP','l','Legal','GRADE_SLIP');" class="btn btn-info submitBtnPrimary btn-xs"><i class="fa fa-print"></i> Print</button>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="modal-body p-2" id="printGRADE_SLIP">
+                <div class="card card-navy p-0 mb-1 table-responsive viewGRADE_SLIP" style="overflow: auto;">
+
+                    <table class="table table-sm table-hover table-striped table-bordered" id="tblGradesList" width="100%">
+                        <!-- <thead style="text-align: center;font-weight: bold;">
+                            <tr>
+                                <td rowspan="2" class="pt-3" width="400">Learing Areas</td>
+                                <td colspan="4">Quarter</td>
+                                <td rowspan="2" width="1">Final Grade</td>
+                                <td rowspan="2" class="pt-3" width="1">Remarks</td>
+                                <td rowspan="2" class="pt-3" width="400">Learing Areas</td>
+                                <td colspan="4">Quarter</td>
+                                <td rowspan="2" width="1">Final Grade</td>
+                                <td rowspan="2" class="pt-3" width="1">Remarks</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                            </tr>
+                        </thead> -->
+                        <!-- <tbody>
+                             <tr>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                            </tr> 
+                        </tbody> -->
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" onclick="printForm('GRADE_SLIP','l','Legal','GRADE_SLIP');" class="btn btn-info submitBtnPrimary"><i class="fa fa-print"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
             </div>
         </div>
         <!-- /.modal-content -->

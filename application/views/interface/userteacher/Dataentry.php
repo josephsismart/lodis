@@ -115,7 +115,36 @@ $uri = $this->session->schoolmis_login_uri;
 													<!-- <div class="col-lg-4 col-md-12">
 													</div> -->
 
-													<div class="col-12 col-lg-4 col-md-12 col-sm-6 small header1" style="display:none;">
+													<div class="col-12 col-lg-12 col-md-12 col-sm-12">
+														<!-- <div class="col-lg-4 col-md-4"> -->
+														<div class="row">
+															<div class="col-12">
+																<div class="text-center">
+																	<strong>No of learners</strong> <br><span class="small">as of EOSY</span>
+																</div>
+																<div class="text-center" style="font-size:42px;">
+																	<span class="total_enrollee">-</span>
+																</div>
+
+																<div class="row">
+																	<div class="col-6">
+																		<span class="small text-muted float-right">Male</span><br />
+																		<span class="float-right male">
+																			<span class="male">-</span>
+																		</span>
+																	</div>
+																	<div class="col-6">
+																		<span class="small text-muted float-left">Female</span><br>
+																		<span class="float-left">
+																			<span class="female">-</span>
+																		</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-12 col-lg-4 col-md-12 col-sm-12 small header1" style="display:none;">
 														<table class="table table-sm" id="tblHonors">
 															<thead>
 																<tr>
@@ -129,32 +158,29 @@ $uri = $this->session->schoolmis_login_uri;
 															</thead>
 															<tbody>
 															</tbody>
+															<tfoot>
+																<tr>
+																	<td colspan="6">
+																		<form id="form_report_dataGRADE_SLIP">
+																			<div class="input-group input-group-sm">
+																				<div class="input-group-prepend">
+																					<small class="input-group-text text-xs text-bold">QRTR</small>
+																				</div>
+																				<select class="form-control form-control-xs selectSchedList" data-placeholder="SCHEDULE" name="qrtr" id="qrtr">
+																					<option value="1">1ST</option>
+																					<option value="2">2ND</option>
+																					<option value="3">3RD</option>
+																					<option value="4">4TH</option>
+																				</select>
+																				<div class="input-group-append text-sm">
+																					<button type="button" class="btn btn-warning btn-xs submitBtnGRADE_SLIP text-white"><i class="fa fa-search"></i> VIEW</button>
+																				</div>
+																			</div>
+																		</form>
+																	</td>
+																</tr>
+															</tfoot>
 														</table>
-													</div>
-
-													<div class="col-12 col-lg-12 col-md-12 col-sm-6 header2">
-														<!-- <div class="col-lg-4 col-md-4"> -->
-														<div class="text-center">
-															<strong>No of learners</strong> <br><span class="small">as of EOSY</span>
-														</div>
-														<div class="text-center" style="font-size:42px;">
-															<span class="total_enrollee">-</span>
-														</div>
-
-														<div class="row">
-															<div class="col-6">
-																<span class="small text-muted float-right">Male</span><br />
-																<span class="float-right male">
-																	<span class="male">-</span>
-																</span>
-															</div>
-															<div class="col-6">
-																<span class="small text-muted float-left">Female</span><br>
-																<span class="float-left">
-																	<span class="female">-</span>
-																</span>
-															</div>
-														</div>
 													</div>
 
 													<div class="col-lg-4 col-md-4 small table-responsive" hidden>

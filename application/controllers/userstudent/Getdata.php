@@ -12,7 +12,7 @@ class Getdata extends MY_Controller
         date_default_timezone_set("Asia/Manila");
     }
 
-    function getGradesList()
+    function getGradesList()//s
     {
         $data = ["data" => []];
         $rmsid = $this->session->schoolmis_login_rm_sec_id;

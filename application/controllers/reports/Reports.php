@@ -1836,4 +1836,98 @@ class Reports extends MY_Controller
         }
         echo json_encode($data);
     }
+
+    function getGRADE_SLIP()
+    {
+        $tab = null;
+        $arr = null;
+        // $sy = $this->input->get("sy");
+        $qrtr = $this->input->get("qrtr");
+        $rmsid = $this->input->get("rmsid");
+        // $ssy = 'sy' . $sy;
+        $sy = $this->getOnLoad()["sy_id"];
+
+        //         SELECT t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname,
+        // jsonb_agg(json_build_object(
+        // 'order_by_sbjct',t1.order_by_sbjct,
+        // 'q1',t4.q1,
+        //         'q2',t4.q2,
+        //         'q3',t4.q3,
+        //         'q4',t4.q4,
+        //         'rm_sctn_sbjct_assgnmnt_id',t1.rm_sctn_sbjct_assgnmnt_id,
+        //         'enrollment_id',t2.enrollment_id,
+        //         'subject',t1.subject,
+        //         'subject_abbr',t1.subject_abbr,
+        //         'schedule',t1.schedule,
+        //         'advisory',t1.advisory,
+        //         'full_name',t1.full_name,
+        //         'personal_title',t1.personal_title,
+        //         'parent_party_id',t1.parent_party_id)
+        //         ORDER BY t1.order_by_sbjct) AS arr
+        // FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+        //                                     LEFT JOIN sy$sy.bs_view_enrollment t2 ON t1.room_section_id=t2.room_section_id AND t1.schl_yr_id=t2.schl_yr_id
+        //                                     LEFT JOIN(SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,
+        // 			                                    CASE WHEN (t1.q1stat='18') THEN t1.q1 ELSE 0 END q1,
+        // 			                                    CASE WHEN (t1.q2stat='18') THEN t1.q2 ELSE 0 END q2,
+        // 			                                    CASE WHEN (t1.q3stat='18') THEN t1.q3 ELSE 0 END q3,
+        // 			                                    CASE WHEN (t1.q4stat='18') THEN t1.q4 ELSE 0 END q4
+        // 			                                    FROM sy$sy.bs_m_view_grades t1) t4 ON t2.enrollment_id=t4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id=t4.rm_sctn_sbjct_assgnmnt_id
+        //                                     LEFT JOIN building_sectioning.view_room_section t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rm_sctn_sbjct_assgnmnt_id
+        //                                     WHERE t1.room_section_id=30 -- AND t2.lrn ='214526130052' AND t1.schl_yr_id=1
+        //                                     GROUP BY t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname
+        // --                                    ORDER BY t1.order_by_sbjct
+
+        $query1 = $this->db->query("SELECT t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname,
+                                    jsonb_agg(json_build_object(
+                                    'order_by_sbjct',t1.order_by_sbjct,
+                                            'q1',t4.q1,
+                                            'q2',t4.q2,
+                                            'q3',t4.q3,
+                                            'q4',t4.q4,
+                                            'rm_sctn_sbjct_assgnmnt_id',t1.rm_sctn_sbjct_assgnmnt_id,
+                                            'enrollment_id',t2.enrollment_id,
+                                            'subject',t1.subject,
+                                            'subject_abbr',t1.subject_abbr,
+                                            'schedule',t1.schedule,
+                                            'advisory',t1.advisory,
+                                            'full_name',t1.full_name,
+                                            'personal_title',t1.personal_title,
+                                            'parent_party_id',t1.parent_party_id)
+                                            ORDER BY t1.order_by_sbjct)::json AS arr
+                                    FROM building_sectioning.view_subject_grdlvl_personnel_assgnmnt t1
+                                            LEFT JOIN sy$sy.bs_view_enrollment t2 ON t1.room_section_id=t2.room_section_id AND t1.schl_yr_id=t2.schl_yr_id
+                                            LEFT JOIN(SELECT t1.learner_enrollment_id,t1.rm_sctn_sbjct_assgnmnt_id,
+                                                        CASE WHEN (t1.q1stat='18') THEN t1.q1 ELSE 0 END q1,
+                                                        CASE WHEN (t1.q2stat='18') THEN t1.q2 ELSE 0 END q2,
+                                                        CASE WHEN (t1.q3stat='18') THEN t1.q3 ELSE 0 END q3,
+                                                        CASE WHEN (t1.q4stat='18') THEN t1.q4 ELSE 0 END q4
+                                                        FROM sy$sy.bs_m_view_grades t1) t4 ON t2.enrollment_id=t4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id=t4.rm_sctn_sbjct_assgnmnt_id
+                                            LEFT JOIN building_sectioning.view_room_section t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rm_sctn_sbjct_assgnmnt_id
+                                            WHERE t1.room_section_id=$rmsid AND t4.q$qrtr IS NOT NULL  -- AND t2.lrn ='214526130052' AND t1.schl_yr_id=1
+                                            GROUP BY t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname");
+        foreach ($query1->result() as $key => $value) {
+            $arr[] = [
+                "enrollment_id" => $value->enrollment_id,
+                "sctn_nm" => $value->sctn_nm,
+                "sy" => $value->sy,
+                "lrn" => $value->lrn,
+                "last_fullname" => $value->last_fullname,
+                "grades" => $value->arr
+            ];
+        }
+        $data = '[{"name":"John", "age":30, "city":"New York"}]';
+        echo json_encode($arr);
+        // $data = '<div class="card-header p-0 border-bottom-0">
+        //                 <ul class="nav nav-tabs" id="customGPA-tabs-four-tab" role="tablist">' . $tab . '</ul>
+        //             </div>
+        //             <div class="card-body">
+        //                     <div class="tab-content" id="customGPA-tabs-one-tabContent">
+        //                     ' . $content . '
+        //             </div>
+        //         </div>
+        //         <script>
+        //             rssaidGPA_tmp = 0;
+        //         </script>';
+        // echo json_encode($data);
+    }
 }

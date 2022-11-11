@@ -4,6 +4,9 @@ if (!$this->session->schoolmis_login_level) {
     redirect(base_url('login'));
 }
 $uri = $this->session->schoolmis_login_uri;
+$uri_reports = "reports";
+$sy_ = $getOnLoad["sy"]; //$getOnLoad["sy_qrtr_e_g"];
+$q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
 ?>
 <!-- Bootstrap 4 -->
 
@@ -554,12 +557,12 @@ $uri = $this->session->schoolmis_login_uri;
         if (adviser == "t") {
             getTable("Honors", 0, -1);
             $(".header1").show();
-            $(".header2").removeClass("col-lg-12");
-            $(".header2").addClass("col-lg-4");
+            // $(".header2").removeClass("col-lg-12");
+            // $(".header2").addClass("col-lg-12");
         } else {
             $(".header1").hide();
-            $(".header2").removeClass("col-lg-4");
-            $(".header2").addClass("col-lg-12");
+            // $(".header2").removeClass("col-lg-12");
+            // $(".header2").addClass("col-lg-12");
         }
         tblDT = $('#tbl' + tableId).DataTable();
         if (adviser === "t") {
@@ -816,6 +819,93 @@ $uri = $this->session->schoolmis_login_uri;
             }
         }
     }
+
+    $(".submitBtnGRADE_SLIP").click(function() {
+        // alert(rsid)
+        var q = $("#form_report_dataGRADE_SLIP #qrtr").val();
+        var qq = "q" + q;
+        var g = "";
+        var c = [];
+        $("#modalGRADE_SLIP #tblGradesList").empty();
+        // $(".submitBtnGRADE_SLIP").attr("disabled", true);
+        // $(".submitBtnGRADE_SLIP").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
+        $.get("<?= base_url($uri_reports . "/reports/getGRADE_SLIP") ?>", {
+                // sy: $("#form_report_dataGRADE_SLIP [name='sy']").val(),
+                qrtr: q,
+                rmsid: rsid,
+                // report: $("#form_report_dataGRADE_SLIP [name='report']").val(),
+            },
+            function(data) {
+                var d = JSON.parse(data);
+                let z = 0;
+                let x = 0;
+                for (let i = 0; i < d.length; i++) {
+                    x = i;
+
+
+                    $("#modalGRADE_SLIP #tblGradesList").append('<tr>');
+                    for (let j = 1; j <= 7; j++) {
+                        y = JSON.parse(d[i]["grades"]);
+                        let ga = 0;
+                        let cga = 0;
+                        for (let k = 0; k < y.length; k++) {
+                            if (y[k][qq] != null) {
+                                // if ($fg && !$p) {
+                                ga += y[k][qq];
+                                cga += 1;
+                                // }
+                                p = y[k]["parent_party_id"]; //$value->parent_party_id;
+                                t = (p ? '&emsp;' : "");
+                                g += ('<tr><td style="padding:0px 0px 0px 3px;">' + t + y[k]["subject_abbr"] + '</td><td style="padding:0px 3px 0px 0px;" align="right">' + y[k][qq] + '</td></tr>');
+                                if (k == (y.length - 1)) {
+                                    g += ('<tr><td style="padding:0px 0px 0px 3px;"><b> AVERAGE </b></td><td style="padding:0px 3px 0px 0px;" align="right"><b>' + Math.round((ga / cga), 0) + '</b></td></tr>');
+                                }
+                            }
+                        }
+                        console.log(i)
+                        i++;
+                        // console.log(i)
+                        if (d.length <= i) {
+                            break;
+                        } else {
+                            $("#modalGRADE_SLIP #tblGradesList").append(
+                                '<td>' +
+                                '<table width="100%" cellspacing="0" style="font-size:10px;border:1.5px dashed #B2B5B8;">' +
+                                '<tr><td style="padding:0px;font-size:8px;" colspan="2">' +
+                                '<div class="row">' +
+                                '<div class="col-2 pl-2" align="center"><img src="<?= $system_svg_1x1 ?>" width="23" height="23"/></div>' +
+                                '<div class="col-10">Republic of the Philippines<br>' +
+                                '<strong>Libertad National High School</strong><br>' +
+                                'Butuan City' +
+                                '</div></div>' +
+                                '</td></tr>' +
+                                '<tr><td style="padding:1px;font-size:8px;" colspan="2"><b>' + d[i - 1]["lrn"] + '</b>    |   <?= $sy_; ?>  - Q-' + q + ' </td></tr>' +
+                                '<tr><td style="padding:1px;" colspan="2"><b>' + d[i - 1]["last_fullname"] + '</b></td></tr>' +
+                                '<tr><td style="padding:0px;">Learing Areas</td><td style="padding:0px;" width="1">GRD</td></tr>' + g +
+                                '</table>' +
+                                '</td>');
+                            g = "";
+                        }
+                    }
+                    g = "";
+
+                    i--;
+                    $("#modalGRADE_SLIP #tblGradesList").append('</tr>');
+
+                }
+                // console.log(d[0])
+                // console.log(d)
+                // JHS GRADE_SLIP DATA FOR THE 4th QUARTER S.Y 2021 - 2022
+                $("#modalGRADE_SLIP .header").html("GRADES SLIP AS OF SY: 2020-2019 Q:" + q)
+                $("#modalGRADE_SLIP").modal("show");
+                // $("#modalGRADE_SLIP .viewGRADE_SLIP").html(d);
+                $(".submitBtnGRADE_SLIP").attr("disabled", false);
+                $(".submitBtnGRADE_SLIP").html("<span class='fa fa-search'></span>");
+            }).done(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+    });
 
 
     var invalidChars = [
