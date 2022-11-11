@@ -823,15 +823,27 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
     $(".submitBtnGRADE_SLIP").click(function() {
         // alert(rsid)
         var q = $("#form_report_dataGRADE_SLIP #qrtr").val();
-        var qq = "q" + q;
+        console.log(q)
+        console.log("aaaaa")
+        var g = "";
         var g = "";
         var c = [];
+        var e = "";
+        var ee = "";
+        var grd_q = "";
+
+        for (m = 0; m < q.length; m++) {
+            var qqq = "Q" + q[m];
+            grd_q += '<td style="padding:0px;" width="1">' + qqq + '</td>';
+        }
+
+
         $("#modalGRADE_SLIP #tblGradesList").empty();
         // $(".submitBtnGRADE_SLIP").attr("disabled", true);
         // $(".submitBtnGRADE_SLIP").html("<span class=\"fa fa-spinner fa-pulse\"></span>");
         $.get("<?= base_url($uri_reports . "/reports/getGRADE_SLIP") ?>", {
                 // sy: $("#form_report_dataGRADE_SLIP [name='sy']").val(),
-                qrtr: q,
+                // qrtr: q,
                 rmsid: rsid,
                 // report: $("#form_report_dataGRADE_SLIP [name='report']").val(),
             },
@@ -849,20 +861,25 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
                         let ga = 0;
                         let cga = 0;
                         for (let k = 0; k < y.length; k++) {
-                            if (y[k][qq] != null) {
-                                // if ($fg && !$p) {
-                                ga += y[k][qq];
-                                cga += 1;
-                                // }
+                            if (y[k]["q1"] != null) {
+                                for (m = 0; m < q.length; m++) {
+                                    var qq = "q" + q[m];
+                                    ga += y[k][qq];
+                                    cga += 1;
+                                    e += '<td style="padding:0px 3px 0px 0px;" align="right">' + y[k][qq] + '</td>'; //y[k][qq];
+                                    ee += '<td style="padding:0px 3px 0px 0px;" align="right"><b>' + Math.round((ga / cga), 0) + '</b></td>';
+                                }
+
                                 p = y[k]["parent_party_id"]; //$value->parent_party_id;
                                 t = (p ? '&emsp;' : "");
-                                g += ('<tr><td style="padding:0px 0px 0px 3px;">' + t + y[k]["subject_abbr"] + '</td><td style="padding:0px 3px 0px 0px;" align="right">' + y[k][qq] + '</td></tr>');
+                                g += ('<tr><td style="padding:0px 0px 0px 3px;">' + t + y[k]["subject_abbr"] + '</td>' + e + '</tr>');
                                 if (k == (y.length - 1)) {
-                                    g += ('<tr><td style="padding:0px 0px 0px 3px;"><b> AVERAGE </b></td><td style="padding:0px 3px 0px 0px;" align="right"><b>' + Math.round((ga / cga), 0) + '</b></td></tr>');
+                                    g += ('<tr><td style="padding:0px 0px 0px 3px;"><b> AVERAGE </b></td>' + ee + '</tr>');
                                 }
+                                e = "";
+                                ee = "";
                             }
                         }
-                        console.log(i)
                         i++;
                         // console.log(i)
                         g_s = d[i - 1]["grade"] + ' - ' + d[i - 1]["sctn_nm"];
@@ -872,7 +889,7 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
                             $("#modalGRADE_SLIP #tblGradesList").append(
                                 '<td>' +
                                 '<table width="100%" cellspacing="0" style="font-size:10px;border:1.5px dashed #B2B5B8;">' +
-                                '<tr><td style="padding:0px;font-size:8px;" colspan="2">' +
+                                '<tr><td style="padding:0px;font-size:8px;" colspan="5">' +
                                 '<div class="row">' +
                                 '<div class="col-2 pl-2" align="center"><img src="<?= $system_svg_1x1 ?>" width="23" height="23"/></div>' +
                                 '<div class="col-10">Republic of the Philippines<br>' +
@@ -880,9 +897,9 @@ $q_ = $getOnLoad["qrtrR"]; //$getOnLoad["sy_qrtr_e_g"];
                                 'Butuan City' +
                                 '</div></div>' +
                                 '</td></tr>' +
-                                '<tr><td style="padding:1px;font-size:8px;" colspan="2">' + g_s + '  |  <?= $sy_; ?>  - Q-' + q + '<br/><b>' + d[i - 1]["lrn"] + '</b></td></tr>' +
-                                '<tr><td style="padding:1px;" colspan="2"><b>' + d[i - 1]["last_fullname"] + '</b></td></tr>' +
-                                '<tr><td style="padding:0px;">Learing Areas</td><td style="padding:0px;" width="1">GRD</td></tr>' + g +
+                                '<tr><td style="padding:1px;font-size:8px;" colspan="5">' + g_s + '  |  <?= $sy_; ?>  - Q-' + q + '<br/><b>' + d[i - 1]["lrn"] + '</b></td></tr>' +
+                                '<tr><td style="padding:1px;" colspan="5"><b>' + d[i - 1]["last_fullname"] + '</b></td></tr>' +
+                                '<tr><td style="padding:0px;">Learing Areas</td>' + grd_q + '</tr>' + g +
                                 '</table>' +
                                 '</td>');
                             g = "";

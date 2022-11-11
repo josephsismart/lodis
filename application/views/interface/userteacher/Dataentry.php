@@ -162,18 +162,18 @@ $uri = $this->session->schoolmis_login_uri;
 																<tr>
 																	<td colspan="6">
 																		<form id="form_report_dataGRADE_SLIP">
-																			<div class="input-group input-group-sm">
+																			<div class="input-group input-group-sm" style="width: 100%;">
 																				<div class="input-group-prepend">
 																					<small class="input-group-text text-xs text-bold">QRTR</small>
 																				</div>
-																				<select class="form-control form-control-xs selectSchedList" data-placeholder="SCHEDULE" name="qrtr" id="qrtr">
+																				<select class="select2 form-control form-control-xs selectSchedList" multiple data-placeholder="QUARTER" name="qrtr" id="qrtr" style="width: 70%;">
 																					<option value="1">1ST</option>
 																					<option value="2">2ND</option>
 																					<option value="3">3RD</option>
 																					<option value="4">4TH</option>
 																				</select>
 																				<div class="input-group-append text-sm">
-																					<button type="button" class="btn btn-warning btn-xs submitBtnGRADE_SLIP text-white"><i class="fa fa-search"></i> VIEW</button>
+																					<button type="button" class="btn btn-warning btn-xs submitBtnGRADE_SLIP text-white"><i class="fa fa-search"></i></button>
 																				</div>
 																			</div>
 																		</form>

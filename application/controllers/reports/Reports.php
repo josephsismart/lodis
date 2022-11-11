@@ -1842,7 +1842,7 @@ class Reports extends MY_Controller
         $tab = null;
         $arr = null;
         // $sy = $this->input->get("sy");
-        $qrtr = $this->input->get("qrtr");
+        // $qrtr = $this->input->get("qrtr");
         $rmsid = $this->input->get("rmsid");
         // $ssy = 'sy' . $sy;
         $sy = $this->getOnLoad()["sy_id"];
@@ -1903,7 +1903,7 @@ class Reports extends MY_Controller
                                                         CASE WHEN (t1.q4stat='18') THEN t1.q4 ELSE 0 END q4
                                                         FROM sy$sy.bs_m_view_grades t1) t4 ON t2.enrollment_id=t4.learner_enrollment_id AND t1.rm_sctn_sbjct_assgnmnt_id=t4.rm_sctn_sbjct_assgnmnt_id
                                             LEFT JOIN building_sectioning.view_room_section t5 ON t1.rm_sctn_sbjct_assgnmnt_id=t5.rm_sctn_sbjct_assgnmnt_id
-                                            WHERE t1.room_section_id=$rmsid AND t4.q$qrtr IS NOT NULL  -- AND t2.lrn ='214526130052' AND t1.schl_yr_id=1
+                                            WHERE t1.room_section_id=$rmsid AND t4.q1 IS NOT NULL  -- AND t2.lrn ='214526130052' AND t1.schl_yr_id=1
                                             GROUP BY t2.grade,t2.enrollment_id,t2.sctn_nm,t2.sy,t2.lrn,t2.last_fullname");
         foreach ($query1->result() as $key => $value) {
             $arr[] = [
