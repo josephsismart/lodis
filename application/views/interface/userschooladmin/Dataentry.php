@@ -543,7 +543,7 @@ $uri = $this->session->schoolmis_login_uri;
 		saveForm(f1, [f1], null);
 		saveForm(f2, [f2], null);
 		saveForm("SYInfo", ["SYInfo"], null);
-		saveForm("SbjctAssPrsnnl", [""], null);
+		saveForm("SbjctAssPrsnnl", [f2], null);
 		saveForm("GradeSubject", [""], null);
 		saveForm("PersonnelAccount", [f1, "DeptInfo"], null);
 		saveForm("Subject", ["SubjectList"], null);
