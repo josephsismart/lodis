@@ -254,6 +254,30 @@ class MY_Controller extends CI_Controller
         return $data;
     }
 
+    public function getBarangay_City($brgy, $city)
+    {
+        $brgy_id = 160202054;
+        if (strtoUpper($city) == 'BUTUAN CITY (CAPITAL)') {
+            $query = $this->db->query("SELECT t1.id FROM address.tbl_barangay t1 WHERE t1.citymun_id=160201
+                                        AND orig_desc ILIKE '%$brgy%' LIMIT 1");
+            if ($query->num_rows() > 0) {
+                $brgy_id = $query->row()->id;
+            } else {
+                $brgy_id = 160202054;
+            }
+        } else {
+            $query = $this->db->query("SELECT t2.id FROM address.tbl_citymun t1 
+                                        LEFT JOIN address.tbl_barangay t2 ON t1.id=t2.citymun_id
+                                        WHERE t1.description ILIKE '%$city%' AND t2.orig_desc ILIKE '%$brgy%' LIMIT 1");
+            if ($query->num_rows() > 0) {
+                $brgy_id = $query->row()->id;
+            } else {
+                $brgy_id = 160202054;
+            }
+        }
+        return $brgy_id;
+    }
+
     public function allow_schema()
     {
         $this->db->query("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA account TO xnyiyspvjvppjz;
@@ -646,7 +670,7 @@ class MY_Controller extends CI_Controller
 
     public function grades_input($lrn, $q, $qrtr)
     {
-        $id = $lrn.$qrtr;
+        $id = $lrn . $qrtr;
         return  "<center><input style='width:50px;text-align:center'
                          onclick='maxInput(\"gradeLearner$id\")' onkeyup='maxInput(\"gradeLearner$id\");'
                          style='text-align:center;' type='number' class='form-control' 

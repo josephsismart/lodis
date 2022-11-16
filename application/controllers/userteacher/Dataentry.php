@@ -367,7 +367,7 @@ class Dataentry extends MY_Controller
         $login_id = $this->session->schoolmis_login_id;
         $basicInfoId = null;
         $learnerId = null;
-
+        //aa
         if (isset($_FILES["file"]["name"])) {
             $path = $_FILES["file"]["tmp_name"];
             $object = PHPExcel_IOFactory::load($path);
@@ -389,6 +389,9 @@ class Dataentry extends MY_Controller
                         $sex = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
                         $bdate = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
                         $homeAddress = $worksheet->getCellByColumnAndRow(15, $row)->getValue();
+                        $barangay = $worksheet->getCellByColumnAndRow(17, $row)->getValue(); //barangay
+                        $mun_city = $worksheet->getCellByColumnAndRow(20, $row)->getValue(); //mun_city
+                        $province = $worksheet->getCellByColumnAndRow(21, $row)->getValue(); //province
 
                         //OTHER DETAILS
                         $mt = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
@@ -443,14 +446,13 @@ class Dataentry extends MY_Controller
                                 $checkBasicInfo = $this->basicInfoChecker($fname, $mname, $lname, $birthdate, $boolSex);
                                 // echo $checkLearner . ' bb \n ';
                                 if (!$checkBasicInfo) { //IF BASIC INFORMATION NOT EXIST
-                                    // echo "c";
                                     $basicInfoData = [
                                         "first_name" => $fname,
                                         "middle_name" => $mname,
                                         "last_name" => $lname,
                                         "birthdate" => $birthdate,
                                         "sex" => $boolSex,
-                                        "barangay_id" => 160202054, //$barangay,
+                                        "barangay_id" => $this->getBarangay_City($barangay, $mun_city), //160202054,//$barangay,
                                         "address_info" => $homeAddress,
                                     ];
                                     // $basicInfoDataLOG = json_encode($basicInfoData);
