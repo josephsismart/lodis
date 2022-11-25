@@ -1,12 +1,12 @@
-.DS_Store
+# .DS_Store
 
-application/cache/*
-!application/cache/index.html
+# application/cache/*
+# !application/cache/index.html
 
-application/logs/*
-!application/logs/index.html
+# application/logs/*
+# !application/logs/index.html
 
-!application/*/.htaccess
+# !application/*/.htaccess
 # application/config/config.php
 # application/config/database.php
 
@@ -20,9 +20,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /docs/
 # /dist/
 # /application/libraries/
-/build/
-/vendor/
-/assets/
+# /build/
+# /vendor/
+# /assets/
 
 # IDE Files
 #-------------------------
