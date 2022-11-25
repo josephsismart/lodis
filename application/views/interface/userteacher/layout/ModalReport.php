@@ -108,3 +108,35 @@ $uri = $this->session->schoolmis_login_uri;
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade" id="modalLearnersSF1" data-backdrop="static">
+    <div class="modal-dialog">
+        <form id="form_save_dataUnenrollConfirm">
+            <div class="modal-content">
+                <div class="modal-header bg-default p-2">
+                    <h5 class="modal-title p-0"><span class="fa fa-folder-open"></span> Form 1 </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <h5><strong class='lrn'></strong></h5>
+                    <input name="details" hidden />
+                    <p class="lead">
+                        <strong class="last_fullname"></strong>
+                    </p>
+                    <input type="password" name="password" class="form-control passwordUnenroll submitBtnPrimary" placeholder="Enter Password" />
+
+                    <div class="alert alert-warning alert-dismissible mt-3 mb-0 pr-3">
+                        <h5><i class="icon fas fa-info"></i> Please read!</h5>
+                        Inputted <b>GRADES</b> will be <b>DELETED</b> also.
+                    </div> -->
+                </div>
+                <div class="modal-footer p-1">
+                    <!-- <button type="button" class="btn btn-default btn-xs btn-block submitBtnPrimary" onclick="unenroll();">Unenroll Student</button> -->
+                    <!-- <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"><i class="fa fa-times"></i> Close</button> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

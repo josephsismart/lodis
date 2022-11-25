@@ -390,12 +390,13 @@ class Getdata extends MY_Controller
             $searchLog = $value->lrn . ' - ' . $value->last_fullname;
             $birthDate = date_create($value->birthdate);
             $personUuid = $value->person_uuid;
-            $birthDate = strtoupper(date_format($birthDate, "m-d-Y"));
+            $birthDate = '<p style="font-size:.8rem;white-space: nowrap;">'.strtoupper(date_format($birthDate, "m-d-Y")).'</p>';
             $bold = "font-weight-bold";
-            $sex = substr($value->sex, 0, 1);
+            $sex = '<p style="font-size:.7rem;">'.substr($value->sex, 0, 1).'</p>';
             $txtColor = $value->learner_account && $a_c == 't' ? 'text-success ' . $bold : ($a_c == 'f' ? 'text-danger ' . $bold : 'text-black font-weight-light');
             //LEARNER ID _&&_ LRN _&&_ BASIC INFO ID _&&_ ACCOUNT
             $val =  $value->learner_id . '_&&_' . $value->lrn  . '_&&_' . $value->basic_info_id . '_&&_' . ($value->learner_account ? 1 : 0);
+            $brgy_city = '<p style="font-size:.8rem;white-space: nowrap;">'.$value->barangay_name . ', ' . $value->citymun_name.'</p>';
 
             $data1 = [
                 "details" => $value->enrollment_id . '|' . $value->learner_id . '|' . $value->basic_info_id,
@@ -452,10 +453,10 @@ class Getdata extends MY_Controller
                 <div class="normal_view" style="white-space: nowrap;">
                     ' . ($edit == 't'  && $advsry == 1 ? "<span class='fa fa-pencil-alt text-primary text-sm' style='cursor:pointer;' onclick='getDetails(\"UpdateLearnerInfo\",$arr1,1,\"#\");$(\"#modalUpdateLearnerInfo\").modal(\"show\");'></span> " : '') . $value->lrn . '
                 </div>',
-                $value->last_fullname,
+                '<p style="white-space: nowrap;">'.$value->last_fullname.'</p>',
                 $sex,
                 $birthDate,
-                $value->address_details,
+                $brgy_city,
                 '<div class="normal_view" style="white-space: nowrap;">
                     ' . $value->enrollment_status . ($unenroll == 't' && $advsry == 1 ?
                     // " <span class='fa fa-trash-alt text-danger text-sm' style='cursor:pointer' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'>
@@ -465,6 +466,7 @@ class Getdata extends MY_Controller
                     </button>
                     <div class="dropdown-menu p-0" role="menu">' .
                         "<a class='dropdown-item text-xs bg-danger' role='button' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersUnenroll\").modal(\"show\");'><span class='fa fa-trash-alt'></span> UNENROLL</a>" .
+                        "<a class='dropdown-item text-xs' role='button' onclick='getDetails(\"UnenrollConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordUnenroll\").val(\"\").focus(); } ,200);$(\"#modalLearnersSF1\").modal(\"show\");'><span class='fa fa-folder-open'></span> FORM 1</a>" .
                         // "<a class='dropdown-item text-xs bg-info' role='button' onclick='alert()'><span class='fa fa-list'></span> GENERATE</a>" .
                     // "<a class='dropdown-item text-xs bg-info' role='button' onclick='getDetails(\"TransferConfirm\",$arr2,1,\"#\");setTimeout(function(){ $(\".passwordTransfer\").val(\"\").focus(); } ,200);$(\"#modalLearnersTransfer\").modal(\"show\");'><span class='fa fa-arrow-right'></span> TRANSFER</a>
                     "</div>"
