@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'production';
+$active_group = 'production2';
 $query_builder = TRUE;
 
 $db['develop'] = array(
@@ -100,6 +100,29 @@ $db['develop'] = array(
 $db['production'] = array(
 	'dsn'	=> '',
 	'hostname' => 'ec2-52-201-195-11.compute-1.amazonaws.com',
+	'port' 	   => '5432',
+	'username' => 'xnyiyspvjvppjz',
+	'password' => 'c8bcfc5ebff461ade88eba2163f07190d4954df82c41119791b3d05b7c362010',
+	'database' => 'db3m5bk0rt6vmf',
+	'dbdriver' => 'postgre',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['production2'] = array(
+	'dsn'	=> '',
+	'hostname' => 'dpg-ce05u1g2i3mkucc3b1jg-a.singapore-postgres.render.com',
 	'port' 	   => '5432',
 	'username' => 'xnyiyspvjvppjz',
 	'password' => 'c8bcfc5ebff461ade88eba2163f07190d4954df82c41119791b3d05b7c362010',
