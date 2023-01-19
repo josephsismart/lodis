@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 //$config['base_url'] = 'http://localhost/locator';
 // $config['base_url'] = 'https://lodis.herokuapp.com/';
-$config['base_url'] = 'https://lodis-production-9a4c.up.railway.app/';
+$config['base_url'] = 'https://https://bxuschoolmis.netlify.app/';
 // $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/SchoolMIS';
 // $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/lodis';
 
